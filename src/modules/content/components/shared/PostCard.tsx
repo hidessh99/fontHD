@@ -15,6 +15,28 @@ interface PostCardProps {
   post: Post;
 }
 
+function getCleanExcerpt(
+  content?: string,
+  summary?: string,
+  maxLength = 140,
+): string {
+  if (summary && summary.trim().length > 0) {
+    return summary.trim();
+  }
+  if (!content) {
+    return "";
+  }
+  let previous: string;
+  let text = content;
+  do {
+    previous = text;
+    text = text.replace(/<[^>]*>/g, "");
+  } while (text !== previous);
+
+  const clean = text.replace(/\s+/g, " ").trim();
+  return clean.length > maxLength ? `${clean.slice(0, maxLength)}...` : clean;
+}
+
 export function PostCard({ post }: PostCardProps) {
   return (
     <article className="group rounded-2xl border border-border/50 bg-card/60 hover:bg-card hover:border-primary/40 hover:shadow-lg transition-all overflow-hidden flex flex-col justify-between">
@@ -42,7 +64,7 @@ export function PostCard({ post }: PostCardProps) {
             {post.tags.slice(0, 3).map((tag) => (
               <span
                 key={tag}
-                className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-primary/10 text-primary"
+                className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-blue-500/10 text-blue-700 dark:text-blue-400"
               >
                 {tag}
               </span>
@@ -55,8 +77,7 @@ export function PostCard({ post }: PostCardProps) {
         </h3>
 
         <p className="text-xs text-muted-foreground line-clamp-3 leading-relaxed">
-          {post.summary ||
-            post.content.replace(/<[^>]*>?/gm, "").slice(0, 140) + "..."}
+          {getCleanExcerpt(post.content, post.summary, 140)}
         </p>
       </div>
 
@@ -84,7 +105,7 @@ export function PostCard({ post }: PostCardProps) {
 
         <Link
           href={`/articles/${post.slug}`}
-          className="inline-flex items-center gap-1 font-semibold text-primary group-hover:translate-x-0.5 transition-all text-xs"
+          className="inline-flex items-center gap-1 font-semibold text-blue-700 dark:text-blue-400 group-hover:translate-x-0.5 transition-all text-xs"
         >
           <span>Baca</span>
           <ArrowRight className="w-3.5 h-3.5" />
