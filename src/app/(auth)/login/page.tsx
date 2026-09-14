@@ -1,5 +1,22 @@
+// ==============================================================================
+// GoVPN App Router: /login
+// Implements Algorithm 4: Dynamic Island Route Splitting on Thin Server Component
+// ==============================================================================
+
+import { Suspense } from "react";
 import type { Metadata } from "next";
-import { LoginView } from "@/modules/iam/views/LoginView";
+import dynamic from "next/dynamic";
+import { IamSkeleton } from "@/modules/iam/components/shared/IamSkeleton";
+
+const LoginView = dynamic(
+  () =>
+    import("@/modules/iam/views/guest/LoginView").then(
+      (mod) => mod.LoginView
+    ),
+  {
+    loading: () => <IamSkeleton />,
+  }
+);
 
 export const metadata: Metadata = {
   title: "Masuk ke Akun | GoVPN",
@@ -7,5 +24,9 @@ export const metadata: Metadata = {
 };
 
 export default function LoginPage() {
-  return <LoginView />;
+  return (
+    <Suspense fallback={<IamSkeleton />}>
+      <LoginView />
+    </Suspense>
+  );
 }

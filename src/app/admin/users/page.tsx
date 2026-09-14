@@ -1,5 +1,5 @@
 // ==============================================================================
-// GoVPN App Router: /register
+// GoVPN App Router: /admin/users
 // Implements Algorithm 4: Dynamic Island Route Splitting on Thin Server Component
 // ==============================================================================
 
@@ -8,10 +8,10 @@ import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { IamSkeleton } from "@/modules/iam/components/shared/IamSkeleton";
 
-const RegisterView = dynamic(
+const AdminUsersView = dynamic(
   () =>
-    import("@/modules/iam/views/guest/RegisterView").then(
-      (mod) => mod.RegisterView
+    import("@/modules/iam/views/admin/AdminUsersView").then(
+      (mod) => mod.AdminUsersView
     ),
   {
     loading: () => <IamSkeleton />,
@@ -19,14 +19,14 @@ const RegisterView = dynamic(
 );
 
 export const metadata: Metadata = {
-  title: "Daftar Akun Baru | GoVPN",
-  description: "Daftar akun GoVPN untuk mendapatkan akses VPN berkecepatan tinggi.",
+  title: "Manajemen Pengguna & Saldo | GoVPN Superadmin",
+  description: "Pusat kendali pengguna, penyesuaian saldo ledger, dan riwayat aktivitas sistem.",
 };
 
-export default function RegisterPage() {
+export default function AdminUsersPage() {
   return (
     <Suspense fallback={<IamSkeleton />}>
-      <RegisterView />
+      <AdminUsersView />
     </Suspense>
   );
 }
