@@ -269,15 +269,57 @@ text-rose-400      /* Status error / offline / batas kuota habis */
 
 ---
 
-## 6. Checklist Verifikasi Mandiri Sebelum Commit
+## 6. Rekayasa Desain Responsif Mobile & Desktop Anti-Slop (Modern Web Guidance)
+
+Setiap halaman dan komponen yang dibangun **WAJIB** menerapkan prinsip modern web development resmi:
+
+### 6.1 Viewport Dinamis & Anti-Horizontal Overflow
+1. **Dilarang memakai `min-h-screen` atau `100vh`** pada container utama karena menyebabkan lonjakan layout (*layout jump*) saat URL bar browser smartphone (iOS Safari / Android Chrome) muncul atau tenggelam.
+   - **Wajib:** Gunakan `min-h-dvh` (*dynamic viewport height*).
+2. **Dilarang memakai `100vw` untuk elemen full-width** karena `100vw` mengabaikan lebar scrollbar vertikal di Windows/macOS yang memicu horizontal scrollbar cacat (*side-scrolling*).
+   - **Wajib:** Gunakan `w-full` atau `100%`.
+3. **Dilarang memakai fixed width absolut** (seperti `w-[600px]`) yang merusak tampilan smartphone.
+   - **Wajib:** Gunakan `w-full max-w-xl` dengan padding horizontal responsif `px-4 sm:px-6`.
+
+### 6.2 Ergonomi Sentuh Layar Ponsel (Touch Targets $\ge 44\text{px}$)
+Di perangkat sentuh (smartphone & tablet):
+- Seluruh tombol aksi utama, input form, icon button, dan trigger dropdown **WAJIB** memiliki area sentuh minimal **$44\times 44\text{px}$** (`min-h-11`, `h-11`, atau `p-3`).
+- Jarak antar tombol interaktif minimal **8px** (`gap-2` atau `space-y-2`) untuk mencegah salah sentuh (*misclicks*).
+
+### 6.3 Komponen Sadar Ukuran: Container Queries (`@container`)
+Gunakan **Container Queries** pada komponen kartu VPN, node server, dan tabel agar komponen dapat beradaptasi secara modular terhadap ruang induknya:
+```tsx
+// Pembungkus kartu diberi kelas @container
+<div className="@container w-full">
+  <div className="flex flex-col @md:flex-row @md:items-center justify-between gap-4">
+    {/* Stacked di kontainer sempit, side-by-side di kontainer lebar */}
+  </div>
+</div>
+```
+
+### 6.4 Stabilitas Tata Letak & Scrollbar (CLS = 0)
+1. **Pencegahan Pergeseran Konten:** Terapkan `scrollbar-gutter: stable` pada kontainer daftar panjang agar saat data dimuat, munculnya scrollbar tidak menggeser posisi elemen (Cumulative Layout Shift = 0).
+2. **Isolasi Scroll:** Terapkan `overscroll-behavior: contain` pada modal, drawer, dan tabel agar aktivitas scroll pengguna tidak merembet ke halaman latar belakang (*no scroll bubbling*).
+
+### 6.5 Adaptive Overlay: Dialog vs Bottom Sheet (Drawer)
+- **Desktop ($\ge 768\text{px}$):** Tampilkan modal melayang di tengah layar (`<Dialog>`).
+- **Mobile ($< 768\text{px}$):** Tampilkan swipeable bottom sheet (`<Drawer>` berbasis Vaul atau `<Sheet side="bottom">`) agar tombol aksi berada dalam jangkauan natural jempol pengguna (*thumb zone*).
+
+---
+
+## 7. Checklist Verifikasi Mandiri Sebelum Commit (Anti-Slop AI)
 
 Sebelum AI atau developer menyatakan suatu tugas selesai:
 
 - [ ] Apakah `"use client";` ada di baris pertama jika file memanggil hooks atau event handlers?
 - [ ] Apakah **TIDAK ADA** perintah `bun run build` atau `next build` yang dijalankan?
 - [ ] Apakah verifikasi tipe statis berhasil 100% tanpa error via `bun x tsc --noEmit`?
+- [ ] Apakah tampilan telah diuji responsif pada lebar layar mobile (`375px`), tablet (`768px`), dan desktop (`1280px+`)?
+- [ ] Apakah tidak ada overflow horizontal pada layar ponsel (tidak ada scrollbar ke kanan/kiri yang tidak disengaja)?
 - [ ] Apakah seluruh Card yang menampung dropdown/popover sudah memakai `overflow-visible relative z-20`?
 - [ ] Apakah seluruh data teknis (IP, Port, UUID, URL, Saldo) menggunakan `font-mono`?
 - [ ] Apakah komponen menggunakan primitives dari `@/components/ui/` (Shadcn UI)?
+- [ ] Apakah tombol aksi utama menggunakan bentuk Pill 56px (`rounded-full`) sesuai `opendesign.md`?
 - [ ] Apakah tombol salin menggunakan komponen terpadu `CopyButton`?
 - [ ] Apakah seluruh interaksi asinkron memiliki indikator loading (`Loader2` spinner) dan notifikasi `toast`?
+

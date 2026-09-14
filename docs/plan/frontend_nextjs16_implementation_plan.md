@@ -153,12 +153,26 @@ Setiap modul di bawah ini menerapkan struktur **Pola C** dengan pembagian: `api/
 
 ---
 
-### Fase 5: Optimasi Performa, Virtualisasi & Verifikasi Kualitas
-- [ ] **5.1 Virtualisasi Tabel Skala Besar (`@tanstack/react-virtual`):**
-  - Terapkan virtual scrolling pada tabel riwayat akun VPN dan log koneksi server untuk memastikan render stabil pada 60 FPS tanpa memory leak.
-- [ ] **5.2 Internasionalisasi (i18n):**
+### Fase 5: Optimasi Performa, Virtualisasi & Rekayasa Responsif Mobile-Desktop (Modern Web Guidance)
+
+Berdasarkan pedoman resmi `modern-web-guidance`, seluruh halaman dan komponen wajib memenuhi standar responsif mobile-desktop anti-slop berikut:
+
+- [ ] **5.1 Dynamic Viewport Units (`dvh` & `dvw`):**
+  - Menggantikan seluruh penggunaan `100vh` atau `100vw` yang memicu horizontal scrollbar atau lonjakan tampilan saat browser bar ponsel muncul/hilang. Gunakan `min-h-dvh` dan `w-full` / `max-w-full`.
+- [ ] **5.2 Container Queries (`@container`) untuk Komponen Modular:**
+  - Menerapkan `container-type: inline-size` pada wrapper kartu VPN, node server, dan widget finansial agar komponen dapat secara mandiri berganti dari tampilan stacked (mobile/sidebar) ke side-by-side (desktop) berdasarkan lebar kontainer elemennya sendiri, bukan hanya lebar layar global.
+- [ ] **5.3 Ergonomi Sentuh Ponsel (Mobile Touch Targets $\ge 44\text{px}$):**
+  - Memastikan seluruh tombol aksi, input form, icon button, dan switch di perangkat mobile memiliki area sentuh minimal $44\times 44\text{px}$ (`min-h-11`, `min-w-11` atau `p-3`) untuk mencegah salah sentuh (*misclicks*).
+- [ ] **5.4 Adaptive Overlay: Dialog Desktop vs Drawer/Bottom Sheet Mobile:**
+  - Menggunakan dialog mengambang di layar desktop ($\ge 768\text{px}$), namun bertransisi otomatis menjadi swipeable bottom sheet (`Drawer` via Vaul / `Sheet`) di layar smartphone ($< 768\text{px}$) agar jempol pengguna mudah menjangkau tombol konfirmasi.
+- [ ] **5.5 Stabilitas Scroll & Eliminasi Layout Shift (CLS = 0):**
+  - Menerapkan `scrollbar-gutter: stable` pada daftar data dan kontainer tabel agar kemunculan scrollbar tidak menyebabkan geseran layout (*layout shift*).
+  - Menerapkan `overscroll-behavior: contain` pada modal, drawer, dan tabel agar scroll pada elemen melayang tidak merambat ke halaman induk.
+- [ ] **5.6 Virtualisasi Tabel Skala Besar (`@tanstack/react-virtual`):**
+  - Terapkan virtual scrolling pada tabel riwayat akun VPN dan log koneksi server untuk memastikan render stabil pada 60 FPS tanpa memory leak di smartphone maupun PC.
+- [ ] **5.7 Internasionalisasi (i18n):**
   - Pastikan seluruh string UI terdaftar simetris pada `src/locales/id/` (Bahasa Indonesia) dan `src/locales/en/` (English).
-- [ ] **5.3 Static Quality Audit:**
+- [ ] **5.8 Static Quality & Anti-Slop Audit:**
   - Eksekusi pengecekan TypeScript: `bun x tsc --noEmit` untuk memastikan 100% type-safety tanpa compile errors.
   - Verifikasi seluruh rute di `src/proxy.ts` bebas dari celah kebocoran rute privat.
 

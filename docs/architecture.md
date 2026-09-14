@@ -340,3 +340,24 @@ Every response from the 388 endpoints of the GoVPN Go backend adheres to the uni
 $$\text{Envelope} = \{ \text{success}: \mathbb{B},\, \text{message}: \mathbb{S},\, \text{payload} \mid \text{data}: T,\, \text{error}?: \mathbb{S},\, \text{pagination}?: P \}$$
 
 The centralized client `src/lib/api/http-client.ts` automatically decodes both `payload` and `data` properties, injects bearer credentials from `hide-jwt`, deduplicates concurrent in-flight GET requests, and triggers exponential backoff on transient network drops.
+
+---
+
+## 8. Rekayasa Shell Responsif Mobile & Desktop (Modern Web Guidance)
+
+Sesuai standar `modern-web-guidance`, antarmuka GoVPN dirancang untuk memberikan pengalaman navigasi mulus baik pada smartphone (layar 375px–430px), tablet, laptop, hingga monitor ultrawide:
+
+### 8.1 Matriks Breakpoint & Adaptasi Layout
+
+| Breakpoint Tailwind | Rentang Layar | Adaptasi Navigasi & Shell | Perilaku Komponen Data |
+| :--- | :--- | :--- | :--- |
+| **Mobile (`< 640px`)** | 320px – 639px | `DashboardSidebar` disembunyikan; diakses via menu hamburger `Sheet` (kiri). Header ramping dengan saldo ringkas. | Kartu VPN stacked (1 kolom), tabel bertransisi ke kartu mobile, tombol aksi berukuran $\ge 44\text{px}$ (*touch-friendly*). |
+| **Tablet (`md: 768px`)** | 640px – 1023px | Sidebar dapat diciutkan (*collapsible*); breadcrumbs mulai ditampilkan. | Grid 2 kolom untuk Server Nodes dan kartu protokol VPN. |
+| **Desktop (`lg: 1024px`)** | 1024px – 1535px | Fixed Left Sidebar (lebar 256px), Header penuh dengan Cmd+K search, dropdown profil, dan widget saldo. | Grid 3 kolom, tabel data lengkap dengan kolom aksi di kanan, dialog popup melayang di tengah layar. |
+| **Ultrawide (`2xl: 1536px`)** | $\ge 1536\text{px}$ | Shell utama terpusat dengan pembatas `max-w-7xl` agar konten tidak melebar berlebihan (*eye-strain prevention*). | Grid 4 kolom untuk Telemetri Server dan monitoring beban CPU/RAM. |
+
+### 8.2 Kaidah Responsif Anti-Slop:
+1. **Dynamic Viewport (`min-h-dvh`):** Menjamin seluruh kontainer layout memperhitungkan kemunculan/penutupan address bar mobile browser tanpa memicu lonjakan visual (*zero layout shift*).
+2. **Container Queries (`@container`):** Setiap kartu VPN (`VpnAccountCard`) dan node server (`ServerNodeCard`) memiliki kemampuan kalkulasi dimensi berbasis lebar elemennya sendiri, sehingga tata letaknya selalu proporsional baik saat diletakkan di sidebar, modal, maupun grid utama.
+3. **Ergonomi Sentuh Jempol (Thumb-Zone Optimization):** Pada smartphone, modal dialog otomatis bertransisi menjadi bottom sheet (`Drawer` via Vaul / `Sheet side="bottom"`) sehingga tombol konfirmasi berada di area bawah yang mudah dijangkau satu tangan.
+4. **Scrollbar Gutter (`scrollbar-gutter: stable`):** Menjamin kemunculan data dinamis tidak menggeser lebar viewport horizontal.
