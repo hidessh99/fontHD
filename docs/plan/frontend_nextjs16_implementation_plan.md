@@ -16,14 +16,16 @@
    - Mengambil *core foundation engine* yang sudah teruji di `fontwahide` (Next.js 16, React 19, Bun 1.4, Tailwind CSS v4, Zustand 5, Zod 4, TanStack Virtual, Sonner).
    - Mengambil seluruh 26 komponen primitif UI Shadcn/Base UI, Next.js 16 Edge proxy (`src/proxy.ts`), universal Go envelope REST HTTP client (`src/lib/api/http-client.ts`), dan cookie session manager (`src/lib/storage/cookies.ts`).
    - **Membersihkan 100% dead code WhatsApp** dari `fontwahide` (tidak ada residu spintax, kampanye WA, template WA, atau phone validator).
-2. **Implementasi Desain Cyber-Tactical GoVPN:**
-   - Mengganti palet Wise Green menjadi **Cobalt Tactical Blue** (`#2563eb`) dan **Dark Zinc Canvas** (`#09090b` / `#141417`) sesuai `fontend/docs/ENTERPRISE_PRODUCT_DESIGN_BRIEF.md`.
-   - Menggunakan font `Inter` untuk UI dan `JetBrains Mono` untuk data teknis (IP, Port, UUID, Config URI).
+2. **Penyelarasan Penuh dengan Standar Desain `docs/opendesign.md` (Coinbase Institutional System):**
+   - **Warna Brand Primer:** Mengadopsi **Coinbase Blue (`#0052ff`)** sebagai aksen tunggal fungsional dengan transisi hover **Light Blue (`#578bfa`)**.
+   - **Kanvas & Permukaan Gelap:** Menggunakan **Near-Black (`#0a0b0d`)** sebagai background utama, **Dark Card (`#282b31`)**, dan border halus **`rgba(91, 97, 110, 0.2)`**.
+   - **Sistem Tombol Pill 56px:** Seluruh CTA dan tombol aksi utama **WAJIB berbentuk Pill dengan radius 56px (`rounded-full`)**, bebas dari sudut tajam (*sharp corners*).
+   - **Tipografi & Spacing:** Heading dengan line-height rapat (`1.00` tight), UI menggunakan sans modern, dan seluruh data teknis (IP, Port, UUID, Config URI, Saldo IDR) wajib menggunakan font **`JetBrains Mono`** (`font-mono`).
 3. **Penyelarasan 1:1 dengan 388 Endpoints di `postman-govpn`:**
-   - Membangun 12 domain modul bisnis menggunakan pola **5-Layer Modular Monolith** (`types`, `api`, `hooks`, `components`, `views`).
+   - Membangun 12 domain modul bisnis menggunakan **Pola C: Role-Partitioned Module** (`types`, `api`, `hooks`, `components`, `views`) untuk memisahkan hak akses `USER`, `SELLER`, dan `ADMIN`.
    - Menerapkan pola **Thin App Router** di `src/app/` tanpa business logic bloat.
 4. **Proteksi Edge & Tanpa FOUC (0ms Zero Flash):**
-   - Validasi sesi berbasis cookie `hide-jwt` pada runtime Edge Next.js 16 sebelum HTML dirender.
+   - Validasi sesi berbasis cookie `hide-jwt` pada runtime Edge Next.js 16 (`src/proxy.ts`) sebelum HTML dirender.
 
 ---
 
@@ -169,6 +171,9 @@ Setiap modul di bawah ini menerapkan struktur **Pola C** dengan pembagian: `api/
 3. **Dilarang memakai `overflow-hidden`** pada pembungkus Card yang memuat dropdown / selector protokol VPN (gunakan `overflow-visible relative z-20`).
 4. **Wajib font `JetBrains Mono`** (`font-mono`) untuk seluruh data teknis: IP Address, Port, UUID, Config URI, dan Keys.
 5. **Dilarang meng-hardcode teks UI** langsung di JSX (selalu gunakan `t("namespace.key")`).
+6. **Wajib Tombol Pill 56px (`rounded-full`) untuk CTA Utama:** Sesuai `opendesign.md`, seluruh tombol aksi utama (Buat Akun, Bayar QRIS, Simpan) wajib berbentuk Pill halus tanpa sudut tajam (*56px radius minimum*).
+7. **Wajib Token Semantik Coinbase System (`#0052ff`):** Seluruh styling warna wajib melalui CSS variables (`bg-primary`, `bg-card`, `border-border`, `text-muted-foreground`) tanpa hardcoded hex sembarangan di JSX.
+8. **Wajib Pola C (Role Partitioning):** Setiap modul memisahkan hak akses `user/`, `seller/`, `admin/` dengan fondasi atomik di `shared/`.
 
 ---
 

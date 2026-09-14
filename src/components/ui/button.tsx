@@ -8,35 +8,35 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        // GoVPN Tactical Primary
+        // Coinbase Institutional Pill Primary
         default:
-          "bg-primary text-primary-foreground rounded-xl hover:bg-primary-hover active:scale-[0.98] shadow-md shadow-primary/20",
+          "bg-primary text-primary-foreground rounded-full hover:bg-primary-hover active:scale-[0.98] shadow-md shadow-primary/20",
         primary:
-          "bg-primary text-primary-foreground rounded-xl hover:bg-primary-hover active:scale-[0.98] shadow-md shadow-primary/20",
+          "bg-primary text-primary-foreground rounded-full hover:bg-primary-hover active:scale-[0.98] shadow-md shadow-primary/20",
         primaryPill:
           "bg-primary text-primary-foreground rounded-full hover:bg-primary-hover active:scale-[0.98] shadow-md shadow-primary/20",
 
         // Secondary
         secondary:
-          "bg-secondary text-secondary-foreground rounded-xl hover:bg-secondary/80 active:scale-[0.98]",
+          "bg-secondary text-secondary-foreground rounded-full hover:bg-secondary/80 active:scale-[0.98]",
         secondaryPill:
           "bg-secondary text-secondary-foreground rounded-full hover:bg-secondary/80 active:scale-[0.98]",
 
         // Outline
         outline:
-          "border border-border bg-background/50 hover:bg-muted text-foreground rounded-xl hover:border-primary/50 active:scale-[0.98]",
+          "border border-border bg-background/50 hover:bg-muted text-foreground rounded-full hover:border-primary/50 active:scale-[0.98]",
         outlinePill:
           "border border-border bg-background/50 hover:bg-muted text-foreground rounded-full hover:border-primary/50 active:scale-[0.98]",
 
         // Destructive / Danger
         destructive:
-          "bg-destructive text-destructive-foreground rounded-xl hover:bg-destructive/90 active:scale-[0.98]",
+          "bg-destructive text-destructive-foreground rounded-full hover:bg-destructive/90 active:scale-[0.98]",
         dangerPill:
           "bg-destructive text-destructive-foreground rounded-full hover:bg-destructive/90 active:scale-[0.98]",
 
         // Ghost & Link
         ghost:
-          "hover:bg-muted hover:text-foreground rounded-xl active:scale-[0.98]",
+          "hover:bg-muted hover:text-foreground rounded-full active:scale-[0.98]",
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
