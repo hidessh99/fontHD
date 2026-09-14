@@ -96,49 +96,56 @@ Seluruh 388 modern endpoint dari 12 folder koleksi `postman-govpn` dipetakan sec
 
 ---
 
-### Fase 3: Implementasi Modul Prioritas Tinggi (Core Experience)
+### Fase 3: Implementasi Modul Prioritas Tinggi (Pola C: Role-Partitioned Module)
+
+Setiap modul di bawah ini menerapkan struktur **Pola C** dengan pembagian: `api/` (`user.api.ts`, `seller.api.ts`, `admin.api.ts`), `components/` (`shared/`, `user/`, `seller/`, `admin/`), `hooks/`, `types/`, dan `views/` (`user/`, `seller/`, `admin/`).
 
 #### Modul 1: IAM (Identity & Access Management) — `src/modules/iam/`
-- [ ] `types/iam.types.ts`: DTO `LoginRequest`, `RegisterRequest`, `UserSession`, `UserProfile`, `ApiKey`.
-- [ ] `api/iam.api.ts`: Integrasi dengan endpoint `/api/v1/auth/login`, `/register`, `/me`, `/profile`, `/api-keys`.
-- [ ] `hooks/useAuth.ts`: Zustand store untuk session data, login flow, logout instant cookie purge.
-- [ ] `components/`: `LoginForm.tsx`, `RegisterForm.tsx`, `ApiKeyTable.tsx`, `ProfileCard.tsx`.
-- [ ] `views/`: `LoginView.tsx`, `RegisterView.tsx`, `ProfileSettingsView.tsx`.
-- [ ] `src/app/(auth)/`: Halaman tipis login, register, forgot-password.
+- [x] `types/`: `iam.types.ts`, `user.types.ts`, `admin.types.ts`.
+- [x] `api/`: `iam.api.ts` (Login, Register, Profile, Admin User Management).
+- [x] `hooks/`: `useAuth.ts` (Zustand session store, cookie sync `hide-jwt`, role-based access).
+- [x] `components/`: `LoginForm.tsx`, `RegisterForm.tsx`, Profile Settings.
+- [x] `views/`: `LoginView.tsx`, `RegisterView.tsx`.
+- [x] `src/app/(auth)/`: Halaman tipis login, register, forgot-password.
 
-#### Modul 2: VPN (Core Tunneling Engine) — `src/modules/vpn/`
-- [ ] `types/vpn.types.ts`: Model `VpnAccount`, `VpnProtocol` (SSH, VMess, VLess, Trojan, Shadowsocks, WireGuard), `ServerNode`, `CreateAccountInput`.
-- [ ] `api/vpn.api.ts`: Integrasi 96 endpoints VPN (Free/Monthly/Trial/Seller accounts, server nodes, renew, reset password).
-- [ ] `hooks/useVpnAccounts.ts` & `useVpnServers.ts`: State management, filtering server per negara, pencarian akun aktif.
-- [ ] `components/`: `VpnAccountCard.tsx`, `ServerNodeCard.tsx`, `CreateVpnModal.tsx`, `AccountCredentialsSheet.tsx`.
-- [ ] `views/`: `VpnProtocolView.tsx`, `CreateVpnWizardView.tsx`.
-- [ ] `src/app/(dashboard)/vpn/[protocol]/page.tsx`: Thin router rendering `VpnProtocolView`.
+#### Modul 2: VPN (Core Tunneling Engine) — `src/modules/vpn/` (Pola C)
+- [x] `types/`: `vpn.types.ts` (Core Entity), `user.types.ts`, `seller.types.ts`, `admin.types.ts`.
+- [x] `api/`: `user.api.ts`, `seller.api.ts`, `admin.api.ts`, `index.ts`.
+- [x] `hooks/`: `useVpnAccounts.ts`, `useVpnServers.ts`, `useSellerVpn.ts`.
+- [x] `components/`:
+  - `shared/`: `ProtocolBadge.tsx`, `ServerPingBadge.tsx`, `CopyCredentialsButton.tsx`, `QrCodeModal.tsx`.
+  - `user/`: `VpnAccountCard.tsx`, `ServerNodeCard.tsx`, `CreateVpnModal.tsx`.
+  - `seller/`: `BulkAccountMintModal.tsx`, `SellerQuotaProgress.tsx`, `SubTenantVpnTable.tsx`.
+  - `admin/`: `ServerNodeFormModal.tsx`, `NodePortConfigSheet.tsx`.
+- [x] `views/`: `user/VpnProtocolView.tsx`, `user/ServersView.tsx`, `seller/SellerVpnOverviewView.tsx`, `admin/AdminServersView.tsx`.
+- [x] `src/app/(dashboard)/vpn/[protocol]/page.tsx`: Thin router rendering `VpnProtocolView`.
+- [x] `src/app/(dashboard)/seller/vpn/page.tsx`: Thin router rendering `SellerVpnOverviewView`.
 
-#### Modul 3: Finance & Billing — `src/modules/finance/`
-- [ ] `types/finance.types.ts`: `Invoice`, `WalletBalance`, `TopupRequest`, `PaymentMethod` (QRIS, Midtrans, Tripay).
-- [ ] `api/finance.api.ts`: Integrasi 58 endpoints finance (Deposit, Invoices, Payment checkout, Voucher redeem).
-- [ ] `hooks/useBilling.ts`: Riwayat faktur, cek status transaksi real-time (auto-poll 3 detik saat bayar QRIS).
-- [ ] `components/`: `InvoiceTable.tsx`, `QrisPaymentCard.tsx`, `TopupModal.tsx`, `BalanceWidget.tsx`.
-- [ ] `views/`: `BillingOverviewView.tsx`, `InvoiceDetailView.tsx`.
-- [ ] `src/app/(dashboard)/billing/`: Thin router halaman invoice dan topup.
+#### Modul 3: Finance & Billing — `src/modules/finance/` (Pola C)
+- [x] `types/`: `finance.types.ts` (`Invoice`, `BillingRecord`, `WalletBalance`, `Withdrawal`).
+- [x] `api/`: `finance.api.ts` (User Invoices, Seller Withdrawal, Admin Ledger Audit).
+- [x] `hooks/`: `useBilling.ts` (Auto-poll 3 detik QRIS, topup, voucher validation).
+- [x] `components/`: `InvoiceTable.tsx`, `QrisPaymentCard.tsx`, `TopupModal.tsx`, `BalanceWidget.tsx`.
+- [x] `views/`: `BillingInvoicesView.tsx`, `DepositView.tsx`.
+- [x] `src/app/(dashboard)/billing/`: Thin router halaman invoice dan deposit QRIS.
 
 #### Modul 4: Server Monitoring & Telemetri — `src/modules/monitor/`
-- [ ] `types/monitor.types.ts`: `ServerTelemetry`, `PingMetric`, `SystemHealth`.
-- [ ] `api/monitor.api.ts`: Integrasi endpoint `/api/v1/monitor/*` dan `/health/*`.
-- [ ] `hooks/useServerTelemetry.ts`: Polling latensi, CPU load, RAM usage, active connected users.
-- [ ] `components/`: `ServerHealthGrid.tsx`, `LatencyChart.tsx`.
-- [ ] `views/`: `ServersMonitorView.tsx`.
-- [ ] `src/app/(dashboard)/servers/page.tsx`: Thin router status server.
+- [x] `types/`: `monitor.types.ts` (`ServerTelemetry`, `PingMetric`, `SystemHealth`).
+- [x] `api/`: `monitor.api.ts` (`/api/monitor`, `/health`).
+- [x] `hooks/`: `useServerTelemetry.ts` (Live 10s telemetry polling, CPU/RAM/IO load).
+- [x] `components/`: `ServerHealthGrid.tsx`, `LatencyChart.tsx`.
+- [x] `views/`: `ServersMonitorView.tsx`.
+- [x] `src/app/(dashboard)/monitor/page.tsx`: Thin router status telemetri server.
 
 ---
 
-### Fase 4: Implementasi Modul Lanjutan & Ekosistem Pendukung
-- [ ] **Modul DNS (`src/modules/dns/`):** Manajemen zona domain Cloudflare, CRUD DNS record (A, CNAME, TXT), fitur auto-pointing host VPN.
-- [ ] **Modul AI Gateway (`src/modules/ai/`):** Pengelolaan model AI, token wallet, playground interaktif chat completions.
-- [ ] **Modul Kubernetes (`src/modules/kubernetes/`):** Portal deploy container aplikasi, view log pod real-time, kontrol restart/renew.
+### Fase 4: Implementasi Modul Lanjutan & Ekosistem Pendukung (Pola C)
+- [x] **Modul DNS (`src/modules/dns/`):** Cloudflare zones, CRUD DNS records (`A`, `CNAME`, `TXT`), auto-pointing host VPN, proxy toggle.
+- [ ] **Modul AI Gateway (`src/modules/ai/`):** Model catalog, token wallet, chat completions playground, API keys management.
+- [ ] **Modul Kubernetes (`src/modules/kubernetes/`):** Deploy container template micro-apps, view live pod logs, restart/renew pods.
 - [ ] **Modul Subscription (`src/modules/subscription/`):** Matriks harga paket VPN, alokasi kuota reseller, checkout upgrade paket.
-- [ ] **Modul Support (`src/modules/support/`):** Pembuatan tiket bantuan, riwayat tiket, live chat dengan tim teknis.
-- [ ] **Modul Content (`src/modules/content/`):** Blog artikel, panduan setup VPN per OS (Windows, Android, iOS, Linux, OpenWrt), pengumuman server.
+- [ ] **Modul Support (`src/modules/support/`):** Tiket bantuan CS, live thread replies, upload file lampiran.
+- [ ] **Modul Content (`src/modules/content/`):** Panduan setup VPN per OS (Windows, Android, iOS, Linux, OpenWrt).
 - [ ] **Modul Notification (`src/modules/notification/`):** Konfigurasi webhook Telegram bot untuk notifikasi akun hampir habis (<3 hari).
 - [ ] **Modul Cronjob & Admin (`src/modules/cronjob/` & `src/modules/admin/`):** Portal superadmin untuk monitor 40 tugas cron otomatis dan eksekusi manual via header `X-Cron-Key`.
 

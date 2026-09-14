@@ -109,30 +109,43 @@ src/app/
     └── k8s/page.tsx           # Klaster & Template Kontainer
 ```
 
-### 2.2 Aturan Organisasi dalam Modul Bisnis (`src/modules/<feature>/`)
+### 2.2 Aturan Organisasi dalam Modul Bisnis — Standar Resmi Pola C (Role-Partitioned)
 
-Setiap modul bisnis mengadopsi struktur 5 lapisan terstandarisasi:
+Seluruh modul bisnis di `src/modules/<feature>/` **WAJIB** menerapkan **Pola C: Role-Partitioned Module**:
 
 ```
 src/modules/<feature>/
 ├── types/
-│   ├── <feature>.types.ts         # Model data utama & DTO umum
-│   └── <feature>-seller.types.ts  # (Jika ada) DTO khusus reseller
+│   ├── index.ts                   # Re-export barrel
+│   ├── <feature>.types.ts         # Core Domain Entity (dipakai semua)
+│   ├── user.types.ts              # Request/Response DTO khusus User
+│   ├── seller.types.ts            # DTO khusus Seller / Reseller
+│   └── admin.types.ts             # DTO khusus Superadmin
 ├── api/
-│   └── <feature>.api.ts           # REST API calls terpusat
+│   ├── index.ts                   # Unified API object: { user, seller, admin }
+│   ├── user.api.ts                # Endpoint konsumen biasa (/api/<feature>/*)
+│   ├── seller.api.ts              # Endpoint reseller (/api/seller/<feature>/*)
+│   └── admin.api.ts               # Endpoint admin (/api/admin/<feature>/*)
 ├── hooks/
-│   ├── use<Feature>.ts            # State & logika fitur umum
-│   └── useSeller<Feature>.ts      # (Jika ada) Logika khusus reseller
+│   ├── index.ts                   # Re-export barrel
+│   ├── use<Feature>User.ts        # State & logika aksi user
+│   ├── use<Feature>Seller.ts      # State & logika batch/kuota seller
+│   └── use<Feature>Admin.ts       # State & logika audit/CRUD admin
 ├── components/
-│   ├── <Feature>Card.tsx          # Komponen UI tingkat atom/molekul
-│   ├── <Feature>Table.tsx
-│   ├── seller/                    # Komponen khusus reseller (opsional)
-│   └── admin/                     # Komponen khusus admin (opsional)
+│   ├── shared/                    # 🟢 Komponen atomik UI lintas role (Badge, Box, Modal)
+│   ├── user/                      # 👤 Komponen UI eksklusif User biasa
+│   ├── seller/                    # 💼 Komponen UI eksklusif Reseller
+│   └── admin/                     # 🛡️ Komponen UI eksklusif Superadmin
 └── views/
-    ├── <Feature>View.tsx          # View utama untuk User
-    ├── seller/Seller<Feature>View.tsx # View untuk Reseller
-    └── admin/Admin<Feature>View.tsx   # View untuk Admin
+    ├── user/<Feature>View.tsx          # View utama untuk User
+    ├── seller/Seller<Feature>View.tsx  # View untuk Reseller
+    └── admin/Admin<Feature>View.tsx    # View untuk Admin
 ```
+
+### 2.3 Aturan Impor & Batasan Dependensi Pola C:
+1. **Downward Dependency Only:** Komponen `user/`, `seller/`, dan `admin/` boleh mengimpor dari `shared/`, namun komponen `shared/` **DILARANG KERAS** mengimpor dari `user/`, `seller/`, atau `admin/`.
+2. **No Cross-Role Leaks:** Komponen `user/` tidak boleh mengimpor komponen dari `seller/` atau `admin/`, dan begitu juga sebaliknya.
+3. **Penyimpanan Komponen Bersama:** Jika suatu komponen atomik atau dialog dibutuhkan oleh lebih dari satu role, komponen tersebut **WAJIB** berada di dalam subfolder `shared/`.
 
 ---
 

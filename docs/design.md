@@ -279,34 +279,44 @@ fontgovpn/
 
 ---
 
-## 6. Pola Arsitektur 5-Lapisan Domain (5-Layer Modular Monolith)
+## 6. Pola Arsitektur 5-Lapisan Domain — Pola C: Role-Partitioned Module (Resmi SSOT)
 
-Setiap domain bisnis di `src/modules/<domain>/` **WAJIB** menerapkan struktur 5-lapisan terisolasi:
+Setiap domain bisnis di `src/modules/<domain>/` **WAJIB** menerapkan struktur **Pola C: Role-Partitioned Module** yang memisahkan tanggung jawab antara `user/`, `seller/`, dan `admin/`, dengan penopang `shared/`:
 
 ```
 src/modules/<domain>/
-├── api/          # 1. API Client Layer (Pure Async HTTP Functions)
-├── components/   # 2. UI Component Layer (Feature-Specific Dumb/Presenter Components)
-├── hooks/        # 3. State & Business Logic Layer (React Hooks, Filtering, SWR)
-├── types/        # 4. Domain Contracts & DTOs (TypeScript Interfaces & Zod Schemas)
-└── views/        # 5. Composite View Layer (Page-Level Assembled View)
+├── types/          # 1. Domain Contracts & DTOs
+│   ├── index.ts                   # Re-export barrel
+│   ├── <domain>.types.ts          # Core Domain Entity (dipakai semua peran)
+│   ├── user.types.ts              # DTO khusus User
+│   ├── seller.types.ts            # DTO khusus Seller / Reseller
+│   └── admin.types.ts             # DTO khusus Superadmin
+├── api/            # 2. REST API Client Layer (Pure Async HTTP)
+│   ├── index.ts                   # Unified API object: { user, seller, admin }
+│   ├── user.api.ts                # Endpoint konsumen biasa (/api/<domain>/*)
+│   ├── seller.api.ts              # Endpoint reseller (/api/seller/<domain>/*)
+│   └── admin.api.ts               # Endpoint admin (/api/admin/<domain>/*)
+├── hooks/          # 3. State & Business Logic Layer
+│   ├── index.ts                   # Re-export barrel
+│   ├── use<Domain>User.ts         # Hook aksi & state pelanggan biasa
+│   ├── use<Domain>Seller.ts       # Hook kuota grosir & batch seller
+│   └── use<Domain>Admin.ts        # Hook kontrol armada & CRUD admin
+├── components/     # 4. Standardized UI Component Layer (Shadcn UI)
+│   ├── shared/                    # 🟢 Komponen atomik UI bersama (Badge, QrModal, CopyButton)
+│   ├── user/                      # 👤 Komponen eksklusif user biasa
+│   ├── seller/                    # 💼 Komponen eksklusif reseller (BulkMint, QuotaProgress)
+│   └── admin/                     # 🛡️ Komponen eksklusif admin (ServerCrud, ConfigSheet)
+└── views/          # 5. Composite View Layer (Page-Level Assembled Views)
+    ├── user/<Domain>View.tsx           # Assembled view untuk rute user
+    ├── seller/Seller<Domain>View.tsx   # Assembled view untuk rute reseller
+    └── admin/Admin<Domain>View.tsx     # Assembled view untuk rute admin
 ```
 
-### Tanggung Jawab Tiap Lapisan:
-1. **`types/<domain>.types.ts`:**
-   - Menyimpan TypeScript interface untuk entitas, request body, dan response envelope backend.
-   - Contoh: `VpnAccount`, `VpnProtocol`, `CreateVpnAccountDto`, `ServerNode`.
-2. **`api/<domain>.api.ts`:**
-   - Fungsi async murni yang memanggil endpoint backend melalui `@/lib/api/http-client`.
-   - Mengisolasi URL path dan parameter query.
-3. **`hooks/use<Feature>.ts`:**
-   - Mengelola pagination, pencarian, sorting, filter server, dan feedback mutasi.
-   - Memanggil `toast.success` atau `toast.error` menggunakan Sonner.
-4. **`components/`:**
-   - Komponen UI spesifik untuk modul tersebut (misal: `<VpnAccountCard>`, `<ConfigModal>`, `<ProtocolSelector>`).
-   - Komponen tidak melakukan fetch API langsung; menerima props atau hook.
-5. **`views/<Feature>View.tsx`:**
-   - Komponen gabungan yang menyatukan header, hook, filter, tabel/kartu, dan modal aksi menjadi satu layar utuh.
+### Empat Hukum Emas Pola C (*The 4 Golden Rules*):
+1. **Downward Dependency Only:** Komponen `user/`, `seller/`, dan `admin/` boleh mengimpor dari `shared/`, namun komponen `shared/` **DILARANG KERAS** mengimpor dari `user/`, `seller/`, atau `admin/`.
+2. **No Cross-Role Imports:** Komponen `user/` tidak boleh mengimpor komponen dari `seller/` atau `admin/`, begitu juga sebaliknya.
+3. **Penyimpanan Komponen Bersama:** Jika suatu komponen atomik atau modal dibutuhkan oleh lebih dari satu role, komponen tersebut **WAJIB** berada di dalam subfolder `shared/`.
+4. **Isolasi Kontrak DTO:** Seluruh request body spesifik role diletakkan terpisah (`user.types.ts`, `seller.types.ts`, `admin.types.ts`) agar validasi payload Zod tetap independen.
 
 ---
 

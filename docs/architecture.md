@@ -171,35 +171,91 @@ fontgovpn/
 
 ---
 
-## 4. The 5-Layer Pattern in Domain Modules (`src/modules/<feature>/`)
+## 4. Pola C: Role-Partitioned Domain Modules (Resmi SSOT)
 
-Every single business domain in `src/modules/<domain>/` strictly adheres to a **5-Layer Architecture**:
+Untuk seluruh domain bisnis di `src/modules/<domain>/`, sistem mengadopsi standar resmi **Pola C: Role-Partitioned Module**. Pola ini memecah setiap lapisan internal modul berdasarkan aktor peran bisnis: **`user/`**, **`seller/`**, dan **`admin/`**, dengan folder **`shared/`** sebagai penopang atomik bersama.
+
+### 4.1 Cetak Biru Lengkap Anatomi Modul (Contoh: `src/modules/vpn/`)
 
 ```
-src/modules/<domain>/
-├── types/          # 1. Domain Types & DTO Contracts
-│   ├── <domain>.types.ts
-│   └── <domain>-seller.types.ts           # (Optional) Reseller-specific DTOs
-├── api/            # 2. Pure Asynchronous REST API Client
-│   └── <domain>.api.ts                    # Exports userApi, sellerApi, adminApi
-├── hooks/          # 3. State Management & Lifecycle Hooks
-│   ├── use<Domain>.ts                     # Customer state hook
-│   └── useSeller<Domain>.ts               # (Optional) Reseller workflow hook
-├── components/     # 4. Standardized Shadcn UI Presentation Components
-│   ├── <Domain>Card.tsx
-│   ├── <Domain>Table.tsx
-│   ├── Create<Domain>Modal.tsx
-│   └── seller/                            # (Optional) Reseller-specific UI components
-└── views/          # 5. Composed View Assemblies
-    ├── <Domain>View.tsx                   # Customer page view
-    ├── seller/Seller<Domain>View.tsx      # Reseller page view
-    └── admin/Admin<Domain>View.tsx        # Admin page view
-```
+src/modules/vpn/
+├── types/                                 # 1. KONTRAK DATA & DTO PER ROLE
+│   ├── index.ts                           # Re-export barrel
+│   ├── vpn.types.ts                       # Core Entity: VpnAccount, VpnProtocol, ServerNode (Dipakai semua)
+│   ├── user.types.ts                      # DTO User: CreateAccountInput, RenewInput, ResetPasswordInput
+│   ├── seller.types.ts                    # DTO Seller: BulkCreateInput, ResellerQuota, TenantVpnSummary
+│   └── admin.types.ts                     # DTO Admin: ServerNodeCrudDto, PortConfigDto, ProtocolToggleDto
+│
+├── api/                                   # 2. REST API CLIENT TERPISAH PER ROLE
+│   ├── index.ts                           # Ekspor terpadu: export const vpnApi = { user, seller, admin }
+│   ├── user.api.ts                        # Endpoints: /api/account-free, /api/vpn-accounts-month, /api/renew
+│   ├── seller.api.ts                      # Endpoints: /api/seller/vpn/*, bulk account minting
+│   └── admin.api.ts                       # Endpoints: /api/admin/vpn-servers/*, node CRUD, protocol config
+│
+├── hooks/                                 # 3. STATE & BUSINESS LOGIC HOOKS PER ROLE
+│   ├── index.ts                           # Re-export barrel
+│   ├── useVpnUser.ts                      # Hook User: fetch akun aktif, create 1 akun, auto-renew
+│   ├── useVpnSeller.ts                    # Hook Seller: batch minting, kuota grosir, export CSV
+│   └── useVpnAdmin.ts                     # Hook Admin: node health polling, add/edit server VPS, daemon control
+│
+├── components/                            # 4. KOMPONEN UI BERBASIS SHADCN UI
+│   ├── shared/                            # 🟢 Atomik UI yang Dipakai Lintas Role
+│   │   ├── ProtocolBadge.tsx              # Badge protokol (SSH, VMess, VLess, Trojan, WireGuard)
+│   │   ├── ServerPingBadge.tsx            # Badge latensi ping (<50ms, <120ms, >120ms)
+│   │   ├── VpnCredentialsBox.tsx          # Box font-mono berisi Host, Port, UUID, User, Pass
+│   │   ├── QrCodeModal.tsx                # Modal QR code scan untuk v2rayNG / Sing-Box
+│   │   └── CopyCredentialsButton.tsx      # Tombol 1-click copy dengan toast feedback
+│   │
+│   ├── user/                              # 👤 Khusus UI Pelanggan Biasa
+│   │   ├── VpnAccountCard.tsx             # Kartu akun VPN milik user sendiri
+│   │   ├── CreateVpnModal.tsx             # Modal pembuatan akun perorangan (1 akun)
+│   │   └── RenewAccountDialog.tsx         # Dialog perpanjang masa aktif akun bulanan
+│   │
+│   ├── seller/                            # 💼 Khusus UI Reseller
+│   │   ├── BulkAccountMintModal.tsx       # Modal cetak banyak akun sekaligus (10-100 akun)
+│   │   ├── SellerQuotaProgress.tsx        # Indikator sisa kuota grosir reseller
+│   │   ├── SubTenantVpnTable.tsx          # Tabel akun VPN per sub-klien reseller
+│   │   └── ExportAccountsButton.tsx       # Ekspor akun ke format TXT/CSV/JSON
+│   │
+│   └── admin/                             # 🛡️ Khusus UI Superadmin
+│       ├── ServerNodeFormModal.tsx        # Form CRUD tambah/edit IP, Domain & Kredensial Server
+│       ├── NodePortConfigSheet.tsx        # Konfigurasi port Dropbear, OpenSSH, Stunnel, Xray
+│       └── GlobalVpnAccountsTable.tsx     # Tabel virtual (@tanstack/react-virtual) seluruh user
+│
+└── views/                                 # 5. ENTRY POINT TAMPILAN HALAMAN (COMPOSITE VIEWS)
+    ├── user/
+    │   ├── VpnProtocolView.tsx            # Rendered on /vpn/[protocol] (User)
+    │   └── UserServersView.tsx            # Rendered on /servers (Public server fleet)
+    ├── seller/
+    │   ├── SellerVpnOverviewView.tsx      # Rendered on /seller/vpn (Reseller hub)
+    │   └── SellerBulkMintView.tsx         # Rendered on /seller/vpn/bulk
+    └── admin/
+        ├── AdminServersView.tsx           # Rendered on /admin/servers
+        └── AdminVpnAccountsView.tsx       # Rendered on /admin/vpn
 
-### Why this guarantees Infinite Scalability:
-1. **Zero Route Bloat:** App Router files (`page.tsx`) remain thin (< 25 lines of code), merely configuring metadata, wrapping with the appropriate Route Guard, and rendering the View.
-2. **Effortless Refactoring:** If the backend changes an endpoint contract, modifications are isolated to `types/` and `api/` without touching UI presentation.
-3. **Role Isolation without Code Duplication:** A reseller table can reuse the exact same atomic `ServerPingBadge`, `CopyButton`, and `StatusBadge` as the customer card, while maintaining its own separate view and business logic.
+### 4.2 Empat Aturan Emas Pola C (The 4 Golden Rules)
+
+1. **Aturan Ketergantungan Satu Arah (*Downward Dependency Only*):**
+   - Komponen `user/`, `seller/`, dan `admin/` **BOLEH** mengimpor dari `shared/`.
+   - Komponen `shared/` **DILARANG KERAS** mengimpor apa pun dari folder `user/`, `seller/`, atau `admin/`.
+2. **Pencegahan Kebocoran Antar Peran (*No Cross-Role Imports*):**
+   - Komponen di dalam `user/` **TIDAK BOLEH** mengimpor dari `admin/` atau `seller/`.
+   - Begitu juga sebaliknya: `seller/` tidak boleh mengimpor dari `admin/`.
+   - Jika suatu elemen UI dibutuhkan oleh lebih dari satu role, elemen tersebut **WAJIB** dipindahkan ke folder `shared/`.
+3. **Pemisahan Kontrak DTO & API Client:**
+   - Client API tidak digabung menjadi satu file raksasa. Masing-masing peran memiliki file `.api.ts` sendiri (`user.api.ts`, `seller.api.ts`, `admin.api.ts`) yang kemudian diekspor rapi melalui `api/index.ts`.
+4. **Thin App Router Boundary:**
+   - Berkas di `src/app/` tidak boleh memproses state atau memanggil HTTP client secara langsung. Berkas `page.tsx` hanya bertugas menyetel metadata SEO, menerapkan Route Guard (`<AdminRouteGuard>` / `<SellerRouteGuard>`), dan me-render View terkait.
+
+### 4.3 Penerapan Pola C Lintas Seluruh Modul GoVPN
+
+| Modul Bisnis | Lingkup `user/` | Lingkup `seller/` | Lingkup `admin/` | Lingkup `shared/` |
+| :--- | :--- | :--- | :--- | :--- |
+| **`vpn`** | Buat 1 akun, renew, QR scan | Cetak grosir, kuota reseller, ekspor CSV | Server VPS CRUD, daemon control, port config | ProtocolBadge, PingBadge, CopyButton |
+| **`finance`** | Invoice pribadi, deposit QRIS | Saldo komisi, request payout komisi | Approval payout bank, audit ledger global | QrisCard, InvoiceTable, StatusBadge |
+| **`subscription`** | Lihat paket, upgrade langganan | Alokasi sub-tenant, margin harga reseller | Plan pricing CRUD, toggle promo paket | PricingMatrix, TierBadge |
+| **`support`** | Buat tiket bantuan, kirim pesan | Tiket prioritas reseller | Penugasan CS, close ticket, resolve ticket | TicketThread, PriorityBadge |
+| **`kubernetes`** | Deploy micro-app dari template | Quota pod reseller | Server K8s CRUD, template app CRUD | PodStatusBadge, LogDrawer |
 
 ---
 
