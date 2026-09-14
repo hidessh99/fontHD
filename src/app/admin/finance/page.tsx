@@ -1,5 +1,5 @@
 // ==============================================================================
-// GoVPN App Router: /billing/invoices
+// GoVPN App Router: /admin/finance
 // Implements Algorithm 4: Dynamic Island Route Splitting on Thin Server Component
 // ==============================================================================
 
@@ -8,10 +8,10 @@ import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { FinanceSkeleton } from "@/modules/finance/components/shared/FinanceSkeleton";
 
-const BillingInvoicesView = dynamic(
+const AdminFinanceLedgerView = dynamic(
   () =>
-    import("@/modules/finance/views/user/BillingInvoicesView").then(
-      (mod) => mod.BillingInvoicesView
+    import("@/modules/finance/views/admin/AdminFinanceLedgerView").then(
+      (mod) => mod.AdminFinanceLedgerView
     ),
   {
     loading: () => <FinanceSkeleton />,
@@ -19,14 +19,14 @@ const BillingInvoicesView = dynamic(
 );
 
 export const metadata: Metadata = {
-  title: "Faktur & Tagihan | GoVPN",
-  description: "Daftar invoice, riwayat pembayaran, dan mutasi saldo GoVPN",
+  title: "Audit Ledger & Keuangan | GoVPN Superadmin",
+  description: "Manajemen mutasi saldo ledger, approval penarikan dana, dan kupon diskon global",
 };
 
-export default function InvoicesPage() {
+export default function AdminFinancePage() {
   return (
     <Suspense fallback={<FinanceSkeleton />}>
-      <BillingInvoicesView />
+      <AdminFinanceLedgerView />
     </Suspense>
   );
 }

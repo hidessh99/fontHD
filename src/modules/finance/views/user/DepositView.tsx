@@ -1,14 +1,20 @@
+// ==============================================================================
+// GoVPN Finance User Deposit View
+// Part of Pola C: views/user/DepositView.tsx
+// 100% Coinbase Institutional Design System (Preset Buttons, QRIS Streaming)
+// ==============================================================================
+
 "use client";
 
 import React, { useState } from "react";
-import { useBilling } from "../hooks/useBilling";
-import { QrisPaymentCard } from "../components/QrisPaymentCard";
+import { useFinanceUser } from "../../hooks/useFinanceUser";
+import { QrisPaymentCard } from "../../components/user/QrisPaymentCard";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { PaymentMethod } from "../types/finance.types";
-import { Wallet, QrCode, Tag, Check, ArrowRight, ShieldCheck, Zap } from "lucide-react";
+import { PaymentMethod } from "../../types/finance.types";
+import { Wallet, QrCode, Tag, ArrowRight, ShieldCheck, Zap, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 const PRESET_AMOUNTS = [10000, 25000, 50000, 100000, 250000, 500000];
@@ -16,12 +22,11 @@ const PRESET_AMOUNTS = [10000, 25000, 50000, 100000, 250000, 500000];
 export function DepositView() {
   const {
     activeInvoice,
-    setActiveInvoice,
     createTopup,
     validateVoucher,
-    pollingActive,
     fetchInvoices,
-  } = useBilling();
+    fetchBilling,
+  } = useFinanceUser();
 
   const [amount, setAmount] = useState<number>(50000);
   const [customAmount, setCustomAmount] = useState<string>("");
@@ -29,19 +34,25 @@ export function DepositView() {
   const [voucherCode, setVoucherCode] = useState<string>("");
   const [voucherDiscount, setVoucherDiscount] = useState<number>(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isCheckingVoucher, setIsCheckingVoucher] = useState(false);
 
   const selectedAmount = customAmount ? parseInt(customAmount, 10) || 0 : amount;
   const finalAmount = Math.max(0, selectedAmount - voucherDiscount);
 
   const handleApplyVoucher = async () => {
     if (!voucherCode.trim()) return;
-    const res = await validateVoucher(voucherCode.trim());
-    if (res.valid) {
-      setVoucherDiscount(res.discount_amount);
-      toast.success(res.message || "Voucher berhasil diterapkan!");
-    } else {
-      setVoucherDiscount(0);
-      toast.error(res.message || "Voucher tidak valid");
+    setIsCheckingVoucher(true);
+    try {
+      const res = await validateVoucher(voucherCode.trim());
+      if (res.valid) {
+        setVoucherDiscount(res.discount_amount);
+        toast.success(res.message || "Voucher berhasil diterapkan!");
+      } else {
+        setVoucherDiscount(0);
+        toast.error(res.message || "Voucher tidak valid");
+      }
+    } finally {
+      setIsCheckingVoucher(false);
     }
   };
 
@@ -75,11 +86,11 @@ export function DepositView() {
   return (
     <div className="max-w-5xl mx-auto space-y-8 pb-12">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-zinc-100 flex items-center gap-2">
-          <Wallet className="h-6 w-6 text-blue-400" />
+        <h1 className="text-2xl font-bold tracking-tight text-foreground flex items-center gap-2.5">
+          <Wallet className="h-6 w-6 text-primary" />
           Deposit Saldo Akun
         </h1>
-        <p className="text-sm text-zinc-400 mt-1">
+        <p className="text-sm text-muted-foreground mt-1">
           Isi saldo dompet GoVPN Anda secara instan menggunakan QRIS atau Virtual Account otomatis.
         </p>
       </div>
@@ -87,20 +98,22 @@ export function DepositView() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Left Column: Deposit Form */}
         <div className="lg:col-span-7 space-y-6">
-          <Card className="border-zinc-800 bg-zinc-950 shadow-xl">
+          <Card className="border-border/80 bg-card/60 shadow-xl rounded-2xl">
             <CardHeader className="pb-4">
-              <CardTitle className="text-base text-zinc-100">
-                Pilih Nominal & Metode Deposit
+              <CardTitle className="text-base font-bold text-foreground">
+                Pilih Nominal &amp; Metode Deposit
               </CardTitle>
-              <CardDescription className="text-xs text-zinc-400">
-                Saldo langsung masuk otomatis 24 jam nonstop setelah QRIS terverifikasi.
+              <CardDescription className="text-xs text-muted-foreground">
+                Saldo otomatis masuk 24 jam nonstop setelah QRIS terverifikasi.
               </CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleCreateDeposit} className="space-y-5">
                 {/* Presets */}
                 <div>
-                  <Label className="text-xs text-zinc-400">Pilihan Nominal Cepat</Label>
+                  <Label className="text-xs font-medium text-muted-foreground">
+                    Pilihan Nominal Cepat
+                  </Label>
                   <div className="grid grid-cols-3 gap-2.5 mt-2">
                     {PRESET_AMOUNTS.map((amt) => (
                       <button
@@ -112,8 +125,8 @@ export function DepositView() {
                         }}
                         className={`rounded-xl border py-3 px-2 text-xs font-mono font-medium transition-all ${
                           !customAmount && amount === amt
-                            ? "border-blue-500 bg-blue-600/20 text-blue-400 ring-1 ring-blue-500"
-                            : "border-zinc-800 bg-zinc-900/60 text-zinc-300 hover:border-zinc-700"
+                            ? "border-primary bg-primary/10 text-primary ring-1 ring-primary"
+                            : "border-border/60 bg-surface/50 text-muted-foreground hover:border-border hover:text-foreground"
                         }`}
                       >
                         {formatIDR(amt)}
@@ -124,11 +137,11 @@ export function DepositView() {
 
                 {/* Custom Amount */}
                 <div>
-                  <Label htmlFor="dep-amount" className="text-xs text-zinc-400">
-                    Atau Masukkan Nominal Sendiri
+                  <Label htmlFor="dep-amount" className="text-xs font-medium text-muted-foreground">
+                    Atau Masukkan Nominal Lain (Min. Rp 10.000)
                   </Label>
                   <div className="relative mt-1.5">
-                    <span className="absolute left-3 top-2.5 text-xs text-zinc-500 font-medium">
+                    <span className="absolute left-3 top-2.5 text-xs text-muted-foreground font-mono">
                       Rp
                     </span>
                     <Input
@@ -137,44 +150,44 @@ export function DepositView() {
                       placeholder="Contoh: 150000"
                       value={customAmount}
                       onChange={(e) => setCustomAmount(e.target.value)}
-                      className="pl-9 bg-zinc-900 border-zinc-800 text-zinc-100 font-mono text-sm"
+                      className="pl-9 font-mono text-sm rounded-xl min-h-10"
                     />
                   </div>
                 </div>
 
                 {/* Method */}
                 <div>
-                  <Label className="text-xs text-zinc-400">Metode Pembayaran</Label>
+                  <Label className="text-xs font-medium text-muted-foreground">Metode Pembayaran</Label>
                   <div className="grid grid-cols-2 gap-3 mt-1.5">
                     <button
                       type="button"
                       onClick={() => setMethod("QRIS")}
                       className={`flex items-start gap-3 rounded-xl border p-3 text-xs transition-all text-left ${
                         method === "QRIS"
-                          ? "border-blue-500 bg-blue-600/20 text-blue-400 ring-1 ring-blue-500"
-                          : "border-zinc-800 bg-zinc-900/60 text-zinc-400 hover:border-zinc-700"
+                          ? "border-primary bg-primary/10 text-foreground ring-1 ring-primary shadow-sm"
+                          : "border-border/60 bg-surface/50 text-muted-foreground hover:border-border"
                       }`}
                     >
-                      <QrCode className="h-5 w-5 shrink-0 text-blue-400 mt-0.5" />
+                      <QrCode className="h-5 w-5 shrink-0 text-primary mt-0.5" />
                       <div>
-                        <div className="font-semibold text-zinc-200">QRIS Real-Time</div>
-                        <div className="text-[11px] text-zinc-500">Biaya transaksi Rp 1.000</div>
+                        <div className="font-bold text-foreground font-mono">QRIS Real-Time</div>
+                        <div className="text-[11px] text-muted-foreground">BCA, Gopay, Dana, Ovo</div>
                       </div>
                     </button>
 
                     <button
                       type="button"
-                      onClick={() => setMethod("TRIPAY")}
+                      onClick={() => setMethod("MIDTRANS")}
                       className={`flex items-start gap-3 rounded-xl border p-3 text-xs transition-all text-left ${
-                        method === "TRIPAY"
-                          ? "border-blue-500 bg-blue-600/20 text-blue-400 ring-1 ring-blue-500"
-                          : "border-zinc-800 bg-zinc-900/60 text-zinc-400 hover:border-zinc-700"
+                        method === "MIDTRANS"
+                          ? "border-primary bg-primary/10 text-foreground ring-1 ring-primary shadow-sm"
+                          : "border-border/60 bg-surface/50 text-muted-foreground hover:border-border"
                       }`}
                     >
                       <Zap className="h-5 w-5 shrink-0 text-amber-400 mt-0.5" />
                       <div>
-                        <div className="font-semibold text-zinc-200">Virtual Account</div>
-                        <div className="text-[11px] text-zinc-500">Tripay Multi-Bank</div>
+                        <div className="font-bold text-foreground font-mono">Virtual Account</div>
+                        <div className="text-[11px] text-muted-foreground">BCA, Mandiri, BRI, BNI</div>
                       </div>
                     </button>
                   </div>
@@ -182,18 +195,18 @@ export function DepositView() {
 
                 {/* Promo Coupon */}
                 <div>
-                  <Label htmlFor="dep-voucher" className="text-xs text-zinc-400">
-                    Kupon Promo
+                  <Label htmlFor="dep-voucher" className="text-xs font-medium text-muted-foreground">
+                    Kupon Promo (Opsional)
                   </Label>
                   <div className="flex gap-2 mt-1.5">
                     <div className="relative flex-1">
-                      <Tag className="absolute left-3 top-2.5 h-4 w-4 text-zinc-500" />
+                      <Tag className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
                       <Input
                         id="dep-voucher"
                         placeholder="KODE PROMO"
                         value={voucherCode}
                         onChange={(e) => setVoucherCode(e.target.value.toUpperCase())}
-                        className="pl-9 bg-zinc-900 border-zinc-800 text-zinc-100 uppercase font-mono text-xs"
+                        className="pl-9 uppercase font-mono text-xs rounded-xl min-h-10"
                       />
                     </div>
                     <Button
@@ -201,45 +214,45 @@ export function DepositView() {
                       variant="outline"
                       size="sm"
                       onClick={handleApplyVoucher}
-                      disabled={!voucherCode}
-                      className="border-zinc-800 hover:bg-zinc-800 text-zinc-200"
+                      disabled={!voucherCode || isCheckingVoucher}
+                      className="border-border/80 hover:bg-muted/30 text-foreground rounded-xl min-h-10 px-4 text-xs font-semibold"
                     >
-                      Gunakan
+                      {isCheckingVoucher ? (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                      ) : (
+                        "Gunakan"
+                      )}
                     </Button>
                   </div>
                 </div>
 
                 {/* Summary */}
-                <div className="rounded-xl bg-zinc-900/90 border border-zinc-800 p-4 text-xs space-y-2">
-                  <div className="flex justify-between text-zinc-400">
+                <div className="rounded-xl bg-surface border border-border/60 p-4 text-xs space-y-2 font-mono">
+                  <div className="flex justify-between text-muted-foreground">
                     <span>Nominal Deposit:</span>
-                    <span className="font-mono text-zinc-200">{formatIDR(selectedAmount)}</span>
+                    <span className="text-foreground">{formatIDR(selectedAmount)}</span>
                   </div>
                   {voucherDiscount > 0 && (
-                    <div className="flex justify-between text-emerald-400">
+                    <div className="flex justify-between text-emerald-400 font-semibold">
                       <span>Diskon Kupon:</span>
-                      <span className="font-mono">-{formatIDR(voucherDiscount)}</span>
+                      <span>-{formatIDR(voucherDiscount)}</span>
                     </div>
                   )}
-                  <div className="flex justify-between text-zinc-400">
-                    <span>Biaya Gateway:</span>
-                    <span className="font-mono text-zinc-400">Rp 1.000</span>
-                  </div>
-                  <div className="border-t border-zinc-800 pt-2 flex justify-between font-bold text-base text-zinc-100">
+                  <div className="border-t border-border/50 pt-2 flex justify-between font-bold text-sm text-foreground">
                     <span>Total Pembayaran:</span>
-                    <span className="font-mono text-blue-400">
-                      {formatIDR(finalAmount + 1000)}
+                    <span className="text-primary font-bold">
+                      {formatIDR(finalAmount)}
                     </span>
                   </div>
                 </div>
 
                 <Button
                   type="submit"
-                  className="w-full bg-blue-600 hover:bg-blue-500 text-white gap-2 font-medium h-11 text-sm shadow-lg shadow-blue-600/20"
+                  className="w-full bg-primary hover:bg-primary-hover text-white gap-2 font-semibold min-h-12 text-xs rounded-full shadow-lg shadow-primary/25"
                   disabled={isSubmitting || selectedAmount < 10000}
                 >
                   <ShieldCheck className="h-4 w-4" />
-                  Konfirmasi & Terbitkan QRIS
+                  Konfirmasi &amp; Terbitkan QRIS
                   <ArrowRight className="h-4 w-4" />
                 </Button>
               </form>
@@ -253,28 +266,24 @@ export function DepositView() {
             <QrisPaymentCard
               invoice={activeInvoice}
               onRefreshStatus={() => fetchInvoices(true)}
-              onSimulatePaid={(invId) => {
-                setActiveInvoice({
-                  ...activeInvoice,
-                  status: "PAID",
-                  paid_at: new Date().toISOString(),
-                });
+              onPaymentSuccess={() => {
+                fetchInvoices(true);
+                fetchBilling();
               }}
-              isPolling={pollingActive}
             />
           ) : (
-            <Card className="w-full border-zinc-800 bg-zinc-950/60 p-6 text-zinc-300 space-y-4">
-              <h3 className="font-semibold text-zinc-100 flex items-center gap-2">
-                <ShieldCheck className="h-5 w-5 text-blue-400" />
-                Panduan Pembayaran QRIS
+            <Card className="w-full border-border/80 bg-card/60 p-6 text-foreground space-y-4 rounded-2xl shadow-lg">
+              <h3 className="font-bold text-foreground flex items-center gap-2">
+                <ShieldCheck className="h-5 w-5 text-primary" />
+                Panduan Pembayaran QRIS Instan
               </h3>
-              <ol className="list-decimal list-inside space-y-2 text-xs text-zinc-400 leading-relaxed">
+              <ol className="list-decimal list-inside space-y-2 text-xs text-muted-foreground leading-relaxed">
                 <li>Tentukan nominal deposit yang Anda inginkan (minimal Rp 10.000).</li>
                 <li>Klik tombol <strong>&quot;Konfirmasi &amp; Terbitkan QRIS&quot;</strong>.</li>
-                <li>Buka aplikasi m-Banking atau e-Wallet (BCA, Mandiri, GoPay, Dana, dll).</li>
-                <li>Pindai (scan) kode QRIS yang muncul di layar.</li>
+                <li>Buka aplikasi m-Banking atau e-Wallet favorit Anda (BCA, Mandiri, GoPay, OVO, DANA).</li>
+                <li>Pindai (scan) kode QRIS yang muncul di layar pembayaran.</li>
                 <li>Pastikan nama merchant tertera <strong>GoVPN Network</strong>.</li>
-                <li>Selesaikan transaksi dan saldo Anda akan bertambah secara otomatis.</li>
+                <li>Selesaikan transaksi dan saldo Anda akan bertambah secara otomatis dalam 3-5 detik.</li>
               </ol>
             </Card>
           )}

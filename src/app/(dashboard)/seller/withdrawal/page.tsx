@@ -1,5 +1,5 @@
 // ==============================================================================
-// GoVPN App Router: /billing/invoices
+// GoVPN App Router: /seller/withdrawal
 // Implements Algorithm 4: Dynamic Island Route Splitting on Thin Server Component
 // ==============================================================================
 
@@ -8,10 +8,10 @@ import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { FinanceSkeleton } from "@/modules/finance/components/shared/FinanceSkeleton";
 
-const BillingInvoicesView = dynamic(
+const SellerWithdrawalView = dynamic(
   () =>
-    import("@/modules/finance/views/user/BillingInvoicesView").then(
-      (mod) => mod.BillingInvoicesView
+    import("@/modules/finance/views/seller/SellerWithdrawalView").then(
+      (mod) => mod.SellerWithdrawalView
     ),
   {
     loading: () => <FinanceSkeleton />,
@@ -19,14 +19,14 @@ const BillingInvoicesView = dynamic(
 );
 
 export const metadata: Metadata = {
-  title: "Faktur & Tagihan | GoVPN",
-  description: "Daftar invoice, riwayat pembayaran, dan mutasi saldo GoVPN",
+  title: "Pencairan Komisi Reseller | GoVPN",
+  description: "Kelola saldo komisi reseller dan ajukan pencairan ke rekening bank",
 };
 
-export default function InvoicesPage() {
+export default function SellerWithdrawalPage() {
   return (
     <Suspense fallback={<FinanceSkeleton />}>
-      <BillingInvoicesView />
+      <SellerWithdrawalView />
     </Suspense>
   );
 }
