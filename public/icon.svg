@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Radial Gradient -->
+    <radialGradient id="govpnBg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#09090b"/>
+    </radialGradient>
+
+    <!-- Shield Primary Glowing Gradient -->
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f2fe"/>
+      <stop offset="50%" stop-color="#0052ff"/>
+      <stop offset="100%" stop-color="#0035a8"/>
+    </linearGradient>
+
+    <!-- Inner Core Gradient -->
+    <linearGradient id="coreGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+
+    <!-- Glow Effect Filter -->
+    <filter id="shieldGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Base Rounded Container -->
+  <rect width="512" height="512" rx="112" fill="url(#govpnBg)"/>
+  <rect width="504" height="504" x="4" y="4" rx="108" fill="none" stroke="#0052ff" stroke-opacity="0.35" stroke-width="3"/>
+
+  <!-- Shield Outer Glow -->
+  <path d="M256 84 L392 140 C392 276 332 380 256 432 C180 380 120 276 120 140 Z"
+        fill="url(#shieldGrad)"
+        filter="url(#shieldGlow)"
+        opacity="0.9"/>
+
+  <!-- Shield Body Surface -->
+  <path d="M256 96 L380 146 C380 268 324 366 256 418 C188 366 132 268 132 146 Z"
+        fill="url(#shieldGrad)"/>
+
+  <!-- Shield Inner Dark Inset -->
+  <path d="M256 126 L354 166 C354 260 308 340 256 384 C204 340 158 260 158 166 Z"
+        fill="#09090b"
+        opacity="0.92"/>
+
+  <!-- Tunnel / Keyhole / Secure Cyber Node -->
+  <circle cx="256" cy="224" r="36" fill="none" stroke="#ffffff" stroke-width="12" stroke-linecap="round"/>
+  <circle cx="256" cy="224" r="16" fill="url(#coreGrad)"/>
+
+  <!-- Cyber Tunnel Beam / Keyhole Shaft -->
+  <path d="M245 240 L267 240 L276 304 C276 310 271 315 264 315 L248 315 C241 315 236 310 236 304 Z"
+        fill="#ffffff"/>
+
+  <!-- Speed Data Streams -->
+  <path d="M200 240 L178 245" stroke="#00f2fe" stroke-width="5" stroke-linecap="round"/>
+  <path d="M312 240 L334 245" stroke="#00f2fe" stroke-width="5" stroke-linecap="round"/>
+  <path d="M210 285 L182 295" stroke="#0052ff" stroke-width="5" stroke-linecap="round"/>
+  <path d="M302 285 L330 295" stroke="#0052ff" stroke-width="5" stroke-linecap="round"/>
+</svg>
