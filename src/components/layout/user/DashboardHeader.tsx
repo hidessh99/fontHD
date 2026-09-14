@@ -5,17 +5,17 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   Menu,
-  Coins,
-  ArrowUpRight,
+  Wallet,
+  Bell,
+  Search,
   User,
   LogOut,
-  Building2,
   Shield,
-  ArrowLeft,
+  PlusCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ThemeToggle } from "./ThemeToggle";
+import { ThemeToggle } from "../shared";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,7 +25,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { SellerSidebar } from "./SellerSidebar";
+import { DashboardSidebar } from "./DashboardSidebar";
 import { clearAllAuthStorage } from "@/lib/storage/cookies";
 import {
   Breadcrumb,
@@ -36,15 +36,17 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 
-interface SellerHeaderProps {
-  commissionBalance?: number;
+interface DashboardHeaderProps {
+  userBalance?: number;
   userName?: string;
+  userRole?: string;
 }
 
-export function SellerHeader({
-  commissionBalance = 487500,
-  userName = "Partner Reseller",
-}: SellerHeaderProps) {
+export function DashboardHeader({
+  userBalance = 50000,
+  userName = "Member",
+  userRole = "USER",
+}: DashboardHeaderProps) {
   const pathname = usePathname();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
@@ -56,7 +58,7 @@ export function SellerHeader({
   const pathSegments = pathname.split("/").filter(Boolean);
 
   return (
-    <header className="sticky top-0 z-40 flex h-16 w-full items-center justify-between border-b border-amber-500/20 bg-background/80 px-4 backdrop-blur-md sm:px-6">
+    <header className="sticky top-0 z-40 flex h-16 w-full items-center justify-between border-b border-border/70 bg-background/80 px-4 backdrop-blur-md sm:px-6">
       {/* Left: Mobile Nav & Breadcrumb */}
       <div className="flex items-center gap-3">
         {/* Mobile Drawer Trigger */}
@@ -66,18 +68,15 @@ export function SellerHeader({
               <Button
                 variant="outline"
                 size="icon"
-                className="size-9 md:hidden border-amber-500/30"
+                className="size-9 md:hidden border-border"
               >
-                <Menu className="size-4 text-amber-500" />
-                <span className="sr-only">Buka Menu Partner</span>
+                <Menu className="size-4 text-foreground" />
+                <span className="sr-only">Buka Menu</span>
               </Button>
             }
           />
-          <SheetContent
-            side="left"
-            className="p-0 w-64 bg-sidebar border-amber-500/20"
-          >
-            <SellerSidebar onCloseMobile={() => setIsMobileOpen(false)} />
+          <SheetContent side="left" className="p-0 w-64 bg-sidebar">
+            <DashboardSidebar onCloseMobile={() => setIsMobileOpen(false)} />
           </SheetContent>
         </Sheet>
 
@@ -85,16 +84,13 @@ export function SellerHeader({
         <Breadcrumb className="hidden sm:flex">
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink
-                href="/seller/vpn"
-                className="text-xs font-mono text-amber-500"
-              >
-                Partner Portal
+              <BreadcrumbLink href="/dashboard" className="text-xs font-mono">
+                Console
               </BreadcrumbLink>
             </BreadcrumbItem>
-            {pathSegments.slice(1).map((seg, idx) => {
-              const isLast = idx === pathSegments.length - 2;
-              const href = "/" + pathSegments.slice(0, idx + 2).join("/");
+            {pathSegments.slice(0, 2).map((seg, idx) => {
+              const isLast = idx === pathSegments.length - 1 || idx === 1;
+              const href = "/" + pathSegments.slice(0, idx + 1).join("/");
               const formatted = seg.toUpperCase();
 
               return (
@@ -102,7 +98,7 @@ export function SellerHeader({
                   <BreadcrumbSeparator />
                   <BreadcrumbItem>
                     {isLast ? (
-                      <BreadcrumbPage className="text-xs font-mono font-semibold text-foreground">
+                      <BreadcrumbPage className="text-xs font-mono font-semibold text-primary">
                         {formatted}
                       </BreadcrumbPage>
                     ) : (
@@ -118,35 +114,59 @@ export function SellerHeader({
         </Breadcrumb>
       </div>
 
-      {/* Right: Commission Balance, Payout CTA, Theme, Profile */}
+      {/* Right: Wallet Balance, Search, Theme, Profile */}
       <div className="flex items-center gap-2.5">
-        {/* Commission Balance Badge */}
-        <div className="flex items-center gap-2 rounded-xl border border-amber-500/30 bg-amber-500/5 px-3 py-1.5 shadow-sm">
-          <div className="flex items-center gap-1.5 text-amber-500">
-            <Coins className="size-3.5" />
-            <span className="text-[10px] font-mono uppercase tracking-wider hidden sm:inline font-bold">
-              Komisi
+        {/* Wallet Balance Badge */}
+        <div className="flex items-center gap-2 rounded-xl border border-border/80 bg-surface/80 px-3 py-1.5 shadow-sm">
+          <div className="flex items-center gap-1.5 text-primary">
+            <Wallet className="size-3.5" />
+            <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground hidden sm:inline">
+              Saldo
             </span>
           </div>
           <span className="font-mono text-xs font-bold text-foreground">
-            Rp {commissionBalance.toLocaleString("id-ID")}
+            Rp {userBalance.toLocaleString("id-ID")}
           </span>
           <Button
-            size="sm"
+            size="icon"
             variant="ghost"
-            className="h-6 px-2 text-[11px] text-amber-500 hover:bg-amber-500/15 rounded-lg ml-0.5 font-bold"
+            className="size-6 text-primary hover:bg-primary/10 rounded-lg ml-0.5"
             asChild
-            title="Tarik Komisi"
+            title="Top Up Saldo"
           >
-            <Link href="/seller/withdrawal">
-              <span>Tarik</span>
-              <ArrowUpRight className="size-3 ml-0.5" />
+            <Link href="/billing/deposit">
+              <PlusCircle className="size-3.5" />
             </Link>
           </Button>
         </div>
 
+        {/* Quick Search Helper */}
+        <Button
+          variant="outline"
+          size="sm"
+          className="hidden md:flex items-center gap-2 border-border/80 bg-background/50 text-xs font-mono text-muted-foreground px-2.5 h-8"
+        >
+          <Search className="size-3.5" />
+          <span>Cari...</span>
+          <kbd className="rounded border border-border px-1 text-[10px] text-muted-foreground">
+            ⌘K
+          </kbd>
+        </Button>
+
         {/* Theme Toggle */}
         <ThemeToggle />
+
+        {/* Notification Bell */}
+        <Button
+          variant="ghost"
+          size="icon"
+          className="size-8 text-muted-foreground hover:text-foreground"
+          asChild
+        >
+          <Link href="/notifications" title="Notifikasi">
+            <Bell className="size-4" />
+          </Link>
+        </Button>
 
         {/* User Profile Dropdown */}
         <DropdownMenu>
@@ -154,19 +174,19 @@ export function SellerHeader({
             render={
               <Button
                 variant="outline"
-                className="flex items-center gap-2 border-amber-500/30 bg-surface px-2.5 h-8 rounded-xl"
+                className="flex items-center gap-2 border-border/80 bg-surface px-2.5 h-8 rounded-xl"
               >
-                <div className="flex size-5 items-center justify-center rounded-lg bg-amber-500/15 text-amber-500">
-                  <Building2 className="size-3" />
+                <div className="flex size-5 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                  <User className="size-3" />
                 </div>
-                <span className="text-xs font-medium text-foreground max-w-[90px] truncate hidden md:inline">
+                <span className="text-xs font-medium text-foreground max-w-[80px] truncate hidden md:inline">
                   {userName}
                 </span>
                 <Badge
                   variant="outline"
-                  className="text-[9px] px-1 py-0 font-mono border-amber-500/40 text-amber-500 hidden lg:inline"
+                  className="text-[9px] px-1 py-0 font-mono border-primary/40 text-primary hidden lg:inline"
                 >
-                  SELLER
+                  {userRole}
                 </Badge>
               </Button>
             }
@@ -179,7 +199,7 @@ export function SellerHeader({
               <div className="flex flex-col space-y-1">
                 <p className="text-sm font-semibold leading-none">{userName}</p>
                 <p className="text-xs leading-none text-muted-foreground font-mono">
-                  Portal Reseller
+                  Role: {userRole}
                 </p>
               </div>
             </DropdownMenuLabel>
@@ -187,24 +207,24 @@ export function SellerHeader({
             <DropdownMenuItem
               render={
                 <Link
-                  href="/dashboard"
+                  href="/settings"
                   className="flex items-center w-full cursor-pointer"
                 />
               }
             >
-              <ArrowLeft className="mr-2 size-4 text-muted-foreground" />
-              <span>Console Member Biasa</span>
+              <Shield className="mr-2 size-4 text-muted-foreground" />
+              <span>Pengaturan Profil</span>
             </DropdownMenuItem>
             <DropdownMenuItem
               render={
                 <Link
-                  href="/seller/withdrawal"
+                  href="/billing/invoices"
                   className="flex items-center w-full cursor-pointer"
                 />
               }
             >
-              <Coins className="mr-2 size-4 text-muted-foreground" />
-              <span>Riwayat Penarikan</span>
+              <Wallet className="mr-2 size-4 text-muted-foreground" />
+              <span>Riwayat Transaksi</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem

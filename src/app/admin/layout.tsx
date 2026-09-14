@@ -1,7 +1,8 @@
-import React from "react";
-import { AdminRouteGuard } from "@/components/layout/shared/AdminRouteGuard";
-import { AdminSidebar } from "@/components/layout/AdminSidebar";
-import { AdminHeader } from "@/components/layout/AdminHeader";
+import {
+  AdminRouteGuard,
+  AdminSidebar,
+  AdminHeader,
+} from "@/components/layout/admin";
 
 export default function AdminLayout({
   children,

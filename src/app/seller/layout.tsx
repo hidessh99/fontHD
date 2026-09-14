@@ -1,7 +1,8 @@
-import React from "react";
-import { SellerRouteGuard } from "@/components/layout/shared/SellerRouteGuard";
-import { SellerSidebar } from "@/components/layout/SellerSidebar";
-import { SellerHeader } from "@/components/layout/SellerHeader";
+import {
+  SellerRouteGuard,
+  SellerSidebar,
+  SellerHeader,
+} from "@/components/layout/seller";
 
 export default function SellerLayout({
   children,

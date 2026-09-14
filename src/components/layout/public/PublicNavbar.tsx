@@ -14,8 +14,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ThemeToggle } from "./ThemeToggle";
-import { LanguageSwitcher } from "./LanguageSwitcher";
+import { ThemeToggle, LanguageSwitcher } from "../shared";
 import { useAuthStore } from "@/modules/iam/store/auth.store";
 import { useI18n } from "@/lib/i18n/context";
 

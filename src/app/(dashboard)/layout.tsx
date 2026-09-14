@@ -1,7 +1,8 @@
-import React from "react";
-import { MemberRouteGuard } from "@/components/layout/shared/MemberRouteGuard";
-import { DashboardSidebar } from "@/components/layout/DashboardSidebar";
-import { DashboardHeader } from "@/components/layout/DashboardHeader";
+import {
+  MemberRouteGuard,
+  DashboardSidebar,
+  DashboardHeader,
+} from "@/components/layout/user";
 
 export default function DashboardLayout({
   children,
