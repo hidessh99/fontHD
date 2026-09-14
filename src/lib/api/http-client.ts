@@ -123,57 +123,131 @@ class HttpClient {
 
     const normalized = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
 
-    if (normalized.startsWith("/api/vpn")) {
+    // 1. VPN Microservice
+    if (
+      normalized.startsWith("/api/vpn") ||
+      normalized.startsWith("/api/free") ||
+      normalized.startsWith("/api/server-free") ||
+      normalized.startsWith("/api/account-free") ||
+      normalized.startsWith("/api/seller/vpn") ||
+      normalized.startsWith("/api/admin/vpn") ||
+      normalized.startsWith("/api/admin/servers")
+    ) {
       return `${env.NEXT_PUBLIC_VPN_API_URL}${normalized}`;
     }
+
+    // 2. IAM Microservice
     if (
       normalized.startsWith("/api/auth") ||
-      normalized.startsWith("/api/iam")
+      normalized.startsWith("/api/iam") ||
+      normalized.startsWith("/api/users") ||
+      normalized.startsWith("/api/admin/user") ||
+      normalized.startsWith("/api/admin/role") ||
+      normalized.startsWith("/api/admin/dashboard/stats")
     ) {
       return `${env.NEXT_PUBLIC_IAM_API_URL}${normalized}`;
     }
+
+    // 3. Finance Microservice
     if (
       normalized.startsWith("/api/billing") ||
-      normalized.startsWith("/api/finance")
+      normalized.startsWith("/api/finance") ||
+      normalized.startsWith("/api/invoice") ||
+      normalized.startsWith("/api/income-pending") ||
+      normalized.startsWith("/api/report") ||
+      normalized.startsWith("/api/withdrawal") ||
+      normalized.startsWith("/api/vouchers") ||
+      normalized.startsWith("/api/webhook") ||
+      normalized.startsWith("/api/seller/withdrawal") ||
+      normalized.startsWith("/api/admin/billing") ||
+      normalized.startsWith("/api/admin/income-pending") ||
+      normalized.startsWith("/api/admin/invoice") ||
+      normalized.startsWith("/api/admin/withdrawal") ||
+      normalized.startsWith("/api/admin/vouchers")
     ) {
       return `${env.NEXT_PUBLIC_FINANCE_API_URL}${normalized}`;
     }
-    if (normalized.startsWith("/api/dns")) {
+
+    // 4. DNS Microservice
+    if (
+      normalized.startsWith("/api/dns") ||
+      normalized.startsWith("/api/admin/dns")
+    ) {
       return `${env.NEXT_PUBLIC_DNS_API_URL}${normalized}`;
     }
-    if (normalized.startsWith("/api/ai")) {
+
+    // 5. AI Microservice
+    if (
+      normalized.startsWith("/api/ai") ||
+      normalized.startsWith("/api/admin/ai") ||
+      normalized.startsWith("/api/admin/ai-models") ||
+      normalized.startsWith("/api/admin/ai-providers")
+    ) {
       return `${env.NEXT_PUBLIC_AI_API_URL}${normalized}`;
     }
+
+    // 6. Kubernetes Microservice
     if (
       normalized.startsWith("/api/kubernetes") ||
-      normalized.startsWith("/api/k8s")
+      normalized.startsWith("/api/k8s") ||
+      normalized.startsWith("/api/admin/kubernetes")
     ) {
       return `${env.NEXT_PUBLIC_K8S_API_URL}${normalized}`;
     }
-    if (normalized.startsWith("/api/monitor")) {
+
+    // 7. Monitor Microservice
+    if (
+      normalized.startsWith("/api/monitor") ||
+      normalized.startsWith("/health") ||
+      normalized.startsWith("/api/admin/monitor")
+    ) {
       return `${env.NEXT_PUBLIC_MONITOR_API_URL}${normalized}`;
     }
+
+    // 8. Notification Microservice
     if (
       normalized.startsWith("/api/notifications") ||
-      normalized.startsWith("/api/notification")
+      normalized.startsWith("/api/notification") ||
+      normalized.startsWith("/api/admin/broadcast") ||
+      normalized.startsWith("/api/admin/queue")
     ) {
       return `${env.NEXT_PUBLIC_NOTIFICATION_API_URL}${normalized}`;
     }
+
+    // 9. Subscription Microservice
     if (
       normalized.startsWith("/api/subscription") ||
-      normalized.startsWith("/api/plans")
+      normalized.startsWith("/api/plan") ||
+      normalized.startsWith("/api/plans") ||
+      normalized.startsWith("/api/tenant") ||
+      normalized.startsWith("/api/seller/subscription") ||
+      normalized.startsWith("/api/seller/tenant") ||
+      normalized.startsWith("/api/seller/dashboard") ||
+      normalized.startsWith("/api/admin/plan") ||
+      normalized.startsWith("/api/admin/subscription") ||
+      normalized.startsWith("/api/admin/tenant")
     ) {
       return `${env.NEXT_PUBLIC_SUBSCRIPTION_API_URL}${normalized}`;
     }
+
+    // 10. Support Microservice
     if (
       normalized.startsWith("/api/support") ||
-      normalized.startsWith("/api/tickets")
+      normalized.startsWith("/api/ticket") ||
+      normalized.startsWith("/api/tickets") ||
+      normalized.startsWith("/api/admin/ticket")
     ) {
       return `${env.NEXT_PUBLIC_SUPPORT_API_URL}${normalized}`;
     }
+
+    // 11. Content Microservice
     if (
       normalized.startsWith("/api/posts") ||
-      normalized.startsWith("/api/settings")
+      normalized.startsWith("/api/settings") ||
+      normalized.startsWith("/api/public/upload") ||
+      normalized.startsWith("/api/upload") ||
+      normalized.startsWith("/api/admin/post") ||
+      normalized.startsWith("/api/admin/settings")
     ) {
       return `${env.NEXT_PUBLIC_CONTENT_API_URL}${normalized}`;
     }
