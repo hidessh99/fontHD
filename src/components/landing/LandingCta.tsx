@@ -29,10 +29,10 @@ export function LandingCta() {
             {t("landing.cta.subtitle")}
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5">
             <Button
               size="lg"
-              className="h-13 sm:h-14 w-full sm:w-auto px-8 rounded-2xl bg-white text-blue-700 hover:bg-slate-100 font-bold text-base shadow-xl shadow-black/10 active:scale-95 transition-all"
+              className="h-12 w-full sm:w-auto px-7 rounded-xl bg-white text-blue-700 hover:bg-slate-100 font-bold text-sm sm:text-base shadow-xl shadow-black/10 active:scale-95 transition-all cursor-pointer"
               asChild
             >
               <Link href="/register">
@@ -44,16 +44,16 @@ export function LandingCta() {
             <Button
               size="lg"
               variant="outline"
-              className="h-13 sm:h-14 w-full sm:w-auto px-8 rounded-2xl text-white border-white/30 hover:bg-white/10 font-bold text-base bg-transparent active:scale-95 transition-all"
+              className="h-12 w-full sm:w-auto px-7 rounded-xl text-white border-white/30 hover:bg-white/10 font-bold text-sm sm:text-base bg-transparent active:scale-95 transition-all cursor-pointer"
               asChild
             >
               <Link href="/login">{t("landing.cta.secondaryBtn")}</Link>
             </Button>
           </div>
 
-          <div className="mt-8 flex items-center justify-center gap-2 text-xs text-blue-100/80 font-medium">
+          <div className="mt-8 flex items-center justify-center gap-2 text-xs text-blue-100/90 font-medium">
             <ShieldCheck className="h-4 w-4 text-emerald-300" />
-            {t("landing.cta.note")}
+            <span>{t("landing.cta.note")}</span>
           </div>
         </div>
       </div>

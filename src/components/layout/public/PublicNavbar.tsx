@@ -144,6 +144,20 @@ export function PublicNavbar() {
           </Link>
 
           <Link
+            href="/about"
+            className="text-muted-foreground hover:text-foreground transition-colors"
+          >
+            {t("landing.nav.about")}
+          </Link>
+
+          <Link
+            href="/contact"
+            className="text-muted-foreground hover:text-foreground transition-colors"
+          >
+            {t("landing.nav.contact")}
+          </Link>
+
+          <Link
             href="/seller"
             className="text-amber-500/90 hover:text-amber-500 font-semibold flex items-center gap-1.5 transition-colors"
           >
@@ -242,6 +256,20 @@ export function PublicNavbar() {
               className="block text-sm font-medium text-foreground px-2 py-1.5 rounded-lg hover:bg-accent"
             >
               {t("landing.nav.guides")}
+            </Link>
+            <Link
+              href="/about"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block text-sm font-medium text-foreground px-2 py-1.5 rounded-lg hover:bg-accent"
+            >
+              {t("landing.nav.about")}
+            </Link>
+            <Link
+              href="/contact"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block text-sm font-medium text-foreground px-2 py-1.5 rounded-lg hover:bg-accent"
+            >
+              {t("landing.nav.contact")}
             </Link>
             <Link
               href="/seller"

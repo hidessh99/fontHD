@@ -9,11 +9,17 @@ import idCommon from "@/locales/id/common.json";
 import idAuth from "@/locales/id/auth.json";
 import idVpn from "@/locales/id/vpn.json";
 import idLanding from "@/locales/id/landing.json";
+import idLegal from "@/locales/id/legal.json";
+import idAbout from "@/locales/id/about.json";
+import idContact from "@/locales/id/contact.json";
 
 import enCommon from "@/locales/en/common.json";
 import enAuth from "@/locales/en/auth.json";
 import enVpn from "@/locales/en/vpn.json";
 import enLanding from "@/locales/en/landing.json";
+import enLegal from "@/locales/en/legal.json";
+import enAbout from "@/locales/en/about.json";
+import enContact from "@/locales/en/contact.json";
 
 const dictionaries: Record<Locale, Record<string, unknown>> = {
   id: {
@@ -21,12 +27,18 @@ const dictionaries: Record<Locale, Record<string, unknown>> = {
     auth: idAuth,
     vpn: idVpn,
     landing: idLanding,
+    legal: idLegal,
+    about: idAbout,
+    contact: idContact,
   },
   en: {
     common: enCommon,
     auth: enAuth,
     vpn: enVpn,
     landing: enLanding,
+    legal: enLegal,
+    about: enAbout,
+    contact: enContact,
   },
 };
 

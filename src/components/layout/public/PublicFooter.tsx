@@ -126,10 +126,18 @@ export function PublicFooter() {
               </li>
               <li>
                 <Link
-                  href="/support"
+                  href="/about"
                   className="hover:text-foreground transition-colors"
                 >
-                  {t("landing.footer.supportTicket")}
+                  Tentang Kami (About Us)
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/contact"
+                  className="hover:text-foreground transition-colors"
+                >
+                  Hubungi Kami (Contact)
                 </Link>
               </li>
             </ul>
@@ -142,16 +150,31 @@ export function PublicFooter() {
             </h4>
             <ul className="space-y-2.5">
               <li>
-                <span className="text-muted-foreground flex items-center gap-1.5">
-                  <CheckCircle2 className="size-3 text-emerald-500" />
-                  Zero-Logs Policy
-                </span>
+                <Link
+                  href="/privacy"
+                  className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1.5"
+                >
+                  <CheckCircle2 className="size-3 text-emerald-500 shrink-0" />
+                  <span>Zero-Logs & Privacy Policy</span>
+                </Link>
               </li>
               <li>
-                <span className="text-muted-foreground flex items-center gap-1.5">
-                  <CheckCircle2 className="size-3 text-primary" />
-                  Terms of Service
-                </span>
+                <Link
+                  href="/terms"
+                  className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1.5"
+                >
+                  <CheckCircle2 className="size-3 text-primary shrink-0" />
+                  <span>Terms of Service & SLA</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/contact"
+                  className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1.5"
+                >
+                  <CheckCircle2 className="size-3 text-blue-400 shrink-0" />
+                  <span>Bantuan & Dukungan Tiket</span>
+                </Link>
               </li>
               <li className="pt-2">
                 <a
@@ -161,7 +184,7 @@ export function PublicFooter() {
                   className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 hover:bg-blue-500/20 transition-colors font-semibold"
                 >
                   <Send className="size-3.5" />
-                  {t("landing.footer.telegram")}
+                  <span>{t("landing.footer.telegram")}</span>
                 </a>
               </li>
             </ul>

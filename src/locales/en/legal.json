@@ -1,0 +1,30 @@
+{
+  "termsBadge": "Terms of Service & SLA",
+  "termsTitle": "Terms of Service (ToS)",
+  "termsSubtitle": "Legally binding agreement between the user and Hide Group regarding usage rights, acceptable tunneling operations, and infrastructural service level agreements.",
+  "termsLastUpdated": "Last updated: September 14, 2026",
+  "termsIntro": "By registering, activating an account, or routing packets through the GoVPN cloud tunneling network managed by Hide Group, you confirm that you have read, understood, and agreed to all the operational clauses below.",
+
+  "privacyBadge": "Privacy Compliance & Zero-Logs",
+  "privacyTitle": "Privacy Policy",
+  "privacySubtitle": "Ironclad personal data protection, ephemeral RAM-only non-logging architecture, and strict adherence to Indonesian UU PDP No. 27/2022 and GDPR frameworks.",
+  "privacyLastUpdated": "Last updated: September 14, 2026",
+  "privacyIntro": "Hide Group ('we', 'our', 'GoVPN') is fundamentally committed to preserving user privacy. This document specifies our zero-logs operating topology and the minimal metadata retained exclusively for session authentication.",
+
+  "companyInfoTitle": "Official Service Provider Identity",
+  "companyName": "Hide Group / Hide Digital Security",
+  "companyAddress": "Jl. Kampung Baris No.391, Karangturi, Kec. Semarang Tim., Kota Semarang, Central Java 50124, Indonesia",
+  "companyEmail": "support@hidessh.com",
+  "companyEmailAlt": "dmaskurniawan56@gmail.com",
+  "companyPhone": "+62 877-1113-01818",
+  "providerLabel": "Infrastructure Provider",
+  "operatorLabel": "Operating Entity",
+  "emailLabel": "Official Email",
+  "phoneLabel": "WhatsApp / Hotline",
+  "addressLabel": "Operational HQ",
+  "quickNavTitle": "Articles & Table of Contents",
+  "contactDpoTitle": "Data Protection Officer & Compliance Desk",
+  "contactDpoDesc": "For inquiries regarding privacy policies, exercising data subject rights (UU PDP / GDPR), or filing network abuse reports, contact our compliance desk:",
+  "readFullPolicy": "Read Full Policy",
+  "backToTop": "Back to Top"
+}
