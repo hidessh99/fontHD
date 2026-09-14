@@ -182,7 +182,7 @@ export function HomeLandingView() {
             {/* Headline */}
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black leading-[1.12] tracking-tight text-foreground mb-5">
               {t("home.hero.titleLine1")}{" "}
-              <span className="bg-gradient-to-r from-blue-500 via-indigo-400 to-cyan-400 bg-clip-text text-transparent">
+              <span className="bg-linear-to-r from-blue-500 via-indigo-400 to-cyan-400 bg-clip-text text-transparent">
                 {t("home.hero.titleLine2")}
               </span>
             </h1>
@@ -519,7 +519,7 @@ export function HomeLandingView() {
 
       {/* 6. Final CTA Section */}
       <section className="container mx-auto px-4 sm:px-6 py-12 sm:py-16 max-w-4xl">
-        <div className="rounded-3xl bg-gradient-to-br from-blue-600 via-indigo-600 to-blue-700 p-8 sm:p-12 text-center text-white relative overflow-hidden shadow-xl shadow-blue-500/15">
+        <div className="rounded-3xl bg-linear-to-br from-blue-600 via-indigo-600 to-blue-700 p-8 sm:p-12 text-center text-white relative overflow-hidden shadow-xl shadow-blue-500/15">
           <div className="absolute top-0 right-0 h-64 w-64 bg-white/10 rounded-full blur-2xl -mr-32 -mt-32 pointer-events-none" />
           <div className="absolute bottom-0 left-0 h-64 w-64 bg-black/25 rounded-full blur-2xl -ml-32 -mb-32 pointer-events-none" />
 
