@@ -1,0 +1,18 @@
+{
+  "vpnTitle": "Akun VPN & Tunneling",
+  "vpnSubtitle": "Kelola kredensial SSH, VMess, VLess, Trojan, Shadowsocks, dan WireGuard.",
+  "createAccount": "Buat Akun VPN",
+  "renewAccount": "Perpanjang Akun",
+  "resetPassword": "Reset Password",
+  "server": "Server Node",
+  "protocol": "Protokol",
+  "username": "Username",
+  "password": "Password",
+  "uuid": "UUID",
+  "port": "Port",
+  "sni": "SNI / Host",
+  "expiredAt": "Kedaluwarsa Pada",
+  "copyLink": "Salin Link Config",
+  "showQr": "Tampilkan QR Code",
+  "downloadConfig": "Unduh File Konfigurasi"
+}

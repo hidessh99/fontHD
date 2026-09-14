@@ -1,0 +1,18 @@
+{
+  "vpnTitle": "VPN & Tunneling Accounts",
+  "vpnSubtitle": "Manage SSH, VMess, VLess, Trojan, Shadowsocks, and WireGuard credentials.",
+  "createAccount": "Create VPN Account",
+  "renewAccount": "Renew Account",
+  "resetPassword": "Reset Password",
+  "server": "Server Node",
+  "protocol": "Protocol",
+  "username": "Username",
+  "password": "Password",
+  "uuid": "UUID",
+  "port": "Port",
+  "sni": "SNI / Host",
+  "expiredAt": "Expires At",
+  "copyLink": "Copy Config Link",
+  "showQr": "Show QR Code",
+  "downloadConfig": "Download Config File"
+}
