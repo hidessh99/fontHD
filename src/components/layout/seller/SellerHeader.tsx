@@ -7,10 +7,8 @@ import {
   Menu,
   Coins,
   ArrowUpRight,
-
   LogOut,
   Building2,
-
   ArrowLeft,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";

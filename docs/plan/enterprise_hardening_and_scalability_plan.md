@@ -7,6 +7,7 @@ Dokumen arsitektur ini memetakan rencana strategis dan teknis untuk mentransform
 ## 1. Executive Summary & Kesepakatan Arsitektur
 
 Berdasarkan audit komprehensif dan arahan arsitektur, implementasi perbaikan disepakati menggunakan prinsip:
+
 1. **Murni Konvensi Next.js 16 `src/proxy.ts`**: Tidak ada pembuatan file `middleware.ts`. Seluruh optimasi Edge Network Guard dilakukan in-place pada `src/proxy.ts`.
 2. **Porting Desain 404 & 500 dari `fontend/app/error.vue`**: Mengadopsi 100% visual styling (ambient glow, gradient status code, Alert badge, collapsible technical details, dual CTA Home/Dashboard, dan i18n) ke dalam standar Next.js 16 (`not-found.tsx`, `error.tsx`, `global-error.tsx`).
 3. **Penyatuan Route Group `/articles`**: Memindahkan artikel publik ke `src/app/(public)/articles/` agar mewarisi `PublicNavbar` dan `PublicFooter` secara konsisten tanpa mengubah URL.
@@ -173,15 +174,18 @@ export const config = {
 ### 3.2 Phase 2: Porting 404 & 500 dari `fontend/app/error.vue` ke Next.js 16
 
 Mengadopsi seluruh estetika visual dari `G:\WEB2026\fontend\app\error.vue`:
+
 - Ambient background glow (radial ambient blue & indigo blur).
 - Giant gradient status code `404` / `500`.
 - Alert icon badge.
 - Dual button CTA (Home & Dashboard).
-- Collapsible *Technical Details* (`error.message`, `error.digest`, `stack`).
+- Collapsible _Technical Details_ (`error.message`, `error.digest`, `stack`).
 - Multi-bahasa via `useI18n()` (`t("errorPage.*")`).
 
 #### 1. Sinkronisasi Kamus i18n (`errorPage`):
+
 Menambahkan key `errorPage` pada `src/locales/en/landing.json` dan `src/locales/id/landing.json` (atau common dictionary):
+
 ```json
 "errorPage": {
   "title404": "Halaman Tidak Ditemukan",
@@ -198,16 +202,19 @@ Menambahkan key `errorPage` pada `src/locales/en/landing.json` dan `src/locales/
 ```
 
 #### 2. File `src/app/not-found.tsx` (Khusus 404):
+
 - Merender layout 404 berestetika `error.vue`.
 - Header dengan Logo GoVPN dan `LanguageSwitcher`.
 - Tombol Home & Dashboard.
 
 #### 3. File `src/app/error.tsx` (Khusus 500 / Runtime Error Boundary):
+
 - Menerima props `error: Error & { digest?: string }` dan `reset: () => void`.
 - Merender visual 500 dengan tombol aksi `reset()` (Coba Lagi) tanpa reload halaman browser.
 - Collapsible section untuk melihat `error.message` dan `error.digest`.
 
 #### 4. File `src/app/global-error.tsx` (Root Layout Error Boundary):
+
 - Membungkus fallback dengan tag `<html>` dan `<body>` darurat jika `RootLayout` gagal.
 
 ---
@@ -218,7 +225,7 @@ Menambahkan key `errorPage` pada `src/locales/en/landing.json` dan `src/locales/
    - Pindahkan `src/app/articles/page.tsx` -> `src/app/(public)/articles/page.tsx`.
    - Pindahkan `src/app/articles/[slug]/page.tsx` -> `src/app/(public)/articles/[slug]/page.tsx`.
    - Hapus direktori kosong `src/app/articles`.
-   - *Hasil:* URL tetap `/articles` dan `/articles/:slug`, tetapi secara otomatis mendapatkan `PublicNavbar` (dengan LanguageSwitcher & ThemeToggle) dan `PublicFooter`.
+   - _Hasil:_ URL tetap `/articles` dan `/articles/:slug`, tetapi secara otomatis mendapatkan `PublicNavbar` (dengan LanguageSwitcher & ThemeToggle) dan `PublicFooter`.
 
 2. **Automated SEO & Manifest**:
    - `src/app/robots.ts`: Membolehkan Googlebot meng-crawl halaman publik (`/`, `/articles`), memblokir `/admin/*`, `/seller/*`, `/dashboard/*`, `/api/*`.
