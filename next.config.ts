@@ -39,7 +39,7 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   output: process.env.VERCEL ? undefined : "standalone",
   poweredByHeader: false,
-  reactStrictMode: false,
+  reactStrictMode: true,
   compress: true,
   experimental: {
     optimizePackageImports: [

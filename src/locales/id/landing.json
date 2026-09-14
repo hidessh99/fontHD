@@ -1,0 +1,193 @@
+{
+  "hero": {
+    "badge": "JARINGAN AKTIF • ULTRA-LOW LATENCY BGP",
+    "titleLine1": "Infrastruktur Cloud Tunneling",
+    "titleLine2": "Bebas Sensor & Berkecepatan Tinggi",
+    "subtitle": "Layanan VPN & SSH tunneling generasi baru dengan enkripsi perbankan, dukungan multi-protokol (V2Ray, VLess Reality, Trojan, Shadowsocks, WireGuard), dan optimasi latensi gaming internasional.",
+    "ctaPrimary": "Mulai Sekarang — Gratis",
+    "ctaSecondary": "Lihat Protokol & Server",
+    "ctaReseller": "Portal Mitra Reseller",
+    "noLogs": "100% Kebijakan Tanpa Log",
+    "instant": "Aktivasi Instan 5 Detik",
+    "uptime": "99.99% Garansi Uptime SLA"
+  },
+  "stats": {
+    "usersLabel": "Total Pengguna",
+    "usersDesc": "Member & Reseller Aktif",
+    "serversLabel": "Node Server Global",
+    "serversDesc": "Singapore, US, Japan, ID",
+    "bandwidthLabel": "Bandwidth Uplink",
+    "bandwidthDesc": "Direct Anycast & Tier-1 ISP",
+    "uptimeLabel": "Jaminan Uptime",
+    "uptimeDesc": "High Availability SLA",
+    "liveTelemetry": "Telemetri Jaringan Langsung",
+    "pingOptimal": "Ping Rata-rata < 15ms • 0% Loss"
+  },
+  "protocols": {
+    "badge": "Suite Multi-Protokol",
+    "title": "Pilihan Protokol Tunneling Modern",
+    "subtitle": "Pilih protokol yang sesuai dengan kebutuhan Anda: bypass sensor ISP, masking streaming, hingga optimasi latensi gaming internasional.",
+    "exploreAll": "Jelajahi Semua Server",
+    "createAccount": "Buat Akun {name}",
+    "ssh": {
+      "name": "SSH / Dropbear",
+      "tagline": "Secure Shell & WebSocket CDN",
+      "tier": "Gratis & VIP",
+      "f1": "WebSocket CDN Cloudflare Direct",
+      "f2": "Custom Payload & SNI Masking",
+      "f3": "Keep-Alive Anti-Disconnect",
+      "f4": "Mendukung Port 22, 442, 80, 443"
+    },
+    "vmess": {
+      "name": "VMess (V2Ray)",
+      "tagline": "Dynamic Multi-Path Routing",
+      "tier": "High-Speed CDN",
+      "f1": "Protokol VMess AEAD Terbaru",
+      "f2": "Transport WS & gRPC High Speed",
+      "f3": "Bypass DPI & Sensor ISP Agresif",
+      "f4": "Kompatibel v2rayNG & Clash"
+    },
+    "vless": {
+      "name": "VLess XTLS Reality",
+      "tagline": "Next-Gen 0-Hop TLS Masking",
+      "tier": "Top Performance",
+      "f1": "XTLS Vision & Reality Masking",
+      "f2": "Tanpa Perlu Sewa Domain Sendiri",
+      "f3": "Kecepatan Native Tanpa Overhead",
+      "f4": "Anti-Blokir Firewall AI & GFW"
+    },
+    "trojan": {
+      "name": "Trojan-GFW / Go",
+      "tagline": "HTTPS Traffic Camouflage",
+      "tier": "Anti-Censor",
+      "f1": "Menyerupai Lalu Lintas Web Port 443",
+      "f2": "Throughput Streaming 4K Ultra-HD",
+      "f3": "Mux Multiplexing H2 Support",
+      "f4": "Kompatibel Shadowrocket & Sing-box"
+    },
+    "shadowsocks": {
+      "name": "Shadowsocks AEAD",
+      "tagline": "Lightweight High-Throughput",
+      "tier": "Low Latency",
+      "f1": "Enkripsi 2022-blake3-aes-128-gcm",
+      "f2": "Latensi Gaming Sangat Rendah",
+      "f3": "Konsumsi Baterai Perangkat Hemat",
+      "f4": "Native Android & iOS SIP008"
+    },
+    "wireguard": {
+      "name": "WireGuard Fast Kernel",
+      "tagline": "Modern Linux Kernel UDP",
+      "tier": "Kernel Speed",
+      "f1": "Handshake Kriptografi Curve25519",
+      "f2": "Auto-Roaming WiFi ke Jaringan Seluler",
+      "f3": "Infrastruktur Kernel Space Kilat",
+      "f4": "Konfigurasi QR Code Instan"
+    }
+  },
+  "features": {
+    "badge": "Arsitektur & Keandalan",
+    "title": "Fondasi Teknologi Kelas Enterprise",
+    "subtitle": "Dirancang dari arsitektur terdistribusi modern untuk performa tanpa hambatan, keamanan kriptografi mutakhir, dan ketahanan jaringan tinggi.",
+    "f1Title": "Anycast Global BGP Routing",
+    "f1Desc": "Koneksi Anda otomatis diarahkan ke node datacenter terdekat dengan jalur peering Tier-1 untuk memastikan ping dan jitter serendah mungkin.",
+    "f2Title": "Multi-Core Kernel Optimization",
+    "f2Desc": "Didukung backend engine Xray & Sing-box mutakhir dengan pemanfaatan multi-threading penuh dan offloading kriptografi hardware AES-NI.",
+    "f3Title": "100% RAM-Only Ephemeral Logs",
+    "f3Desc": "Privasi mutlak tanpa kompromi. Sistem beroperasi di lingkungan RAM disk tanpa pernah menulis jejak penjelajahan atau IP pengguna ke storage permanen.",
+    "f4Title": "Heuristic Auto-Failover",
+    "f4Desc": "Sistem pemantauan node otomatis memindahkan rute traffic dalam hitungan milidetik jika terdeteksi gangguan kabel laut atau pemeliharaan server.",
+    "f5Title": "Ekosistem Mitra & Reseller API",
+    "f5Desc": "Bagi reseller dan partner bisnis, tersedia REST API terintegrasi, diskon kuota grosir hingga 30%, serta pencetakan akun massal instan.",
+    "f6Title": "Anti-GFW & Heuristic Masking",
+    "f6Desc": "Teknologi penyamaran paket cerdas yang memecah inspeksi DPI (Deep Packet Inspection) ISP, menjaga koneksi tetap stabil di berbagai jaringan ketat."
+  },
+  "whyUs": {
+    "badge": "Standar Kualitas",
+    "title": "Mengapa GoVPN Pilihan Terbaik?",
+    "subtitle": "Bukan sekadar VPN konvensional, kami menghadirkan ekosistem tunneling terlengkap untuk produktivitas, privasi, dan bisnis Anda.",
+    "r1Title": "Throughput Gigabits Tanpa FUP",
+    "r1Desc": "Nikmati bandwidth tanpa batasan kecepatan semu. Streaming 4K, video conference, dan unduhan file besar berjalan dengan kecepatan penuh.",
+    "r2Title": "Proteksi Kebocoran DNS & WebRTC",
+    "r2Desc": "Setiap sesi VPN dilengkapi dedicated resolver DNS terenkripsi DoH/DoT yang kebal terhadap pembajakan DNS ISP lokal.",
+    "r3Title": "Dukungan Seluruh Sistem Operasi",
+    "r3Desc": "Kompatibel dengan aplikasi resmi dan pihak ketiga di Android, iOS, Windows, macOS, Linux, serta router OpenWrt / Mikrotik.",
+    "r4Title": "Aktivasi Pembayaran Otomatis 24/7",
+    "r4Desc": "Topup saldo dan pembelian paket diproses otomatis dalam 3 detik via QRIS, Virtual Account BCA/Mandiri, dan e-wallet.",
+    "r5Title": "Pusat Panduan & Setup Wizard",
+    "r5Desc": "Tersedia tutorial visual langkah demi langkah untuk setiap protokol dan aplikasi, memudahkan pengguna baru sekalipun.",
+    "r6Title": "Customer Support Cepat & Komunitas",
+    "r6Desc": "Tim teknis kami siap membantu kendala koneksi melalui sistem tiket prioritas dan grup komunitas Telegram aktif."
+  },
+  "trust": {
+    "badge": "Garansi Keamanan & Privasi",
+    "title": "Privasi Mutlak dengan Transaksi Finansial Aman",
+    "subtitle": "Kami menjamin privasi digital Anda tanpa kompromi. Tidak ada log riwayat penelusuran, tidak ada pelacakan IP, dan seluruh pembayaran diproses melalui gerbang pembayaran terenkripsi resmi.",
+    "item1": "Kebijakan Tanpa Pencatatan Jejak (Zero-Logs Policy Terverifikasi)",
+    "item2": "Server RAM-Disk Ephemeral — Data Terhapus Otomatis Saat Reboot",
+    "item3": "Jaminan Ketersediaan Jaringan 99.99% SLA Tanpa Kompromi",
+    "item4": "Aktivasi Instan Real-time dalam 3 Detik Tanpa Perlu Konfirmasi Manual",
+    "gatewaysLabel": "Supported Payment Gateways",
+    "gatewaysTitle": "Pembayaran Otomatis & Terverifikasi",
+    "gatewaysDesc": "Didukung integrasi langsung QRIS Nasional, Bank Indonesia, serta protokol Web3 cryptocurrency untuk fleksibilitas pembayaran pengguna internasional."
+  },
+  "faq": {
+    "badge": "Tanya Jawab Populer",
+    "title": "Pertanyaan yang Sering Diajukan",
+    "subtitle": "Temukan jawaban cepat atas pertanyaan seputar akun, protokol, kompatibilitas aplikasi, dan ekosistem kemitraan.",
+    "q1": "Apa perbedaan antara protokol SSH, VMess, VLess Reality, dan Trojan?",
+    "a1": "SSH Dropbear sangat ideal untuk tunneling TCP dengan payload custom dan port standar. VMess (V2Ray) menggunakan dynamic routing untuk memecah enkripsi paket di jaringan kompleks. VLess Reality adalah generasi terbaru tanpa kebutuhan domain sendiri dengan kecepatan native Linux. Sedangkan Trojan menyamarkan seluruh traffic menyerupai lalu lintas browsing web HTTPS standar port 443 sehingga hampir mustahil diblokir oleh firewall ISP.",
+    "q2": "Aplikasi klien apa saja yang direkomendasikan untuk menggunakan akun GoVPN?",
+    "a2": "Untuk Android kami merekomendasikan v2rayNG, Sing-box, NekoBox, atau HTTP Custom. Untuk iOS / iPhone Anda dapat menggunakan Shadowrocket, Sing-box, atau FoXray. Untuk Windows dan Mac tersedia v2rayN, Nekoray, Clash Verge Rev, dan aplikasi resmi WireGuard.",
+    "q3": "Apakah ada batasan kuota (FUP) atau batas kecepatan per akun?",
+    "a3": "Seluruh akun reguler dan VIP GoVPN berjalan di port uplink 10 Gbps tanpa FUP (Fair Usage Policy) tersembunyi. Kecepatan maksimal bergantung pada kualitas sinyal operator seluler atau ISP lokal yang Anda gunakan.",
+    "q4": "Bagaimana cara menjadi Mitra Reseller GoVPN dan apa keuntungannya?",
+    "a4": "Anda cukup mendaftar akun dan mengakses menu Portal Reseller. Mitra Reseller mendapatkan diskon kuota grosir hingga 30%, akses API pencetakan massal instan, white-label sub-akun, serta fasilitas penarikan komisi saldo otomatis ke rekening bank lokal atau e-wallet.",
+    "q5": "Apakah GoVPN mencatat log riwayat situs yang saya kunjungi?",
+    "a5": "Sama sekali TIDAK. Kami mematuhi standar Zero-Logs Policy yang ketat. Server kami beroperasi pada sistem operasi ephemeral berbasis RAM disk, di mana seluruh memori sementara terhapus secara otomatis dan tidak ada satupun jejak penjelajahan, DNS query, atau alamat IP asli yang disimpan ke media penyimpanan permanen."
+  },
+  "cta": {
+    "badge": "Akses Instan Tanpa Batas",
+    "title": "Siap Mengamankan Seluruh Penjelajahan Internet Anda?",
+    "subtitle": "Bergabunglah bersama lebih dari 150.000 pengguna dan rasakan kecepatan tunneling tanpa batas, proteksi anti-DPI, dan garansi privasi mutlak mulai hari ini.",
+    "primaryBtn": "Daftar Akun Gratis",
+    "secondaryBtn": "Masuk ke Dashboard",
+    "note": "Tanpa Kartu Kredit • Aktivasi Instan Otomatis"
+  },
+  "nav": {
+    "protocols": "Protokol VPN",
+    "features": "Fitur Utama",
+    "pricing": "Paket Harga",
+    "guides": "Pusat Panduan",
+    "about": "Tentang Kami",
+    "contact": "Hubungi Kami",
+    "reseller": "Reseller Partner",
+    "login": "Masuk",
+    "register": "Daftar VIP",
+    "dashboard": "Console Dashboard"
+  },
+  "footer": {
+    "description": "Infrastruktur tunneling multi-protokol enterprise (SSH, VMess, VLess Reality, Trojan-Go, Shadowsocks 2022, WireGuard). Dirancang untuk privasi mutlak, kecepatan murni, dan proteksi sensor ISP.",
+    "systemStatus": "Seluruh Sistem Beroperasi Normal (99.99% SLA)",
+    "vpnProtocols": "Protokol VPN",
+    "ecosystem": "Ekosistem",
+    "legalCommunity": "Legal & Komunitas",
+    "vipPricing": "Paket Langganan VIP",
+    "partnerPortal": "Portal Mitra Reseller",
+    "guideDocs": "Pusat Panduan & Setup",
+    "supportTicket": "Bantuan & Tiket Prioritas",
+    "telegram": "Channel Telegram",
+    "rights": "GoVPN Enterprise. Hak cipta dilindungi undang-undang."
+  },
+  "errorPage": {
+    "title404": "Halaman Tidak Ditemukan",
+    "description404": "Oops! Halaman yang Anda cari telah hilang, dipindahkan, atau tidak pernah ada.",
+    "title500": "Kesalahan Server Internal",
+    "description500": "Server kami mengalami kendala teknis sementara. Tim kami sedang menanganinya.",
+    "titleGeneric": "Terjadi Kesalahan Sistem",
+    "descriptionGeneric": "Kesalahan yang tidak terduga telah terjadi. Silakan coba muat ulang beberapa saat lagi.",
+    "backHome": "Kembali ke Beranda",
+    "backDashboard": "Masuk ke Dashboard",
+    "retry": "Coba Lagi",
+    "technicalDetails": "Detail Kesalahan Teknis"
+  }
+}

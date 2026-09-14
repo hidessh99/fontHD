@@ -11,16 +11,17 @@ import { VpnProtocolSkeleton } from "@/modules/vpn/components/shared/VpnProtocol
 const UserServersView = dynamic(
   () =>
     import("@/modules/vpn/views/user/UserServersView").then(
-      (mod) => mod.UserServersView
+      (mod) => mod.UserServersView,
     ),
   {
     loading: () => <VpnProtocolSkeleton />,
-  }
+  },
 );
 
 export const metadata: Metadata = {
   title: "Server Nodes & Telemetri | GoVPN",
-  description: "Status ketersediaan server node global dan latency ping real-time.",
+  description:
+    "Status ketersediaan server node global dan latency ping real-time.",
 };
 
 export default function ServersPage() {

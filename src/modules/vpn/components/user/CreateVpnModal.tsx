@@ -19,7 +19,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ProtocolBadge } from "@/components/shared/ProtocolBadge";
-import { ServerNode, VpnAccount, VpnProtocol } from "../../types/vpn.types";
+import { VpnAccount, VpnProtocol } from "../../types/vpn.types";
 import { vpnUserApi } from "../../api/user.api";
 import { toast } from "sonner";
 import { useVpnUserStore } from "../../store/vpn-user.store";
@@ -41,7 +41,9 @@ export function CreateVpnModal({
   const fetchUserAccounts = useVpnUserStore((s) => s.fetchUserAccounts);
 
   const [selectedServerId, setSelectedServerId] = useState<number | null>(null);
-  const [selectedTier, setSelectedTier] = useState<"month" | "always" | "payas">("month");
+  const [selectedTier, setSelectedTier] = useState<
+    "month" | "always" | "payas"
+  >("month");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     username: "",
@@ -55,7 +57,10 @@ export function CreateVpnModal({
 
     setIsSubmitting(true);
     try {
-      const txId = typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : `tx_${Date.now()}`;
+      const txId =
+        typeof crypto !== "undefined" && crypto.randomUUID
+          ? crypto.randomUUID()
+          : `tx_${Date.now()}`;
       let res;
 
       if (selectedTier === "always") {
@@ -67,7 +72,7 @@ export function CreateVpnModal({
             password: formData.password || undefined,
             duration_days: formData.duration_days,
           },
-          txId
+          txId,
         );
       } else if (selectedTier === "payas") {
         res = await vpnUserApi.createPayasAccount(
@@ -77,7 +82,7 @@ export function CreateVpnModal({
             username: formData.username,
             password: formData.password || undefined,
           },
-          txId
+          txId,
         );
       } else {
         res = await vpnUserApi.createMonthAccount(
@@ -88,7 +93,7 @@ export function CreateVpnModal({
             password: formData.password || undefined,
             duration_days: formData.duration_days,
           },
-          txId
+          txId,
         );
       }
 
@@ -142,7 +147,11 @@ export function CreateVpnModal({
                       : "border-border/60 bg-surface/50 text-muted-foreground hover:border-border hover:text-foreground"
                   }`}
                 >
-                  {tier === "month" ? "Bulanan" : tier === "always" ? "Always On" : "Pay As You Go"}
+                  {tier === "month"
+                    ? "Bulanan"
+                    : tier === "always"
+                      ? "Always On"
+                      : "Pay As You Go"}
                 </button>
               ))}
             </div>
@@ -197,7 +206,10 @@ export function CreateVpnModal({
                   className="pl-8 text-xs font-mono rounded-xl min-h-10"
                   value={formData.username}
                   onChange={(e) =>
-                    setFormData((prev) => ({ ...prev, username: e.target.value }))
+                    setFormData((prev) => ({
+                      ...prev,
+                      username: e.target.value,
+                    }))
                   }
                   required
                 />
@@ -216,7 +228,10 @@ export function CreateVpnModal({
                   className="pl-8 text-xs font-mono rounded-xl min-h-10"
                   value={formData.password}
                   onChange={(e) =>
-                    setFormData((prev) => ({ ...prev, password: e.target.value }))
+                    setFormData((prev) => ({
+                      ...prev,
+                      password: e.target.value,
+                    }))
                   }
                 />
               </div>
@@ -241,7 +256,8 @@ export function CreateVpnModal({
             >
               {isSubmitting ? (
                 <>
-                  <Loader2 className="mr-1.5 size-3.5 animate-spin" /> Membuat Akun...
+                  <Loader2 className="mr-1.5 size-3.5 animate-spin" /> Membuat
+                  Akun...
                 </>
               ) : (
                 <>

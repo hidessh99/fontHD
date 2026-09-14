@@ -1,10 +1,11 @@
 # 🕵️ Comprehensive Audit & Discrepancy Report: Backend API Catalog vs Frontend Modules
+
 **Platform:** GoVPN Enterprise Cloud Web Client (`fontgovpn`)  
 **Backend Reference:** `G:\WEB2026\backendv2\docs\api_routes_catalog.md` (`388 Endpoints`)  
 **Frontend Modules Path:** `G:\WEB2026\fontgovpn\src\modules/`  
 **Architect:** Senior Next.js / React Architect & Lead CTO  
 **Status:** Official Architectural Audit & Migration Roadmap  
-**Date:** September 2026  
+**Date:** September 2026
 
 ---
 
@@ -15,6 +16,7 @@
 > Berkas kode di `G:\WEB2026\fontgovpn\src\modules` saat ini masih berstatus **Flat Early-Draft** (hasil ekstraksi awal) dan **BELUM MEMENUHI STANDAR Pola C: Role-Partitioned Module** yang telah disahkan di [`docs/architecture.md`](file:///G:/WEB2026/fontgovpn/docs/architecture.md). Selain itu, terdapat kesenjangan signifikan antara endpoint nyata di Go backend (`388 Endpoints`) dengan kontrak API yang saat ini terpasang di modul frontend.
 
 ### Temuan Utama Audit:
+
 1. **Pelanggaran Struktur Direktori (Flat vs Pola C):**  
    Di disk fisik `src/modules/vpn`, `src/modules/finance`, `src/modules/iam`, `src/modules/dns`, dan `src/modules/monitor`, file-file diletakkan secara datar (misal: satu file tunggal `api/vpn.api.ts`, `views/VpnProtocolView.tsx`, `components/VpnAccountCard.tsx`). Padahal, cetak biru arsitektur mewajibkan partisi folder fisik per role: `shared/`, `user/`, `seller/`, dan `admin/`.
 2. **Kesenjangan Cakupan Endpoint (346 Rute UI vs ~20 Rute Mock):**  
@@ -30,21 +32,21 @@ Berdasarkan audit langsung terhadap kode router Echo v5 dan katalog resmi [`back
 
 ### 2.1 Matriks Distribusi Rute per Domain & Hak Akses
 
-| No | Modul Domain | Total Rute | 🌐 Guest / Public | 👥 User (Auth) | 💼 Seller / Reseller | 🛡️ Admin Only | ⚡ Cronjob | 💳 Webhook | Status Frontend Saat Ini |
-| :-: | :--- | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :--- |
-| **01** | **VPN** | `96` | 14 | 36 | 12 | 21 | 13 | 0 | ⚠️ Perlu Refactor Pola C |
-| **02** | **Finance** | `58` | 0 | 14 | 2 | 32 | 9 | 1 | ⚠️ Perlu Refactor Pola C |
-| **03** | **IAM** | `51` | 9 | 18 | 0 | 20 | 3 | 1 | ⚠️ Perlu Refactor Pola C |
-| **04** | **Subscription** | `43` | 0 | 6 | 11 | 23 | 3 | 0 | ❌ Belum Ada Direktori |
-| **05** | **AI** | `36` | 0 | 21 | 0 | 14 | 1 | 0 | ⚠️ Baru Types Saja |
-| **06** | **Support** | `22` | 0 | 9 | 0 | 12 | 1 | 0 | ❌ Belum Ada Direktori |
-| **07** | **Kubernetes** | `22` | 0 | 6 | 0 | 12 | 4 | 0 | ❌ Belum Ada Direktori |
-| **08** | **DNS** | `19` | 0 | 5 | 0 | 13 | 1 | 0 | ⚠️ Perlu Refactor Pola C |
-| **09** | **Content** | `18` | 3 | 4 | 0 | 11 | 0 | 0 | ❌ Belum Ada Direktori |
-| **10** | **Notification** | `10` | 0 | 0 | 0 | 7 | 3 | 0 | ❌ Belum Ada Direktori |
-| **11** | **Monitor** | `9` | 0 | 2 | 0 | 5 | 2 | 0 | ⚠️ Perlu Refactor Pola C |
-| **12** | **System Health** | `4` | 4 | 0 | 0 | 0 | 0 | 0 | ⚠️ Masuk di Shared/Monitor |
-| | **TOTAL** | **`388`** | **`30`** | **`121`** | **`25`** | **`170`** | **`40`** | **`2`** | **Presisi 100% Match** |
+|   No   | Modul Domain      | Total Rute | 🌐 Guest / Public | 👥 User (Auth) | 💼 Seller / Reseller | 🛡️ Admin Only | ⚡ Cronjob | 💳 Webhook | Status Frontend Saat Ini   |
+| :----: | :---------------- | :--------: | :---------------: | :------------: | :------------------: | :-----------: | :--------: | :--------: | :------------------------- |
+| **01** | **VPN**           |    `96`    |        14         |       36       |          12          |      21       |     13     |     0      | ⚠️ Perlu Refactor Pola C   |
+| **02** | **Finance**       |    `58`    |         0         |       14       |          2           |      32       |     9      |     1      | ⚠️ Perlu Refactor Pola C   |
+| **03** | **IAM**           |    `51`    |         9         |       18       |          0           |      20       |     3      |     1      | ⚠️ Perlu Refactor Pola C   |
+| **04** | **Subscription**  |    `43`    |         0         |       6        |          11          |      23       |     3      |     0      | ❌ Belum Ada Direktori     |
+| **05** | **AI**            |    `36`    |         0         |       21       |          0           |      14       |     1      |     0      | ⚠️ Baru Types Saja         |
+| **06** | **Support**       |    `22`    |         0         |       9        |          0           |      12       |     1      |     0      | ❌ Belum Ada Direktori     |
+| **07** | **Kubernetes**    |    `22`    |         0         |       6        |          0           |      12       |     4      |     0      | ❌ Belum Ada Direktori     |
+| **08** | **DNS**           |    `19`    |         0         |       5        |          0           |      13       |     1      |     0      | ⚠️ Perlu Refactor Pola C   |
+| **09** | **Content**       |    `18`    |         3         |       4        |          0           |      11       |     0      |     0      | ❌ Belum Ada Direktori     |
+| **10** | **Notification**  |    `10`    |         0         |       0        |          0           |       7       |     3      |     0      | ❌ Belum Ada Direktori     |
+| **11** | **Monitor**       |    `9`     |         0         |       2        |          0           |       5       |     2      |     0      | ⚠️ Perlu Refactor Pola C   |
+| **12** | **System Health** |    `4`     |         4         |       0        |          0           |       0       |     0      |     0      | ⚠️ Masuk di Shared/Monitor |
+|        | **TOTAL**         | **`388`**  |     **`30`**      |   **`121`**    |       **`25`**       |   **`170`**   |  **`40`**  |  **`2`**   | **Presisi 100% Match**     |
 
 ### 2.2 Segmentasi Frontend vs Backend-Only
 
@@ -64,14 +66,15 @@ pie title Distribusi 388 Endpoints Backend
 - **Frontend Actionable Endpoints (`346 Endpoints`):**
   - **🌐 Guest / Public (`30 Endpoints`):** Halaman landing, auth (login, register, verify, forgot-pass), server publik gratis, dan health probe.
   - **👥 User Portal (`121 Endpoints`):** Dashboard subscriber, beli akun VPN (always, month, payas), saldo & riwayat billing, DNS record user, chat AI playground, kelola pod K8s pribadi, kirim tiket support.
-  - **💼 Seller / Reseller Hub (`25 Endpoints`):** Pencetakan server VPN reseller (always, month, payas), alokasi kuota langganan reseller, penarikan saldo komisi (*withdrawal*).
+  - **💼 Seller / Reseller Hub (`25 Endpoints`):** Pencetakan server VPN reseller (always, month, payas), alokasi kuota langganan reseller, penarikan saldo komisi (_withdrawal_).
   - **🛡️ Admin Console (`170 Endpoints`):** CRUD server VPN global, manajemen user & balance adjustment, audit ledger keuangan & persetujuan payout, manajemen AI models & providers, cluster K8s, broadcast notifikasi, CS ticket desk, dan trigger manual 40 cron tasks.
 
 ---
 
 ## 3. Detail Kesenjangan per Modul (Gap Analysis)
 
-### 3.1 Modul VPN (`src/modules/vpn/`) — *96 Endpoints di Backend*
+### 3.1 Modul VPN (`src/modules/vpn/`) — _96 Endpoints di Backend_
+
 - **Kondisi di Disk Saat Ini:**
   - `api/vpn.api.ts` menggabungkan user dan server endpoint secara tidak lengkap.
   - `components/` hanya berisi 3 file flat: `CreateVpnModal.tsx`, `ServerNodeCard.tsx`, `VpnAccountCard.tsx`.
@@ -90,7 +93,8 @@ pie title Distribusi 388 Endpoints Backend
     - `seller/`: `SellerVpnOverviewView.tsx`, `SellerBulkMintView.tsx`.
     - `admin/`: `AdminServersView.tsx`, `AdminVpnAccountsView.tsx`.
 
-### 3.2 Modul Finance (`src/modules/finance/`) — *58 Endpoints di Backend*
+### 3.2 Modul Finance (`src/modules/finance/`) — _58 Endpoints di Backend_
+
 - **Kondisi di Disk Saat Ini:**
   - `api/finance.api.ts` hanya berisi mock billing & topup dasar.
   - Komponen flat di folder `components/`: `BalanceWidget`, `InvoiceTable`, `QrisPaymentCard`, `TopupModal`.
@@ -100,7 +104,8 @@ pie title Distribusi 388 Endpoints Backend
   - Rute Admin (32): Full billing ledger CRUD, approval payout/withdrawal, voucher generator & promo manager, pending income reconciliation.
   - Pemisahan folder fisik `components/shared/`, `components/user/`, `components/seller/`, `components/admin/`.
 
-### 3.3 Modul IAM (`src/modules/iam/`) — *51 Endpoints di Backend*
+### 3.3 Modul IAM (`src/modules/iam/`) — _51 Endpoints di Backend_
+
 - **Kondisi di Disk Saat Ini:**
   - `api/iam.api.ts` hanya memiliki login, register, dan get profile.
 - **Kebutuhan Sesuai Backend & Pola C:**
@@ -108,14 +113,16 @@ pie title Distribusi 388 Endpoints Backend
   - User (18): Update profile, change password, user session revocation, address CRUD (`/api/users/address/*`), user dashboard stats.
   - Admin (20): User list with pagination/search, balance credit/debit adjustment, ban/unban user, role assignment, audit logs, admin stats.
 
-### 3.4 Modul DNS (`src/modules/dns/`) — *19 Endpoints di Backend*
+### 3.4 Modul DNS (`src/modules/dns/`) — _19 Endpoints di Backend_
+
 - **Kondisi di Disk Saat Ini:**
   - `api/dns.api.ts` hanya memiliki CRUD record dasar.
 - **Kebutuhan Sesuai Backend & Pola C:**
   - User (5): List DNS domains, create own record, view record details, update/delete record.
   - Admin (13): Global Cloudflare zone management, DNS sync, purge DNS cache, default DNS templates, root zone provisioning.
 
-### 3.5 Modul Monitor & System Health (`src/modules/monitor/`) — *13 Endpoints (9 Monitor + 4 Health)*
+### 3.5 Modul Monitor & System Health (`src/modules/monitor/`) — _13 Endpoints (9 Monitor + 4 Health)_
+
 - **Kondisi di Disk Saat Ini:**
   - `api/monitor.api.ts` hanya mock ping latency.
 - **Kebutuhan Sesuai Backend & Pola C:**
@@ -124,6 +131,7 @@ pie title Distribusi 388 Endpoints Backend
   - Admin (5): Telemetri resource node mendalam (CPU, RAM, disk, network bandwidth, active daemon threads, container count).
 
 ### 3.6 Modul yang Harus Dibuat Baru (Zero-to-One):
+
 1. **Subscription (`src/modules/subscription/` - 43 Endpoints):**
    - User (6): Paket berlangganan aktif, katalog paket, upgrade plan.
    - Seller (11): Kuota grosir reseller, alokasi lisensi untuk sub-klien, margin harga reseller.
@@ -150,24 +158,27 @@ pie title Distribusi 388 Endpoints Backend
 ## 4. Analisis Penyebab (Root Cause Analysis)
 
 Mengapa terjadi diskrepansi struktur antara dokumen arsitektur dan berkas di disk?
+
 1. **Fase Transisi Cepat (Prototyping Legacy):** Berkas awal di `src/modules` dibuat saat proses ekstraksi pertama dari `fontwahide` yang belum menggunakan partisi role dan belum mengacu pada katalog final 388 endpoint di `backendv2`.
 2. **Penandaan Checklist yang Terlalu Cepat:** Pada dokumen rencana sebelumnya, beberapa modul diberi checklist `[x]` hanya karena filenya sudah ada di disk, tanpa memvalidasi apakah file tersebut sudah terpartisi secara fisik (`user/`, `seller/`, `admin/`) atau belum.
-3. **Pemberian Nama Datar (*Flat Naming Antipattern*):** Menempatkan semua fungsi dalam satu file `vpn.api.ts` tampak lebih cepat di awal, namun terbukti menyebabkan pencampuran kewenangan (*privilege mixing*) dan membuat ukuran bundel klien user membengkak karena mengimpor fungsi admin.
+3. **Pemberian Nama Datar (_Flat Naming Antipattern_):** Menempatkan semua fungsi dalam satu file `vpn.api.ts` tampak lebih cepat di awal, namun terbukti menyebabkan pencampuran kewenangan (_privilege mixing_) dan membuat ukuran bundel klien user membengkak karena mengimpor fungsi admin.
 
 ---
 
 ## 5. Rekomendasi Arsitektur & Opini CTO (The Master Plan)
 
 Sebagai Senior Architect & Lead CTO, opini saya adalah:
+
 > **"JANGAN MEMPERTAHANKAN STRUKTUR FLAT DENGAN MENAMBALNYA."**  
-> Melakukan patch conditional `if (role === 'admin')` di dalam komponen flat adalah awal mula bencana teknis (*technical debt* dan *spaghetti code*). Kita harus melakukan **Clean Structural Realignment** ke **Pola C** sekarang sebelum modul semakin besar.
+> Melakukan patch conditional `if (role === 'admin')` di dalam komponen flat adalah awal mula bencana teknis (_technical debt_ dan _spaghetti code_). Kita harus melakukan **Clean Structural Realignment** ke **Pola C** sekarang sebelum modul semakin besar.
 
 ### Manfaat Mutlak Penerapan Pola C:
+
 1. **Tree-Shaking & Bundle Size Minimal:**
    Pelanggan biasa yang membuka halaman `/vpn/vmess` **hanya akan mengunduh kode dari `src/modules/vpn/components/user/` dan `shared/`**. Kode modal edit VPS superadmin (`ServerNodeFormModal.tsx`) dan tabel kuota reseller **tidak akan pernah ikut terbundel** ke perangkat smartphone pengguna.
 2. **Zero Security Leakage pada Client Side:**
    Dengan memisahkan DTO dan API client ke dalam `user.api.ts`, `seller.api.ts`, dan `admin.api.ts`, payload sensitif superadmin (seperti API key provider, database connection strings, server root password) terisolasi secara kompilasi.
-3. **Perawatan Berkelanjutan (*Maintainability*):**
+3. **Perawatan Berkelanjutan (_Maintainability_):**
    Ketika tim backend mengubah skema endpoint reseller di `/api/seller/vpn/*`, developer frontend hanya perlu membuka `src/modules/vpn/api/seller.api.ts` dan `src/modules/vpn/views/seller/` tanpa ada risiko merusak flow checkout pengguna biasa.
 
 ---
@@ -211,6 +222,7 @@ src/modules/<domain>/
 ## 7. Kesimpulan & Langkah Selanjutnya
 
 Audit ini membuktikan bahwa:
+
 - Backend `backendv2` telah memiliki **388 endpoints** yang sangat matang dan teruji.
 - Frontend `fontgovpn` membutuhkan **restrukturisasi fisik modul secara terencana** agar selaras 100% dengan Pola C dan katalog backend.
 - Rencana implementasi pada [`docs/plan/frontend_nextjs16_implementation_plan.md`](file:///G:/WEB2026/fontgovpn/docs/plan/frontend_nextjs16_implementation_plan.md) harus diperbarui dengan menghapus checklist prematur dan menetapkan urutan migrasi bertahap yang dapat diuji dengan `bun x tsc --noEmit`.

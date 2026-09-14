@@ -1,0 +1,193 @@
+{
+  "hero": {
+    "badge": "⚡ LIGHTNING FAST • 100% PRIVATE • ZERO SETUP HASSLE",
+    "titleLine1": "One-Click Internet Freedom.",
+    "titleLine2": "Ultra-Fast. Private. Zero Lag.",
+    "subtitle": "Bypass ISP throttling, stream 4K movies without buffering, and play games with ultra-low ping. Just scan a QR code or tap connect on your phone or PC — no technical skills required.",
+    "ctaPrimary": "Start Free — Ready in 30s",
+    "ctaSecondary": "Explore Fast Protocols",
+    "ctaReseller": "Reseller Partner Portal",
+    "noLogs": "100% Strict Zero-Logs",
+    "instant": "Instant 5-Second QR Setup",
+    "uptime": "99.99% Rock-Solid Uptime"
+  },
+  "stats": {
+    "usersLabel": "Happy Active Users",
+    "usersDesc": "Gamers, Streamers & Resellers",
+    "serversLabel": "High-Speed Global Nodes",
+    "serversDesc": "Singapore, Tokyo, US, Frankfurt, ID",
+    "bandwidthLabel": "Dedicated Uplink Capacity",
+    "bandwidthDesc": "10 Gbps Tier-1 Direct Routing",
+    "uptimeLabel": "Guaranteed Uptime",
+    "uptimeDesc": "Automatic Failover Protection",
+    "liveTelemetry": "Live Server Network Status",
+    "pingOptimal": "Average Ping < 12ms • 0% Packet Loss"
+  },
+  "protocols": {
+    "badge": "CHOOSE YOUR SUPERPOWER",
+    "title": "Fast & Reliable Protocols for Every Need",
+    "subtitle": "Whether you want to binge-watch 4K shows, win ranked games with smooth ping, or bypass restrictive school and office Wi-Fi, there is a one-tap connection waiting for you.",
+    "exploreAll": "Explore All 250+ Servers",
+    "createAccount": "Get Instant {name} Access",
+    "vless": {
+      "name": "VLess XTLS Reality",
+      "tagline": "Best for Bypassing Strict Wi-Fi & School Blocks",
+      "tier": "Top Recommendation",
+      "f1": "Invisible to ISP Firewalls & Deep Inspection",
+      "f2": "Zero Domain Required — Instant 1-Tap Connect",
+      "f3": "Blazing Fast Native Kernel Speed",
+      "f4": "Works Smoothly on Android, iOS, Windows & Mac"
+    },
+    "wireguard": {
+      "name": "WireGuard Fast Kernel",
+      "tagline": "Best for Competitive Gaming & Battery Saving",
+      "tier": "Ultra-Low Ping",
+      "f1": "Sub-15ms Latency for Smooth Online Gaming",
+      "f2": "Ultra Lightweight — Saves Mobile Battery",
+      "f3": "Instant Switching between Wi-Fi and 5G Cellular",
+      "f4": "Instant 1-Click QR Code Setup in Official App"
+    },
+    "trojan": {
+      "name": "Trojan-GFW",
+      "tagline": "Best for Stealth Browsing & Camouflage",
+      "tier": "Maximum Disguise",
+      "f1": "Hides Traffic as Ordinary HTTPS Port 443 Web Visits",
+      "f2": "Crystal Clear 4K Ultra-HD Streaming Without Buffering",
+      "f3": "Rock-Solid Stability for All-Day Work",
+      "f4": "Fully Compatible with Shadowrocket, Sing-box & NekoBox"
+    },
+    "vmess": {
+      "name": "VMess (V2Ray)",
+      "tagline": "Best for 4K Streaming & Unblocking Content",
+      "tier": "CDN Accelerated",
+      "f1": "Multi-Path Cloud Routing for Smooth Speeds",
+      "f2": "Unblocks Netflix, YouTube, Disney+ and Social Apps",
+      "f3": "Bypasses Aggressive Network Restrictions",
+      "f4": "One-Click Import in v2rayNG and Clash"
+    },
+    "shadowsocks": {
+      "name": "Shadowsocks 2022",
+      "tagline": "Best for Low-Jitter Mobile Gameplay",
+      "tier": "Zero Lag",
+      "f1": "Modern High-Performance Cryptographic Ciphers",
+      "f2": "Zero UDP Packet Loss for Fast-Paced Action Games",
+      "f3": "Minimal CPU Overhead & Cooler Device Temperatures",
+      "f4": "Simple Tap-and-Play Client Apps"
+    },
+    "ssh": {
+      "name": "SSH Dropbear / WS",
+      "tagline": "Best for Custom Payloads & Cloudflare CDN",
+      "tier": "Classic & Versatile",
+      "f1": "Custom Payload & Bug Host SNI Optimization",
+      "f2": "Direct Cloudflare CDN Tunneling Integration",
+      "f3": "Automatic Keep-Alive Anti-Disconnect Technology",
+      "f4": "Supports Custom Ports 22, 442, 80, and 443"
+    }
+  },
+  "features": {
+    "badge": "WHY 150,000+ USERS LOVE GOVPN",
+    "title": "Everything You Need for a Better Internet",
+    "subtitle": "Engineered from the ground up to give you lightning speeds, rock-solid security, and an effortless user experience on every device you own.",
+    "f1Title": "Uncapped 4K Streaming Speeds",
+    "f1Desc": "Say goodbye to spinning loading wheels. Enjoy 4K YouTube, Netflix, Twitch, and TikTok streams at maximum speed with zero throttling or speed caps.",
+    "f2Title": "Green Ping for Online Gaming",
+    "f2Desc": "Optimized direct routing to Singapore, Tokyo, and US game servers eliminates lag spikes and jitter in Mobile Legends, Valorant, and Free Fire.",
+    "f3Title": "100% RAM-Only Strict Zero-Logs",
+    "f3Desc": "Your privacy is sacred. Our servers run purely inside volatile RAM memory — no browsing history, no DNS queries, and no IP traces are ever stored.",
+    "f4Title": "Effortless 1-Click QR Code Setup",
+    "f4Desc": "You don't need to be an engineer. Simply scan a QR code with your camera or tap a quick-import link to connect in less than 30 seconds.",
+    "f5Title": "Works on All Your Devices",
+    "f5Desc": "One account covers your whole digital world. Smooth support for Android, iPhone, iPad, Windows PC, Mac, and OpenWrt home routers.",
+    "f6Title": "Rock-Solid 99.99% Reliability",
+    "f6Desc": "Smart auto-failover instantly reroutes your packets around broken undersea cables or ISP outages so your connection stays alive 24/7."
+  },
+  "whyUs": {
+    "badge": "THE GOVPN ADVANTAGE",
+    "title": "Why Settle for Clunky Old VPNs?",
+    "subtitle": "Discover why over 150,000 everyday users, gamers, and developers switched from sluggish legacy VPN apps to GoVPN.",
+    "r1Title": "Pure Speed Without Data Caps (No FUP)",
+    "r1Desc": "Download big files, stream live concerts, and game without worrying about hidden bandwidth throttling or daily data caps.",
+    "r2Title": "Total DNS & Location Leak Protection",
+    "r2Desc": "Your true location and DNS requests are locked down with banking-grade encryption, completely hidden from your local ISP and public Wi-Fi snoopers.",
+    "r3Title": "Works on Everything You Own",
+    "r3Desc": "Whether you are on an Android phone, iPhone, Windows laptop, MacBook, or living room router, connecting takes just seconds.",
+    "r4Title": "Instant 3-Second Automatic Activation",
+    "r4Desc": "Top up or upgrade whenever you want. Your account is minted and active in 3 seconds via QRIS, Virtual Accounts, E-Wallets, or USDT.",
+    "r5Title": "Beginner-Friendly Guides & Tutorials",
+    "r5Desc": "Illustrated step-by-step visual guides walk you through downloading the best free app and connecting your first account.",
+    "r6Title": "Friendly Human Support via WhatsApp & Telegram",
+    "r6Desc": "Got a question or need a quick setup tip? Chat directly with our friendly support desk on WhatsApp and Telegram — average reply in under 5 minutes."
+  },
+  "trust": {
+    "badge": "HONEST, AUDITED SECURITY",
+    "title": "Absolute Privacy. Transparent Technology.",
+    "subtitle": "We believe your internet activity is strictly your own business. That is why our infrastructure is physically incapable of recording what you do online.",
+    "item1": "Strict Zero-Logs Policy — We Never Store Your Browsing History",
+    "item2": "100% RAM-Only Nodes — All Data Vanishes on Server Reboot",
+    "item3": "99.99% Core Network SLA Guarantee with Downtime Compensation",
+    "item4": "Instant 3-Second Account Provisioning with Verified Receipts",
+    "gatewaysLabel": "Instant & Secure Payment Rails",
+    "gatewaysTitle": "Pay Easily with Local & Global Methods",
+    "gatewaysDesc": "Instant checkout via QRIS (GoPay, OVO, DANA, ShopeePay), National Bank Virtual Accounts, PayPal, and USDT Crypto."
+  },
+  "faq": {
+    "badge": "HAVE QUESTIONS? WE'VE GOT ANSWERS",
+    "title": "Frequently Asked Questions",
+    "subtitle": "Everything you need to know about setting up, speed, privacy, and getting started with GoVPN.",
+    "q1": "Do I need technical skills to use GoVPN?",
+    "a1": "Not at all! Getting started takes less than a minute. Simply create your free account, scan the provided QR code with any supported app (like v2rayNG on Android or Sing-box on iPhone/PC), and tap connect. That's it!",
+    "q2": "Can GoVPN unblock streaming sites and social media apps?",
+    "a2": "Yes! GoVPN effortlessly unblocks Netflix, Disney+, YouTube, Discord, Reddit, TikTok, and ChatGPT on restricted school, campus, or workplace Wi-Fi networks without being detected.",
+    "q3": "Will GoVPN slow down my internet or give me high gaming ping?",
+    "a3": "Actually, many users experience faster speeds! Because we route your traffic directly through high-speed Tier-1 data highways, we frequently bypass local ISP congestion, giving gamers lower ping and smoother 4K streaming.",
+    "q4": "Does GoVPN track or record what websites I visit?",
+    "a4": "Never. We enforce an audited Zero-Logs Policy backed by RAM-only servers. Nothing is ever written to hard drives, meaning no browsing history, DNS lookups, or IP addresses are ever saved.",
+    "q5": "Can I earn money by becoming a Reseller Partner?",
+    "a5": "Yes! If you want to start your own VPN business or sell accounts to friends and clients, our Reseller Portal gives you wholesale pricing up to 30% off, automated REST API key creation, and instant payouts."
+  },
+  "cta": {
+    "badge": "TRY IT 100% RISK-FREE",
+    "title": "Ready for a Faster, Freer Internet?",
+    "subtitle": "Join over 150,000 happy users who browse freely, stream in 4K, and game with ultra-low ping every day. No credit card required.",
+    "primaryBtn": "Get Started Free in 30 Seconds",
+    "secondaryBtn": "Log In to Dashboard",
+    "note": "✨ Instant 5-Second QR Code Setup • No Credit Card Required • 100% Free Trial"
+  },
+  "nav": {
+    "protocols": "VPN Protocols",
+    "features": "Why GoVPN",
+    "pricing": "Pricing",
+    "guides": "Setup Guides",
+    "about": "About Us",
+    "contact": "Contact",
+    "reseller": "Reseller Partner",
+    "login": "Sign In",
+    "register": "Start Free",
+    "dashboard": "Dashboard"
+  },
+  "footer": {
+    "description": "Next-generation high-speed VPN and cloud tunneling service. Engineered for uncapped speeds, ultra-low gaming ping, and total zero-logs privacy across all your devices.",
+    "systemStatus": "All Server Nodes Operational (99.99% SLA)",
+    "vpnProtocols": "Fast Protocols",
+    "ecosystem": "Ecosystem",
+    "legalCommunity": "Legal & Support",
+    "vipPricing": "VIP Subscription Plans",
+    "partnerPortal": "Reseller Partner Portal",
+    "guideDocs": "1-Click Setup Guides",
+    "supportTicket": "24/7 WhatsApp & Ticket Help",
+    "telegram": "Telegram Channel @hidessh",
+    "rights": "GoVPN Enterprise & Hide Group. All rights reserved."
+  },
+  "errorPage": {
+    "title404": "Page Not Found",
+    "description404": "Oops! The page you are looking for has vanished, moved, or never existed.",
+    "title500": "Internal Server Error",
+    "description500": "Our server encountered a temporary technical glitch. Our team is already looking into it.",
+    "titleGeneric": "System Error Occurred",
+    "descriptionGeneric": "An unexpected error occurred. Please try reloading or check back shortly.",
+    "backHome": "Return to Home",
+    "backDashboard": "Go to Dashboard",
+    "retry": "Try Again",
+    "technicalDetails": "Technical Error Details"
+  }
+}

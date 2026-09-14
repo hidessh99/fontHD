@@ -1,8 +1,13 @@
+// ==============================================================================
+// GoVPN Monitor & System Telemetry Types
+// Synchronized with backendv2 Monitor & System Health Endpoints
+// ==============================================================================
+
 export type NodeStatus = "ONLINE" | "DEGRADED" | "OFFLINE" | "MAINTENANCE";
 
 export interface ServerTelemetry {
-  id: string;
-  server_id: string;
+  id: string | number;
+  server_id: string | number;
   server_name: string;
   ip_address: string;
   country: string;
@@ -36,4 +41,20 @@ export interface SystemHealthResponse {
     kubernetes: boolean;
     vpn_engine: boolean;
   };
+}
+
+export interface MonitorTarget {
+  id: string | number;
+  name: string;
+  host: string;
+  port?: number;
+  protocol: "ICMP" | "TCP" | "HTTP" | "GRPC";
+  interval_seconds: number;
+  alert_threshold_ms?: number;
+  status: NodeStatus;
+  last_ping_ms?: number;
+  last_check_at?: string;
+  is_active: boolean;
+  created_at: string;
+  updated_at?: string;
 }

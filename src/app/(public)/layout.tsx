@@ -1,6 +1,4 @@
-import React from "react";
-import { PublicNavbar } from "@/components/layout/PublicNavbar";
-import { PublicFooter } from "@/components/layout/PublicFooter";
+import { PublicNavbar, PublicFooter } from "@/components/layout/public";
 
 export default function PublicLayout({
   children,

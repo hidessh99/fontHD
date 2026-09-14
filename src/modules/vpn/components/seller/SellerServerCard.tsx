@@ -7,7 +7,7 @@
 "use client";
 
 import React from "react";
-import { Server, Globe, Trash2, Edit3 } from "lucide-react";
+import { Globe, Trash2, Edit3 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ServerPingBadge } from "@/components/shared/ServerPingBadge";
@@ -36,7 +36,9 @@ export function SellerServerCard({
             <CardTitle className="text-sm font-bold">{server.name}</CardTitle>
             <div className="flex items-center gap-1.5 text-xs text-muted-foreground mt-0.5 font-mono">
               <Globe className="size-3" />
-              <span>{server.country} ({server.ip})</span>
+              <span>
+                {server.country} ({server.ip})
+              </span>
             </div>
           </div>
         </div>
@@ -46,12 +48,20 @@ export function SellerServerCard({
       <CardContent className="space-y-3 pt-0">
         <div className="grid grid-cols-2 gap-2 text-xs font-mono p-2.5 rounded-xl bg-surface border border-border/50">
           <div>
-            <span className="text-[10px] text-muted-foreground uppercase block">Pengguna Aktif</span>
-            <span className="font-semibold text-foreground">{server.current_users} / {server.max_users}</span>
+            <span className="text-[10px] text-muted-foreground uppercase block">
+              Pengguna Aktif
+            </span>
+            <span className="font-semibold text-foreground">
+              {server.current_users} / {server.max_users}
+            </span>
           </div>
           <div>
-            <span className="text-[10px] text-muted-foreground uppercase block">Tipe Server</span>
-            <span className="font-semibold text-primary uppercase">{server.tier}</span>
+            <span className="text-[10px] text-muted-foreground uppercase block">
+              Tipe Server
+            </span>
+            <span className="font-semibold text-primary uppercase">
+              {server.tier}
+            </span>
           </div>
         </div>
 

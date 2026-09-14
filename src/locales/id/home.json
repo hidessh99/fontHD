@@ -1,0 +1,140 @@
+{
+  "seo": {
+    "title": "GoVPN - Akun Tunneling Aman & Cepat Premium",
+    "description": "Buka semua situs web, tingkatkan kecepatan internet Anda, dan jelajahi dengan aman menggunakan server berkualitas tinggi kami. Akun SSH, VMess, VLess, dan Trojan gratis dan premium."
+  },
+  "hero": {
+    "badge": "JARINGAN TUNNELING AMAN GLOBAL",
+    "titleLine1": "Mari Mulai untuk",
+    "titleLine2": "Kebebasan Berselancar",
+    "subtitle": "Buka semua situs web, tingkatkan kecepatan streaming & gaming Anda, dan jelajahi dengan aman menggunakan server premium berkualitas tinggi kami. Akun tunneling paling stabil untuk semua kebutuhan Anda.",
+    "ctaPrimary": "Buat Akun Sekarang",
+    "ctaSecondary": "Lihat Daftar Server"
+  },
+  "stats": {
+    "totalMembers": "Total Anggota",
+    "totalAccounts": "Total Akun",
+    "activeAccounts": "Akun Aktif",
+    "globalServers": "Server Global"
+  },
+  "floatingBadge": {
+    "label": "Status Jaringan",
+    "value": "99.9% Siap Beroperasi"
+  },
+  "features": {
+    "title": "Mengapa Memilih Layanan Kami?",
+    "subtitle": "Kami menyediakan berbagai fitur dan manfaat unggulan yang bisa Anda nikmati secara instan dengan akses gratis maupun VIP.",
+    "items": [
+      {
+        "title": "Server Berkualitas Tinggi",
+        "description": "Kami menggunakan server dedicated berspesifikasi tinggi untuk memastikan stabilitas dan performa tanpa hambatan."
+      },
+      {
+        "title": "Akses Bebas Tanpa Sensor",
+        "description": "Lewati semua pembatasan ISP dan buka semua situs web, streaming, dan aplikasi yang diblokir dengan mudah."
+      },
+      {
+        "title": "Jaringan Kecepatan Tinggi",
+        "description": "Rasakan kecepatan luar biasa dengan backbone jaringan 1 Gbps dan 10 Gbps Tier-1 Anycast kami."
+      },
+      {
+        "title": "Aman & Strict Zero-Logs",
+        "description": "Data Anda dienkripsi dengan protokol militer terbaru di RAM ephemeral. Kami tidak pernah menyimpan riwayat penjelajahan Anda."
+      },
+      {
+        "title": "Bayar Sesuai Kebutuhan",
+        "description": "Harga terjangkau dengan berbagai metode pembayaran otomatis instan (QRIS, VA, E-Wallet). Tanpa biaya tersembunyi."
+      },
+      {
+        "title": "Raih Penghasilan Mitra",
+        "description": "Bergabunglah dengan program reseller kami dan mulai dapatkan keuntungan dengan menjual akun premium serta API mandiri."
+      }
+    ]
+  },
+  "protocols": {
+    "title": "Layanan Protokol Premium yang Tersedia",
+    "subtitle": "Pilih protokol terbaik yang sesuai dengan perangkat, aplikasi client, dan kebutuhan jaringan Anda.",
+    "exploreAll": "Jelajahi Semua Server",
+    "items": [
+      {
+        "name": "SSH Tunneling",
+        "tagline": "Aman & Fleksibel",
+        "features": [
+          "Websocket TLS & NTLS",
+          "Dukungan Custom Payload",
+          "SlowDNS Anti-Blokir",
+          "Stabilitas Tinggi 24/7"
+        ],
+        "price": "Gratis / VIP"
+      },
+      {
+        "name": "V2Ray VMess",
+        "tagline": "Akselerasi Cloud CDN",
+        "features": [
+          "Websocket & gRPC Port 443",
+          "Dynamic Path Routing",
+          "Cloudflare Anycast CDN",
+          "Bypass DPI Tanpa Buffering"
+        ],
+        "price": "VIP Access"
+      },
+      {
+        "name": "VLess XTLS Reality",
+        "tagline": "Kecepatan Kernel Murni",
+        "features": [
+          "Protokol Reality Mutakhir",
+          "XTLS Vision 0-Hop TLS",
+          "Tanpa Butuh Domain Pribadi",
+          "Anti-Sensor Kebal Firewall"
+        ],
+        "price": "VIP Premium"
+      },
+      {
+        "name": "Trojan-GFW / Shadowsocks",
+        "tagline": "Kamuflase Web & Gaming",
+        "features": [
+          "Kamuflase Web Port 443",
+          "Latensi Gaming Terendah",
+          "Efisiensi Buffer UDP",
+          "Kompatibel Shadowrocket & Sing-box"
+        ],
+        "price": "VIP Premium"
+      }
+    ]
+  },
+  "trust": {
+    "title": "Dipercaya oleh Puluhan Ribu Pengguna",
+    "subtitle": "Keamanan terjamin, kecepatan terverifikasi, dan dukungan sistem otomatis 24 jam non-stop.",
+    "items": [
+      "Jaminan Uptime Server 99.9% dengan Redundansi BGP",
+      "Metode Pembayaran Instan Terverifikasi Otomatis",
+      "Proteksi Lanjutan Terhadap Serangan DDoS & DPI"
+    ],
+    "paymentsLabel": "Metode Pembayaran Otomatis",
+    "paymentsDescription": "Kami mendukung berbagai saluran pembayaran otomatis termasuk QRIS (GoPay, OVO, DANA, ShopeePay), Transfer Virtual Account Bank Nasional, dan USDT Crypto untuk aktivasi akun instan 3 detik."
+  },
+  "faq": {
+    "title": "Pertanyaan yang Sering Diajukan",
+    "subtitle": "Punya pertanyaan seputar layanan kami? Temukan jawabannya di bawah ini.",
+    "items": [
+      {
+        "question": "Bagaimana cara membuat dan mengaktifkan akun?",
+        "answer": "Cukup pilih protokol yang Anda inginkan (SSH, VMess, VLess, atau Trojan), pilih lokasi server terdekat, lalu klik Buat Akun. Akun Anda aktif secara instan dalam hitungan detik dan siap digunakan melalui QR code."
+      },
+      {
+        "question": "Apakah layanan ini berfungsi di semua ISP dan jaringan seluler?",
+        "answer": "Ya! Protokol kami dirancang khusus dengan teknologi anti-DPI dan masking TLS untuk melewati pembatasan ISP lokal maupun Wi-Fi publik di seluruh dunia."
+      },
+      {
+        "question": "Metode pembayaran apa saja yang didukung?",
+        "answer": "Kami menerima QRIS dari seluruh aplikasi perbankan dan e-wallet (DANA, OVO, GoPay, ShopeePay), Virtual Account Bank (BCA, Mandiri, BRI, BNI), serta Crypto USDT."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Siap Merasakan Kebebasan Berselancar Tanpa Batas?",
+    "subtitle": "Bergabunglah bersama ribuan pengguna aktif dan nikmati koneksi internet berkecepatan tinggi, bebas sensor, dan aman sekarang juga.",
+    "primaryButton": "Mulai Gratis Sekarang",
+    "secondaryButton": "Masuk ke Dashboard"
+  }
+}

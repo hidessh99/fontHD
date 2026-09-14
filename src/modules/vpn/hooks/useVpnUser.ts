@@ -7,7 +7,6 @@
 
 import { useEffect, useMemo } from "react";
 import { useVpnUserStore } from "../store/vpn-user.store";
-import { VpnProtocol } from "../types/vpn.types";
 import { vpnUserApi } from "../api/user.api";
 import { toast } from "sonner";
 

@@ -37,7 +37,9 @@ export function useVpnAccounts(initialProtocol?: VpnProtocol | string) {
     loadAccounts();
   }, [loadAccounts]);
 
-  const createAccount = async (dto: CreateVpnAccountDto): Promise<VpnAccount | null> => {
+  const createAccount = async (
+    dto: CreateVpnAccountDto,
+  ): Promise<VpnAccount | null> => {
     setIsMutating(true);
     try {
       const res = await vpnUserApi.createMonthAccount(dto);
@@ -56,20 +58,31 @@ export function useVpnAccounts(initialProtocol?: VpnProtocol | string) {
     }
   };
 
-  const renewAccount = async (accountId: number | string, days: number = 30): Promise<boolean> => {
+  const renewAccount = async (
+    accountId: number | string,
+    days: number = 30,
+  ): Promise<boolean> => {
     setIsMutating(true);
     try {
-      const res = await vpnUserApi.renewMonthAccount(accountId, { account_id: accountId, duration_days: days });
+      const res = await vpnUserApi.renewMonthAccount(accountId, {
+        account_id: accountId,
+        duration_days: days,
+      });
       if (res.payload) {
         toast.success("Akun VPN berhasil diperpanjang!");
         setAccounts((prev) =>
-          prev.map((acc) => (acc.id === accountId ? { ...acc, expired_at: res.payload!.expired_at } : acc)),
+          prev.map((acc) =>
+            acc.id === accountId
+              ? { ...acc, expired_at: res.payload!.expired_at }
+              : acc,
+          ),
         );
         return true;
       }
       return false;
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Gagal memperpanjang akun";
+      const msg =
+        err instanceof Error ? err.message : "Gagal memperpanjang akun";
       toast.error(msg);
       return false;
     } finally {
@@ -77,7 +90,9 @@ export function useVpnAccounts(initialProtocol?: VpnProtocol | string) {
     }
   };
 
-  const deleteAccount = async (accountId: number | string): Promise<boolean> => {
+  const deleteAccount = async (
+    accountId: number | string,
+  ): Promise<boolean> => {
     try {
       await vpnUserApi.deleteMonthAccount(accountId);
       toast.success("Akun VPN berhasil dihapus.");

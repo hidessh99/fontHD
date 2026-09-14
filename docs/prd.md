@@ -1,20 +1,23 @@
 # Product Requirements Document (PRD) — GoVPN Enterprise Platform
+
 **Platform:** GoVPN Web Client & Reseller/Admin Management Console  
 **Framework:** Next.js 16 (App Router + Turbopack), React 19, Bun, Tailwind CSS v4, Shadcn UI  
 **Target Backend:** GoVPN High-Performance Go Modular Microservices (388 Modern REST Endpoints)  
 **Document Status:** Production Ready (SSOT)  
-**Version:** 2.0.0  
+**Version:** 2.0.0
 
 ---
 
 ## 1. Executive Summary & Vision
 
 ### 1.1 Product Vision
+
 GoVPN is an ultra-modern, enterprise-grade cloud networking and digital infrastructure platform designed to democratize high-speed, censorship-resistant internet tunneling, autonomous Cloudflare DNS routing, containerized micro-applications, and OpenAI-compatible AI gateway access.
 
 Built on a unified **Tri-Role Architecture** (`USER`, `SELLER`, and `ADMIN`), GoVPN empowers individual privacy seekers, digital nomads, business resellers, and superadmin infrastructure teams to provision, manage, bill, and monitor thousands of high-speed VPN endpoints in seconds.
 
 ### 1.2 Core Business Value
+
 - **Zero-Friction Tunnel Provisioning:** 1-click generation, instant QR code rendering, and clipboard copy for 6 modern tunneling protocols (SSH/Dropbear, VMess, VLess Reality, Trojan-GFW, Shadowsocks, WireGuard).
 - **Multi-Tenant Wholesale Distribution (Reseller Hub):** Allows `SELLER` accounts to purchase discounted bulk quotas, set custom end-user margins, manage sub-tenants, and withdraw commissions.
 - **Autonomous Financial Settlement:** Dynamic QRIS generation (Midtrans/Tripay/Duitku/Xendit) with automated polling and sub-3-second ledger settlement.
@@ -24,13 +27,13 @@ Built on a unified **Tri-Role Architecture** (`USER`, `SELLER`, and `ADMIN`), Go
 
 ## 2. Tri-Role Actor Matrix & User Personas
 
-| Role Attribute | `USER` (Customer / Member) | `SELLER` (Reseller / Distributor) | `ADMIN` (Superadmin / Operator) |
-| :--- | :--- | :--- | :--- |
-| **Target Persona** | Digital nomad, gamer, privacy seeker needing fast & bypass-capable VPN. | ISP agent, reseller, agency providing VPNs to regional clients. | Lead devops, infrastructure engineer, platform owner. |
-| **Primary Goals** | Quick VPN account creation, low-ping node selection, easy QR scan, instant balance top-up. | Quota bulk purchase, custom tenant branding, sub-account management, profit withdrawal. | Global server node CRUD, financial ledger auditing, 40 automated cron tasks control, AI provider provisioning. |
-| **Access Scope** | Personal VPN accounts, own invoices, DNS records, AI playground, personal support tickets. | All user features + Reseller Portal, Tenant CRUD, Bulk Account Minting, Reseller Wallet, Commission Cashout. | Full system access: `/admin/*`, user balance adjustments, global server health, cron execution via `X-Cron-Key`. |
-| **Auth Boundary** | Standard Member JWT (`ROLE_USER`) | Reseller JWT (`ROLE_SELLER`) | Superadmin JWT (`ROLE_SUPERADMIN`) |
-| **Default Land Route** | `/dashboard` | `/dashboard` (with `/seller/*` unlocked) | `/admin/dashboard` |
+| Role Attribute         | `USER` (Customer / Member)                                                                 | `SELLER` (Reseller / Distributor)                                                                            | `ADMIN` (Superadmin / Operator)                                                                                  |
+| :--------------------- | :----------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------- |
+| **Target Persona**     | Digital nomad, gamer, privacy seeker needing fast & bypass-capable VPN.                    | ISP agent, reseller, agency providing VPNs to regional clients.                                              | Lead devops, infrastructure engineer, platform owner.                                                            |
+| **Primary Goals**      | Quick VPN account creation, low-ping node selection, easy QR scan, instant balance top-up. | Quota bulk purchase, custom tenant branding, sub-account management, profit withdrawal.                      | Global server node CRUD, financial ledger auditing, 40 automated cron tasks control, AI provider provisioning.   |
+| **Access Scope**       | Personal VPN accounts, own invoices, DNS records, AI playground, personal support tickets. | All user features + Reseller Portal, Tenant CRUD, Bulk Account Minting, Reseller Wallet, Commission Cashout. | Full system access: `/admin/*`, user balance adjustments, global server health, cron execution via `X-Cron-Key`. |
+| **Auth Boundary**      | Standard Member JWT (`ROLE_USER`)                                                          | Reseller JWT (`ROLE_SELLER`)                                                                                 | Superadmin JWT (`ROLE_SUPERADMIN`)                                                                               |
+| **Default Land Route** | `/dashboard`                                                                               | `/dashboard` (with `/seller/*` unlocked)                                                                     | `/admin/dashboard`                                                                                               |
 
 ---
 
@@ -54,7 +57,8 @@ Built on a unified **Tri-Role Architecture** (`USER`, `SELLER`, and `ADMIN`), Go
 ---
 
 ### Epic 1: Identity & Access Management (IAM)
-*Mapped to `05-iam` (48 routes)*
+
+_Mapped to `05-iam` (48 routes)_
 
 1. **Self-Service Authentication:**
    - User registration (`POST /api/auth/register`), multi-factor login (`POST /api/auth/login`), password recovery (`POST /api/auth/forgot-password`).
@@ -71,7 +75,8 @@ Built on a unified **Tri-Role Architecture** (`USER`, `SELLER`, and `ADMIN`), Go
 ---
 
 ### Epic 2: Multi-Protocol VPN Fleet & Tunnel Provisioning
-*Mapped to `11-vpn` (83 routes)*
+
+_Mapped to `11-vpn` (83 routes)_
 
 1. **Protocol Engine Coverage:**
    - Full support for:
@@ -94,7 +99,8 @@ Built on a unified **Tri-Role Architecture** (`USER`, `SELLER`, and `ADMIN`), Go
 ---
 
 ### Epic 3: High-Velocity Automated Finance & Billing
-*Mapped to `04-finance` (49 routes)*
+
+_Mapped to `04-finance` (49 routes)_
 
 1. **Real-Time Payment Gateways:**
    - Support for **QRIS Instant** (BCA, GoPay, Mandiri, OVO, ShopeePay, Dana, LinkAja) via Midtrans / Tripay / Duitku.
@@ -112,7 +118,8 @@ Built on a unified **Tri-Role Architecture** (`USER`, `SELLER`, and `ADMIN`), Go
 ---
 
 ### Epic 4: Cloudflare DNS Zone & Host Pointing
-*Mapped to `03-dns` (18 routes)*
+
+_Mapped to `03-dns` (18 routes)_
 
 1. **Domain Zone Sync:**
    - Direct integration with Cloudflare API via Go backend.
@@ -126,7 +133,8 @@ Built on a unified **Tri-Role Architecture** (`USER`, `SELLER`, and `ADMIN`), Go
 ---
 
 ### Epic 5: Enterprise AI Model Gateway & Token Playground
-*Mapped to `01-ai` (35 routes)*
+
+_Mapped to `01-ai` (35 routes)_
 
 1. **Unified AI Routing:**
    - Proxy access to OpenAI, Anthropic, Google Gemini, DeepSeek, and Groq via standardized `/api/ai/v1/*` endpoint.
@@ -139,7 +147,8 @@ Built on a unified **Tri-Role Architecture** (`USER`, `SELLER`, and `ADMIN`), Go
 ---
 
 ### Epic 6: Kubernetes Micro-Container App Orchestration
-*Mapped to `06-kubernetes` (18 routes)*
+
+_Mapped to `06-kubernetes` (18 routes)_
 
 1. **Template-Driven App Deployment:**
    - Pre-configured deployment templates (`GET /api/kubernetes/templates`): Shadowsocks-Rust, WireGuard-Easy, Sing-Box Node, AdGuard Home, Speedtest Tracker.
@@ -152,7 +161,8 @@ Built on a unified **Tri-Role Architecture** (`USER`, `SELLER`, and `ADMIN`), Go
 ---
 
 ### Epic 7: Subscription & Multi-Tenant Reseller Hierarchy
-*Mapped to `09-subscription` (40 routes)*
+
+_Mapped to `09-subscription` (40 routes)_
 
 1. **Tiered Pricing Matrix:**
    - Visual tier comparison (`GET /api/plan`): Member, Reseller Silver, Reseller Gold, Enterprise Partner.
@@ -164,7 +174,8 @@ Built on a unified **Tri-Role Architecture** (`USER`, `SELLER`, and `ADMIN`), Go
 ---
 
 ### Epic 8: Support Desk & Customer Communication
-*Mapped to `10-support` (21 routes)*
+
+_Mapped to `10-support` (21 routes)_
 
 1. **Ticketing Pipeline:**
    - Ticket creation (`POST /api/ticket`) categorized by: Billing, VPN Connection, Server Node Issue, Reseller Inquiry.
@@ -176,7 +187,8 @@ Built on a unified **Tri-Role Architecture** (`USER`, `SELLER`, and `ADMIN`), Go
 ---
 
 ### Epic 9: Superadmin Core, Node Health & 40 Cron Tasks
-*Mapped to `00-health`, `07-monitor`, `12-cronjob` (51 routes)*
+
+_Mapped to `00-health`, `07-monitor`, `12-cronjob` (51 routes)_
 
 1. **Global Server Node CRUD:**
    - Admin server management (`/api/admin/servers`, `/api/admin/monitor`): Add new physical/VPS nodes, configure IP, location, flags, maximum bandwidth, and port bindings.
@@ -191,12 +203,14 @@ Built on a unified **Tri-Role Architecture** (`USER`, `SELLER`, and `ADMIN`), Go
 ## 4. Non-Functional Requirements (NFRs)
 
 ### 4.1 Security & Zero-Trust Architecture
+
 - **JWT Protection:** All sensitive tokens stored exclusively in `httpOnly` secure cookies.
 - **Content Security Policy (CSP):** Strict script-src and connect-src directives preventing unauthorized external socket injection.
 - **Edge Route Protection:** All member, seller, and admin routes guarded at the edge runtime via `src/proxy.ts` (0ms FOUC).
 - **Sensitive Credential Camouflage:** Passwords and private keys masked by default with reveal/hide toggle buttons.
 
 ### 4.2 Performance & Reliability Benchmarks
+
 - **Core Web Vitals:**
   - **LCP (Largest Contentful Paint):** $\le 1.2\text{ s}$
   - **INP (Interaction to Next Paint):** $\le 100\text{ ms}$
@@ -206,6 +220,7 @@ Built on a unified **Tri-Role Architecture** (`USER`, `SELLER`, and `ADMIN`), Go
 - **Build Guard:** Zero build freezes on developer/production machines.
 
 ### 4.3 Design System & Accessibility
+
 - **Design Tokens:** Strict alignment with Shadcn UI and Cobalt Tactical dark design palette.
 - **Accessibility:** WCAG 2.1 Level AA compliance, full keyboard navigation for Cmd+K search and modal dialogs.
 - **Localization:** 100% string coverage across English (`en`) and Indonesian (`id`).

@@ -34,7 +34,9 @@ export function RenewAccountDialog({
   const [selectedDuration, setSelectedDuration] = useState<number>(30);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const optimisticRenewAccount = useVpnUserStore((s) => s.optimisticRenewAccount);
+  const optimisticRenewAccount = useVpnUserStore(
+    (s) => s.optimisticRenewAccount,
+  );
 
   const handleRenew = async () => {
     if (!accountId) return;
@@ -43,7 +45,9 @@ export function RenewAccountDialog({
     const result = await optimisticRenewAccount(accountId, selectedDuration);
 
     if (result.success) {
-      toast.success(`Masa aktif akun berhasil diperpanjang ${selectedDuration} hari!`);
+      toast.success(
+        `Masa aktif akun berhasil diperpanjang ${selectedDuration} hari!`,
+      );
       onClose();
     } else {
       toast.error(result.error || "Gagal memperpanjang masa aktif akun.");
@@ -110,11 +114,13 @@ export function RenewAccountDialog({
             >
               {isSubmitting ? (
                 <>
-                  <Loader2 className="mr-1.5 size-3.5 animate-spin" /> Memproses...
+                  <Loader2 className="mr-1.5 size-3.5 animate-spin" />{" "}
+                  Memproses...
                 </>
               ) : (
                 <>
-                  <RefreshCw className="mr-1.5 size-3.5" /> Konfirmasi Perpanjang
+                  <RefreshCw className="mr-1.5 size-3.5" /> Konfirmasi
+                  Perpanjang
                 </>
               )}
             </Button>

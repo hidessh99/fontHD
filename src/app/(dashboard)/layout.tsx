@@ -1,7 +1,16 @@
-import React from "react";
-import { MemberRouteGuard } from "@/components/layout/shared/MemberRouteGuard";
-import { DashboardSidebar } from "@/components/layout/DashboardSidebar";
-import { DashboardHeader } from "@/components/layout/DashboardHeader";
+import type { Metadata } from "next";
+import {
+  MemberRouteGuard,
+  DashboardSidebar,
+  DashboardHeader,
+} from "@/components/layout/user";
+
+export const metadata: Metadata = {
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default function DashboardLayout({
   children,

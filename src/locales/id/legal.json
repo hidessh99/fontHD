@@ -1,0 +1,30 @@
+{
+  "termsBadge": "Ketentuan Layanan & SLA",
+  "termsTitle": "Syarat & Ketentuan Layanan (Terms of Service)",
+  "termsSubtitle": "Perjanjian hukum mengikat antara pengguna dan Hide Group mengenai hak, kewajiban, tata kelola tunneling, serta batasan operasional infrastruktur GoVPN.",
+  "termsLastUpdated": "Terakhir diperbarui: 14 September 2026",
+  "termsIntro": "Dengan mendaftar, mengaktifkan akun, atau memanfaatkan infrastruktur tunneling GoVPN yang dikelola oleh Hide Group, Anda menyatakan telah membaca, memahami, dan menyetujui seluruh ketentuan layanan berikut.",
+
+  "privacyBadge": "Kepatuhan Privasi & Zero-Logs",
+  "privacyTitle": "Kebijakan Privasi (Privacy Policy)",
+  "privacySubtitle": "Jaminan perlindungan data pribadi, arsitektur RAM-only tanpa penyimpanan log aktivitas, serta kepatuhan penuh terhadap UU PDP No. 27/2022 dan prinsip GDPR.",
+  "privacyLastUpdated": "Terakhir diperbarui: 14 September 2026",
+  "privacyIntro": "Hide Group ('kami', 'GoVPN') berkomitmen melindungi privasi mutlak setiap pengguna infrastruktur kami. Kebijakan ini menjelaskan transparansi arsitektur zero-logs dan pemrosesan data minimal yang diperlukan untuk otentikasi sesi.",
+
+  "companyInfoTitle": "Identitas Resmi Pengelola Infrastruktur",
+  "companyName": "Hide Group / Hide Digital Security",
+  "companyAddress": "Jl. Kampung Baris No.391, Karangturi, Kec. Semarang Tim., Kota Semarang, Jawa Tengah 50124",
+  "companyEmail": "support@hidessh.com",
+  "companyEmailAlt": "dmaskurniawan56@gmail.com",
+  "companyPhone": "0877111301818",
+  "providerLabel": "Penyedia Infrastruktur",
+  "operatorLabel": "Badan Pengelola",
+  "emailLabel": "Email Resmi",
+  "phoneLabel": "WhatsApp / Hotline",
+  "addressLabel": "Alamat Operasional",
+  "quickNavTitle": "Daftar Pasal & Regulasi",
+  "contactDpoTitle": "Kontak Perlindungan Data & Kepatuhan",
+  "contactDpoDesc": "Jika Anda memiliki pertanyaan kepatuhan hukum, permohonan hak subjek data (UU PDP / GDPR), atau laporan penyalahgunaan jaringan, hubungi tim kami:",
+  "readFullPolicy": "Baca Kebijakan Lengkap",
+  "backToTop": "Kembali ke Atas"
+}

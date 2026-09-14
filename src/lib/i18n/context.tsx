@@ -8,21 +8,41 @@ import { Locale, DEFAULT_LOCALE } from "./config";
 import idCommon from "@/locales/id/common.json";
 import idAuth from "@/locales/id/auth.json";
 import idVpn from "@/locales/id/vpn.json";
+import idLanding from "@/locales/id/landing.json";
+import idLegal from "@/locales/id/legal.json";
+import idAbout from "@/locales/id/about.json";
+import idContact from "@/locales/id/contact.json";
+import idHome from "@/locales/id/home.json";
 
 import enCommon from "@/locales/en/common.json";
 import enAuth from "@/locales/en/auth.json";
 import enVpn from "@/locales/en/vpn.json";
+import enLanding from "@/locales/en/landing.json";
+import enLegal from "@/locales/en/legal.json";
+import enAbout from "@/locales/en/about.json";
+import enContact from "@/locales/en/contact.json";
+import enHome from "@/locales/en/home.json";
 
 const dictionaries: Record<Locale, Record<string, unknown>> = {
   id: {
     common: idCommon,
     auth: idAuth,
     vpn: idVpn,
+    landing: idLanding,
+    legal: idLegal,
+    about: idAbout,
+    contact: idContact,
+    home: idHome,
   },
   en: {
     common: enCommon,
     auth: enAuth,
     vpn: enVpn,
+    landing: enLanding,
+    legal: enLegal,
+    about: enAbout,
+    contact: enContact,
+    home: enHome,
   },
 };
 

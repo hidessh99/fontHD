@@ -1,8 +1,14 @@
+// ==============================================================================
+// GoVPN Server Telemetry Hook
+// Part of Pola C: hooks/useServerTelemetry.ts
+// Real-time Fleet Telemetry with Adaptive Polling & Focus Detection
+// ==============================================================================
+
 "use client";
 
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { monitorApi } from "../api/monitor.api";
-import type { ServerTelemetry, NodeStatus } from "../types/monitor.types";
+import { monitorUserApi } from "../api/user.api";
+import type { ServerTelemetry } from "../types/monitor.types";
 
 const MOCK_TELEMETRY: ServerTelemetry[] = [
   {
@@ -93,7 +99,7 @@ export function useServerTelemetry() {
   const fetchTelemetry = useCallback(async (silent = false) => {
     if (!silent) setLoading(true);
     try {
-      const res = await monitorApi.getMonitors();
+      const res = await monitorUserApi.getMonitors();
       const list = res.payload || res.data || [];
       setTelemetry(list.length > 0 ? list : MOCK_TELEMETRY);
     } catch {
@@ -105,18 +111,30 @@ export function useServerTelemetry() {
 
   useEffect(() => {
     fetchTelemetry();
-    const interval = setInterval(() => {
-      fetchTelemetry(true);
-    }, 10000);
-    return () => clearInterval(interval);
+
+    // Adaptive Polling: 10s when active, 45s when tab backgrounded
+    let timer: NodeJS.Timeout;
+    const scheduleNext = () => {
+      const delay =
+        typeof document !== "undefined" && document.hidden ? 45000 : 10000;
+      timer = setTimeout(() => {
+        fetchTelemetry(true).finally(scheduleNext);
+      }, delay);
+    };
+
+    scheduleNext();
+
+    return () => clearTimeout(timer);
   }, [fetchTelemetry]);
 
   const filteredNodes = useMemo(() => {
     return telemetry.filter((node) => {
       const matchesCountry =
-        filterCountry === "ALL" || node.country.toLowerCase() === filterCountry.toLowerCase();
+        filterCountry === "ALL" ||
+        node.country.toLowerCase() === filterCountry.toLowerCase();
       const matchesStatus =
-        filterStatus === "ALL" || node.status.toLowerCase() === filterStatus.toLowerCase();
+        filterStatus === "ALL" ||
+        node.status.toLowerCase() === filterStatus.toLowerCase();
       const matchesSearch =
         searchQuery === "" ||
         node.server_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -130,10 +148,17 @@ export function useServerTelemetry() {
   const stats = useMemo(() => {
     const totalNodes = telemetry.length;
     const onlineNodes = telemetry.filter((n) => n.status === "ONLINE").length;
-    const totalUsers = telemetry.reduce((sum, n) => sum + (n.active_sessions || 0), 0);
-    const avgPing = totalNodes > 0
-      ? Math.round(telemetry.reduce((sum, n) => sum + (n.ping_ms || 0), 0) / totalNodes)
-      : 0;
+    const totalUsers = telemetry.reduce(
+      (sum, n) => sum + (n.active_sessions || 0),
+      0,
+    );
+    const avgPing =
+      totalNodes > 0
+        ? Math.round(
+            telemetry.reduce((sum, n) => sum + (n.ping_ms || 0), 0) /
+              totalNodes,
+          )
+        : 0;
 
     return { totalNodes, onlineNodes, totalUsers, avgPing };
   }, [telemetry]);
