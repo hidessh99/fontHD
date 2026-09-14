@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -18,10 +18,13 @@ import {
   ChevronDown,
   LogOut,
   ChevronRight,
+  BookOpen,
+  Building2,
+  ShieldAlert,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
-import { clearAllAuthStorage } from "@/lib/storage/cookies";
+import { clearAllAuthStorage, getCookie } from "@/lib/storage/cookies";
 
 interface NavItem {
   title: string;
@@ -78,7 +81,7 @@ const navItems: NavItem[] = [
   },
   {
     title: "Kubernetes Apps",
-    href: "/k8s",
+    href: "/kubernetes",
     icon: Box,
   },
   {
@@ -90,6 +93,11 @@ const navItems: NavItem[] = [
     title: "Bantuan & CS",
     href: "/support",
     icon: HelpCircle,
+  },
+  {
+    title: "Pusat Panduan",
+    href: "/articles",
+    icon: BookOpen,
   },
   {
     title: "Pengaturan & API",
@@ -109,6 +117,12 @@ export function DashboardSidebar({ className, onCloseMobile }: DashboardSidebarP
     "VPN Protocols": true,
     "Billing & Saldo": false,
   });
+  const [userRole, setUserRole] = useState<string>("");
+
+  useEffect(() => {
+    const role = (getCookie("govpn_user_role") || "").toUpperCase();
+    setUserRole(role);
+  }, []);
 
   const toggleGroup = (title: string) => {
     setOpenGroups((prev) => ({ ...prev, [title]: !prev[title] }));
@@ -119,15 +133,22 @@ export function DashboardSidebar({ className, onCloseMobile }: DashboardSidebarP
     window.location.href = "/login";
   };
 
+  const isSeller =
+    userRole === "SELLER" ||
+    userRole === "RESELLER" ||
+    userRole === "ADMIN" ||
+    userRole === "SUPERADMIN";
+  const isAdmin = userRole === "ADMIN" || userRole === "SUPERADMIN";
+
   return (
     <aside
       className={cn(
         "flex h-full w-64 flex-col border-r border-border/80 bg-sidebar text-sidebar-foreground",
-        className,
+        className
       )}
     >
       {/* Brand Header */}
-      <div className="flex h-16 items-center justify-between border-b border-sidebar-border px-5">
+      <div className="flex h-16 items-center justify-between border-b border-sidebar-border px-5 shrink-0">
         <Link href="/dashboard" className="flex items-center gap-2.5">
           <div className="flex size-9 items-center justify-center rounded-xl bg-primary/10 border border-primary/30 text-primary">
             <Shield className="size-5" />
@@ -151,6 +172,7 @@ export function DashboardSidebar({ className, onCloseMobile }: DashboardSidebarP
         {navItems.map((item) => {
           const isActive =
             pathname === item.href ||
+            (item.href === "/kubernetes" && pathname === "/k8s") ||
             (item.subItems && item.subItems.some((sub) => pathname === sub.href));
           const hasSub = !!item.subItems && item.subItems.length > 0;
           const isExpanded = openGroups[item.title] ?? false;
@@ -165,7 +187,7 @@ export function DashboardSidebar({ className, onCloseMobile }: DashboardSidebarP
                     "flex w-full items-center justify-between rounded-xl px-3 py-2 text-xs font-semibold transition-all duration-150",
                     isActive
                       ? "bg-primary/10 text-primary"
-                      : "text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground",
+                      : "text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground"
                   )}
                 >
                   <div className="flex items-center gap-2.5">
@@ -193,7 +215,7 @@ export function DashboardSidebar({ className, onCloseMobile }: DashboardSidebarP
                     "flex items-center justify-between rounded-xl px-3 py-2 text-xs font-semibold transition-all duration-150",
                     isActive
                       ? "bg-primary text-primary-foreground shadow-sm shadow-primary/20"
-                      : "text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground",
+                      : "text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground"
                   )}
                 >
                   <div className="flex items-center gap-2.5">
@@ -205,7 +227,7 @@ export function DashboardSidebar({ className, onCloseMobile }: DashboardSidebarP
                       variant="outline"
                       className={cn(
                         "text-[9px] px-1.5 py-0 border-none font-mono",
-                        isActive ? "bg-white/20 text-white" : "bg-primary/10 text-primary",
+                        isActive ? "bg-white/20 text-white" : "bg-primary/10 text-primary"
                       )}
                     >
                       {item.badge}
@@ -228,7 +250,7 @@ export function DashboardSidebar({ className, onCloseMobile }: DashboardSidebarP
                           "block rounded-lg px-2.5 py-1.5 text-xs transition-colors",
                           isSubActive
                             ? "bg-primary text-primary-foreground font-semibold"
-                            : "text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground",
+                            : "text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground"
                         )}
                       >
                         {sub.title}
@@ -242,8 +264,28 @@ export function DashboardSidebar({ className, onCloseMobile }: DashboardSidebarP
         })}
       </nav>
 
-      {/* Footer / User Session Action */}
-      <div className="border-t border-sidebar-border p-3">
+      {/* Footer / Cross-Portal Switcher & Logout */}
+      <div className="border-t border-sidebar-border p-3 space-y-1.5 shrink-0">
+        {isSeller && (
+          <Link
+            href="/seller/vpn"
+            className="flex w-full items-center gap-2 rounded-xl px-3 py-1.5 text-xs font-semibold text-amber-500 hover:bg-amber-500/10 transition-colors"
+          >
+            <Building2 className="size-4 text-amber-500" />
+            <span>Portal Partner / Reseller</span>
+          </Link>
+        )}
+
+        {isAdmin && (
+          <Link
+            href="/admin/dashboard"
+            className="flex w-full items-center gap-2 rounded-xl px-3 py-1.5 text-xs font-semibold text-rose-400 hover:bg-rose-500/10 transition-colors"
+          >
+            <ShieldAlert className="size-4 text-rose-400" />
+            <span>Superadmin Console</span>
+          </Link>
+        )}
+
         <button
           type="button"
           onClick={handleLogout}

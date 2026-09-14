@@ -1,6 +1,6 @@
 // ==============================================================================
-// GoVPN Thin App Router: Seller Subscription Management
-// Algoritma 4: Dynamic Island Route Splitting with CLS = 0 Suspense Boundary
+// GoVPN App Router: /seller/subscription
+// Implements Algorithm 4: Dynamic Island Route Splitting on Thin Server Component
 // ==============================================================================
 
 import { Metadata } from "next";

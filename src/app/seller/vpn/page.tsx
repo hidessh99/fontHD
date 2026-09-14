@@ -8,6 +8,11 @@ import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { VpnProtocolSkeleton } from "@/modules/vpn/components/shared/VpnProtocolSkeleton";
 
+export const metadata: Metadata = {
+  title: "Reseller & Partner VPN Hub | GoVPN",
+  description: "Manajemen kuota lisensi grosir dan armada server reseller.",
+};
+
 const SellerVpnOverviewView = dynamic(
   () =>
     import("@/modules/vpn/views/seller/SellerVpnOverviewView").then(
@@ -17,11 +22,6 @@ const SellerVpnOverviewView = dynamic(
     loading: () => <VpnProtocolSkeleton />,
   }
 );
-
-export const metadata: Metadata = {
-  title: "Reseller & Partner VPN Hub | GoVPN",
-  description: "Manajemen kuota lisensi grosir dan armada server reseller.",
-};
 
 export default function SellerVpnPage() {
   return (

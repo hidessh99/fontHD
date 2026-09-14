@@ -13,54 +13,60 @@ import {
   Settings,
   ArrowLeft,
   LayoutDashboard,
+  Globe,
+  Bot,
+  Layers,
+  HelpCircle,
+  Bell,
+  Activity,
+  Building2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 
-interface AdminNavItem {
-  title: string;
-  href: string;
-  icon: React.ComponentType<{ className?: string }>;
-  badge?: string;
+interface AdminNavGroup {
+  groupTitle: string;
+  items: Array<{
+    title: string;
+    href: string;
+    icon: React.ComponentType<{ className?: string }>;
+    badge?: string;
+  }>;
 }
 
-const adminNavItems: AdminNavItem[] = [
+const adminNavGroups: AdminNavGroup[] = [
   {
-    title: "Admin Overview",
-    href: "/admin/dashboard",
-    icon: LayoutDashboard,
+    groupTitle: "Core Infrastructure",
+    items: [
+      { title: "Dashboard Overview", href: "/admin/dashboard", icon: LayoutDashboard },
+      { title: "Server Node Fleet", href: "/admin/servers", icon: Server, badge: "Fleet" },
+      { title: "Kubernetes Apps", href: "/admin/kubernetes", icon: Box },
+      { title: "System Health", href: "/admin/monitor", icon: Activity },
+      { title: "Cronjob Scheduler", href: "/admin/cron", icon: Clock, badge: "40 Tasks" },
+    ],
   },
   {
-    title: "Server Node Manager",
-    href: "/admin/servers",
-    icon: Server,
-    badge: "CRUD",
+    groupTitle: "Security & Network",
+    items: [
+      { title: "Pengguna & IAM", href: "/admin/users", icon: Users },
+      { title: "DNS Cloudflare", href: "/admin/dns", icon: Globe },
+      { title: "AI Gateway Engine", href: "/admin/ai", icon: Bot },
+    ],
   },
   {
-    title: "Pengguna & Saldo",
-    href: "/admin/users",
-    icon: Users,
+    groupTitle: "Finance & Commercial",
+    items: [
+      { title: "Ledger Finansial", href: "/admin/finance", icon: CreditCard },
+      { title: "Paket & Langganan", href: "/admin/subscription", icon: Layers },
+      { title: "Helpdesk & Tiket", href: "/admin/support", icon: HelpCircle },
+    ],
   },
   {
-    title: "Ledger Finansial",
-    href: "/admin/finance",
-    icon: CreditCard,
-  },
-  {
-    title: "Cronjob Scheduler",
-    href: "/admin/cron",
-    icon: Clock,
-    badge: "40 Tasks",
-  },
-  {
-    title: "Kubernetes Clusters",
-    href: "/admin/k8s",
-    icon: Box,
-  },
-  {
-    title: "System Config",
-    href: "/admin/settings",
-    icon: Settings,
+    groupTitle: "Communications & CMS",
+    items: [
+      { title: "Antrean Siaran", href: "/admin/notifications", icon: Bell },
+      { title: "CMS & Setting Sistem", href: "/admin/content", icon: Settings },
+    ],
   },
 ];
 
@@ -76,11 +82,11 @@ export function AdminSidebar({ className, onCloseMobile }: AdminSidebarProps) {
     <aside
       className={cn(
         "flex h-full w-64 flex-col border-r border-rose-500/20 bg-sidebar text-sidebar-foreground",
-        className,
+        className
       )}
     >
       {/* Brand Header */}
-      <div className="flex h-16 items-center justify-between border-b border-rose-500/20 px-5">
+      <div className="flex h-16 items-center justify-between border-b border-rose-500/20 px-5 shrink-0">
         <Link href="/admin/dashboard" className="flex items-center gap-2.5">
           <div className="flex size-9 items-center justify-center rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400">
             <ShieldAlert className="size-5" />
@@ -103,60 +109,74 @@ export function AdminSidebar({ className, onCloseMobile }: AdminSidebarProps) {
       </div>
 
       {/* Navigation List */}
-      <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-4">
-        <div className="px-3 pb-2 text-[10px] font-mono uppercase tracking-wider text-muted-foreground">
-          Core Administration
-        </div>
-        {adminNavItems.map((item) => {
-          const isActive = pathname === item.href;
+      <nav className="flex-1 space-y-4 overflow-y-auto px-3 py-3">
+        {adminNavGroups.map((group) => (
+          <div key={group.groupTitle} className="space-y-1">
+            <div className="px-3 pb-1 text-[10px] font-mono uppercase tracking-wider text-muted-foreground">
+              {group.groupTitle}
+            </div>
+            {group.items.map((item) => {
+              const isActive =
+                pathname === item.href ||
+                (item.href === "/admin/kubernetes" && pathname === "/admin/k8s") ||
+                (item.href === "/admin/content" && pathname === "/admin/settings");
 
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={onCloseMobile}
-              className={cn(
-                "flex items-center justify-between rounded-xl px-3 py-2 text-xs font-semibold transition-all duration-150",
-                isActive
-                  ? "bg-rose-500 text-white shadow-sm shadow-rose-500/25"
-                  : "text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground",
-              )}
-            >
-              <div className="flex items-center gap-2.5">
-                <item.icon
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={onCloseMobile}
                   className={cn(
-                    "size-4",
-                    isActive ? "text-white" : "text-muted-foreground",
-                  )}
-                />
-                <span>{item.title}</span>
-              </div>
-              {item.badge && (
-                <Badge
-                  variant="outline"
-                  className={cn(
-                    "text-[9px] px-1.5 py-0 border-none font-mono",
+                    "flex items-center justify-between rounded-xl px-3 py-1.5 text-xs font-semibold transition-all duration-150",
                     isActive
-                      ? "bg-white/20 text-white"
-                      : "bg-rose-500/10 text-rose-400",
+                      ? "bg-rose-500 text-white shadow-sm shadow-rose-500/25"
+                      : "text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground"
                   )}
                 >
-                  {item.badge}
-                </Badge>
-              )}
-            </Link>
-          );
-        })}
+                  <div className="flex items-center gap-2.5">
+                    <item.icon
+                      className={cn(
+                        "size-4",
+                        isActive ? "text-white" : "text-muted-foreground"
+                      )}
+                    />
+                    <span>{item.title}</span>
+                  </div>
+                  {item.badge && (
+                    <Badge
+                      variant="outline"
+                      className={cn(
+                        "text-[9px] px-1.5 py-0 border-none font-mono",
+                        isActive
+                          ? "bg-white/20 text-white"
+                          : "bg-rose-500/10 text-rose-400"
+                      )}
+                    >
+                      {item.badge}
+                    </Badge>
+                  )}
+                </Link>
+              );
+            })}
+          </div>
+        ))}
       </nav>
 
-      {/* Switch to Member Dashboard */}
-      <div className="border-t border-rose-500/20 p-3">
+      {/* Cross-Portal Switchers */}
+      <div className="border-t border-rose-500/20 p-2.5 space-y-1 shrink-0">
+        <Link
+          href="/seller/vpn"
+          className="flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-xs font-medium text-amber-400 hover:bg-amber-500/10 transition-colors"
+        >
+          <Building2 className="size-3.5" />
+          <span>Buka Partner Portal</span>
+        </Link>
         <Link
           href="/dashboard"
-          className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-medium text-muted-foreground hover:bg-sidebar-accent hover:text-foreground transition-colors"
+          className="flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-xs font-medium text-muted-foreground hover:bg-sidebar-accent hover:text-foreground transition-colors"
         >
-          <ArrowLeft className="size-4" />
-          <span>Kembali ke Console Member</span>
+          <ArrowLeft className="size-3.5" />
+          <span>Kembali ke Member Console</span>
         </Link>
       </div>
     </aside>

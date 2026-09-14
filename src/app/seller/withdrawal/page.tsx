@@ -8,6 +8,11 @@ import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { FinanceSkeleton } from "@/modules/finance/components/shared/FinanceSkeleton";
 
+export const metadata: Metadata = {
+  title: "Pencairan Komisi Reseller | GoVPN",
+  description: "Kelola saldo komisi reseller dan ajukan pencairan ke rekening bank",
+};
+
 const SellerWithdrawalView = dynamic(
   () =>
     import("@/modules/finance/views/seller/SellerWithdrawalView").then(
@@ -17,11 +22,6 @@ const SellerWithdrawalView = dynamic(
     loading: () => <FinanceSkeleton />,
   }
 );
-
-export const metadata: Metadata = {
-  title: "Pencairan Komisi Reseller | GoVPN",
-  description: "Kelola saldo komisi reseller dan ajukan pencairan ke rekening bank",
-};
 
 export default function SellerWithdrawalPage() {
   return (
