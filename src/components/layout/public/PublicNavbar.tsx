@@ -159,7 +159,7 @@ export function PublicNavbar() {
 
           <Link
             href="/seller"
-            className="text-amber-500/90 hover:text-amber-500 font-semibold flex items-center gap-1.5 transition-colors"
+            className="text-amber-700 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-300 font-semibold flex items-center gap-1.5 transition-colors"
           >
             <Sparkles className="size-3.5" />
             <span>{t("landing.nav.reseller")}</span>
@@ -274,7 +274,7 @@ export function PublicNavbar() {
             <Link
               href="/seller"
               onClick={() => setMobileMenuOpen(false)}
-              className="block text-sm font-semibold text-amber-500 px-2 py-1.5 rounded-lg hover:bg-amber-500/10"
+              className="block text-sm font-semibold text-amber-700 dark:text-amber-400 px-2 py-1.5 rounded-lg hover:bg-amber-500/10"
             >
               {t("landing.nav.reseller")}
             </Link>

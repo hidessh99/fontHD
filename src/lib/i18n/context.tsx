@@ -12,6 +12,7 @@ import idLanding from "@/locales/id/landing.json";
 import idLegal from "@/locales/id/legal.json";
 import idAbout from "@/locales/id/about.json";
 import idContact from "@/locales/id/contact.json";
+import idHome from "@/locales/id/home.json";
 
 import enCommon from "@/locales/en/common.json";
 import enAuth from "@/locales/en/auth.json";
@@ -20,6 +21,7 @@ import enLanding from "@/locales/en/landing.json";
 import enLegal from "@/locales/en/legal.json";
 import enAbout from "@/locales/en/about.json";
 import enContact from "@/locales/en/contact.json";
+import enHome from "@/locales/en/home.json";
 
 const dictionaries: Record<Locale, Record<string, unknown>> = {
   id: {
@@ -30,6 +32,7 @@ const dictionaries: Record<Locale, Record<string, unknown>> = {
     legal: idLegal,
     about: idAbout,
     contact: idContact,
+    home: idHome,
   },
   en: {
     common: enCommon,
@@ -39,6 +42,7 @@ const dictionaries: Record<Locale, Record<string, unknown>> = {
     legal: enLegal,
     about: enAbout,
     contact: enContact,
+    home: enHome,
   },
 };
 

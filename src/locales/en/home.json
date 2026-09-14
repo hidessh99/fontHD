@@ -1,0 +1,140 @@
+{
+  "seo": {
+    "title": "GoVPN - Premium Fast & Secure Cloud Tunneling Accounts",
+    "description": "Unlock all websites, boost your streaming and gaming speed, and surf safely with our high-quality servers. Free and VIP SSH, VMess, VLess, and Trojan accounts."
+  },
+  "hero": {
+    "badge": "GLOBAL SECURE TUNNELING NETWORK",
+    "titleLine1": "Let's Get Started for",
+    "titleLine2": "Freedom Surfing",
+    "subtitle": "Unlock all websites, boost your internet speed, and surf safely with our high-quality premium servers. We provide the most stable tunneling accounts for all your streaming, gaming, and privacy needs.",
+    "ctaPrimary": "Create Account Now",
+    "ctaSecondary": "View Server List"
+  },
+  "stats": {
+    "totalMembers": "Total Members",
+    "totalAccounts": "Total Accounts",
+    "activeAccounts": "Active Accounts",
+    "globalServers": "Global Servers"
+  },
+  "floatingBadge": {
+    "label": "Network Status",
+    "value": "99.9% Uptime Ready"
+  },
+  "features": {
+    "title": "Why Choose Our Service?",
+    "subtitle": "Enjoy powerful features, uncapped speeds, and ironclad privacy with instant free or VIP access.",
+    "items": [
+      {
+        "title": "High Quality Servers",
+        "description": "We deploy high-specification dedicated servers across premier data centers to ensure zero packet drops and smooth performance."
+      },
+      {
+        "title": "Freedom Access",
+        "description": "Bypass any ISP restrictions, campus firewalls, and workplace blocks to unlock all your favorite websites and apps with ease."
+      },
+      {
+        "title": "High Speed Network",
+        "description": "Experience blazing fast speeds with dedicated 1 Gbps and 10 Gbps Tier-1 Anycast backbones engineered for 4K streaming."
+      },
+      {
+        "title": "Secure & Strict Zero-Logs",
+        "description": "Your traffic is encrypted with military-grade ciphers on ephemeral RAM-only nodes. We never store or track your browsing history."
+      },
+      {
+        "title": "Pay as You Go",
+        "description": "Affordable, transparent pricing with instant automated payment methods. No contracts, no recurring surprise fees."
+      },
+      {
+        "title": "Earn Partner Income",
+        "description": "Join our reseller partner program to unlock wholesale pricing up to 30% off, automated REST APIs, and instant withdrawals."
+      }
+    ]
+  },
+  "protocols": {
+    "title": "Available Premium Protocol Services",
+    "subtitle": "Choose the best protocol tailored to your device, gaming latency requirements, and network conditions.",
+    "exploreAll": "Explore All Servers",
+    "items": [
+      {
+        "name": "SSH Tunneling",
+        "tagline": "Flexible & Reliable",
+        "features": [
+          "Websocket TLS & NTLS",
+          "Custom Payload & SNI",
+          "SlowDNS Anti-Block",
+          "24/7 Keep-Alive Stability"
+        ],
+        "price": "Free / VIP"
+      },
+      {
+        "name": "V2Ray VMess",
+        "tagline": "Cloud CDN Accelerated",
+        "features": [
+          "Websocket & gRPC Port 443",
+          "Dynamic Multi-Path Routing",
+          "Cloudflare Anycast CDN",
+          "Smooth 4K Video Streaming"
+        ],
+        "price": "VIP Access"
+      },
+      {
+        "name": "V2Ray VLess Reality",
+        "tagline": "Pure Kernel Speed",
+        "features": [
+          "Latest Reality Protocol",
+          "XTLS Vision 0-Hop TLS",
+          "No Domain Setup Required",
+          "Immune to Deep Inspection"
+        ],
+        "price": "VIP Premium"
+      },
+      {
+        "name": "Trojan / Shadowsocks",
+        "tagline": "Stealth & Low Latency",
+        "features": [
+          "Standard HTTPS Web Disguise",
+          "Ultra-Low Gaming Latency",
+          "Zero UDP Buffer Jitter",
+          "Shadowrocket & Sing-box Ready"
+        ],
+        "price": "VIP Premium"
+      }
+    ]
+  },
+  "trust": {
+    "title": "Trusted by Thousands Globally",
+    "subtitle": "Enterprise reliability, transparent privacy guarantees, and instant 3-second account provisioning.",
+    "items": [
+      "Guaranteed 99.9% Core Server Uptime with BGP Redundancy",
+      "Instant Automated Payment Verification & Activation",
+      "Advanced Multi-Layer DDoS & Anti-Censorship Protection"
+    ],
+    "paymentsLabel": "Supported Payment Methods",
+    "paymentsDescription": "We accept various payment methods including QRIS (GoPay, OVO, DANA, ShopeePay), National Bank Virtual Accounts (BCA, Mandiri, BRI, BNI), and USDT Crypto for instant 3-second activation."
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Have questions about getting started? Here are quick answers to our most common inquiries.",
+    "items": [
+      {
+        "question": "How do I create and activate my tunnel account?",
+        "answer": "Simply select your preferred protocol (SSH, VMess, VLess, or Trojan), choose an edge node region, and click Create. Your configuration and QR code are generated instantly in seconds."
+      },
+      {
+        "question": "Does it work on restricted networks and all mobile carriers?",
+        "answer": "Yes! Our protocols utilize modern TLS masking and anti-DPI algorithms designed to bypass carrier throttling, campus blocks, and restricted public Wi-Fi networks worldwide."
+      },
+      {
+        "question": "Which payment methods are supported?",
+        "answer": "We support instant QRIS (all Indonesian e-wallets & mobile banking apps), Bank Virtual Accounts, PayPal, and Web3 USDT crypto for 24/7 automated instant settlement."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Ready to Experience Internet Freedom?",
+    "subtitle": "Join thousands of satisfied users and start using our premium tunneling services today. Fast, simple, and 100% private.",
+    "primaryButton": "Get Started Free",
+    "secondaryButton": "Login to Dashboard"
+  }
+}

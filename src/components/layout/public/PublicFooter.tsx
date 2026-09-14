@@ -28,7 +28,7 @@ export function PublicFooter() {
             </p>
 
             {/* Operational System Badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[11px] font-mono font-medium text-emerald-500">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[11px] font-mono font-medium text-emerald-700 dark:text-emerald-400">
               <span className="relative flex h-2 w-2">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
@@ -39,9 +39,9 @@ export function PublicFooter() {
 
           {/* Col 2: Protokol Tunneling */}
           <div>
-            <h4 className="font-semibold text-foreground mb-3.5 uppercase tracking-wider text-[11px] font-mono">
+            <h3 className="font-semibold text-foreground mb-3.5 uppercase tracking-wider text-[11px] font-mono">
               {t("landing.footer.vpnProtocols")}
-            </h4>
+            </h3>
             <ul className="space-y-2.5">
               <li>
                 <Link
@@ -96,9 +96,9 @@ export function PublicFooter() {
 
           {/* Col 3: Ekosistem & Layanan */}
           <div>
-            <h4 className="font-semibold text-foreground mb-3.5 uppercase tracking-wider text-[11px] font-mono">
+            <h3 className="font-semibold text-foreground mb-3.5 uppercase tracking-wider text-[11px] font-mono">
               {t("landing.footer.ecosystem")}
-            </h4>
+            </h3>
             <ul className="space-y-2.5">
               <li>
                 <Link
@@ -111,7 +111,7 @@ export function PublicFooter() {
               <li>
                 <Link
                   href="/seller"
-                  className="text-amber-500/90 hover:text-amber-500 transition-colors font-medium"
+                  className="text-amber-700 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-300 transition-colors font-semibold"
                 >
                   {t("landing.footer.partnerPortal")}
                 </Link>
@@ -145,16 +145,16 @@ export function PublicFooter() {
 
           {/* Col 4: Legalitas & Komunitas */}
           <div>
-            <h4 className="font-semibold text-foreground mb-3.5 uppercase tracking-wider text-[11px] font-mono">
+            <h3 className="font-semibold text-foreground mb-3.5 uppercase tracking-wider text-[11px] font-mono">
               {t("landing.footer.legalCommunity")}
-            </h4>
+            </h3>
             <ul className="space-y-2.5">
               <li>
                 <Link
                   href="/privacy"
                   className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1.5"
                 >
-                  <CheckCircle2 className="size-3 text-emerald-500 shrink-0" />
+                  <CheckCircle2 className="size-3 text-emerald-600 dark:text-emerald-400 shrink-0" />
                   <span>Zero-Logs & Privacy Policy</span>
                 </Link>
               </li>
@@ -172,7 +172,7 @@ export function PublicFooter() {
                   href="/contact"
                   className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1.5"
                 >
-                  <CheckCircle2 className="size-3 text-blue-400 shrink-0" />
+                  <CheckCircle2 className="size-3 text-blue-600 dark:text-blue-400 shrink-0" />
                   <span>Bantuan & Dukungan Tiket</span>
                 </Link>
               </li>
@@ -181,7 +181,7 @@ export function PublicFooter() {
                   href="https://t.me/hidessh"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 hover:bg-blue-500/20 transition-colors font-semibold"
+                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-700 dark:text-blue-400 hover:bg-blue-500/20 transition-colors font-semibold"
                 >
                   <Send className="size-3.5" />
                   <span>{t("landing.footer.telegram")}</span>
@@ -199,7 +199,7 @@ export function PublicFooter() {
           <div className="flex items-center gap-4">
             <span>Enkripsi AES-256-GCM & ChaCha20</span>
             <span>•</span>
-            <span className="text-emerald-500">Uptime 99.99% SLA</span>
+            <span className="text-emerald-700 dark:text-emerald-400 font-semibold">Uptime 99.99% SLA</span>
           </div>
         </div>
       </div>

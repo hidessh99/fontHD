@@ -41,7 +41,7 @@ const PROTOCOL_PRESETS: ProtocolPreset[] = [
     id: "vless",
     name: "VLess Reality",
     badge: "Anti-DPI Tier-1",
-    badgeColor: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+    badgeColor: "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/20",
     targetNode: "sg-edge-01.govpn.net",
     region: "Singapore",
     flag: "🇸🇬",
@@ -57,7 +57,7 @@ const PROTOCOL_PRESETS: ProtocolPreset[] = [
     id: "wireguard",
     name: "WireGuard Fast",
     badge: "Kernel Speed",
-    badgeColor: "bg-purple-500/10 text-purple-400 border-purple-500/20",
+    badgeColor: "bg-purple-500/10 text-purple-700 dark:text-purple-400 border-purple-500/20",
     targetNode: "jp-edge-02.govpn.net",
     region: "Tokyo, Japan",
     flag: "🇯🇵",
@@ -73,7 +73,7 @@ const PROTOCOL_PRESETS: ProtocolPreset[] = [
     id: "trojan",
     name: "Trojan-GFW",
     badge: "Censorship Bypass",
-    badgeColor: "bg-rose-500/10 text-rose-400 border-rose-500/20",
+    badgeColor: "bg-rose-500/10 text-rose-700 dark:text-rose-400 border-rose-500/20",
     targetNode: "sg-edge-02.govpn.net",
     region: "Singapore",
     flag: "🇸🇬",
@@ -89,7 +89,7 @@ const PROTOCOL_PRESETS: ProtocolPreset[] = [
     id: "vmess",
     name: "VMess (V2Ray)",
     badge: "Dynamic CDN",
-    badgeColor: "bg-blue-500/10 text-blue-400 border-blue-500/20",
+    badgeColor: "bg-blue-500/10 text-blue-700 dark:text-blue-400 border-blue-500/20",
     targetNode: "id-edge-01.govpn.net",
     region: "Jakarta, Indonesia",
     flag: "🇮🇩",
@@ -105,7 +105,7 @@ const PROTOCOL_PRESETS: ProtocolPreset[] = [
     id: "shadowsocks",
     name: "Shadowsocks 2022",
     badge: "Ultra Low Jitter",
-    badgeColor: "bg-amber-500/10 text-amber-400 border-amber-500/20",
+    badgeColor: "bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/20",
     targetNode: "us-edge-01.govpn.net",
     region: "Los Angeles, USA",
     flag: "🇺🇸",
@@ -157,7 +157,7 @@ export function LandingHero() {
       <div className="absolute top-1/3 right-10 w-96 h-96 bg-indigo-600/10 dark:bg-cyan-600/10 rounded-full blur-[120px] pointer-events-none -z-10" />
 
       {/* Cyber Grid Background Matrix */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none -z-10" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-size-[32px_32px] mask-[radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none -z-10" />
 
       <div className="container relative mx-auto px-4 sm:px-6 max-w-6xl">
         <div className="grid lg:grid-cols-12 gap-10 lg:gap-12 items-center">
@@ -169,7 +169,7 @@ export function LandingHero() {
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
               </span>
-              <span className="font-mono text-[11px] tracking-wide text-emerald-400 font-bold">
+              <span className="font-mono text-[11px] tracking-wide text-emerald-700 dark:text-emerald-400 font-bold">
                 {t("landing.hero.badge")}
               </span>
             </div>
@@ -177,7 +177,7 @@ export function LandingHero() {
             {/* Main Punchy Technical Headline */}
             <h1 className="text-3xl sm:text-5xl lg:text-[52px] font-black leading-[1.14] tracking-tight text-foreground mb-5">
               {t("landing.hero.titleLine1")}{" "}
-              <span className="block mt-1 bg-gradient-to-r from-blue-500 via-indigo-400 to-cyan-400 bg-clip-text text-transparent">
+              <span className="block mt-1 bg-linear-to-r from-blue-600 via-indigo-600 to-blue-700 dark:from-blue-400 dark:via-indigo-300 dark:to-cyan-400 bg-clip-text text-transparent">
                 {t("landing.hero.titleLine2")}
               </span>
             </h1>
@@ -214,9 +214,9 @@ export function LandingHero() {
 
               <Link
                 href="/seller"
-                className="inline-flex items-center gap-1.5 text-xs font-semibold text-muted-foreground hover:text-amber-400 transition-colors py-2 px-1 sm:ml-2"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-amber-700 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-300 transition-colors py-2 px-1 sm:ml-2"
               >
-                <Sparkles className="h-3.5 w-3.5 text-amber-400" />
+                <Sparkles className="h-3.5 w-3.5 text-amber-600 dark:text-amber-400" />
                 <span>Reseller Partner Portal & API &rarr;</span>
               </Link>
             </div>
@@ -224,7 +224,7 @@ export function LandingHero() {
             {/* Micro Trust Architecture Chips */}
             <div className="flex flex-wrap items-center gap-y-2 gap-x-6 pt-3 border-t border-border/40 text-xs text-muted-foreground font-medium w-full">
               <span className="flex items-center gap-1.5">
-                <Shield className="h-4 w-4 text-emerald-400" />
+                <Shield className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
                 <span>{t("landing.hero.noLogs")}</span>
               </span>
               <span className="flex items-center gap-1.5">
@@ -232,7 +232,7 @@ export function LandingHero() {
                 <span>{t("landing.hero.instant")}</span>
               </span>
               <span className="flex items-center gap-1.5">
-                <Activity className="h-4 w-4 text-cyan-400" />
+                <Activity className="h-4 w-4 text-cyan-600 dark:text-cyan-400" />
                 <span>{t("landing.hero.uptime")}</span>
               </span>
             </div>
@@ -254,7 +254,7 @@ export function LandingHero() {
                 <div className="flex items-center gap-1.5">
                   <Badge
                     variant="outline"
-                    className="font-mono text-[10px] px-2 py-0.5 border-emerald-500/30 text-emerald-400 bg-emerald-500/5"
+                    className="font-mono text-[10px] px-2 py-0.5 border-emerald-500/30 text-emerald-700 dark:text-emerald-400 bg-emerald-500/5"
                   >
                     ONLINE
                   </Badge>
@@ -319,10 +319,10 @@ export function LandingHero() {
                     <span
                       className={`font-black ${
                         currentPing < 20
-                          ? "text-emerald-400"
+                          ? "text-emerald-700 dark:text-emerald-400"
                           : currentPing < 60
-                            ? "text-cyan-400"
-                            : "text-amber-400"
+                            ? "text-cyan-700 dark:text-cyan-400"
+                            : "text-amber-700 dark:text-amber-400"
                       }`}
                     >
                       {currentPing}ms
@@ -334,7 +334,7 @@ export function LandingHero() {
                 <div className="grid grid-cols-2 gap-2 text-xs font-mono">
                   <div className="p-2.5 rounded-xl bg-surface-subtle/50 border border-border/30">
                     <span className="text-[10px] text-muted-foreground block uppercase">
-                      Crypto Cipher
+                       Crypto Cipher
                     </span>
                     <span className="text-foreground font-semibold truncate block mt-0.5">
                       {selectedProto.cipher}
@@ -344,7 +344,7 @@ export function LandingHero() {
                     <span className="text-[10px] text-muted-foreground block uppercase">
                       Handshake Overhead
                     </span>
-                    <span className="text-emerald-400 font-semibold truncate block mt-0.5">
+                    <span className="text-emerald-700 dark:text-emerald-400 font-semibold truncate block mt-0.5">
                       {selectedProto.overhead}
                     </span>
                   </div>
@@ -352,7 +352,7 @@ export function LandingHero() {
                     <span className="text-[10px] text-muted-foreground block uppercase">
                       Firewall Evasion Engine
                     </span>
-                    <span className="text-cyan-400 font-semibold truncate block mt-0.5">
+                    <span className="text-cyan-700 dark:text-cyan-400 font-semibold truncate block mt-0.5">
                       {selectedProto.evasion}
                     </span>
                   </div>

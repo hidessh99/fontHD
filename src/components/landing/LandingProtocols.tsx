@@ -30,7 +30,7 @@ export function LandingProtocols() {
       name: t("landing.protocols.vless.name"),
       tagline: t("landing.protocols.vless.tagline"),
       icon: Shield,
-      iconBg: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+      iconBg: "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/20",
       tier: "TOP PERFORMANCE",
       port: 443,
       cipher: "ChaCha20-Poly1305",
@@ -48,7 +48,7 @@ export function LandingProtocols() {
       name: t("landing.protocols.wireguard.name"),
       tagline: t("landing.protocols.wireguard.tagline"),
       icon: Cpu,
-      iconBg: "bg-purple-500/10 text-purple-400 border-purple-500/20",
+      iconBg: "bg-purple-500/10 text-purple-700 dark:text-purple-400 border-purple-500/20",
       tier: "KERNEL SPEED",
       port: 51820,
       cipher: "Curve25519 + ChaCha20",
@@ -66,7 +66,7 @@ export function LandingProtocols() {
       name: t("landing.protocols.trojan.name"),
       tagline: t("landing.protocols.trojan.tagline"),
       icon: Lock,
-      iconBg: "bg-rose-500/10 text-rose-400 border-rose-500/20",
+      iconBg: "bg-rose-500/10 text-rose-700 dark:text-rose-400 border-rose-500/20",
       tier: "ANTI-CENSOR",
       port: 443,
       cipher: "AES-256-GCM / SHA256",
@@ -84,7 +84,7 @@ export function LandingProtocols() {
       name: t("landing.protocols.vmess.name"),
       tagline: t("landing.protocols.vmess.tagline"),
       icon: Zap,
-      iconBg: "bg-blue-500/10 text-blue-400 border-blue-500/20",
+      iconBg: "bg-blue-500/10 text-blue-700 dark:text-blue-400 border-blue-500/20",
       tier: "CDN MULTI-PATH",
       port: 80,
       cipher: "VMess AEAD Chacha20",
@@ -102,7 +102,7 @@ export function LandingProtocols() {
       name: t("landing.protocols.shadowsocks.name"),
       tagline: t("landing.protocols.shadowsocks.tagline"),
       icon: Globe,
-      iconBg: "bg-amber-500/10 text-amber-400 border-amber-500/20",
+      iconBg: "bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/20",
       tier: "LOW JITTER",
       port: 8388,
       cipher: "2022-blake3-aes-128-gcm",
@@ -120,7 +120,7 @@ export function LandingProtocols() {
       name: t("landing.protocols.ssh.name"),
       tagline: t("landing.protocols.ssh.tagline"),
       icon: Terminal,
-      iconBg: "bg-indigo-500/10 text-indigo-400 border-indigo-500/20",
+      iconBg: "bg-indigo-500/10 text-indigo-700 dark:text-indigo-400 border-indigo-500/20",
       tier: "CLASSIC TUNNEL",
       port: 22,
       cipher: "AES-128-CTR + Dropbear",
@@ -266,7 +266,7 @@ export function LandingProtocols() {
                     <div className="space-y-1.5 mb-5 text-[11px] font-mono">
                       <div className="flex items-center justify-between text-muted-foreground">
                         <span>Anti-DPI Evasion</span>
-                        <span className="text-emerald-400 font-bold">
+                        <span className="text-emerald-700 dark:text-emerald-400 font-bold">
                           {proto.metrics.evasion}%
                         </span>
                       </div>
@@ -279,7 +279,7 @@ export function LandingProtocols() {
 
                       <div className="flex items-center justify-between text-muted-foreground pt-1">
                         <span>Gaming Latency</span>
-                        <span className="text-cyan-400 font-bold">
+                        <span className="text-cyan-700 dark:text-cyan-400 font-bold">
                           {proto.metrics.ping}%
                         </span>
                       </div>
@@ -298,7 +298,7 @@ export function LandingProtocols() {
                           key={idx}
                           className="flex items-start gap-2.5 text-xs text-foreground/80 font-medium"
                         >
-                          <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                          <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                           <span>{feat}</span>
                         </li>
                       ))}

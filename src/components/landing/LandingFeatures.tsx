@@ -40,12 +40,12 @@ export function LandingFeatures() {
 
             <div>
               <div className="flex items-center justify-between mb-5">
-                <div className="flex size-11 items-center justify-center rounded-xl bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                <div className="flex size-11 items-center justify-center rounded-xl bg-blue-500/10 text-blue-700 dark:text-blue-400 border border-blue-500/20">
                   <Lock className="size-5" />
                 </div>
                 <Badge
                   variant="outline"
-                  className="font-mono text-[10px] text-emerald-400 border-emerald-500/30 bg-emerald-500/5 uppercase"
+                  className="font-mono text-[10px] text-emerald-700 dark:text-emerald-400 border-emerald-500/30 bg-emerald-500/5 uppercase"
                 >
                   Zero Persistent Storage
                 </Badge>
@@ -75,11 +75,11 @@ export function LandingFeatures() {
                 </div>
                 <div className="p-2.5 rounded-lg bg-surface-subtle/80 border border-border/40 text-center">
                   <div className="text-[10px] text-muted-foreground">Processing</div>
-                  <div className="text-xs font-bold text-emerald-400 mt-0.5">RAM-Only Buffer</div>
+                  <div className="text-xs font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">RAM-Only Buffer</div>
                 </div>
                 <div className="p-2.5 rounded-lg bg-surface-subtle/80 border border-border/40 text-center">
                   <div className="text-[10px] text-muted-foreground">Storage</div>
-                  <div className="text-xs font-bold text-rose-400 mt-0.5">0 Bytes Disk Write</div>
+                  <div className="text-xs font-bold text-rose-600 dark:text-rose-400 mt-0.5">0 Bytes Disk Write</div>
                 </div>
               </div>
             </div>
@@ -89,7 +89,7 @@ export function LandingFeatures() {
           <div className="rounded-2xl border border-border/80 bg-surface p-6 sm:p-8 hover:border-primary/40 transition-all duration-300 group flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-5">
-                <div className="flex size-11 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                <div className="flex size-11 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20">
                   <Globe className="size-5" />
                 </div>
                 <span className="font-mono text-[10px] text-muted-foreground">Tier-1 Transit</span>
@@ -106,15 +106,15 @@ export function LandingFeatures() {
             <div className="space-y-2 font-mono text-xs pt-3 border-t border-border/40">
               <div className="flex items-center justify-between">
                 <span className="text-muted-foreground">🇸🇬 Singapore SG-1</span>
-                <span className="text-emerald-400 font-bold">12ms</span>
+                <span className="text-emerald-700 dark:text-emerald-400 font-bold">12ms</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-muted-foreground">🇯🇵 Tokyo JP-1</span>
-                <span className="text-cyan-400 font-bold">34ms</span>
+                <span className="text-cyan-700 dark:text-cyan-400 font-bold">34ms</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-muted-foreground">🇩🇪 Frankfurt DE-1</span>
-                <span className="text-amber-400 font-bold">142ms</span>
+                <span className="text-amber-700 dark:text-amber-400 font-bold">142ms</span>
               </div>
             </div>
           </div>
@@ -123,10 +123,10 @@ export function LandingFeatures() {
           <div className="rounded-2xl border border-border/80 bg-surface p-6 sm:p-8 hover:border-primary/40 transition-all duration-300 group flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-5">
-                <div className="flex size-11 items-center justify-center rounded-xl bg-purple-500/10 text-purple-400 border border-purple-500/20">
+                <div className="flex size-11 items-center justify-center rounded-xl bg-purple-500/10 text-purple-700 dark:text-purple-400 border border-purple-500/20">
                   <Cpu className="size-5" />
                 </div>
-                <span className="font-mono text-[10px] text-purple-400">Zero-Copy UDP</span>
+                <span className="font-mono text-[10px] text-purple-700 dark:text-purple-400">Zero-Copy UDP</span>
               </div>
               <h3 className="text-xl font-black text-foreground mb-2 group-hover:text-primary transition-colors">
                 Kernel eBPF & Hardware Crypto
@@ -146,12 +146,12 @@ export function LandingFeatures() {
           <div className="lg:col-span-2 rounded-2xl border border-border/80 bg-surface p-6 sm:p-8 hover:border-primary/40 transition-all duration-300 group flex flex-col justify-between relative overflow-hidden">
             <div>
               <div className="flex items-center justify-between mb-5">
-                <div className="flex size-11 items-center justify-center rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+                <div className="flex size-11 items-center justify-center rounded-xl bg-cyan-500/10 text-cyan-700 dark:text-cyan-400 border border-cyan-500/20">
                   <Activity className="size-5" />
                 </div>
                 <Badge
                   variant="outline"
-                  className="font-mono text-[10px] text-cyan-400 border-cyan-500/30 bg-cyan-500/5"
+                  className="font-mono text-[10px] text-cyan-700 dark:text-cyan-400 border-cyan-500/30 bg-cyan-500/5"
                 >
                   &lt; 300ms FAILOVER
                 </Badge>
@@ -169,7 +169,7 @@ export function LandingFeatures() {
 
             <div className="flex flex-wrap items-center gap-4 text-xs font-mono text-muted-foreground">
               <span className="flex items-center gap-1.5 text-foreground">
-                <ShieldCheck className="size-4 text-emerald-400" />
+                <ShieldCheck className="size-4 text-emerald-700 dark:text-emerald-400" />
                 Active Session Persistence
               </span>
               <span>•</span>

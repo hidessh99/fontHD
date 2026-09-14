@@ -360,7 +360,7 @@ export function AboutView() {
       </div>
 
       {/* Bottom CTA Banner */}
-      <div className="p-8 sm:p-12 rounded-3xl border border-primary/30 bg-gradient-to-br from-card via-card to-primary/10 text-center space-y-6 shadow-2xl relative overflow-hidden">
+      <div className="p-8 sm:p-12 rounded-3xl border border-primary/30 bg-linear-to-br from-card via-card to-primary/10 text-center space-y-6 shadow-2xl relative overflow-hidden">
         <div className="max-w-2xl mx-auto space-y-3 relative z-10">
           <h2 className="text-2xl sm:text-4xl font-black text-foreground tracking-tight">
             {t("about.ctaTitle")}

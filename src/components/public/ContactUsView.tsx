@@ -207,7 +207,7 @@ export function ContactUsView() {
             </div>
 
             <div className="flex items-center justify-between pt-1">
-              <span className="font-mono text-sm font-bold text-foreground truncate max-w-[170px]">
+              <span className="font-mono text-sm font-bold text-foreground truncate max-w-42.5">
                 support@hidessh.com
               </span>
               <CopyButton text="support@hidessh.com" size="sm" className="h-7 px-2 text-[10px]" />

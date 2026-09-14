@@ -105,13 +105,13 @@ export function LandingWhyUs() {
                     </td>
                     <td className="p-4 sm:p-5 text-muted-foreground">
                       <div className="flex items-start gap-2">
-                        <X className="size-4 text-rose-500 shrink-0 mt-0.5" />
+                        <X className="size-4 text-rose-700 dark:text-rose-500 shrink-0 mt-0.5" />
                         <span>{row.legacy}</span>
                       </div>
                     </td>
-                    <td className="p-4 sm:p-5 text-foreground bg-primary/[0.02] border-l border-border/40 font-medium">
+                    <td className="p-4 sm:p-5 text-foreground bg-primary/2 border-l border-border/40 font-medium">
                       <div className="flex items-start gap-2">
-                        <Check className="size-4 text-emerald-400 shrink-0 mt-0.5" />
+                        <Check className="size-4 text-emerald-700 dark:text-emerald-400 shrink-0 mt-0.5" />
                         <span>{row.govpn}</span>
                       </div>
                     </td>

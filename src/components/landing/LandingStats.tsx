@@ -14,7 +14,7 @@ export function LandingStats() {
       subtext: "Concurrent Active Tunnels",
       icon: Users,
       badge: "ACTIVE",
-      badgeColor: "text-emerald-400 bg-emerald-500/10 border-emerald-500/20",
+      badgeColor: "text-emerald-700 dark:text-emerald-400 bg-emerald-500/10 border-emerald-500/20",
     },
     {
       label: t("landing.stats.serversLabel"),
@@ -30,7 +30,7 @@ export function LandingStats() {
       subtext: "Anycast Multi-Homed BGP",
       icon: Activity,
       badge: "UNLIMITED",
-      badgeColor: "text-cyan-400 bg-cyan-500/10 border-cyan-500/20",
+      badgeColor: "text-cyan-700 dark:text-cyan-400 bg-cyan-500/10 border-cyan-500/20",
     },
     {
       label: t("landing.stats.uptimeLabel"),
@@ -38,7 +38,7 @@ export function LandingStats() {
       subtext: "Verified High-Availability SLA",
       icon: ShieldCheck,
       badge: "0 DISK LOGS",
-      badgeColor: "text-amber-400 bg-amber-500/10 border-amber-500/20",
+      badgeColor: "text-amber-700 dark:text-amber-400 bg-amber-500/10 border-amber-500/20",
     },
   ];
 
@@ -72,7 +72,7 @@ export function LandingStats() {
                 </div>
 
                 <div className="text-xs text-muted-foreground mt-1 flex items-center gap-1.5 font-medium">
-                  <span className="size-1.5 rounded-full bg-emerald-400 inline-block" />
+                  <span className="size-1.5 rounded-full bg-emerald-500 inline-block" />
                   <span>{m.subtext}</span>
                 </div>
               </div>
