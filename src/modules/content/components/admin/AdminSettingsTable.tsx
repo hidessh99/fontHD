@@ -1,21 +1,25 @@
 // ==============================================================================
 // GoVPN Admin Settings Table Component
 // Part of Pola C: components/admin/AdminSettingsTable.tsx
-// 100% Coinbase Institutional Design System (Global Key-Value System Settings)
+// 100% Coinbase Institutional Design System + Standardized Enterprise DataTable
 // ==============================================================================
 
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { SystemSetting } from "../../types/content.types";
 import { CreateSettingDto, UpdateSettingDto } from "../../types/admin.types";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { NativeSelect } from "@/components/ui/native-select";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { DataTable, ColumnDef, DataTableFilterConfig } from "@/components/shared/data-table";
 import {
   Sliders,
   Plus,
@@ -23,7 +27,7 @@ import {
   Trash2,
   Globe,
   Lock,
-  Search,
+  Loader2,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -43,7 +47,6 @@ export function AdminSettingsTable({
   onUpdateSetting,
   onDeleteSetting,
 }: AdminSettingsTableProps) {
-  const [searchTerm, setSearchTerm] = useState("");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [editingSetting, setEditingSetting] = useState<SystemSetting | null>(
     null,
@@ -56,13 +59,6 @@ export function AdminSettingsTable({
   const [group, setGroup] = useState("GENERAL");
   const [isPublic, setIsPublic] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-
-  const filteredSettings = settings.filter(
-    (s) =>
-      s.key.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      s.value.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (s.group && s.group.toLowerCase().includes(searchTerm.toLowerCase())),
-  );
 
   const handleOpenAdd = () => {
     setEditingSetting(null);
@@ -120,209 +116,225 @@ export function AdminSettingsTable({
     }
   };
 
+  const columns: ColumnDef<SystemSetting>[] = useMemo(
+    () => [
+      {
+        id: "group",
+        header: "Grup",
+        className: "whitespace-nowrap font-sans",
+        cell: (s) => (
+          <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-muted text-muted-foreground">
+            {s.group || "GENERAL"}
+          </span>
+        ),
+      },
+      {
+        id: "key",
+        header: "Config Key",
+        className: "font-bold text-foreground whitespace-nowrap font-mono",
+        cell: (s) => s.key,
+      },
+      {
+        id: "value",
+        header: "Nilai (Value)",
+        className: "max-w-xs truncate text-primary font-semibold font-mono",
+        cell: (s) => s.value,
+      },
+      {
+        id: "visibility",
+        header: "Visibilitas",
+        className: "whitespace-nowrap font-sans",
+        cell: (s) =>
+          s.is_public ? (
+            <span className="inline-flex items-center gap-1 text-[11px] text-emerald-400">
+              <Globe className="w-3 h-3" /> Publik
+            </span>
+          ) : (
+            <span className="inline-flex items-center gap-1 text-[11px] text-amber-400">
+              <Lock className="w-3 h-3" /> Privat
+            </span>
+          ),
+      },
+      {
+        id: "actions",
+        header: "Aksi",
+        align: "right",
+        cell: (s) => (
+          <div className="inline-flex items-center gap-1">
+            <Button
+              size="sm"
+              variant="ghost"
+              className="h-7 w-7 p-0 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-full"
+              onClick={() => handleOpenEdit(s)}
+              title="Edit Konfigurasi"
+            >
+              <Edit2 className="w-3.5 h-3.5" />
+            </Button>
+            <Button
+              size="sm"
+              variant="ghost"
+              className="h-7 w-7 p-0 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded-full"
+              onClick={() => onDeleteSetting(s.id)}
+              title="Hapus Parameter"
+            >
+              <Trash2 className="w-3.5 h-3.5" />
+            </Button>
+          </div>
+        ),
+      },
+    ],
+    [onDeleteSetting],
+  );
+
+  const filters: DataTableFilterConfig<SystemSetting>[] = useMemo(
+    () => [
+      {
+        id: "group",
+        label: "Grup",
+        defaultValue: "ALL",
+        options: [
+          { label: "Semua Grup", value: "ALL" },
+          { label: "General", value: "GENERAL" },
+          { label: "SEO", value: "SEO" },
+          { label: "Payment", value: "PAYMENT" },
+          { label: "Security", value: "SECURITY" },
+          { label: "System", value: "SYSTEM" },
+        ],
+        filterFn: (s, val) =>
+          (s.group || "GENERAL").toUpperCase() === val.toUpperCase(),
+      },
+    ],
+    [],
+  );
+
+  const actions = (
+    <Button
+      onClick={handleOpenAdd}
+      className="gap-2 text-xs font-semibold bg-primary hover:bg-primary/90 text-primary-foreground rounded-full h-9 px-4 shadow-sm"
+    >
+      <Plus className="w-3.5 h-3.5" />
+      <span>Tambah Parameter Baru</span>
+    </Button>
+  );
+
   return (
     <div className="space-y-4">
-      {/* Search & Actions */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-        <div className="relative w-full sm:w-80">
-          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-          <input
-            type="text"
-            placeholder="Cari konfigurasi parameter sistem..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-9 pr-3.5 py-2 text-xs rounded-lg border border-border/50 bg-background/50 focus:outline-none focus:ring-2 focus:ring-primary"
-          />
-        </div>
+      <DataTable<SystemSetting>
+        data={settings}
+        columns={columns}
+        keyExtractor={(s) => s.id}
+        searchable={true}
+        searchPlaceholder="Cari konfigurasi parameter sistem..."
+        searchButtonText="Cari"
+        searchAccessor={(s) => [s.key, s.value, s.group, s.description]}
+        filters={filters}
+        paginated={true}
+        pageSize={10}
+        entityName="parameter sistem"
+        actions={actions}
+        emptyIcon={Sliders}
+        emptyTitle="Tidak Ada Parameter"
+        emptyDescription="Belum ada parameter konfigurasi sistem yang sesuai."
+      />
 
-        <Button
-          onClick={handleOpenAdd}
-          className="gap-2 text-xs font-semibold bg-primary hover:bg-primary/90 text-primary-foreground self-start sm:self-auto"
-        >
-          <Plus className="w-3.5 h-3.5" />
-          <span>Tambah Parameter Baru</span>
-        </Button>
-      </div>
-
-      {/* Settings Table */}
-      <div className="rounded-xl border border-border/50 overflow-hidden bg-card/40">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
-            <thead className="bg-muted/40 text-muted-foreground uppercase text-[10px] tracking-wider border-b border-border/40">
-              <tr>
-                <th className="p-3.5 font-semibold">Grup</th>
-                <th className="p-3.5 font-semibold">Config Key</th>
-                <th className="p-3.5 font-semibold">Nilai (Value)</th>
-                <th className="p-3.5 font-semibold">Visibilitas</th>
-                <th className="p-3.5 font-semibold text-right">Aksi</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border/30 font-mono">
-              {filteredSettings.map((s) => (
-                <tr key={s.id} className="hover:bg-accent/30 transition-colors">
-                  <td className="p-3.5 whitespace-nowrap font-sans">
-                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-muted text-muted-foreground">
-                      {s.group || "GENERAL"}
-                    </span>
-                  </td>
-                  <td className="p-3.5 font-bold text-foreground whitespace-nowrap">
-                    {s.key}
-                  </td>
-                  <td className="p-3.5 max-w-xs truncate text-primary font-semibold">
-                    {s.value}
-                  </td>
-                  <td className="p-3.5 whitespace-nowrap font-sans">
-                    {s.is_public ? (
-                      <span className="inline-flex items-center gap-1 text-[11px] text-emerald-400">
-                        <Globe className="w-3 h-3" /> Publik
-                      </span>
-                    ) : (
-                      <span className="inline-flex items-center gap-1 text-[11px] text-amber-400">
-                        <Lock className="w-3 h-3" /> Privat / Internal
-                      </span>
-                    )}
-                  </td>
-                  <td className="p-3.5 text-right whitespace-nowrap font-sans">
-                    <div className="inline-flex items-center gap-1">
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        className="h-7 px-2 text-muted-foreground hover:text-primary hover:bg-primary/10"
-                        onClick={() => handleOpenEdit(s)}
-                        title="Edit Parameter"
-                      >
-                        <Edit2 className="w-3.5 h-3.5" />
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        className="h-7 px-2 text-muted-foreground hover:text-destructive hover:bg-destructive/10"
-                        onClick={() => onDeleteSetting(s.id)}
-                        title="Hapus Parameter"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </Button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {/* Modal */}
+      {/* Add / Edit Parameter Dialog */}
       <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
-        <DialogContent className="sm:max-w-[480px] bg-card border-border/60">
+        <DialogContent className="sm:max-w-md bg-card border-border text-foreground rounded-2xl shadow-xl">
           <DialogHeader>
-            <div className="flex items-center gap-2 text-primary mb-1">
-              <Sliders className="w-4 h-4" />
-              <span className="text-xs font-bold uppercase tracking-wider">
-                System Config
-              </span>
-            </div>
-            <DialogTitle className="text-lg font-bold">
+            <DialogTitle className="flex items-center gap-2 text-base font-bold">
+              <Sliders className="w-4 h-4 text-primary" />
               {editingSetting
-                ? "Perbarui Parameter Sistem"
-                : "Tambah Parameter Sistem"}
+                ? `Edit Parameter: ${editingSetting.key}`
+                : "Tambah Parameter Baru"}
             </DialogTitle>
           </DialogHeader>
 
-          <form onSubmit={handleSubmit} className="space-y-4 pt-2">
-            <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-muted-foreground">
-                Config Key (Identifier)
-              </label>
-              <input
-                type="text"
-                required
-                placeholder="APP_NAME, QRIS_TAX_RATE, dsb"
+          <form onSubmit={handleSubmit} className="space-y-3.5 pt-2">
+            <div>
+              <Label className="text-xs text-muted-foreground">Config Key</Label>
+              <Input
+                placeholder="misal: APP_MAINTENANCE_MODE"
                 value={key}
-                onChange={(e) =>
-                  setKey(e.target.value.toUpperCase().replace(/\s+/g, "_"))
-                }
-                disabled={!!editingSetting}
-                className="w-full px-3 py-2 text-xs rounded-lg border border-border/50 bg-background/50 focus:outline-none focus:ring-1 focus:ring-primary font-mono"
+                disabled={Boolean(editingSetting)}
+                onChange={(e) => setKey(e.target.value)}
+                className="mt-1 font-mono text-xs h-9"
+              />
+            </div>
+
+            <div>
+              <Label className="text-xs text-muted-foreground">Nilai (Value)</Label>
+              <Input
+                placeholder="misal: true / https://api.govpn.com"
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+                className="mt-1 font-mono text-xs h-9"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
-              <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-muted-foreground">
-                  Kategori / Grup
-                </label>
-                <select
+              <div>
+                <Label className="text-xs text-muted-foreground">Grup</Label>
+                <NativeSelect
+                  variant="rounded"
                   value={group}
                   onChange={(e) => setGroup(e.target.value)}
-                  className="w-full px-3 py-2 text-xs rounded-lg border border-border/50 bg-background/50 focus:outline-none focus:ring-1 focus:ring-primary"
+                  className="mt-1 w-full text-xs font-mono"
                 >
                   <option value="GENERAL">GENERAL</option>
+                  <option value="SEO">SEO</option>
                   <option value="PAYMENT">PAYMENT</option>
-                  <option value="BRANDING">BRANDING</option>
                   <option value="SECURITY">SECURITY</option>
-                  <option value="VPN_CORE">VPN_CORE</option>
-                </select>
+                  <option value="SYSTEM">SYSTEM</option>
+                </NativeSelect>
               </div>
 
-              <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-muted-foreground">
-                  Visibilitas
-                </label>
-                <select
+              <div>
+                <Label className="text-xs text-muted-foreground">Visibilitas</Label>
+                <NativeSelect
+                  variant="rounded"
                   value={isPublic ? "true" : "false"}
                   onChange={(e) => setIsPublic(e.target.value === "true")}
-                  className="w-full px-3 py-2 text-xs rounded-lg border border-border/50 bg-background/50 focus:outline-none focus:ring-1 focus:ring-primary"
+                  className="mt-1 w-full text-xs font-mono"
                 >
-                  <option value="false">Internal Only (Privat)</option>
-                  <option value="true">
-                    Terekspos Publik (GET /api/settings)
-                  </option>
-                </select>
+                  <option value="false">Privat (Internal)</option>
+                  <option value="true">Publik (Client-side)</option>
+                </NativeSelect>
               </div>
             </div>
 
-            <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-muted-foreground">
-                Nilai Parameter (Value)
-              </label>
-              <textarea
-                required
-                rows={3}
-                placeholder="Nilai konfigurasi..."
-                value={value}
-                onChange={(e) => setValue(e.target.value)}
-                className="w-full px-3 py-2 text-xs rounded-lg border border-border/50 bg-background/50 focus:outline-none focus:ring-1 focus:ring-primary font-mono resize-none"
-              />
-            </div>
-
-            <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-muted-foreground">
-                Deskripsi (Opsional)
-              </label>
-              <input
-                type="text"
+            <div>
+              <Label className="text-xs text-muted-foreground">
+                Deskripsi Kegunaan (Opsional)
+              </Label>
+              <Input
                 placeholder="Penjelasan fungsi konfigurasi ini..."
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="w-full px-3 py-2 text-xs rounded-lg border border-border/50 bg-background/50 focus:outline-none focus:ring-1 focus:ring-primary"
+                className="mt-1 text-xs h-9"
               />
             </div>
 
-            <div className="flex items-center justify-end gap-3 pt-3 border-t border-border/40">
+            <div className="flex items-center justify-end gap-2 pt-2 border-t border-border">
               <Button
                 type="button"
                 variant="outline"
                 onClick={() => setIsAddModalOpen(false)}
-                disabled={submitting}
+                className="rounded-full text-xs px-4"
               >
                 Batal
               </Button>
               <Button
                 type="submit"
                 disabled={submitting}
-                className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold"
+                className="rounded-full text-xs bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-5"
               >
-                {submitting ? "Menyimpan..." : "Simpan Parameter"}
+                {submitting ? (
+                  <>
+                    <Loader2 className="w-3.5 h-3.5 animate-spin mr-1" /> Menyimpan...
+                  </>
+                ) : (
+                  "Simpan Parameter"
+                )}
               </Button>
             </div>
           </form>

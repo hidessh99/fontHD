@@ -16,6 +16,9 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { NativeSelect } from "@/components/ui/native-select";
 import { FileText, Save, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -151,13 +154,13 @@ export function AdminPostEditorModal({
               <label className="text-xs font-semibold text-muted-foreground">
                 Judul Artikel
               </label>
-              <input
+              <Input
                 type="text"
                 required
                 placeholder="Cara Mengatasi DPI Filtering ISP Telkomsel..."
                 value={title}
                 onChange={(e) => handleTitleChange(e.target.value)}
-                className="w-full px-3 py-2 text-xs rounded-lg border border-border/50 bg-background/50 focus:outline-none focus:ring-1 focus:ring-primary font-semibold"
+                className="font-semibold"
               />
             </div>
 
@@ -165,13 +168,13 @@ export function AdminPostEditorModal({
               <label className="text-xs font-semibold text-muted-foreground">
                 Slug URL
               </label>
-              <input
+              <Input
                 type="text"
                 required
                 placeholder="cara-mengatasi-dpi-telkomsel"
                 value={slug}
                 onChange={(e) => setSlug(e.target.value)}
-                className="w-full px-3 py-2 text-xs rounded-lg border border-border/50 bg-background/50 focus:outline-none focus:ring-1 focus:ring-primary font-mono"
+                className="font-mono"
               />
             </div>
           </div>
@@ -181,29 +184,28 @@ export function AdminPostEditorModal({
               <label className="text-xs font-semibold text-muted-foreground">
                 Status Publikasi
               </label>
-              <select
+              <NativeSelect
                 value={status}
                 onChange={(e) => setStatus(e.target.value as PostStatus)}
-                className="w-full px-3 py-2 text-xs rounded-lg border border-border/50 bg-background/50 focus:outline-none focus:ring-1 focus:ring-primary font-semibold"
+                className="font-semibold"
               >
                 <option value="PUBLISHED">
                   PUBLISHED (Diterbitkan Langsung)
                 </option>
                 <option value="DRAFT">DRAFT (Konsep Internal)</option>
                 <option value="ARCHIVED">ARCHIVED (Diarsipkan)</option>
-              </select>
+              </NativeSelect>
             </div>
 
             <div className="space-y-1.5">
               <label className="text-xs font-semibold text-muted-foreground">
                 Tagar (Koma dipisah)
               </label>
-              <input
+              <Input
                 type="text"
                 placeholder="V2Ray, DPI, Tutorial"
                 value={tagsText}
                 onChange={(e) => setTagsText(e.target.value)}
-                className="w-full px-3 py-2 text-xs rounded-lg border border-border/50 bg-background/50 focus:outline-none focus:ring-1 focus:ring-primary"
               />
             </div>
           </div>
@@ -212,12 +214,11 @@ export function AdminPostEditorModal({
             <label className="text-xs font-semibold text-muted-foreground">
               Ringkasan / Sinopsis (Excerpt)
             </label>
-            <input
+            <Input
               type="text"
               placeholder="Ringkasan 1-2 kalimat untuk preview card di beranda pengetahuan..."
               value={summary}
               onChange={(e) => setSummary(e.target.value)}
-              className="w-full px-3 py-2 text-xs rounded-lg border border-border/50 bg-background/50 focus:outline-none focus:ring-1 focus:ring-primary"
             />
           </div>
 
@@ -225,12 +226,12 @@ export function AdminPostEditorModal({
             <label className="text-xs font-semibold text-muted-foreground">
               URL Gambar Sampul (Opsional)
             </label>
-            <input
+            <Input
               type="url"
               placeholder="https://images.unsplash.com/..."
               value={featuredImage}
               onChange={(e) => setFeaturedImage(e.target.value)}
-              className="w-full px-3 py-2 text-xs rounded-lg border border-border/50 bg-background/50 focus:outline-none focus:ring-1 focus:ring-primary font-mono"
+              className="font-mono"
             />
           </div>
 
@@ -238,13 +239,13 @@ export function AdminPostEditorModal({
             <label className="text-xs font-semibold text-muted-foreground">
               Konten Lengkap (Markdown didukung)
             </label>
-            <textarea
+            <Textarea
               required
               rows={8}
               placeholder="Tuliskan panduan langkah demi langkah atau pengumuman lengkap di sini..."
               value={content}
               onChange={(e) => setContent(e.target.value)}
-              className="w-full px-3 py-2 text-xs rounded-lg border border-border/50 bg-background/50 focus:outline-none focus:ring-1 focus:ring-primary font-mono resize-none leading-relaxed"
+              className="font-mono resize-none leading-relaxed"
             />
           </div>
 

@@ -1,4 +1,4 @@
-# 🛡️ GoVPN (HideSSH) Enterprise Frontend Client
+
 
 Enterprise web client for infrastructure platform, built on Next.js 16 (App Router + Turbopack), React 19, Bun, Tailwind CSS v4, and synchronized 1:1 with 388 modern endpoints from `postman-govpn`.
 

@@ -34,7 +34,7 @@ export function SearchInput({
   disabled = false,
   buttonText = "Cari",
   autoFocus = false,
-  hideSubmitButton = true,
+  hideSubmitButton = false,
 }: SearchInputProps) {
   const isControlled = value !== undefined;
   const [uncontrolledValue, setUncontrolledValue] = useState("");
@@ -67,7 +67,7 @@ export function SearchInput({
       className={cn("flex flex-1 items-center gap-2", className)}
     >
       <div className="relative flex-1">
-        <Search className="text-foreground-muted pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2" />
+        <Search className="text-muted-foreground pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2" />
         <input
           type="search"
           enterKeyHint="search"
@@ -77,7 +77,7 @@ export function SearchInput({
           disabled={disabled}
           autoFocus={autoFocus}
           className={cn(
-            "bg-surface text-foreground border-border hover:border-foreground-muted placeholder:text-muted-foreground h-10 w-full rounded-full border pr-9 pl-10 text-xs font-semibold transition outline-none focus:border-emerald-600 disabled:opacity-50 dark:bg-[#10110e] dark:focus:border-emerald-500 [&::-webkit-search-cancel-button]:hidden",
+            "bg-surface text-foreground border-border hover:border-foreground/50 placeholder:text-muted-foreground h-9 w-full rounded-full border pr-9 pl-10 text-xs font-semibold transition outline-none focus:border-primary focus:ring-1 focus:ring-primary disabled:opacity-50 dark:bg-card [&::-webkit-search-cancel-button]:hidden",
             inputClassName,
           )}
         />
@@ -85,7 +85,7 @@ export function SearchInput({
           <button
             type="button"
             onClick={handleClear}
-            className="text-foreground-muted hover:text-foreground absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer p-0.5 transition"
+            className="text-muted-foreground hover:text-foreground absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer p-0.5 transition"
             aria-label="Hapus Pencarian"
           >
             <X className="size-3.5" />
@@ -101,10 +101,10 @@ export function SearchInput({
           disabled={disabled}
           aria-label={buttonText}
           title={buttonText}
-          className="h-10 w-10 shrink-0 cursor-pointer justify-center rounded-full p-0 text-xs font-bold shadow-xs sm:w-auto sm:px-4"
+          className="h-9 shrink-0 cursor-pointer justify-center rounded-full px-4 text-xs font-bold shadow-xs"
         >
-          <Search className="size-3.5 sm:mr-1" />
-          <span className="hidden sm:inline">{buttonText}</span>
+          <Search className="size-3.5 mr-1" />
+          <span>{buttonText}</span>
         </Button>
       )}
     </form>

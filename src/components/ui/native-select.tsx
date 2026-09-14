@@ -11,9 +11,9 @@ const nativeSelectVariants = cva(
       variant: {
         default:
           "border-input selection:bg-primary selection:text-primary-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:bg-input/30 dark:hover:bg-input/50 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 h-8 rounded-lg border bg-transparent py-1 pr-8 pl-2.5 text-sm focus-visible:ring-3 aria-invalid:ring-3 data-[size=sm]:h-7 data-[size=sm]:rounded-[min(var(--radius-md),10px)] data-[size=sm]:py-0.5",
-        pill: "bg-surface text-foreground border-border hover:border-foreground-muted focus:border-emerald-600 dark:focus:border-wise-green h-10 rounded-full border pr-8 pl-3.5 text-xs font-semibold dark:bg-[#10110e]",
+        pill: "bg-surface text-foreground border-border hover:border-foreground/50 focus:border-primary focus:ring-1 focus:ring-primary h-9 rounded-full border pr-8 pl-3.5 text-xs font-semibold dark:bg-card",
         rounded:
-          "bg-surface text-foreground border-border hover:border-foreground-muted focus:border-emerald-600 dark:focus:border-wise-green h-10 rounded-xl border pr-8 pl-3.5 text-xs font-semibold dark:bg-[#10110e]",
+          "bg-surface text-foreground border-border hover:border-foreground/50 focus:border-primary focus:ring-1 focus:ring-primary h-9 rounded-xl border pr-8 pl-3.5 text-xs font-semibold dark:bg-card",
       },
     },
     defaultVariants: {

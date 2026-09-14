@@ -17,6 +17,9 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { NativeSelect } from "@/components/ui/native-select";
 import { LifeBuoy, Send, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -92,13 +95,12 @@ export function CreateTicketModal({
             <label className="text-xs font-semibold text-muted-foreground">
               Subjek Tiket
             </label>
-            <input
+            <Input
               type="text"
               required
               placeholder="Contoh: Gagal koneksi node SG-01 pada protokol Trojan"
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
-              className="w-full px-3.5 py-2 text-sm rounded-lg border border-border/50 bg-background/50 focus:outline-none focus:ring-2 focus:ring-primary"
             />
           </div>
 
@@ -107,10 +109,9 @@ export function CreateTicketModal({
               <label className="text-xs font-semibold text-muted-foreground">
                 Departemen / Kategori
               </label>
-              <select
+              <NativeSelect
                 value={department}
                 onChange={(e) => setDepartment(e.target.value)}
-                className="w-full px-3.5 py-2 text-sm rounded-lg border border-border/50 bg-background/50 focus:outline-none focus:ring-2 focus:ring-primary"
               >
                 <option value="Konektivitas VPN">
                   Konektivitas VPN & Protokol
@@ -123,23 +124,22 @@ export function CreateTicketModal({
                   Akun & Kredensial Pengguna
                 </option>
                 <option value="Lainnya">Pertanyaan Umum Lainnya</option>
-              </select>
+              </NativeSelect>
             </div>
 
             <div className="space-y-1.5">
               <label className="text-xs font-semibold text-muted-foreground">
                 Prioritas
               </label>
-              <select
+              <NativeSelect
                 value={priority}
                 onChange={(e) => setPriority(e.target.value as TicketPriority)}
-                className="w-full px-3.5 py-2 text-sm rounded-lg border border-border/50 bg-background/50 focus:outline-none focus:ring-2 focus:ring-primary"
               >
                 <option value="LOW">Rendah (Low)</option>
                 <option value="MEDIUM">Normal (Medium)</option>
                 <option value="HIGH">Tinggi (High)</option>
                 <option value="URGENT">Mendesak (Urgent)</option>
-              </select>
+              </NativeSelect>
             </div>
           </div>
 
@@ -147,13 +147,13 @@ export function CreateTicketModal({
             <label className="text-xs font-semibold text-muted-foreground">
               Detail Kendala & Pesan Error
             </label>
-            <textarea
+            <Textarea
               required
               rows={4}
               placeholder="Jelaskan kendala secara rinci, termasuk perangkat yang digunakan (iOS/Android/Windows) dan pesan error jika ada..."
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full px-3.5 py-2 text-sm rounded-lg border border-border/50 bg-background/50 focus:outline-none focus:ring-2 focus:ring-primary resize-none"
+              className="resize-none"
             />
           </div>
 

@@ -20,14 +20,14 @@ const badgeVariants = cva(
           "hover:bg-muted hover:text-muted-foreground dark:hover:bg-muted/50",
         link: "text-primary underline-offset-4 hover:underline",
         success:
-          "border-emerald-500/20 bg-emerald-500/10 text-emerald-800 dark:border-emerald-500/30 dark:text-wise-green",
+          "border-emerald-500/20 bg-emerald-500/10 text-emerald-800 dark:border-emerald-500/30 dark:text-emerald-400",
         warning:
           "border-amber-500/20 bg-amber-500/10 text-amber-800 dark:border-amber-500/30 dark:text-amber-300",
         danger:
           "border-rose-500/20 bg-rose-500/10 text-rose-800 dark:border-rose-500/30 dark:text-rose-300",
         info: "border-blue-500/20 bg-blue-500/10 text-blue-800 dark:border-blue-500/30 dark:text-blue-300",
         neutral: "border-border bg-muted/60 text-foreground-secondary",
-        wise: "border-transparent bg-wise-green text-dark-green font-bold shadow-xs",
+        wise: "border-transparent bg-primary text-primary-foreground font-bold shadow-xs",
       },
     },
     defaultVariants: {

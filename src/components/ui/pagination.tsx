@@ -63,8 +63,8 @@ function PaginationLink({
   ...props
 }: PaginationLinkProps) {
   const activeClass = isActive
-    ? "bg-wise-green text-dark-green font-black shadow-xs hover:bg-pastel-green dark:bg-wise-green dark:text-dark-green border-transparent"
-    : "border-border hover:bg-muted text-foreground-secondary hover:text-foreground";
+    ? "bg-primary text-primary-foreground font-bold shadow-xs hover:bg-primary/90 border-transparent"
+    : "border-border hover:bg-muted text-muted-foreground hover:text-foreground";
 
   if (href) {
     return (
@@ -301,7 +301,7 @@ export function DataTablePagination({
             <select
               value={pageSize}
               onChange={(e) => onPageSizeChange(Number(e.target.value))}
-              className="bg-surface text-foreground border-border focus:border-wise-green h-7 cursor-pointer rounded-md border px-2 text-xs font-semibold outline-none dark:bg-[#10110e]"
+              className="bg-surface text-foreground border-border focus:border-primary focus:ring-1 focus:ring-primary h-7 cursor-pointer rounded-md border px-2 text-xs font-semibold outline-none dark:bg-card"
             >
               {pageSizeOptions.map((opt) => (
                 <option key={opt} value={opt}>

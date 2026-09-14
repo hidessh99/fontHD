@@ -3,7 +3,7 @@ import { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface EmptyStateProps {
-  icon: LucideIcon;
+  icon?: LucideIcon | React.ReactNode;
   title: string;
   description?: string;
   action?: React.ReactNode;
@@ -11,12 +11,22 @@ interface EmptyStateProps {
 }
 
 export function EmptyState({
-  icon: Icon,
+  icon,
   title,
   description,
   action,
   className,
 }: EmptyStateProps) {
+  // Handle both component reference (LucideIcon) and instantiated ReactNode
+  const renderIcon = () => {
+    if (!icon) return null;
+    if (typeof icon === "function") {
+      const IconComponent = icon as LucideIcon;
+      return <IconComponent className="size-6" />;
+    }
+    return icon;
+  };
+
   return (
     <div
       className={cn(
@@ -24,9 +34,11 @@ export function EmptyState({
         className,
       )}
     >
-      <div className="flex size-12 items-center justify-center rounded-2xl bg-primary/10 border border-primary/20 text-primary mb-4">
-        <Icon className="size-6" />
-      </div>
+      {icon && (
+        <div className="flex size-12 items-center justify-center rounded-2xl bg-primary/10 border border-primary/20 text-primary mb-4">
+          {renderIcon()}
+        </div>
+      )}
       <h3 className="text-base font-semibold tracking-tight text-foreground">
         {title}
       </h3>

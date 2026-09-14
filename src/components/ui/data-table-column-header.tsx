@@ -52,7 +52,7 @@ export function DataTableColumnHeader({
         align === "center" && "mx-auto justify-center",
         align === "right" && "ml-auto justify-end",
         isSorted
-          ? "dark:text-wise-green font-black text-emerald-700"
+          ? "text-primary font-black"
           : "text-foreground-muted hover:text-foreground",
         className,
       )}
@@ -61,9 +61,9 @@ export function DataTableColumnHeader({
       <span className="flex size-4 shrink-0 items-center justify-center">
         {isSorted ? (
           currentSortOrder === "asc" ? (
-            <ArrowUp className="dark:text-wise-green size-3.5 text-emerald-600" />
+            <ArrowUp className="size-3.5 text-primary" />
           ) : (
-            <ArrowDown className="dark:text-wise-green size-3.5 text-emerald-600" />
+            <ArrowDown className="size-3.5 text-primary" />
           )
         ) : (
           <ArrowUpDown className="size-3.5 opacity-40 transition group-hover:opacity-100" />

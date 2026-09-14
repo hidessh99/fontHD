@@ -1,12 +1,12 @@
 // ==============================================================================
 // GoVPN Admin Global Subscription Table Component
 // Part of Pola C: components/admin/AdminSubscriptionTable.tsx
-// 100% Coinbase Institutional Design System (Audit, Change Plan & Status Overrides)
+// 100% Coinbase Institutional Design System + Standardized Enterprise DataTable
 // ==============================================================================
 
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import {
   Subscription,
   Plan,
@@ -14,15 +14,16 @@ import {
 } from "../../types/subscription.types";
 import { SubscriptionStatusBadge } from "../shared/SubscriptionStatusBadge";
 import { Button } from "@/components/ui/button";
+import { NativeSelect } from "@/components/ui/native-select";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { DataTable, ColumnDef, DataTableFilterConfig } from "@/components/shared/data-table";
 import { ShieldCheck, User, Edit3, Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import { EmptyState } from "@/components/shared/EmptyState";
 
 interface AdminSubscriptionTableProps {
   subscriptions: Subscription[];
@@ -75,93 +76,109 @@ export function AdminSubscriptionTable({
     }
   };
 
+  const columns: ColumnDef<Subscription>[] = useMemo(
+    () => [
+      {
+        id: "status",
+        header: "Status",
+        cell: (sub) => <SubscriptionStatusBadge status={sub.status} />,
+      },
+      {
+        id: "user_id",
+        header: "User ID",
+        className: "font-sans",
+        cell: (sub) => (
+          <div className="flex items-center gap-1.5 text-foreground font-mono">
+            <User className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+            <span className="font-bold">#{sub.user_id}</span>
+          </div>
+        ),
+      },
+      {
+        id: "plan",
+        header: "Paket Langganan",
+        className: "font-sans font-bold text-foreground",
+        cell: (sub) => sub.plan?.name || "Premium VPN",
+      },
+      {
+        id: "start_date",
+        header: "Mulai",
+        className: "font-sans text-muted-foreground",
+        cell: (sub) => new Date(sub.start_date).toLocaleDateString("id-ID"),
+      },
+      {
+        id: "end_date",
+        header: "Berakhir",
+        className: "font-sans text-muted-foreground",
+        cell: (sub) => new Date(sub.end_date).toLocaleDateString("id-ID"),
+      },
+      {
+        id: "actions",
+        header: "Aksi",
+        align: "right",
+        cell: (sub) => (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => handleOpenDialog(sub)}
+            className="h-8 px-2.5 text-xs text-primary hover:text-primary hover:bg-primary/10 rounded-full gap-1"
+          >
+            <Edit3 className="h-3.5 w-3.5" />
+            Ubah
+          </Button>
+        ),
+      },
+    ],
+    [],
+  );
+
+  const filters: DataTableFilterConfig<Subscription>[] = useMemo(
+    () => [
+      {
+        id: "status",
+        label: "Status",
+        defaultValue: "ALL",
+        options: [
+          { label: "Semua Status", value: "ALL" },
+          { label: "ACTIVE", value: "ACTIVE" },
+          { label: "EXPIRED", value: "EXPIRED" },
+          { label: "CANCELLED", value: "CANCELLED" },
+        ],
+        filterFn: (sub, val) => sub.status?.toUpperCase() === val.toUpperCase(),
+      },
+    ],
+    [],
+  );
+
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <div>
-          <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
-            <ShieldCheck className="h-4 w-4 text-primary" />
-            Audit Global Langganan Pengguna
-          </h3>
-          <p className="text-xs text-muted-foreground mt-0.5">
-            Daftar seluruh langganan aktif, riwayat kadaluarsa, dan kemampuan
-            modifikasi status
-          </p>
-        </div>
+      <div>
+        <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
+          <ShieldCheck className="h-4 w-4 text-primary" />
+          Audit Global Langganan Pengguna
+        </h3>
+        <p className="text-xs text-muted-foreground mt-0.5">
+          Daftar seluruh langganan aktif, riwayat kadaluarsa, dan kemampuan modifikasi status
+        </p>
       </div>
 
-      {loading ? (
-        <div className="w-full h-64 flex flex-col items-center justify-center gap-3 rounded-2xl border border-border/80 bg-card/40">
-          <Loader2 className="h-7 w-7 animate-spin text-primary" />
-          <p className="text-xs text-muted-foreground font-medium">
-            Memuat daftar langganan pengguna...
-          </p>
-        </div>
-      ) : subscriptions.length === 0 ? (
-        <EmptyState
-          icon={ShieldCheck}
-          title="Belum Ada Langganan"
-          description="Langganan pengguna akan terdata secara otomatis di sini."
-        />
-      ) : (
-        <div className="w-full overflow-x-auto rounded-2xl border border-border/80 bg-card/60 shadow-xl">
-          <table className="w-full text-left text-sm text-muted-foreground font-mono">
-            <thead className="border-b border-border/80 bg-muted/30 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-              <tr>
-                <th className="px-5 py-4 font-sans">Status</th>
-                <th className="px-5 py-4 font-sans">User ID</th>
-                <th className="px-5 py-4 font-sans">Paket Langganan</th>
-                <th className="px-5 py-4 font-sans">Mulai</th>
-                <th className="px-5 py-4 font-sans">Berakhir</th>
-                <th className="px-5 py-4 font-sans text-right">Aksi</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y border-border/40 text-xs">
-              {subscriptions.map((sub) => (
-                <tr
-                  key={sub.id}
-                  className="hover:bg-muted/20 transition-colors"
-                >
-                  <td className="px-5 py-3.5">
-                    <SubscriptionStatusBadge status={sub.status} />
-                  </td>
-
-                  <td className="px-5 py-3.5 font-sans">
-                    <div className="flex items-center gap-1.5 text-foreground font-mono">
-                      <User className="h-3.5 w-3.5 text-muted-foreground" />
-                      <span className="font-bold">#{sub.user_id}</span>
-                    </div>
-                  </td>
-
-                  <td className="px-5 py-3.5 font-sans font-bold text-foreground">
-                    {sub.plan?.name || "Premium VPN"}
-                  </td>
-
-                  <td className="px-5 py-3.5 font-sans text-muted-foreground">
-                    {new Date(sub.start_date).toLocaleDateString("id-ID")}
-                  </td>
-
-                  <td className="px-5 py-3.5 font-sans text-muted-foreground">
-                    {new Date(sub.end_date).toLocaleDateString("id-ID")}
-                  </td>
-
-                  <td className="px-5 py-3.5 text-right font-sans">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => handleOpenDialog(sub)}
-                      className="h-8 px-2.5 text-xs text-primary hover:text-primary hover:bg-primary/10 rounded-lg gap-1"
-                    >
-                      <Edit3 className="h-3.5 w-3.5" />
-                      Ubah
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+      <DataTable<Subscription>
+        data={subscriptions}
+        columns={columns}
+        keyExtractor={(sub) => sub.id}
+        isLoading={loading}
+        searchable={true}
+        searchPlaceholder="Cari user ID, nama paket..."
+        searchButtonText="Cari"
+        searchAccessor={(sub) => [sub.user_id, sub.plan?.name, sub.status]}
+        filters={filters}
+        paginated={true}
+        pageSize={10}
+        entityName="langganan"
+        emptyIcon={ShieldCheck}
+        emptyTitle="Belum Ada Langganan"
+        emptyDescription="Langganan pengguna akan terdata secara otomatis di sini."
+      />
 
       {/* Override Dialog */}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
@@ -177,51 +194,62 @@ export function AdminSubscriptionTable({
               <span className="text-xs text-muted-foreground block mb-1.5">
                 Ganti Paket Membership
               </span>
-              <select
-                value={newPlanId}
+              <NativeSelect
+                variant="rounded"
+                value={String(newPlanId)}
                 onChange={(e) => setNewPlanId(e.target.value)}
-                className="w-full rounded-xl border border-border bg-card px-3 py-2 text-xs font-mono text-foreground outline-none focus:border-primary"
+                className="w-full text-xs font-mono"
               >
                 {plans.map((p) => (
                   <option key={p.id} value={p.id}>
-                    {p.name} (Rp {p.price.toLocaleString("id-ID")})
+                    {p.name} - Rp {p.price.toLocaleString("id-ID")}
                   </option>
                 ))}
-              </select>
+              </NativeSelect>
             </div>
 
             <div>
               <span className="text-xs text-muted-foreground block mb-1.5">
-                Override Status
+                Override Status Langganan
               </span>
-              <select
+              <NativeSelect
+                variant="rounded"
                 value={newStatus}
                 onChange={(e) =>
                   setNewStatus(e.target.value as SubscriptionStatus)
                 }
-                className="w-full rounded-xl border border-border bg-card px-3 py-2 text-xs font-mono text-foreground outline-none focus:border-primary"
+                className="w-full text-xs font-mono"
               >
-                <option value="ACTIVE">ACTIVE (Aktif Penuh)</option>
-                <option value="PENDING">PENDING (Menunggu Pembayaran)</option>
-                <option value="EXPIRED">EXPIRED (Kadaluarsa)</option>
+                <option value="ACTIVE">ACTIVE (Aktif)</option>
+                <option value="EXPIRED">EXPIRED (Kedaluwarsa)</option>
                 <option value="CANCELLED">CANCELLED (Dibatalkan)</option>
-              </select>
+              </NativeSelect>
             </div>
 
-            <Button
-              onClick={handleSave}
-              disabled={submitting}
-              className="w-full h-11 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-xs gap-2 mt-2"
-            >
-              {submitting ? (
-                <>
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                  Menyimpan...
-                </>
-              ) : (
-                "Simpan Perubahan"
-              )}
-            </Button>
+            <div className="flex items-center justify-end gap-2 pt-2 border-t border-border">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setDialogOpen(false)}
+                className="rounded-full text-xs px-4"
+              >
+                Batal
+              </Button>
+              <Button
+                size="sm"
+                disabled={submitting}
+                onClick={handleSave}
+                className="rounded-full text-xs bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-5"
+              >
+                {submitting ? (
+                  <>
+                    <Loader2 className="h-3.5 w-3.5 animate-spin mr-1" /> Menyimpan...
+                  </>
+                ) : (
+                  "Simpan Perubahan"
+                )}
+              </Button>
+            </div>
           </div>
         </DialogContent>
       </Dialog>
