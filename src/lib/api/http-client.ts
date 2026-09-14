@@ -9,6 +9,7 @@ export interface GlobalResponse<T = unknown> {
   success: boolean;
   message: string;
   payload?: T;
+  data?: T;
   error?: unknown;
   additional_info?:
     | {
