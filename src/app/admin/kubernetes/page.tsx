@@ -10,14 +10,15 @@ import { K8sSkeleton } from "@/modules/kubernetes/components/shared/K8sSkeleton"
 
 export const metadata: Metadata = {
   title: "Admin Kubernetes Cluster | GoVPN Institutional",
-  description: "Kelola worker nodes bare-metal, paket kuota CPU/RAM, dan blueprint template aplikasi",
+  description:
+    "Kelola worker nodes bare-metal, paket kuota CPU/RAM, dan blueprint template aplikasi",
 };
 
 const DynamicAdminK8sView = dynamic(
   () => import("@/modules/kubernetes").then((mod) => mod.AdminK8sView),
   {
     loading: () => <K8sSkeleton />,
-  }
+  },
 );
 
 export default function AdminKubernetesPage() {

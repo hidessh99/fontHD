@@ -10,14 +10,16 @@ import { SubscriptionSkeleton } from "@/modules/subscription/components/shared/S
 
 export const metadata: Metadata = {
   title: "Master Plans & Subscriptions | GoVPN Superadmin",
-  description: "Konfigurasi tiering paket layanan global dan kontrol audit langganan pengguna",
+  description:
+    "Konfigurasi tiering paket layanan global dan kontrol audit langganan pengguna",
 };
 
 const DynamicAdminSubscriptionView = dynamic(
-  () => import("@/modules/subscription").then((mod) => mod.AdminSubscriptionView),
+  () =>
+    import("@/modules/subscription").then((mod) => mod.AdminSubscriptionView),
   {
     loading: () => <SubscriptionSkeleton />,
-  }
+  },
 );
 
 export default function AdminSubscriptionPage() {

@@ -53,14 +53,16 @@ export function AdminBillingTable({
   // Form State
   const [userId, setUserId] = useState("");
   const [amount, setAmount] = useState("");
-  const [type, setType] = useState<"ADMIN_ADJUST" | "TOPUP" | "REFUND">("ADMIN_ADJUST");
+  const [type, setType] = useState<"ADMIN_ADJUST" | "TOPUP" | "REFUND">(
+    "ADMIN_ADJUST",
+  );
   const [description, setDescription] = useState("");
 
   const filtered = records.filter(
     (r) =>
       r.user_id.toString().toLowerCase().includes(filterQuery.toLowerCase()) ||
       r.description.toLowerCase().includes(filterQuery.toLowerCase()) ||
-      r.type.toLowerCase().includes(filterQuery.toLowerCase())
+      r.type.toLowerCase().includes(filterQuery.toLowerCase()),
   );
 
   const formatIDR = (val: number) => {
@@ -104,7 +106,9 @@ export function AdminBillingTable({
     setIsCheckingExpired(true);
     try {
       const res = await onCheckExpired();
-      toast.success(`Pemeriksaan selesai: ${res.expired_count} transaksi kedaluwarsa dibersihkan.`);
+      toast.success(
+        `Pemeriksaan selesai: ${res.expired_count} transaksi kedaluwarsa dibersihkan.`,
+      );
     } catch {
       toast.error("Gagal memeriksa transaksi kedaluwarsa");
     } finally {
@@ -135,7 +139,9 @@ export function AdminBillingTable({
               disabled={isCheckingExpired}
               className="rounded-full text-xs min-h-9 px-4 gap-1.5"
             >
-              <Clock className={`h-3.5 w-3.5 ${isCheckingExpired ? "animate-spin" : ""}`} />
+              <Clock
+                className={`h-3.5 w-3.5 ${isCheckingExpired ? "animate-spin" : ""}`}
+              />
               Cek Expired
             </Button>
           )}
@@ -148,18 +154,22 @@ export function AdminBillingTable({
               disabled={isLoading}
               className="rounded-full text-xs min-h-9 px-3"
             >
-              <RefreshCw className={`h-3.5 w-3.5 ${isLoading ? "animate-spin" : ""}`} />
+              <RefreshCw
+                className={`h-3.5 w-3.5 ${isLoading ? "animate-spin" : ""}`}
+              />
             </Button>
           )}
 
           {/* Adjustment Dialog */}
           <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-            <DialogTrigger render={
-              <Button className="bg-primary hover:bg-primary-hover text-white gap-2 font-semibold text-xs rounded-full min-h-9 px-5 shadow-sm">
-                <PlusCircle className="h-4 w-4" />
-                Penyesuaian Ledger
-              </Button>
-            } />
+            <DialogTrigger
+              render={
+                <Button className="bg-primary hover:bg-primary-hover text-white gap-2 font-semibold text-xs rounded-full min-h-9 px-5 shadow-sm">
+                  <PlusCircle className="h-4 w-4" />
+                  Penyesuaian Ledger
+                </Button>
+              }
+            />
             <DialogContent className="sm:max-w-md bg-card border-border/80 text-foreground rounded-2xl">
               <DialogHeader>
                 <DialogTitle className="flex items-center gap-2 text-lg font-bold">
@@ -168,9 +178,15 @@ export function AdminBillingTable({
                 </DialogTitle>
               </DialogHeader>
 
-              <form onSubmit={handleCreateAdjustment} className="space-y-4 pt-2">
+              <form
+                onSubmit={handleCreateAdjustment}
+                className="space-y-4 pt-2"
+              >
                 <div>
-                  <Label htmlFor="adj-user" className="text-xs font-medium text-muted-foreground">
+                  <Label
+                    htmlFor="adj-user"
+                    className="text-xs font-medium text-muted-foreground"
+                  >
                     Target User ID
                   </Label>
                   <Input
@@ -184,10 +200,16 @@ export function AdminBillingTable({
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <Label className="text-xs font-medium text-muted-foreground">Tipe Penyesuaian</Label>
+                    <Label className="text-xs font-medium text-muted-foreground">
+                      Tipe Penyesuaian
+                    </Label>
                     <select
                       value={type}
-                      onChange={(e) => setType(e.target.value as "ADMIN_ADJUST" | "TOPUP" | "REFUND")}
+                      onChange={(e) =>
+                        setType(
+                          e.target.value as "ADMIN_ADJUST" | "TOPUP" | "REFUND",
+                        )
+                      }
                       className="mt-1.5 w-full rounded-xl border border-input bg-background px-3 py-2 text-xs font-mono"
                     >
                       <option value="ADMIN_ADJUST">ADMIN_ADJUST</option>
@@ -197,7 +219,10 @@ export function AdminBillingTable({
                   </div>
 
                   <div>
-                    <Label htmlFor="adj-amount" className="text-xs font-medium text-muted-foreground">
+                    <Label
+                      htmlFor="adj-amount"
+                      className="text-xs font-medium text-muted-foreground"
+                    >
                       Nominal (IDR)
                     </Label>
                     <Input
@@ -212,7 +237,10 @@ export function AdminBillingTable({
                 </div>
 
                 <div>
-                  <Label htmlFor="adj-desc" className="text-xs font-medium text-muted-foreground">
+                  <Label
+                    htmlFor="adj-desc"
+                    className="text-xs font-medium text-muted-foreground"
+                  >
                     Alasan / Keterangan Mutasi
                   </Label>
                   <Input
@@ -240,7 +268,8 @@ export function AdminBillingTable({
                   >
                     {isSubmitting ? (
                       <>
-                        <Loader2 className="mr-1.5 h-4 w-4 animate-spin" /> Menerapkan...
+                        <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />{" "}
+                        Menerapkan...
                       </>
                     ) : (
                       "Simpan Mutasi"
@@ -270,7 +299,10 @@ export function AdminBillingTable({
           <tbody className="divide-y border-border/40 font-mono text-xs">
             {filtered.length === 0 ? (
               <tr>
-                <td colSpan={7} className="px-5 py-8 text-center text-muted-foreground font-sans">
+                <td
+                  colSpan={7}
+                  className="px-5 py-8 text-center text-muted-foreground font-sans"
+                >
                   Tidak ada catatan mutasi ledger yang cocok.
                 </td>
               </tr>
@@ -278,7 +310,10 @@ export function AdminBillingTable({
               filtered.map((item) => {
                 const isPositive = item.amount >= 0 && item.type !== "PURCHASE";
                 return (
-                  <tr key={item.id} className="hover:bg-muted/20 transition-colors">
+                  <tr
+                    key={item.id}
+                    className="hover:bg-muted/20 transition-colors"
+                  >
                     <td className="px-5 py-3.5 text-muted-foreground whitespace-nowrap">
                       <div className="flex items-center gap-1">
                         <Calendar className="h-3 w-3 text-muted-foreground" />
@@ -300,8 +335,8 @@ export function AdminBillingTable({
                           item.type === "TOPUP"
                             ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
                             : item.type === "ADMIN_ADJUST"
-                            ? "bg-purple-500/10 text-purple-400 border border-purple-500/20"
-                            : "bg-blue-500/10 text-blue-400 border border-blue-500/20"
+                              ? "bg-purple-500/10 text-purple-400 border border-purple-500/20"
+                              : "bg-blue-500/10 text-blue-400 border border-blue-500/20"
                         }`}
                       >
                         {item.type}
@@ -311,7 +346,11 @@ export function AdminBillingTable({
                       {item.description}
                     </td>
                     <td className="px-5 py-3.5 font-bold">
-                      <span className={isPositive ? "text-emerald-400" : "text-rose-400"}>
+                      <span
+                        className={
+                          isPositive ? "text-emerald-400" : "text-rose-400"
+                        }
+                      >
                         {isPositive ? "+" : ""}
                         {formatIDR(item.amount)}
                       </span>

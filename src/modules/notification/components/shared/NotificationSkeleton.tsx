@@ -26,7 +26,10 @@ export function NotificationSkeleton() {
       {/* Stats row */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         {[1, 2, 3, 4].map((i) => (
-          <div key={i} className="p-4 rounded-xl border border-border/40 bg-card/40 space-y-2">
+          <div
+            key={i}
+            className="p-4 rounded-xl border border-border/40 bg-card/40 space-y-2"
+          >
             <Skeleton className="h-3 w-20 rounded" />
             <Skeleton className="h-7 w-16 rounded" />
           </div>

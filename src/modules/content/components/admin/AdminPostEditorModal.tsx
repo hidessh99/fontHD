@@ -23,7 +23,10 @@ interface AdminPostEditorModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   postToEdit?: Post | null;
-  onSave: (dto: CreatePostDto | UpdatePostDto, id?: string | number) => Promise<unknown>;
+  onSave: (
+    dto: CreatePostDto | UpdatePostDto,
+    id?: string | number,
+  ) => Promise<unknown>;
 }
 
 export function AdminPostEditorModal({
@@ -69,7 +72,7 @@ export function AdminPostEditorModal({
           .toLowerCase()
           .replace(/[^\w\s-]/g, "")
           .replace(/[\s_-]+/g, "-")
-          .replace(/^-+|-+$/g, "")
+          .replace(/^-+|-+$/g, ""),
       );
     }
   };
@@ -99,7 +102,7 @@ export function AdminPostEditorModal({
             tags,
             featured_image: featuredImage.trim() || undefined,
           },
-          postToEdit.id
+          postToEdit.id,
         );
         toast.success("Artikel berhasil diperbarui!");
       } else {
@@ -128,17 +131,26 @@ export function AdminPostEditorModal({
         <DialogHeader className="p-5 border-b border-border/40 bg-muted/20">
           <div className="flex items-center gap-2 text-primary mb-1">
             <FileText className="w-5 h-5" />
-            <span className="text-xs font-bold uppercase tracking-wider">CMS Content Editor</span>
+            <span className="text-xs font-bold uppercase tracking-wider">
+              CMS Content Editor
+            </span>
           </div>
           <DialogTitle className="text-xl font-bold">
-            {postToEdit ? "Edit Artikel / Panduan" : "Tulis Artikel / Panduan Baru"}
+            {postToEdit
+              ? "Edit Artikel / Panduan"
+              : "Tulis Artikel / Panduan Baru"}
           </DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-5 space-y-4">
+        <form
+          onSubmit={handleSubmit}
+          className="flex-1 overflow-y-auto p-5 space-y-4"
+        >
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-muted-foreground">Judul Artikel</label>
+              <label className="text-xs font-semibold text-muted-foreground">
+                Judul Artikel
+              </label>
               <input
                 type="text"
                 required
@@ -150,7 +162,9 @@ export function AdminPostEditorModal({
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-muted-foreground">Slug URL</label>
+              <label className="text-xs font-semibold text-muted-foreground">
+                Slug URL
+              </label>
               <input
                 type="text"
                 required
@@ -164,20 +178,26 @@ export function AdminPostEditorModal({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-muted-foreground">Status Publikasi</label>
+              <label className="text-xs font-semibold text-muted-foreground">
+                Status Publikasi
+              </label>
               <select
                 value={status}
                 onChange={(e) => setStatus(e.target.value as PostStatus)}
                 className="w-full px-3 py-2 text-xs rounded-lg border border-border/50 bg-background/50 focus:outline-none focus:ring-1 focus:ring-primary font-semibold"
               >
-                <option value="PUBLISHED">PUBLISHED (Diterbitkan Langsung)</option>
+                <option value="PUBLISHED">
+                  PUBLISHED (Diterbitkan Langsung)
+                </option>
                 <option value="DRAFT">DRAFT (Konsep Internal)</option>
                 <option value="ARCHIVED">ARCHIVED (Diarsipkan)</option>
               </select>
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-muted-foreground">Tagar (Koma dipisah)</label>
+              <label className="text-xs font-semibold text-muted-foreground">
+                Tagar (Koma dipisah)
+              </label>
               <input
                 type="text"
                 placeholder="V2Ray, DPI, Tutorial"
@@ -189,7 +209,9 @@ export function AdminPostEditorModal({
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-muted-foreground">Ringkasan / Sinopsis (Excerpt)</label>
+            <label className="text-xs font-semibold text-muted-foreground">
+              Ringkasan / Sinopsis (Excerpt)
+            </label>
             <input
               type="text"
               placeholder="Ringkasan 1-2 kalimat untuk preview card di beranda pengetahuan..."
@@ -200,7 +222,9 @@ export function AdminPostEditorModal({
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-muted-foreground">URL Gambar Sampul (Opsional)</label>
+            <label className="text-xs font-semibold text-muted-foreground">
+              URL Gambar Sampul (Opsional)
+            </label>
             <input
               type="url"
               placeholder="https://images.unsplash.com/..."
@@ -211,7 +235,9 @@ export function AdminPostEditorModal({
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-muted-foreground">Konten Lengkap (Markdown didukung)</label>
+            <label className="text-xs font-semibold text-muted-foreground">
+              Konten Lengkap (Markdown didukung)
+            </label>
             <textarea
               required
               rows={8}
@@ -244,7 +270,9 @@ export function AdminPostEditorModal({
               ) : (
                 <>
                   <Save className="w-4 h-4" />
-                  <span>{postToEdit ? "Perbarui Artikel" : "Terbitkan Artikel"}</span>
+                  <span>
+                    {postToEdit ? "Perbarui Artikel" : "Terbitkan Artikel"}
+                  </span>
                 </>
               )}
             </Button>

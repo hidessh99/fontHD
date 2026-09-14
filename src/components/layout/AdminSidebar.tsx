@@ -38,11 +38,25 @@ const adminNavGroups: AdminNavGroup[] = [
   {
     groupTitle: "Core Infrastructure",
     items: [
-      { title: "Dashboard Overview", href: "/admin/dashboard", icon: LayoutDashboard },
-      { title: "Server Node Fleet", href: "/admin/servers", icon: Server, badge: "Fleet" },
+      {
+        title: "Dashboard Overview",
+        href: "/admin/dashboard",
+        icon: LayoutDashboard,
+      },
+      {
+        title: "Server Node Fleet",
+        href: "/admin/servers",
+        icon: Server,
+        badge: "Fleet",
+      },
       { title: "Kubernetes Apps", href: "/admin/kubernetes", icon: Box },
       { title: "System Health", href: "/admin/monitor", icon: Activity },
-      { title: "Cronjob Scheduler", href: "/admin/cron", icon: Clock, badge: "40 Tasks" },
+      {
+        title: "Cronjob Scheduler",
+        href: "/admin/cron",
+        icon: Clock,
+        badge: "40 Tasks",
+      },
     ],
   },
   {
@@ -82,7 +96,7 @@ export function AdminSidebar({ className, onCloseMobile }: AdminSidebarProps) {
     <aside
       className={cn(
         "flex h-full w-64 flex-col border-r border-rose-500/20 bg-sidebar text-sidebar-foreground",
-        className
+        className,
       )}
     >
       {/* Brand Header */}
@@ -118,8 +132,10 @@ export function AdminSidebar({ className, onCloseMobile }: AdminSidebarProps) {
             {group.items.map((item) => {
               const isActive =
                 pathname === item.href ||
-                (item.href === "/admin/kubernetes" && pathname === "/admin/k8s") ||
-                (item.href === "/admin/content" && pathname === "/admin/settings");
+                (item.href === "/admin/kubernetes" &&
+                  pathname === "/admin/k8s") ||
+                (item.href === "/admin/content" &&
+                  pathname === "/admin/settings");
 
               return (
                 <Link
@@ -130,14 +146,14 @@ export function AdminSidebar({ className, onCloseMobile }: AdminSidebarProps) {
                     "flex items-center justify-between rounded-xl px-3 py-1.5 text-xs font-semibold transition-all duration-150",
                     isActive
                       ? "bg-rose-500 text-white shadow-sm shadow-rose-500/25"
-                      : "text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground"
+                      : "text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground",
                   )}
                 >
                   <div className="flex items-center gap-2.5">
                     <item.icon
                       className={cn(
                         "size-4",
-                        isActive ? "text-white" : "text-muted-foreground"
+                        isActive ? "text-white" : "text-muted-foreground",
                       )}
                     />
                     <span>{item.title}</span>
@@ -149,7 +165,7 @@ export function AdminSidebar({ className, onCloseMobile }: AdminSidebarProps) {
                         "text-[9px] px-1.5 py-0 border-none font-mono",
                         isActive
                           ? "bg-white/20 text-white"
-                          : "bg-rose-500/10 text-rose-400"
+                          : "bg-rose-500/10 text-rose-400",
                       )}
                     >
                       {item.badge}

@@ -64,7 +64,10 @@ export function SessionDeviceItem({
               {session.ip_address}
             </span>
             {session.location && <span>• {session.location}</span>}
-            <span>• Aktif: {formatDate(session.last_active_at || session.created_at)}</span>
+            <span>
+              • Aktif:{" "}
+              {formatDate(session.last_active_at || session.created_at)}
+            </span>
           </div>
         </div>
       </div>

@@ -138,7 +138,10 @@ export function useDnsAdmin() {
     }
   };
 
-  const updateAccount = async (id: string | number, dto: AdminUpdateDnsAccountDto) => {
+  const updateAccount = async (
+    id: string | number,
+    dto: AdminUpdateDnsAccountDto,
+  ) => {
     try {
       const res = await dnsAdminApi.updateAccount(id, dto);
       const updated = res.payload || res.data;
@@ -148,7 +151,11 @@ export function useDnsAdmin() {
       }
     } catch {
       setAccounts((prev) =>
-        prev.map((a) => (a.id === id ? { ...a, ...dto, updated_at: new Date().toISOString() } : a))
+        prev.map((a) =>
+          a.id === id
+            ? { ...a, ...dto, updated_at: new Date().toISOString() }
+            : a,
+        ),
       );
     }
   };
@@ -204,7 +211,9 @@ export function useDnsAdmin() {
         return created;
       }
     } catch {
-      const domain = domains.find((d) => String(d.id) === String(dto.domain_id));
+      const domain = domains.find(
+        (d) => String(d.id) === String(dto.domain_id),
+      );
       const mockRec: DnsRecord = {
         id: "rec-" + Date.now(),
         domain_id: dto.domain_id,
@@ -223,7 +232,10 @@ export function useDnsAdmin() {
     }
   };
 
-  const updateRecord = async (id: string | number, dto: Partial<AdminCreateDnsRecordDto>) => {
+  const updateRecord = async (
+    id: string | number,
+    dto: Partial<AdminCreateDnsRecordDto>,
+  ) => {
     try {
       const res = await dnsAdminApi.updateRecord(id, dto);
       const updated = res.payload || res.data;
@@ -233,7 +245,11 @@ export function useDnsAdmin() {
       }
     } catch {
       setRecords((prev) =>
-        prev.map((r) => (r.id === id ? { ...r, ...dto, updated_at: new Date().toISOString() } : r))
+        prev.map((r) =>
+          r.id === id
+            ? { ...r, ...dto, updated_at: new Date().toISOString() }
+            : r,
+        ),
       );
     }
   };

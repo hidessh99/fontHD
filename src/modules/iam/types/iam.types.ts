@@ -4,12 +4,7 @@
 // ==============================================================================
 
 export type UserRole =
-  | "USER"
-  | "SELLER"
-  | "RESELLER"
-  | "ADMIN"
-  | "SUPERADMIN"
-  | string;
+  "USER" | "SELLER" | "RESELLER" | "ADMIN" | "SUPERADMIN" | string;
 
 export interface UserProfile {
   id: number | string;

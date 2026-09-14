@@ -13,6 +13,7 @@ import { AdminPostTable } from "../../components/admin/AdminPostTable";
 import { AdminPostEditorModal } from "../../components/admin/AdminPostEditorModal";
 import { AdminSettingsTable } from "../../components/admin/AdminSettingsTable";
 import { Post } from "../../types/content.types";
+import { CreatePostDto } from "../../types/admin.types";
 import { RefreshCw, FileText, Sliders, Plus, Newspaper } from "lucide-react";
 import { toast } from "sonner";
 
@@ -61,7 +62,8 @@ export function AdminContentView() {
             Manajemen Konten & Konfigurasi Sistem
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Publikasikan panduan teknis, kelola metadata artikel, dan sesuaikan parameter operasional sistem.
+            Publikasikan panduan teknis, kelola metadata artikel, dan sesuaikan
+            parameter operasional sistem.
           </p>
         </div>
 
@@ -155,7 +157,7 @@ export function AdminContentView() {
           if (id) {
             await updatePost(id, dto);
           } else {
-            await createPost(dto as any);
+            await createPost(dto as CreatePostDto);
           }
         }}
       />

@@ -28,9 +28,15 @@ import { toast } from "sonner";
 interface AdminBalanceAdjustModalProps {
   user: UserProfile;
   onAddBalance?: (dto: AdminAdjustBalanceDto, key?: string) => Promise<unknown>;
-  onReduceBalance?: (dto: AdminAdjustBalanceDto, key?: string) => Promise<unknown>;
+  onReduceBalance?: (
+    dto: AdminAdjustBalanceDto,
+    key?: string,
+  ) => Promise<unknown>;
   onAddIncome?: (dto: AdminAdjustIncomeDto, key?: string) => Promise<unknown>;
-  onReduceIncome?: (dto: AdminAdjustIncomeDto, key?: string) => Promise<unknown>;
+  onReduceIncome?: (
+    dto: AdminAdjustIncomeDto,
+    key?: string,
+  ) => Promise<unknown>;
   triggerButton?: React.ReactNode;
 }
 
@@ -43,7 +49,9 @@ export function AdminBalanceAdjustModal({
   triggerButton,
 }: AdminBalanceAdjustModalProps) {
   const [open, setOpen] = useState(false);
-  const [targetWallet, setTargetWallet] = useState<"balance" | "income">("balance");
+  const [targetWallet, setTargetWallet] = useState<"balance" | "income">(
+    "balance",
+  );
   const [actionType, setActionType] = useState<"add" | "reduce">("add");
   const [amount, setAmount] = useState("");
   const [reason, setReason] = useState("");
@@ -88,7 +96,7 @@ export function AdminBalanceAdjustModal({
       toast.success(
         `Berhasil ${actionType === "add" ? "menambah" : "mengurangi"} ${
           targetWallet === "balance" ? "saldo" : "komisi"
-        } sebesar Rp ${numAmount.toLocaleString("id-ID")}`
+        } sebesar Rp ${numAmount.toLocaleString("id-ID")}`,
       );
       setOpen(false);
       setAmount("");
@@ -110,20 +118,22 @@ export function AdminBalanceAdjustModal({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger render={
-        triggerButton ? (
-          (triggerButton as React.ReactElement)
-        ) : (
-          <Button
-            size="sm"
-            variant="outline"
-            className="rounded-full text-xs font-mono h-8 px-3 gap-1"
-          >
-            <DollarSign className="h-3.5 w-3.5 text-primary" />
-            Saldo
-          </Button>
-        )
-      } />
+      <DialogTrigger
+        render={
+          triggerButton ? (
+            (triggerButton as React.ReactElement)
+          ) : (
+            <Button
+              size="sm"
+              variant="outline"
+              className="rounded-full text-xs font-mono h-8 px-3 gap-1"
+            >
+              <DollarSign className="h-3.5 w-3.5 text-primary" />
+              Saldo
+            </Button>
+          )
+        }
+      />
 
       <DialogContent className="sm:max-w-md bg-card border-border/80 text-foreground rounded-2xl">
         <DialogHeader>
@@ -138,15 +148,25 @@ export function AdminBalanceAdjustModal({
           <div className="rounded-xl border border-border/60 bg-surface/50 p-3 text-xs font-mono space-y-1">
             <div className="flex justify-between">
               <span className="text-muted-foreground">User:</span>
-              <span className="font-bold text-foreground">{user.username} (ID: {user.id})</span>
+              <span className="font-bold text-foreground">
+                {user.username} (ID: {user.id})
+              </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-muted-foreground">Saldo Dompet Saat Ini:</span>
-              <span className="font-bold text-emerald-400">{formatIDR(user.balance)}</span>
+              <span className="text-muted-foreground">
+                Saldo Dompet Saat Ini:
+              </span>
+              <span className="font-bold text-emerald-400">
+                {formatIDR(user.balance)}
+              </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-muted-foreground">Komisi Reseller Saat Ini:</span>
-              <span className="font-bold text-blue-400">{formatIDR(user.income)}</span>
+              <span className="text-muted-foreground">
+                Komisi Reseller Saat Ini:
+              </span>
+              <span className="font-bold text-blue-400">
+                {formatIDR(user.income)}
+              </span>
             </div>
           </div>
 
@@ -204,7 +224,10 @@ export function AdminBalanceAdjustModal({
 
           {/* Nominal Input */}
           <div>
-            <Label htmlFor="adj-amt" className="text-xs font-medium text-muted-foreground">
+            <Label
+              htmlFor="adj-amt"
+              className="text-xs font-medium text-muted-foreground"
+            >
               Nominal Penyesuaian (IDR)
             </Label>
             <div className="relative mt-1.5">
@@ -225,7 +248,10 @@ export function AdminBalanceAdjustModal({
 
           {/* Reason Input */}
           <div>
-            <Label htmlFor="adj-reason" className="text-xs font-medium text-muted-foreground">
+            <Label
+              htmlFor="adj-reason"
+              className="text-xs font-medium text-muted-foreground"
+            >
               Alasan Penyesuaian Ledger (Audit Log)
             </Label>
             <Input
@@ -257,7 +283,8 @@ export function AdminBalanceAdjustModal({
             >
               {isSubmitting ? (
                 <>
-                  <Loader2 className="mr-1.5 h-4 w-4 animate-spin" /> Memproses...
+                  <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />{" "}
+                  Memproses...
                 </>
               ) : (
                 `Terapkan ${actionType === "add" ? "Penambahan" : "Pengurangan"}`

@@ -73,7 +73,10 @@ export function SellerHeader({
               </Button>
             }
           />
-          <SheetContent side="left" className="p-0 w-64 bg-sidebar border-amber-500/20">
+          <SheetContent
+            side="left"
+            className="p-0 w-64 bg-sidebar border-amber-500/20"
+          >
             <SellerSidebar onCloseMobile={() => setIsMobileOpen(false)} />
           </SheetContent>
         </Sheet>
@@ -82,7 +85,10 @@ export function SellerHeader({
         <Breadcrumb className="hidden sm:flex">
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/seller/vpn" className="text-xs font-mono text-amber-500">
+              <BreadcrumbLink
+                href="/seller/vpn"
+                className="text-xs font-mono text-amber-500"
+              >
                 Partner Portal
               </BreadcrumbLink>
             </BreadcrumbItem>
@@ -165,7 +171,10 @@ export function SellerHeader({
               </Button>
             }
           />
-          <DropdownMenuContent align="end" className="w-56 bg-card border-border">
+          <DropdownMenuContent
+            align="end"
+            className="w-56 bg-card border-border"
+          >
             <DropdownMenuLabel className="font-normal">
               <div className="flex flex-col space-y-1">
                 <p className="text-sm font-semibold leading-none">{userName}</p>
@@ -175,11 +184,25 @@ export function SellerHeader({
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem render={<Link href="/dashboard" className="flex items-center w-full cursor-pointer" />}>
+            <DropdownMenuItem
+              render={
+                <Link
+                  href="/dashboard"
+                  className="flex items-center w-full cursor-pointer"
+                />
+              }
+            >
               <ArrowLeft className="mr-2 size-4 text-muted-foreground" />
               <span>Console Member Biasa</span>
             </DropdownMenuItem>
-            <DropdownMenuItem render={<Link href="/seller/withdrawal" className="flex items-center w-full cursor-pointer" />}>
+            <DropdownMenuItem
+              render={
+                <Link
+                  href="/seller/withdrawal"
+                  className="flex items-center w-full cursor-pointer"
+                />
+              }
+            >
               <Coins className="mr-2 size-4 text-muted-foreground" />
               <span>Riwayat Penarikan</span>
             </DropdownMenuItem>

@@ -46,8 +46,11 @@ export function AdminTicketTable({
   const filteredTickets = tickets.filter((t) => {
     const matchesSearch =
       t.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      String(t.ticket_number || t.id).toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (t.user_email && t.user_email.toLowerCase().includes(searchTerm.toLowerCase()));
+      String(t.ticket_number || t.id)
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
+      (t.user_email &&
+        t.user_email.toLowerCase().includes(searchTerm.toLowerCase()));
     const matchesStatus = statusFilter === "ALL" || t.status === statusFilter;
     return matchesSearch && matchesStatus;
   });
@@ -103,7 +106,9 @@ export function AdminTicketTable({
                   <th className="p-3.5 font-semibold">Prioritas</th>
                   <th className="p-3.5 font-semibold">Status</th>
                   <th className="p-3.5 font-semibold">Tanggal</th>
-                  <th className="p-3.5 font-semibold text-right">Aksi Operasional</th>
+                  <th className="p-3.5 font-semibold text-right">
+                    Aksi Operasional
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border/30">
@@ -119,7 +124,11 @@ export function AdminTicketTable({
                     <td className="p-3.5 whitespace-nowrap">
                       <div className="flex items-center gap-1.5 font-medium text-foreground">
                         <User className="w-3.5 h-3.5 text-muted-foreground" />
-                        <span>{ticket.user_name || ticket.user_email || `User #${ticket.user_id}`}</span>
+                        <span>
+                          {ticket.user_name ||
+                            ticket.user_email ||
+                            `User #${ticket.user_id}`}
+                        </span>
                       </div>
                       <span className="text-[10px] text-muted-foreground">
                         {ticket.department || "General"}
@@ -158,18 +167,19 @@ export function AdminTicketTable({
                             <span>Proses</span>
                           </Button>
                         )}
-                        {ticket.status !== "RESOLVED" && ticket.status !== "CLOSED" && (
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            className="h-7 px-2 text-emerald-500 hover:text-emerald-600 hover:bg-emerald-500/10 text-[11px]"
-                            onClick={() => onResolve(ticket.id)}
-                            title="Selesaikan Tiket"
-                          >
-                            <CheckCircle2 className="w-3.5 h-3.5 mr-1" />
-                            <span>Selesai</span>
-                          </Button>
-                        )}
+                        {ticket.status !== "RESOLVED" &&
+                          ticket.status !== "CLOSED" && (
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              className="h-7 px-2 text-emerald-500 hover:text-emerald-600 hover:bg-emerald-500/10 text-[11px]"
+                              onClick={() => onResolve(ticket.id)}
+                              title="Selesaikan Tiket"
+                            >
+                              <CheckCircle2 className="w-3.5 h-3.5 mr-1" />
+                              <span>Selesai</span>
+                            </Button>
+                          )}
                         {ticket.status !== "CLOSED" && (
                           <Button
                             size="sm"

@@ -30,7 +30,9 @@ export function AdminK8sView() {
     refresh,
   } = useK8sAdmin();
 
-  const [activeTab, setActiveTab] = useState<"servers" | "specs" | "templates">("servers");
+  const [activeTab, setActiveTab] = useState<"servers" | "specs" | "templates">(
+    "servers",
+  );
 
   const totalCapacityCores = servers.reduce((sum, s) => sum + s.total_cpu, 0);
   const totalCapacityRam = servers.reduce((sum, s) => sum + s.total_ram_gb, 0);
@@ -48,7 +50,8 @@ export function AdminK8sView() {
             Admin Kubernetes Cluster Control Plane
           </h1>
           <p className="text-xs text-muted-foreground mt-1">
-            Kelola worker nodes bare-metal, paket kuota CPU/RAM, dan blueprint template aplikasi
+            Kelola worker nodes bare-metal, paket kuota CPU/RAM, dan blueprint
+            template aplikasi
           </p>
         </div>
 
@@ -59,7 +62,9 @@ export function AdminK8sView() {
           disabled={loading}
           className="border-border bg-card/60 hover:bg-muted text-foreground gap-2 h-9 px-3.5 text-xs rounded-xl shadow-sm"
         >
-          <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`} />
+          <RefreshCw
+            className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`}
+          />
           Segarkan
         </Button>
       </div>
@@ -69,7 +74,9 @@ export function AdminK8sView() {
         <Card className="border-border/80 bg-card/60 backdrop-blur-sm p-4 rounded-2xl shadow-sm">
           <CardContent className="p-0 flex items-center justify-between">
             <div>
-              <span className="text-xs text-muted-foreground font-medium">Worker Nodes Aktif</span>
+              <span className="text-xs text-muted-foreground font-medium">
+                Worker Nodes Aktif
+              </span>
               <div className="font-mono text-2xl font-bold text-foreground mt-1">
                 {servers.length} Node ({totalPods} Pods)
               </div>
@@ -83,7 +90,9 @@ export function AdminK8sView() {
         <Card className="border-border/80 bg-card/60 backdrop-blur-sm p-4 rounded-2xl shadow-sm">
           <CardContent className="p-0 flex items-center justify-between">
             <div>
-              <span className="text-xs text-muted-foreground font-medium">Kapasitas CPU Klaster</span>
+              <span className="text-xs text-muted-foreground font-medium">
+                Kapasitas CPU Klaster
+              </span>
               <div className="font-mono text-2xl font-bold text-emerald-400 mt-1">
                 {totalCapacityCores} vCPU Cores
               </div>
@@ -97,7 +106,9 @@ export function AdminK8sView() {
         <Card className="border-border/80 bg-card/60 backdrop-blur-sm p-4 rounded-2xl shadow-sm">
           <CardContent className="p-0 flex items-center justify-between">
             <div>
-              <span className="text-xs text-muted-foreground font-medium">Kapasitas RAM Klaster</span>
+              <span className="text-xs text-muted-foreground font-medium">
+                Kapasitas RAM Klaster
+              </span>
               <div className="font-mono text-2xl font-bold text-primary mt-1">
                 {totalCapacityRam} GB RAM
               </div>

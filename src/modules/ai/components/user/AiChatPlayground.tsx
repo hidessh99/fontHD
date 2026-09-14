@@ -17,7 +17,10 @@ import { toast } from "sonner";
 
 interface AiChatPlaygroundProps {
   models: AiModel[];
-  onSendMessage: (model: string, content: string) => Promise<string | undefined>;
+  onSendMessage: (
+    model: string,
+    content: string,
+  ) => Promise<string | undefined>;
 }
 
 export function AiChatPlayground({
@@ -25,7 +28,7 @@ export function AiChatPlayground({
   onSendMessage,
 }: AiChatPlaygroundProps) {
   const [selectedModel, setSelectedModel] = useState<string>(
-    models[0]?.model_id || "gpt-4o-mini"
+    models[0]?.model_id || "gpt-4o-mini",
   );
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<ChatMessage[]>([
@@ -40,7 +43,10 @@ export function AiChatPlayground({
   const [sending, setSending] = useState(false);
 
   React.useEffect(() => {
-    if (models.length > 0 && !models.some((m) => m.model_id === selectedModel)) {
+    if (
+      models.length > 0 &&
+      !models.some((m) => m.model_id === selectedModel)
+    ) {
       setSelectedModel(models[0].model_id);
     }
   }, [models, selectedModel]);
@@ -98,8 +104,12 @@ export function AiChatPlayground({
             <Sparkles className="h-4 w-4" />
           </div>
           <div>
-            <h4 className="font-bold text-xs text-foreground">Playground Inferensi AI</h4>
-            <p className="text-[11px] text-muted-foreground">Uji coba interaktif langsung ke model</p>
+            <h4 className="font-bold text-xs text-foreground">
+              Playground Inferensi AI
+            </h4>
+            <p className="text-[11px] text-muted-foreground">
+              Uji coba interaktif langsung ke model
+            </p>
           </div>
         </div>
 
@@ -144,7 +154,11 @@ export function AiChatPlayground({
                   : "bg-muted text-muted-foreground border border-border"
               }`}
             >
-              {msg.role === "user" ? <User className="h-3.5 w-3.5" /> : <Bot className="h-3.5 w-3.5" />}
+              {msg.role === "user" ? (
+                <User className="h-3.5 w-3.5" />
+              ) : (
+                <Bot className="h-3.5 w-3.5" />
+              )}
             </div>
 
             <div
@@ -179,7 +193,10 @@ export function AiChatPlayground({
       </div>
 
       {/* Input Footer */}
-      <form onSubmit={handleSend} className="p-3 border-t border-border/80 bg-muted/20 flex gap-2">
+      <form
+        onSubmit={handleSend}
+        className="p-3 border-t border-border/80 bg-muted/20 flex gap-2"
+      >
         <Input
           placeholder={`Tulis prompt untuk ${selectedModel}...`}
           value={input}

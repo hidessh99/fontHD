@@ -27,7 +27,10 @@ export const contentAdminApi = {
     apiClient.get<Post>(`/api/admin/post/${id}`),
 
   // 4. PUT /api/admin/post/:id
-  updatePost: (id: string | number, data: UpdatePostDto): Promise<ApiResponse<Post>> =>
+  updatePost: (
+    id: string | number,
+    data: UpdatePostDto,
+  ): Promise<ApiResponse<Post>> =>
     apiClient.put<Post>(`/api/admin/post/${id}`, data),
 
   // 5. DELETE /api/admin/post/:id
@@ -43,7 +46,9 @@ export const contentAdminApi = {
     apiClient.get<SystemSetting[]>("/api/admin/settings"),
 
   // 8. POST /api/admin/settings
-  createSetting: (data: CreateSettingDto): Promise<ApiResponse<SystemSetting>> =>
+  createSetting: (
+    data: CreateSettingDto,
+  ): Promise<ApiResponse<SystemSetting>> =>
     apiClient.post<SystemSetting>("/api/admin/settings", data),
 
   // 9. GET /api/admin/settings/:id
@@ -53,7 +58,7 @@ export const contentAdminApi = {
   // 10. PUT /api/admin/settings/:id
   updateSetting: (
     id: string | number,
-    data: UpdateSettingDto
+    data: UpdateSettingDto,
   ): Promise<ApiResponse<SystemSetting>> =>
     apiClient.put<SystemSetting>(`/api/admin/settings/${id}`, data),
 

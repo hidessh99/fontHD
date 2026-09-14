@@ -9,7 +9,10 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { dnsUserApi } from "../api/user.api";
 import type { DnsDomain, DnsRecord } from "../types/dns.types";
-import type { CreateUserDnsRecordDto, UpdateUserDnsRecordDto } from "../types/user.types";
+import type {
+  CreateUserDnsRecordDto,
+  UpdateUserDnsRecordDto,
+} from "../types/user.types";
 import { toast } from "sonner";
 
 const MOCK_DOMAINS: DnsDomain[] = [
@@ -102,12 +105,14 @@ export function useDnsUser() {
   const filteredRecords = useMemo(() => {
     return records.filter((rec) => {
       const matchesDomain =
-        selectedDomainId === "ALL" || String(rec.domain_id) === String(selectedDomainId);
+        selectedDomainId === "ALL" ||
+        String(rec.domain_id) === String(selectedDomainId);
       const matchesSearch =
         searchQuery === "" ||
         rec.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         rec.content.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (rec.comment && rec.comment.toLowerCase().includes(searchQuery.toLowerCase()));
+        (rec.comment &&
+          rec.comment.toLowerCase().includes(searchQuery.toLowerCase()));
 
       return matchesDomain && matchesSearch;
     });
@@ -126,7 +131,9 @@ export function useDnsUser() {
       }
     } catch {
       // Graceful fallback for mock/simulation
-      const domain = domains.find((d) => String(d.id) === String(dto.domain_id));
+      const domain = domains.find(
+        (d) => String(d.id) === String(dto.domain_id),
+      );
       const mockRecord: DnsRecord = {
         id: "rec-" + Date.now(),
         domain_id: dto.domain_id,
@@ -145,7 +152,10 @@ export function useDnsUser() {
     }
   };
 
-  const updateRecord = async (id: string | number, dto: UpdateUserDnsRecordDto) => {
+  const updateRecord = async (
+    id: string | number,
+    dto: UpdateUserDnsRecordDto,
+  ) => {
     try {
       const res = await dnsUserApi.updateRecord(id, dto);
       const updated = res.payload || res.data;
@@ -156,7 +166,11 @@ export function useDnsUser() {
       }
     } catch {
       setRecords((prev) =>
-        prev.map((r) => (r.id === id ? { ...r, ...dto, updated_at: new Date().toISOString() } : r))
+        prev.map((r) =>
+          r.id === id
+            ? { ...r, ...dto, updated_at: new Date().toISOString() }
+            : r,
+        ),
       );
       toast.success("DNS Record Diperbarui (Mode Simulasi)");
     }

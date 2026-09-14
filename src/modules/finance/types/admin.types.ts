@@ -2,7 +2,11 @@
 // GoVPN Finance Superadmin Role DTOs & Contracts (32 Endpoints)
 // ==============================================================================
 
-import { InvoiceStatus, PaymentMethod, WithdrawalStatus } from "./finance.types";
+import {
+  InvoiceStatus,
+  PaymentMethod,
+  WithdrawalStatus,
+} from "./finance.types";
 
 export interface AdminCreateBillingDto {
   user_id: string | number;

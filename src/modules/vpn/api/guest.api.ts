@@ -4,7 +4,12 @@
 // ==============================================================================
 
 import { apiClient, ApiResponse } from "@/lib/api/http-client";
-import { ServerNode, VpnAccount, VpnCountry, VpnServerType } from "../types/vpn.types";
+import {
+  ServerNode,
+  VpnAccount,
+  VpnCountry,
+  VpnServerType,
+} from "../types/vpn.types";
 
 export interface CreateFreeAccountDto {
   server_id: number;
@@ -15,7 +20,9 @@ export interface CreateFreeAccountDto {
 
 export const vpnGuestApi = {
   // 1. POST /api/account-free
-  createFreeAccount: (data: CreateFreeAccountDto): Promise<ApiResponse<VpnAccount>> =>
+  createFreeAccount: (
+    data: CreateFreeAccountDto,
+  ): Promise<ApiResponse<VpnAccount>> =>
     apiClient.post<VpnAccount>("/api/account-free", data),
 
   // 2. GET /api/free/countries
@@ -27,7 +34,10 @@ export const vpnGuestApi = {
     apiClient.get<ServerNode[]>("/api/free/server-free"),
 
   // 4. GET /api/free/server-free/find
-  findAvailableFreeServer: (params?: { country?: string; protocol?: string }): Promise<ApiResponse<ServerNode>> =>
+  findAvailableFreeServer: (params?: {
+    country?: string;
+    protocol?: string;
+  }): Promise<ApiResponse<ServerNode>> =>
     apiClient.get<ServerNode>("/api/free/server-free/find", { params }),
 
   // 5. GET /api/free/server-type
@@ -43,7 +53,9 @@ export const vpnGuestApi = {
     apiClient.get<ServerNode>(`/api/server-free/${id}`),
 
   // 8. GET /api/server-free/find
-  findServerFree: (params?: { protocol?: string }): Promise<ApiResponse<ServerNode>> =>
+  findServerFree: (params?: {
+    protocol?: string;
+  }): Promise<ApiResponse<ServerNode>> =>
     apiClient.get<ServerNode>("/api/server-free/find", { params }),
 
   // 9. GET /api/vpn/countries
@@ -51,7 +63,11 @@ export const vpnGuestApi = {
     apiClient.get<VpnCountry[]>("/api/vpn/countries"),
 
   // 10. POST /api/vpn/countries
-  createCountry: (data: { name: string; code: string; flag_url?: string }): Promise<ApiResponse<VpnCountry>> =>
+  createCountry: (data: {
+    name: string;
+    code: string;
+    flag_url?: string;
+  }): Promise<ApiResponse<VpnCountry>> =>
     apiClient.post<VpnCountry>("/api/vpn/countries", data),
 
   // 11. GET /api/vpn/countries/:id
@@ -59,11 +75,16 @@ export const vpnGuestApi = {
     apiClient.get<VpnCountry>(`/api/vpn/countries/${id}`),
 
   // 12. PUT /api/vpn/countries/:id
-  updateCountry: (id: number | string, data: Partial<VpnCountry>): Promise<ApiResponse<VpnCountry>> =>
+  updateCountry: (
+    id: number | string,
+    data: Partial<VpnCountry>,
+  ): Promise<ApiResponse<VpnCountry>> =>
     apiClient.put<VpnCountry>(`/api/vpn/countries/${id}`, data),
 
   // 13. DELETE /api/vpn/countries/:id
-  deleteCountry: (id: number | string): Promise<ApiResponse<{ deleted: boolean }>> =>
+  deleteCountry: (
+    id: number | string,
+  ): Promise<ApiResponse<{ deleted: boolean }>> =>
     apiClient.delete<{ deleted: boolean }>(`/api/vpn/countries/${id}`),
 
   // 14. GET /api/vpn/server-type

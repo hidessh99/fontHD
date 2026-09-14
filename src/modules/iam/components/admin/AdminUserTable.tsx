@@ -16,7 +16,14 @@ import { RoleBadge } from "../shared/RoleBadge";
 import { AdminBalanceAdjustModal } from "./AdminBalanceAdjustModal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, ShieldAlert, RefreshCw, Trash2, Calendar, Mail } from "lucide-react";
+import {
+  Search,
+  ShieldAlert,
+  RefreshCw,
+  Trash2,
+  Calendar,
+  Mail,
+} from "lucide-react";
 import { toast } from "sonner";
 
 interface AdminUserTableProps {
@@ -26,9 +33,15 @@ interface AdminUserTableProps {
   onChangeRole?: (userId: string | number, role: UserRole) => Promise<unknown>;
   onDeleteUser?: (userId: string | number) => Promise<unknown>;
   onAddBalance?: (dto: AdminAdjustBalanceDto, key?: string) => Promise<unknown>;
-  onReduceBalance?: (dto: AdminAdjustBalanceDto, key?: string) => Promise<unknown>;
+  onReduceBalance?: (
+    dto: AdminAdjustBalanceDto,
+    key?: string,
+  ) => Promise<unknown>;
   onAddIncome?: (dto: AdminAdjustIncomeDto, key?: string) => Promise<unknown>;
-  onReduceIncome?: (dto: AdminAdjustIncomeDto, key?: string) => Promise<unknown>;
+  onReduceIncome?: (
+    dto: AdminAdjustIncomeDto,
+    key?: string,
+  ) => Promise<unknown>;
 }
 
 export function AdminUserTable({
@@ -53,7 +66,8 @@ export function AdminUserTable({
       String(u.id).includes(searchQuery);
 
     const matchRole =
-      roleFilter === "ALL" || u.role?.toUpperCase() === roleFilter.toUpperCase();
+      roleFilter === "ALL" ||
+      u.role?.toUpperCase() === roleFilter.toUpperCase();
 
     return matchSearch && matchRole;
   });
@@ -66,7 +80,10 @@ export function AdminUserTable({
     }).format(val || 0);
   };
 
-  const handleRoleChange = async (userId: string | number, newRole: UserRole) => {
+  const handleRoleChange = async (
+    userId: string | number,
+    newRole: UserRole,
+  ) => {
     if (!onChangeRole) return;
     try {
       await onChangeRole(userId, newRole);
@@ -125,7 +142,9 @@ export function AdminUserTable({
             disabled={isLoading}
             className="rounded-full text-xs font-mono h-9 px-4 gap-1.5 self-start sm:self-center"
           >
-            <RefreshCw className={`h-3.5 w-3.5 ${isLoading ? "animate-spin" : ""}`} />
+            <RefreshCw
+              className={`h-3.5 w-3.5 ${isLoading ? "animate-spin" : ""}`}
+            />
             Segarkan Data
           </Button>
         )}
@@ -147,7 +166,10 @@ export function AdminUserTable({
           <tbody className="divide-y border-border/40 text-xs">
             {filtered.length === 0 ? (
               <tr>
-                <td colSpan={6} className="px-5 py-8 text-center text-muted-foreground font-sans">
+                <td
+                  colSpan={6}
+                  className="px-5 py-8 text-center text-muted-foreground font-sans"
+                >
                   Tidak ada data user yang sesuai kriteria pencarian.
                 </td>
               </tr>
@@ -171,7 +193,9 @@ export function AdminUserTable({
                     {onChangeRole ? (
                       <select
                         value={u.role || "USER"}
-                        onChange={(e) => handleRoleChange(u.id, e.target.value as UserRole)}
+                        onChange={(e) =>
+                          handleRoleChange(u.id, e.target.value as UserRole)
+                        }
                         className="rounded-lg border border-border/60 bg-surface px-2 py-1 text-[11px] font-mono font-bold"
                       >
                         <option value="USER">USER</option>

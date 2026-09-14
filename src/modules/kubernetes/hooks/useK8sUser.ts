@@ -66,7 +66,8 @@ const MOCK_TEMPLATES: K8sTemplate[] = [
     category: "VPN",
     docker_image: "linuxserver/wireguard:latest",
     default_port: 51820,
-    description: "Protokol VPN modern berkecepatan tinggi dengan overhead minimal.",
+    description:
+      "Protokol VPN modern berkecepatan tinggi dengan overhead minimal.",
   },
   {
     id: "tmpl-nginx",
@@ -153,7 +154,8 @@ export function useK8sUser() {
   const filteredApps = useMemo(() => {
     return apps.filter((app) => {
       const matchesStatus =
-        filterStatus === "ALL" || app.status.toLowerCase() === filterStatus.toLowerCase();
+        filterStatus === "ALL" ||
+        app.status.toLowerCase() === filterStatus.toLowerCase();
       const matchesSearch =
         searchQuery === "" ||
         app.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -171,7 +173,9 @@ export function useK8sUser() {
         return created;
       }
     } catch {
-      const spec = specs.find((s) => String(s.id) === String(dto.spec_id)) || MOCK_SPECS[1];
+      const spec =
+        specs.find((s) => String(s.id) === String(dto.spec_id)) ||
+        MOCK_SPECS[1];
       const mockApp: K8sApp = {
         id: "app-" + Date.now(),
         user_id: 101,
@@ -209,7 +213,7 @@ export function useK8sUser() {
       }
     } catch {
       setApps((prev) =>
-        prev.map((a) => (a.id === id ? { ...a, env_vars } : a))
+        prev.map((a) => (a.id === id ? { ...a, env_vars } : a)),
       );
     }
   };
@@ -229,11 +233,11 @@ export function useK8sUser() {
             ? {
                 ...a,
                 expires_at: new Date(
-                  new Date(a.expires_at).getTime() + months * 30 * 86400000
+                  new Date(a.expires_at).getTime() + months * 30 * 86400000,
                 ).toISOString(),
               }
-            : a
-        )
+            : a,
+        ),
       );
       toast.success("Masa aktif pod diperpanjang (Mode Simulasi)");
     }

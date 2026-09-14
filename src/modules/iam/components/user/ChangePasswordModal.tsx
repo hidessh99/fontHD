@@ -62,7 +62,9 @@ export function ChangePasswordModal({
       setNewPassword("");
       setConfirmPassword("");
     } catch {
-      toast.error("Gagal memperbarui kata sandi. Periksa kata sandi lama Anda.");
+      toast.error(
+        "Gagal memperbarui kata sandi. Periksa kata sandi lama Anda.",
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -70,19 +72,21 @@ export function ChangePasswordModal({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger render={
-        triggerButton ? (
-          (triggerButton as React.ReactElement)
-        ) : (
-          <Button
-            variant="outline"
-            className="border-border/80 hover:bg-muted/30 text-foreground gap-2 font-semibold text-xs rounded-full min-h-10 px-5"
-          >
-            <KeyRound className="h-4 w-4 text-primary" />
-            Ganti Kata Sandi
-          </Button>
-        )
-      } />
+      <DialogTrigger
+        render={
+          triggerButton ? (
+            (triggerButton as React.ReactElement)
+          ) : (
+            <Button
+              variant="outline"
+              className="border-border/80 hover:bg-muted/30 text-foreground gap-2 font-semibold text-xs rounded-full min-h-10 px-5"
+            >
+              <KeyRound className="h-4 w-4 text-primary" />
+              Ganti Kata Sandi
+            </Button>
+          )
+        }
+      />
 
       <DialogContent className="sm:max-w-md bg-card border-border/80 text-foreground rounded-2xl">
         <DialogHeader>
@@ -94,7 +98,10 @@ export function ChangePasswordModal({
 
         <form onSubmit={handleSubmit} className="space-y-4 pt-2">
           <div>
-            <Label htmlFor="old-pw" className="text-xs font-medium text-muted-foreground">
+            <Label
+              htmlFor="old-pw"
+              className="text-xs font-medium text-muted-foreground"
+            >
               Kata Sandi Saat Ini
             </Label>
             <Input
@@ -109,7 +116,10 @@ export function ChangePasswordModal({
           </div>
 
           <div>
-            <Label htmlFor="new-pw" className="text-xs font-medium text-muted-foreground">
+            <Label
+              htmlFor="new-pw"
+              className="text-xs font-medium text-muted-foreground"
+            >
               Kata Sandi Baru (Min. 8 Karakter)
             </Label>
             <Input
@@ -124,7 +134,10 @@ export function ChangePasswordModal({
           </div>
 
           <div>
-            <Label htmlFor="conf-pw" className="text-xs font-medium text-muted-foreground">
+            <Label
+              htmlFor="conf-pw"
+              className="text-xs font-medium text-muted-foreground"
+            >
               Ulangi Kata Sandi Baru
             </Label>
             <Input
@@ -154,7 +167,8 @@ export function ChangePasswordModal({
             >
               {isSubmitting ? (
                 <>
-                  <Loader2 className="mr-1.5 h-4 w-4 animate-spin" /> Menyimpan...
+                  <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />{" "}
+                  Menyimpan...
                 </>
               ) : (
                 "Simpan Kata Sandi"

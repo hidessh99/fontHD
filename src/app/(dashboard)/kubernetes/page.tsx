@@ -10,14 +10,15 @@ import { K8sSkeleton } from "@/modules/kubernetes/components/shared/K8sSkeleton"
 
 export const metadata: Metadata = {
   title: "Aplikasi Kontainer Kubernetes | GoVPN Institutional",
-  description: "Kelola deployment pod kontainer, streaming logs, dan konfigurasi environment",
+  description:
+    "Kelola deployment pod kontainer, streaming logs, dan konfigurasi environment",
 };
 
 const DynamicK8sAppsView = dynamic(
   () => import("@/modules/kubernetes").then((mod) => mod.K8sAppsView),
   {
     loading: () => <K8sSkeleton />,
-  }
+  },
 );
 
 export default function KubernetesPage() {

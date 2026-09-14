@@ -20,7 +20,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Server, Plus, Trash2, Loader2, CheckCircle2, ShieldAlert } from "lucide-react";
+import {
+  Server,
+  Plus,
+  Trash2,
+  Loader2,
+  CheckCircle2,
+  ShieldAlert,
+} from "lucide-react";
 import { toast } from "sonner";
 import { EmptyState } from "@/components/shared/EmptyState";
 
@@ -74,7 +81,11 @@ export function AdminK8sServerTable({
   };
 
   const handleDelete = async (id: string | number) => {
-    if (!confirm("Hapus node cluster Kubernetes ini? Pod yang berjalan di node ini akan dievakuasi.")) {
+    if (
+      !confirm(
+        "Hapus node cluster Kubernetes ini? Pod yang berjalan di node ini akan dievakuasi.",
+      )
+    ) {
       return;
     }
     setDeletingId(id);
@@ -100,12 +111,17 @@ export function AdminK8sServerTable({
         </div>
 
         <Dialog open={openCreate} onOpenChange={setOpenCreate}>
-          <DialogTrigger render={
-            <Button size="sm" className="h-9 px-3.5 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs gap-1.5 shadow-md shadow-primary/20">
-              <Plus className="h-4 w-4" />
-              Tambah Node Worker
-            </Button>
-          } />
+          <DialogTrigger
+            render={
+              <Button
+                size="sm"
+                className="h-9 px-3.5 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs gap-1.5 shadow-md shadow-primary/20"
+              >
+                <Plus className="h-4 w-4" />
+                Tambah Node Worker
+              </Button>
+            }
+          />
           <DialogContent className="sm:max-w-md bg-card border-border text-foreground shadow-2xl rounded-2xl">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2 text-base font-bold">
@@ -115,7 +131,9 @@ export function AdminK8sServerTable({
             </DialogHeader>
             <form onSubmit={handleCreate} className="space-y-3.5 pt-2">
               <div>
-                <Label className="text-xs text-muted-foreground">Nama Node</Label>
+                <Label className="text-xs text-muted-foreground">
+                  Nama Node
+                </Label>
                 <Input
                   placeholder="misal: k8s-worker-sg-01"
                   value={name}
@@ -125,7 +143,9 @@ export function AdminK8sServerTable({
               </div>
 
               <div>
-                <Label className="text-xs text-muted-foreground">Node IP Address</Label>
+                <Label className="text-xs text-muted-foreground">
+                  Node IP Address
+                </Label>
                 <Input
                   placeholder="103.147.12.90"
                   value={nodeIp}
@@ -136,7 +156,9 @@ export function AdminK8sServerTable({
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <Label className="text-xs text-muted-foreground">Region</Label>
+                  <Label className="text-xs text-muted-foreground">
+                    Region
+                  </Label>
                   <Input
                     value={region}
                     onChange={(e) => setRegion(e.target.value)}
@@ -144,7 +166,9 @@ export function AdminK8sServerTable({
                   />
                 </div>
                 <div>
-                  <Label className="text-xs text-muted-foreground">Cluster Name</Label>
+                  <Label className="text-xs text-muted-foreground">
+                    Cluster Name
+                  </Label>
                   <Input
                     value={clusterName}
                     onChange={(e) => setClusterName(e.target.value)}
@@ -155,7 +179,9 @@ export function AdminK8sServerTable({
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <Label className="text-xs text-muted-foreground">Total Cores CPU</Label>
+                  <Label className="text-xs text-muted-foreground">
+                    Total Cores CPU
+                  </Label>
                   <Input
                     type="number"
                     value={cpu}
@@ -164,7 +190,9 @@ export function AdminK8sServerTable({
                   />
                 </div>
                 <div>
-                  <Label className="text-xs text-muted-foreground">Total RAM (GB)</Label>
+                  <Label className="text-xs text-muted-foreground">
+                    Total RAM (GB)
+                  </Label>
                   <Input
                     type="number"
                     value={ram}
@@ -215,7 +243,10 @@ export function AdminK8sServerTable({
             </thead>
             <tbody className="divide-y border-border/40 text-xs">
               {servers.map((srv) => (
-                <tr key={srv.id} className="hover:bg-muted/20 transition-colors">
+                <tr
+                  key={srv.id}
+                  className="hover:bg-muted/20 transition-colors"
+                >
                   <td className="px-5 py-3.5 font-sans font-bold text-foreground">
                     {srv.name}
                   </td>
@@ -237,7 +268,10 @@ export function AdminK8sServerTable({
                   </td>
 
                   <td className="px-5 py-3.5 text-center">
-                    <Badge variant="outline" className="border-border bg-card text-foreground font-mono text-[11px]">
+                    <Badge
+                      variant="outline"
+                      className="border-border bg-card text-foreground font-mono text-[11px]"
+                    >
                       {srv.pod_count ?? 0} Pods
                     </Badge>
                   </td>

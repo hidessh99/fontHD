@@ -28,7 +28,9 @@ export const aiUserApi = {
   createApiKey: (data: CreateApiKeyDto): Promise<ApiResponse<AiApiKey>> =>
     apiClient.post<AiApiKey>("/api/ai/api-keys", data),
 
-  deleteApiKey: (id: string | number): Promise<ApiResponse<{ deleted: boolean }>> =>
+  deleteApiKey: (
+    id: string | number,
+  ): Promise<ApiResponse<{ deleted: boolean }>> =>
     apiClient.delete<{ deleted: boolean }>(`/api/ai/api-keys/${id}`),
 
   getFirstApiKey: (): Promise<ApiResponse<AiApiKey>> =>
@@ -54,7 +56,9 @@ export const aiUserApi = {
   getUsageSummary: (): Promise<ApiResponse<AiUsageSummary>> =>
     apiClient.get<AiUsageSummary>("/api/ai/usage"),
 
-  listUsageLogs: (params?: AiUsageFilterParams): Promise<ApiResponse<AiUsageLog[]>> =>
+  listUsageLogs: (
+    params?: AiUsageFilterParams,
+  ): Promise<ApiResponse<AiUsageLog[]>> =>
     apiClient.get<AiUsageLog[]>("/api/ai/usage/logs", { params }),
 
   // === WALLET (2 Endpoints) ===
@@ -65,20 +69,38 @@ export const aiUserApi = {
     apiClient.post<AiWallet>("/api/ai/wallet/topup", data),
 
   // === OPENAI-COMPATIBLE GATEWAY (8 Endpoints) ===
-  chatCompletion: (data: ChatCompletionDto): Promise<ApiResponse<ChatCompletionResponse>> =>
+  chatCompletion: (
+    data: ChatCompletionDto,
+  ): Promise<ApiResponse<ChatCompletionResponse>> =>
     apiClient.post<ChatCompletionResponse>("/api/ai/v1/chat/completions", data),
 
-  createEmbeddings: (data: { model: string; input: string | string[] }): Promise<ApiResponse<unknown>> =>
+  createEmbeddings: (data: {
+    model: string;
+    input: string | string[];
+  }): Promise<ApiResponse<unknown>> =>
     apiClient.post("/api/ai/v1/embeddings", data),
 
-  generateImage: (data: { prompt: string; n?: number; size?: string }): Promise<ApiResponse<unknown>> =>
+  generateImage: (data: {
+    prompt: string;
+    n?: number;
+    size?: string;
+  }): Promise<ApiResponse<unknown>> =>
     apiClient.post("/api/ai/v1/images/generations", data),
 
-  generateSpeech: (data: { model: string; input: string; voice: string }): Promise<ApiResponse<unknown>> =>
+  generateSpeech: (data: {
+    model: string;
+    input: string;
+    voice: string;
+  }): Promise<ApiResponse<unknown>> =>
     apiClient.post("/api/ai/v1/audio/speech", data),
 
-  transcribeAudio: (formData: FormData): Promise<ApiResponse<{ text: string }>> =>
-    apiClient.post<{ text: string }>("/api/ai/v1/audio/transcriptions", formData),
+  transcribeAudio: (
+    formData: FormData,
+  ): Promise<ApiResponse<{ text: string }>> =>
+    apiClient.post<{ text: string }>(
+      "/api/ai/v1/audio/transcriptions",
+      formData,
+    ),
 
   getGatewayModels: (): Promise<ApiResponse<{ data: AiModel[] }>> =>
     apiClient.get<{ data: AiModel[] }>("/api/ai/v1/models"),

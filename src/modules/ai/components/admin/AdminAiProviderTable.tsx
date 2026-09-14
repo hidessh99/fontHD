@@ -70,7 +70,11 @@ export function AdminAiProviderTable({
   };
 
   const handleDelete = async (id: string | number) => {
-    if (!confirm("Hapus provider AI ini? Model yang terkait tidak akan dapat melayani permintaan.")) {
+    if (
+      !confirm(
+        "Hapus provider AI ini? Model yang terkait tidak akan dapat melayani permintaan.",
+      )
+    ) {
       return;
     }
     setDeletingId(id);
@@ -91,17 +95,23 @@ export function AdminAiProviderTable({
             Provider AI Gateway (Upstream)
           </h3>
           <p className="text-xs text-muted-foreground mt-0.5">
-            Koneksi upstream ke OpenAI, Anthropic, DeepSeek, Groq, dan OpenRouter
+            Koneksi upstream ke OpenAI, Anthropic, DeepSeek, Groq, dan
+            OpenRouter
           </p>
         </div>
 
         <Dialog open={openCreate} onOpenChange={setOpenCreate}>
-          <DialogTrigger render={
-            <Button size="sm" className="h-9 px-3.5 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs gap-1.5 shadow-md shadow-primary/20">
-              <Plus className="h-4 w-4" />
-              Tambah Provider
-            </Button>
-          } />
+          <DialogTrigger
+            render={
+              <Button
+                size="sm"
+                className="h-9 px-3.5 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs gap-1.5 shadow-md shadow-primary/20"
+              >
+                <Plus className="h-4 w-4" />
+                Tambah Provider
+              </Button>
+            }
+          />
           <DialogContent className="sm:max-w-md bg-card border-border text-foreground shadow-2xl rounded-2xl">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2 text-base font-bold">
@@ -111,7 +121,9 @@ export function AdminAiProviderTable({
             </DialogHeader>
             <form onSubmit={handleCreate} className="space-y-3.5 pt-2">
               <div>
-                <Label className="text-xs text-muted-foreground">Nama Provider</Label>
+                <Label className="text-xs text-muted-foreground">
+                  Nama Provider
+                </Label>
                 <Input
                   placeholder="misal: DeepSeek Platform / OpenAI Direct"
                   value={name}
@@ -121,7 +133,9 @@ export function AdminAiProviderTable({
               </div>
 
               <div>
-                <Label className="text-xs text-muted-foreground">Base URL (Opsional)</Label>
+                <Label className="text-xs text-muted-foreground">
+                  Base URL (Opsional)
+                </Label>
                 <Input
                   placeholder="https://api.deepseek.com/v1"
                   value={baseUrl}
@@ -131,7 +145,9 @@ export function AdminAiProviderTable({
               </div>
 
               <div>
-                <Label className="text-xs text-muted-foreground">Secret API Key</Label>
+                <Label className="text-xs text-muted-foreground">
+                  Secret API Key
+                </Label>
                 <Input
                   type="password"
                   placeholder="sk-••••••••••••••••"
@@ -174,7 +190,9 @@ export function AdminAiProviderTable({
                 <th className="px-5 py-4 font-sans">Nama Provider</th>
                 <th className="px-5 py-4 font-sans">Base URL</th>
                 <th className="px-5 py-4 font-sans">API Key Masked</th>
-                <th className="px-5 py-4 font-sans text-center">Model Terhubung</th>
+                <th className="px-5 py-4 font-sans text-center">
+                  Model Terhubung
+                </th>
                 <th className="px-5 py-4 font-sans text-right">Aksi</th>
               </tr>
             </thead>
@@ -199,7 +217,10 @@ export function AdminAiProviderTable({
                   </td>
 
                   <td className="px-5 py-3.5 text-center">
-                    <Badge variant="outline" className="border-border bg-surface text-foreground font-mono text-[11px]">
+                    <Badge
+                      variant="outline"
+                      className="border-border bg-surface text-foreground font-mono text-[11px]"
+                    >
                       {p.model_count ?? 1} Models
                     </Badge>
                   </td>

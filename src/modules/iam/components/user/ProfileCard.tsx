@@ -21,12 +21,23 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { User, Mail, Phone, Calendar, Edit3, ShieldCheck, Loader2 } from "lucide-react";
+import {
+  User,
+  Mail,
+  Phone,
+  Calendar,
+  Edit3,
+  ShieldCheck,
+  Loader2,
+} from "lucide-react";
 import { toast } from "sonner";
 
 interface ProfileCardProps {
   user: UserProfile;
-  onUpdateProfile?: (id: string | number, dto: UpdateProfileDto) => Promise<unknown>;
+  onUpdateProfile?: (
+    id: string | number,
+    dto: UpdateProfileDto,
+  ) => Promise<unknown>;
 }
 
 export function ProfileCard({ user, onUpdateProfile }: ProfileCardProps) {
@@ -113,15 +124,17 @@ export function ProfileCard({ user, onUpdateProfile }: ProfileCardProps) {
         {/* Edit Profile Action */}
         {onUpdateProfile && (
           <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
-            <DialogTrigger render={
-              <Button
-                variant="outline"
-                className="border-border/80 hover:bg-muted/30 text-foreground gap-2 font-semibold text-xs rounded-full min-h-10 px-5 shadow-sm self-start md:self-center"
-              >
-                <Edit3 className="h-4 w-4 text-primary" />
-                Ubah Profil
-              </Button>
-            } />
+            <DialogTrigger
+              render={
+                <Button
+                  variant="outline"
+                  className="border-border/80 hover:bg-muted/30 text-foreground gap-2 font-semibold text-xs rounded-full min-h-10 px-5 shadow-sm self-start md:self-center"
+                >
+                  <Edit3 className="h-4 w-4 text-primary" />
+                  Ubah Profil
+                </Button>
+              }
+            />
             <DialogContent className="sm:max-w-md bg-card border-border/80 text-foreground rounded-2xl">
               <DialogHeader>
                 <DialogTitle className="flex items-center gap-2 text-lg font-bold">
@@ -132,7 +145,10 @@ export function ProfileCard({ user, onUpdateProfile }: ProfileCardProps) {
 
               <form onSubmit={handleUpdate} className="space-y-4 pt-2">
                 <div>
-                  <Label htmlFor="edit-uname" className="text-xs font-medium text-muted-foreground">
+                  <Label
+                    htmlFor="edit-uname"
+                    className="text-xs font-medium text-muted-foreground"
+                  >
                     Username
                   </Label>
                   <Input
@@ -145,7 +161,10 @@ export function ProfileCard({ user, onUpdateProfile }: ProfileCardProps) {
                 </div>
 
                 <div>
-                  <Label htmlFor="edit-email" className="text-xs font-medium text-muted-foreground">
+                  <Label
+                    htmlFor="edit-email"
+                    className="text-xs font-medium text-muted-foreground"
+                  >
                     Alamat Email
                   </Label>
                   <Input
@@ -159,7 +178,10 @@ export function ProfileCard({ user, onUpdateProfile }: ProfileCardProps) {
                 </div>
 
                 <div>
-                  <Label htmlFor="edit-phone" className="text-xs font-medium text-muted-foreground">
+                  <Label
+                    htmlFor="edit-phone"
+                    className="text-xs font-medium text-muted-foreground"
+                  >
                     Nomor WhatsApp / Ponsel (Opsional)
                   </Label>
                   <Input
@@ -187,7 +209,8 @@ export function ProfileCard({ user, onUpdateProfile }: ProfileCardProps) {
                   >
                     {isSubmitting ? (
                       <>
-                        <Loader2 className="mr-1.5 h-4 w-4 animate-spin" /> Menyimpan...
+                        <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />{" "}
+                        Menyimpan...
                       </>
                     ) : (
                       "Simpan Perubahan"

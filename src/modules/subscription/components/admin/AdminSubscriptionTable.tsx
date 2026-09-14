@@ -7,7 +7,11 @@
 "use client";
 
 import React, { useState } from "react";
-import { Subscription, Plan, SubscriptionStatus } from "../../types/subscription.types";
+import {
+  Subscription,
+  Plan,
+  SubscriptionStatus,
+} from "../../types/subscription.types";
 import { SubscriptionStatusBadge } from "../shared/SubscriptionStatusBadge";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,8 +27,14 @@ import { EmptyState } from "@/components/shared/EmptyState";
 interface AdminSubscriptionTableProps {
   subscriptions: Subscription[];
   plans: Plan[];
-  onChangePlan: (id: string | number, planId: string | number) => Promise<unknown>;
-  onUpdateStatus: (id: string | number, status: SubscriptionStatus) => Promise<unknown>;
+  onChangePlan: (
+    id: string | number,
+    planId: string | number,
+  ) => Promise<unknown>;
+  onUpdateStatus: (
+    id: string | number,
+    status: SubscriptionStatus,
+  ) => Promise<unknown>;
   loading?: boolean;
 }
 
@@ -74,7 +84,8 @@ export function AdminSubscriptionTable({
             Audit Global Langganan Pengguna
           </h3>
           <p className="text-xs text-muted-foreground mt-0.5">
-            Daftar seluruh langganan aktif, riwayat kadaluarsa, dan kemampuan modifikasi status
+            Daftar seluruh langganan aktif, riwayat kadaluarsa, dan kemampuan
+            modifikasi status
           </p>
         </div>
       </div>
@@ -100,7 +111,10 @@ export function AdminSubscriptionTable({
             </thead>
             <tbody className="divide-y border-border/40 text-xs">
               {subscriptions.map((sub) => (
-                <tr key={sub.id} className="hover:bg-muted/20 transition-colors">
+                <tr
+                  key={sub.id}
+                  className="hover:bg-muted/20 transition-colors"
+                >
                   <td className="px-5 py-3.5">
                     <SubscriptionStatusBadge status={sub.status} />
                   </td>
@@ -153,7 +167,9 @@ export function AdminSubscriptionTable({
           </DialogHeader>
           <div className="space-y-4 pt-2">
             <div>
-              <span className="text-xs text-muted-foreground block mb-1.5">Ganti Paket Membership</span>
+              <span className="text-xs text-muted-foreground block mb-1.5">
+                Ganti Paket Membership
+              </span>
               <select
                 value={newPlanId}
                 onChange={(e) => setNewPlanId(e.target.value)}
@@ -168,10 +184,14 @@ export function AdminSubscriptionTable({
             </div>
 
             <div>
-              <span className="text-xs text-muted-foreground block mb-1.5">Override Status</span>
+              <span className="text-xs text-muted-foreground block mb-1.5">
+                Override Status
+              </span>
               <select
                 value={newStatus}
-                onChange={(e) => setNewStatus(e.target.value as SubscriptionStatus)}
+                onChange={(e) =>
+                  setNewStatus(e.target.value as SubscriptionStatus)
+                }
                 className="w-full rounded-xl border border-border bg-card px-3 py-2 text-xs font-mono text-foreground outline-none focus:border-primary"
               >
                 <option value="ACTIVE">ACTIVE (Aktif Penuh)</option>

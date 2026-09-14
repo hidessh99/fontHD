@@ -11,7 +11,13 @@ import { Subscription } from "../../types/subscription.types";
 import { SubscriptionStatusBadge } from "../shared/SubscriptionStatusBadge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ShieldCheck, Calendar, Smartphone, Wifi, ArrowUpRight } from "lucide-react";
+import {
+  ShieldCheck,
+  Calendar,
+  Smartphone,
+  Wifi,
+  ArrowUpRight,
+} from "lucide-react";
 
 interface UserSubscriptionCardProps {
   subscription?: Subscription | null;
@@ -27,10 +33,15 @@ export function UserSubscriptionCard({
       <Card className="border-border/80 bg-card/60 backdrop-blur-sm p-6 rounded-2xl shadow-sm">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="space-y-1">
-            <span className="text-xs text-muted-foreground font-medium">Status Langganan</span>
-            <h3 className="text-lg font-bold text-foreground">Paket Gratis (Free Tier)</h3>
+            <span className="text-xs text-muted-foreground font-medium">
+              Status Langganan
+            </span>
+            <h3 className="text-lg font-bold text-foreground">
+              Paket Gratis (Free Tier)
+            </h3>
             <p className="text-xs text-muted-foreground">
-              Tingkatkan ke paket Premium untuk membuka kuota unlimited dan seluruh protokol VPN berkecepatan tinggi.
+              Tingkatkan ke paket Premium untuk membuka kuota unlimited dan
+              seluruh protokol VPN berkecepatan tinggi.
             </p>
           </div>
 
@@ -53,7 +64,9 @@ export function UserSubscriptionCard({
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="space-y-2">
           <div className="flex items-center gap-2">
-            <span className="text-xs text-muted-foreground font-medium">Langganan Aktif Anda</span>
+            <span className="text-xs text-muted-foreground font-medium">
+              Langganan Aktif Anda
+            </span>
             <SubscriptionStatusBadge status={subscription.status} />
           </div>
 
@@ -65,7 +78,8 @@ export function UserSubscriptionCard({
           <div className="flex items-center gap-4 text-xs text-muted-foreground flex-wrap font-mono">
             <span className="flex items-center gap-1.5">
               <Calendar className="h-3.5 w-3.5 text-primary" />
-              Berlaku hingga: {new Date(subscription.end_date).toLocaleDateString("id-ID")}
+              Berlaku hingga:{" "}
+              {new Date(subscription.end_date).toLocaleDateString("id-ID")}
             </span>
             <span className="flex items-center gap-1.5">
               <Smartphone className="h-3.5 w-3.5 text-indigo-400" />
@@ -73,7 +87,10 @@ export function UserSubscriptionCard({
             </span>
             <span className="flex items-center gap-1.5">
               <Wifi className="h-3.5 w-3.5 text-emerald-400" />
-              Bandwidth: {subscription.plan?.bandwidth_gb ? `${subscription.plan.bandwidth_gb} GB` : "Unlimited"}
+              Bandwidth:{" "}
+              {subscription.plan?.bandwidth_gb
+                ? `${subscription.plan.bandwidth_gb} GB`
+                : "Unlimited"}
             </span>
           </div>
         </div>

@@ -71,13 +71,19 @@ export function UserDnsRecordTable({
                 <td className="px-5 py-3.5">
                   <div className="flex flex-col">
                     <div className="flex items-center gap-1.5">
-                      <span className="font-bold text-foreground">{rec.name}</span>
+                      <span className="font-bold text-foreground">
+                        {rec.name}
+                      </span>
                       {rec.domain_name && (
                         <span className="text-muted-foreground text-[11px]">
                           .{rec.domain_name}
                         </span>
                       )}
-                      <CopyButton text={fqdn} label="" className="h-5 w-5 p-0" />
+                      <CopyButton
+                        text={fqdn}
+                        label=""
+                        className="h-5 w-5 p-0"
+                      />
                     </div>
                     {rec.comment && (
                       <span className="text-[11px] text-muted-foreground font-sans truncate max-w-[200px]">
@@ -92,7 +98,11 @@ export function UserDnsRecordTable({
                     <span className="text-foreground font-semibold bg-surface border border-border/60 px-2 py-0.5 rounded text-[11px]">
                       {rec.content}
                     </span>
-                    <CopyButton text={rec.content} label="" className="h-5 w-5 p-0" />
+                    <CopyButton
+                      text={rec.content}
+                      label=""
+                      className="h-5 w-5 p-0"
+                    />
                   </div>
                 </td>
 

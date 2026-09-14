@@ -10,14 +10,15 @@ import { AiSkeleton } from "@/modules/ai/components/shared/AiSkeleton";
 
 export const metadata: Metadata = {
   title: "Admin AI Gateway & Models | GoVPN Institutional",
-  description: "Manajemen model inferensi LLM, koneksi provider upstream, dan audit dompet pengguna",
+  description:
+    "Manajemen model inferensi LLM, koneksi provider upstream, dan audit dompet pengguna",
 };
 
 const DynamicAdminAiView = dynamic(
   () => import("@/modules/ai").then((mod) => mod.AdminAiView),
   {
     loading: () => <AiSkeleton />,
-  }
+  },
 );
 
 export default function AdminAiPage() {

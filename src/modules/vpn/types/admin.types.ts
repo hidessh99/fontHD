@@ -2,7 +2,12 @@
 // GoVPN VPN Admin Role DTOs & Contracts (21 Endpoints)
 // ==============================================================================
 
-import { ServerNode, VpnProtocol, VpnServerConnect, VpnServerType } from "./vpn.types";
+import {
+  ServerNode,
+  VpnProtocol,
+  VpnServerConnect,
+  VpnServerType,
+} from "./vpn.types";
 
 export interface AdminCreateServerDto {
   name: string;

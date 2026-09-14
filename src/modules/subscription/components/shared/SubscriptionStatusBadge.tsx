@@ -13,7 +13,10 @@ interface SubscriptionStatusBadgeProps {
   className?: string;
 }
 
-export function SubscriptionStatusBadge({ status, className }: SubscriptionStatusBadgeProps) {
+export function SubscriptionStatusBadge({
+  status,
+  className,
+}: SubscriptionStatusBadgeProps) {
   const norm = status?.toUpperCase();
 
   if (norm === "ACTIVE") {

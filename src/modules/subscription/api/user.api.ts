@@ -21,23 +21,37 @@ export const subscriptionUserApi = {
     apiClient.get<Plan>(`/api/plan/${id}`),
 
   // 3. GET /api/subscription
-  getSubscriptions: (params?: UserSubscriptionFilterParams): Promise<ApiResponse<Subscription[]>> =>
+  getSubscriptions: (
+    params?: UserSubscriptionFilterParams,
+  ): Promise<ApiResponse<Subscription[]>> =>
     apiClient.get<Subscription[]>("/api/subscription", { params }),
 
   // 4. GET /api/subscription/:id
-  getSubscriptionById: (id: string | number): Promise<ApiResponse<Subscription>> =>
+  getSubscriptionById: (
+    id: string | number,
+  ): Promise<ApiResponse<Subscription>> =>
     apiClient.get<Subscription>(`/api/subscription/${id}`),
 
   // 5. POST /api/subscription (Idempotent mutation)
-  createSubscription: (data: CreateSubscriptionDto, idempotencyKey?: string): Promise<ApiResponse<Subscription>> =>
+  createSubscription: (
+    data: CreateSubscriptionDto,
+    idempotencyKey?: string,
+  ): Promise<ApiResponse<Subscription>> =>
     apiClient.post<Subscription>("/api/subscription", data, {
-      headers: idempotencyKey ? { "X-Idempotency-Key": idempotencyKey } : undefined,
+      headers: idempotencyKey
+        ? { "X-Idempotency-Key": idempotencyKey }
+        : undefined,
     }),
 
   // 6. POST /api/subscription/upgrade (Idempotent mutation)
-  upgradeSubscription: (data: UpgradeSubscriptionDto, idempotencyKey?: string): Promise<ApiResponse<Subscription>> =>
+  upgradeSubscription: (
+    data: UpgradeSubscriptionDto,
+    idempotencyKey?: string,
+  ): Promise<ApiResponse<Subscription>> =>
     apiClient.post<Subscription>("/api/subscription/upgrade", data, {
-      headers: idempotencyKey ? { "X-Idempotency-Key": idempotencyKey } : undefined,
+      headers: idempotencyKey
+        ? { "X-Idempotency-Key": idempotencyKey }
+        : undefined,
     }),
 
   // 7. GET /api/tenant

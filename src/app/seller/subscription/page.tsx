@@ -10,14 +10,16 @@ import { SubscriptionSkeleton } from "@/modules/subscription/components/shared/S
 
 export const metadata: Metadata = {
   title: "Reseller Subscriptions | GoVPN Partner Portal",
-  description: "Kelola langganan pelanggan tenant reseller, provisi paket, dan pantau komisi",
+  description:
+    "Kelola langganan pelanggan tenant reseller, provisi paket, dan pantau komisi",
 };
 
 const DynamicSellerSubscriptionView = dynamic(
-  () => import("@/modules/subscription").then((mod) => mod.SellerSubscriptionView),
+  () =>
+    import("@/modules/subscription").then((mod) => mod.SellerSubscriptionView),
   {
     loading: () => <SubscriptionSkeleton />,
-  }
+  },
 );
 
 export default function SellerSubscriptionPage() {

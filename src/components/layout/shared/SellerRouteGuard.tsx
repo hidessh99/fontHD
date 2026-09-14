@@ -34,7 +34,9 @@ export function SellerRouteGuard({ children }: SellerRouteGuardProps) {
 
     if (!allowed) {
       setIsSeller(false);
-      toast.error("Akses terbatas. Anda memerlukan akun Reseller/Partner untuk mengakses portal ini.");
+      toast.error(
+        "Akses terbatas. Anda memerlukan akun Reseller/Partner untuk mengakses portal ini.",
+      );
       router.replace("/dashboard");
       return;
     }

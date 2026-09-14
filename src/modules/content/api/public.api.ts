@@ -3,7 +3,12 @@
 // ==============================================================================
 
 import { apiClient, ApiResponse } from "@/lib/api/http-client";
-import { Post, SystemSetting, UploadResult, PresignUploadResult } from "../types/content.types";
+import {
+  Post,
+  SystemSetting,
+  UploadResult,
+  PresignUploadResult,
+} from "../types/content.types";
 import { PublicPostFilterParams } from "../types/public.types";
 
 export const contentPublicApi = {
@@ -28,7 +33,7 @@ export const contentPublicApi = {
   // 5. GET /api/public/upload/presign
   presignPublicUpload: (
     fileName: string,
-    mimeType: string
+    mimeType: string,
   ): Promise<ApiResponse<PresignUploadResult>> =>
     apiClient.get<PresignUploadResult>("/api/public/upload/presign", {
       params: { file_name: fileName, mime_type: mimeType },

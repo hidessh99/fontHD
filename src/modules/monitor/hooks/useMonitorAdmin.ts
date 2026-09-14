@@ -78,18 +78,21 @@ export function useMonitorAdmin() {
   const [monitors, setMonitors] = useState<MonitorTarget[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchAdminMonitors = useCallback(async (params?: AdminMonitorFilterParams) => {
-    setLoading(true);
-    try {
-      const res = await monitorAdminApi.getMonitors(params);
-      const list = res.payload || res.data || [];
-      setMonitors(list.length > 0 ? list : MOCK_TARGETS);
-    } catch {
-      setMonitors(MOCK_TARGETS);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  const fetchAdminMonitors = useCallback(
+    async (params?: AdminMonitorFilterParams) => {
+      setLoading(true);
+      try {
+        const res = await monitorAdminApi.getMonitors(params);
+        const list = res.payload || res.data || [];
+        setMonitors(list.length > 0 ? list : MOCK_TARGETS);
+      } catch {
+        setMonitors(MOCK_TARGETS);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [],
+  );
 
   useEffect(() => {
     fetchAdminMonitors();
@@ -122,7 +125,10 @@ export function useMonitorAdmin() {
     }
   };
 
-  const updateMonitor = async (id: string | number, dto: AdminUpdateMonitorDto) => {
+  const updateMonitor = async (
+    id: string | number,
+    dto: AdminUpdateMonitorDto,
+  ) => {
     try {
       const res = await monitorAdminApi.updateMonitor(id, dto);
       const updated = res.payload || res.data;
@@ -132,7 +138,11 @@ export function useMonitorAdmin() {
       }
     } catch {
       setMonitors((prev) =>
-        prev.map((m) => (m.id === id ? { ...m, ...dto, updated_at: new Date().toISOString() } : m))
+        prev.map((m) =>
+          m.id === id
+            ? { ...m, ...dto, updated_at: new Date().toISOString() }
+            : m,
+        ),
       );
     }
   };

@@ -29,7 +29,8 @@ const MOCK_MODELS: AiModel[] = [
     input_price_per_1k: 40,
     output_price_per_1k: 160,
     is_active: true,
-    description: "Model multimodal flagship dari OpenAI dengan inferensi super cepat dan reasoning mutakhir.",
+    description:
+      "Model multimodal flagship dari OpenAI dengan inferensi super cepat dan reasoning mutakhir.",
   },
   {
     id: "m-2",
@@ -41,7 +42,8 @@ const MOCK_MODELS: AiModel[] = [
     input_price_per_1k: 45,
     output_price_per_1k: 220,
     is_active: true,
-    description: "Standar industri untuk coding, arsitektur perangkat lunak, dan penalaran teknis kompleks.",
+    description:
+      "Standar industri untuk coding, arsitektur perangkat lunak, dan penalaran teknis kompleks.",
   },
   {
     id: "m-3",
@@ -53,7 +55,8 @@ const MOCK_MODELS: AiModel[] = [
     input_price_per_1k: 4,
     output_price_per_1k: 16,
     is_active: true,
-    description: "Model open-weights berperforma tinggi dengan efisiensi biaya luar biasa (90% lebih hemat).",
+    description:
+      "Model open-weights berperforma tinggi dengan efisiensi biaya luar biasa (90% lebih hemat).",
   },
 ];
 
@@ -127,7 +130,10 @@ export function useAiUser() {
         id: "key-" + Date.now(),
         name: dto.name,
         key_prefix: "gv_sk_sim" + Math.floor(Math.random() * 100),
-        key: "gv_sk_live_" + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
+        key:
+          "gv_sk_live_" +
+          Math.random().toString(36).substring(2, 15) +
+          Math.random().toString(36).substring(2, 15),
         user_id: 101,
         created_at: new Date().toISOString(),
         revoked: false,
@@ -157,13 +163,26 @@ export function useAiUser() {
     } catch {
       setWallet((prev) =>
         prev
-          ? { ...prev, balance: prev.balance + amount, last_topup_at: new Date().toISOString() }
-          : { user_id: 101, balance: amount, currency: "IDR", used_tokens: 0, total_requests: 0 }
+          ? {
+              ...prev,
+              balance: prev.balance + amount,
+              last_topup_at: new Date().toISOString(),
+            }
+          : {
+              user_id: 101,
+              balance: amount,
+              currency: "IDR",
+              used_tokens: 0,
+              total_requests: 0,
+            },
       );
     }
   };
 
-  const sendMessage = async (model: string, content: string): Promise<string | undefined> => {
+  const sendMessage = async (
+    model: string,
+    content: string,
+  ): Promise<string | undefined> => {
     try {
       const res = await aiUserApi.chatCompletion({
         model,

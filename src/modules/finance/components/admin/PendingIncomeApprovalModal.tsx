@@ -59,13 +59,15 @@ export function PendingIncomeApprovalModal({
 
   const handleBatchTrigger = async (
     type: "always" | "monthly" | "payas",
-    fn?: () => Promise<{ processed: number }>
+    fn?: () => Promise<{ processed: number }>,
   ) => {
     if (!fn) return;
     setBusyAction(type);
     try {
       const res = await fn();
-      toast.success(`Batch ${type.toUpperCase()} sukses diproses: ${res.processed} records diselesaikan.`);
+      toast.success(
+        `Batch ${type.toUpperCase()} sukses diproses: ${res.processed} records diselesaikan.`,
+      );
     } catch {
       toast.error(`Gagal memproses batch ${type}`);
     } finally {
@@ -78,7 +80,9 @@ export function PendingIncomeApprovalModal({
     setBusyAction("cleanup");
     try {
       const res = await onCleanup();
-      toast.success(`Pembersihan sukses: ${res.cleaned_count} records pending dibersihkan.`);
+      toast.success(
+        `Pembersihan sukses: ${res.cleaned_count} records pending dibersihkan.`,
+      );
     } catch {
       toast.error("Gagal melakukan pembersihan records");
     } finally {
@@ -101,19 +105,21 @@ export function PendingIncomeApprovalModal({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger render={
-        triggerButton ? (
-          (triggerButton as React.ReactElement)
-        ) : (
-          <Button
-            variant="outline"
-            className="border-border/80 hover:bg-muted/30 text-foreground gap-2 font-semibold text-xs rounded-full min-h-9 px-4"
-          >
-            <Clock className="h-4 w-4 text-amber-400" />
-            Kelola Pending Income ({pendingList.length})
-          </Button>
-        )
-      } />
+      <DialogTrigger
+        render={
+          triggerButton ? (
+            (triggerButton as React.ReactElement)
+          ) : (
+            <Button
+              variant="outline"
+              className="border-border/80 hover:bg-muted/30 text-foreground gap-2 font-semibold text-xs rounded-full min-h-9 px-4"
+            >
+              <Clock className="h-4 w-4 text-amber-400" />
+              Kelola Pending Income ({pendingList.length})
+            </Button>
+          )
+        }
+      />
 
       <DialogContent className="sm:max-w-2xl bg-card border-border/80 text-foreground rounded-2xl max-h-[85vh] overflow-y-auto">
         <DialogHeader>
@@ -138,7 +144,9 @@ export function PendingIncomeApprovalModal({
                   onClick={() => handleBatchTrigger("always", onTriggerAlways)}
                   className="rounded-full text-xs font-mono gap-1.5 min-h-9 px-4"
                 >
-                  <Play className={`h-3.5 w-3.5 ${busyAction === "always" ? "animate-spin" : ""}`} />
+                  <Play
+                    className={`h-3.5 w-3.5 ${busyAction === "always" ? "animate-spin" : ""}`}
+                  />
                   Process Always
                 </Button>
               )}
@@ -148,10 +156,14 @@ export function PendingIncomeApprovalModal({
                   size="sm"
                   variant="outline"
                   disabled={busyAction !== null}
-                  onClick={() => handleBatchTrigger("monthly", onTriggerMonthly)}
+                  onClick={() =>
+                    handleBatchTrigger("monthly", onTriggerMonthly)
+                  }
                   className="rounded-full text-xs font-mono gap-1.5 min-h-9 px-4"
                 >
-                  <Play className={`h-3.5 w-3.5 ${busyAction === "monthly" ? "animate-spin" : ""}`} />
+                  <Play
+                    className={`h-3.5 w-3.5 ${busyAction === "monthly" ? "animate-spin" : ""}`}
+                  />
                   Process Monthly
                 </Button>
               )}
@@ -164,7 +176,9 @@ export function PendingIncomeApprovalModal({
                   onClick={() => handleBatchTrigger("payas", onTriggerPayas)}
                   className="rounded-full text-xs font-mono gap-1.5 min-h-9 px-4"
                 >
-                  <Play className={`h-3.5 w-3.5 ${busyAction === "payas" ? "animate-spin" : ""}`} />
+                  <Play
+                    className={`h-3.5 w-3.5 ${busyAction === "payas" ? "animate-spin" : ""}`}
+                  />
                   Process PayAs
                 </Button>
               )}
@@ -177,7 +191,9 @@ export function PendingIncomeApprovalModal({
                   onClick={handleCleanup}
                   className="rounded-full text-xs font-mono text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 gap-1.5 min-h-9 px-4 ml-auto"
                 >
-                  <Trash2 className={`h-3.5 w-3.5 ${busyAction === "cleanup" ? "animate-spin" : ""}`} />
+                  <Trash2
+                    className={`h-3.5 w-3.5 ${busyAction === "cleanup" ? "animate-spin" : ""}`}
+                  />
                   Bersihkan Stale Records
                 </Button>
               )}
@@ -200,17 +216,25 @@ export function PendingIncomeApprovalModal({
               <tbody className="divide-y border-border/40 font-mono text-xs">
                 {pendingList.length === 0 ? (
                   <tr>
-                    <td colSpan={6} className="px-4 py-6 text-center text-muted-foreground font-sans">
+                    <td
+                      colSpan={6}
+                      className="px-4 py-6 text-center text-muted-foreground font-sans"
+                    >
                       Tidak ada antrian pending income saat ini.
                     </td>
                   </tr>
                 ) : (
                   pendingList.map((item) => (
-                    <tr key={item.id} className="hover:bg-muted/20 transition-colors">
+                    <tr
+                      key={item.id}
+                      className="hover:bg-muted/20 transition-colors"
+                    >
                       <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">
                         <div className="flex items-center gap-1">
                           <Calendar className="h-3 w-3 text-muted-foreground" />
-                          {new Date(item.created_at).toLocaleDateString("id-ID")}
+                          {new Date(item.created_at).toLocaleDateString(
+                            "id-ID",
+                          )}
                         </div>
                       </td>
                       <td className="px-4 py-3 font-bold text-foreground">

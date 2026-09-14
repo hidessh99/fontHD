@@ -23,7 +23,7 @@ export function LatencyChart({ nodes }: LatencyChartProps) {
 
   // Sort by ping
   const sortedNodes = [...nodes].sort((a, b) =>
-    ascending ? a.ping_ms - b.ping_ms : b.ping_ms - a.ping_ms
+    ascending ? a.ping_ms - b.ping_ms : b.ping_ms - a.ping_ms,
   );
   const maxPing = Math.max(...nodes.map((n) => n.ping_ms), 100);
 
@@ -50,19 +50,24 @@ export function LatencyChart({ nodes }: LatencyChartProps) {
 
       <CardContent className="p-0 space-y-3">
         {sortedNodes.map((node) => {
-          const percentage = Math.min(100, Math.round((node.ping_ms / maxPing) * 100));
+          const percentage = Math.min(
+            100,
+            Math.round((node.ping_ms / maxPing) * 100),
+          );
           const barColor =
             node.ping_ms < 50
               ? "bg-emerald-500 shadow-emerald-500/30"
               : node.ping_ms < 120
-              ? "bg-amber-500 shadow-amber-500/30"
-              : "bg-rose-500 shadow-rose-500/30";
+                ? "bg-amber-500 shadow-amber-500/30"
+                : "bg-rose-500 shadow-rose-500/30";
 
           return (
             <div key={node.id} className="space-y-1 group">
               <div className="flex items-center justify-between text-xs">
                 <span className="flex items-center gap-2 font-medium text-foreground">
-                  <span className="text-base leading-none">{node.flag || "🌐"}</span>
+                  <span className="text-base leading-none">
+                    {node.flag || "🌐"}
+                  </span>
                   <span className="truncate max-w-[240px] group-hover:text-primary transition-colors">
                     {node.server_name}
                   </span>
@@ -71,7 +76,10 @@ export function LatencyChart({ nodes }: LatencyChartProps) {
                   </span>
                 </span>
                 <span className="font-mono font-bold text-foreground text-xs">
-                  {node.ping_ms} <span className="text-[10px] text-muted-foreground font-normal">ms</span>
+                  {node.ping_ms}{" "}
+                  <span className="text-[10px] text-muted-foreground font-normal">
+                    ms
+                  </span>
                 </span>
               </div>
               <div className="h-2 w-full bg-muted/40 rounded-full overflow-hidden border border-border/60">

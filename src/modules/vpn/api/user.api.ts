@@ -4,7 +4,12 @@
 // ==============================================================================
 
 import { apiClient, ApiResponse } from "@/lib/api/http-client";
-import { ServerNode, VpnAccount, VpnServerConnect, VpnServerType } from "../types/vpn.types";
+import {
+  ServerNode,
+  VpnAccount,
+  VpnServerConnect,
+  VpnServerType,
+} from "../types/vpn.types";
 import {
   CreatePayasAccountDto,
   CreateVpnAccountDto,
@@ -19,24 +24,43 @@ export const vpnUserApi = {
     apiClient.get<VpnAccount[]>("/api/vpn/accounts/always"),
 
   // 2. POST /api/vpn/accounts/always
-  createAlwaysAccount: (data: CreateVpnAccountDto, idempotencyKey?: string): Promise<ApiResponse<VpnAccount>> =>
-    apiClient.post<VpnAccount>("/api/vpn/accounts/always", data, { idempotencyKey }),
+  createAlwaysAccount: (
+    data: CreateVpnAccountDto,
+    idempotencyKey?: string,
+  ): Promise<ApiResponse<VpnAccount>> =>
+    apiClient.post<VpnAccount>("/api/vpn/accounts/always", data, {
+      idempotencyKey,
+    }),
 
   // 3. GET /api/vpn/accounts/always/:id
-  getAlwaysAccountById: (id: number | string): Promise<ApiResponse<VpnAccount>> =>
+  getAlwaysAccountById: (
+    id: number | string,
+  ): Promise<ApiResponse<VpnAccount>> =>
     apiClient.get<VpnAccount>(`/api/vpn/accounts/always/${id}`),
 
   // 4. DELETE /api/vpn/accounts/always/:id
-  deleteAlwaysAccount: (id: number | string): Promise<ApiResponse<{ deleted: boolean }>> =>
+  deleteAlwaysAccount: (
+    id: number | string,
+  ): Promise<ApiResponse<{ deleted: boolean }>> =>
     apiClient.delete<{ deleted: boolean }>(`/api/vpn/accounts/always/${id}`),
 
   // 5. GET /api/vpn/accounts/always/:id/check
-  checkAlwaysAccount: (id: number | string): Promise<ApiResponse<VpnAccountCheckResponse>> =>
-    apiClient.get<VpnAccountCheckResponse>(`/api/vpn/accounts/always/${id}/check`),
+  checkAlwaysAccount: (
+    id: number | string,
+  ): Promise<ApiResponse<VpnAccountCheckResponse>> =>
+    apiClient.get<VpnAccountCheckResponse>(
+      `/api/vpn/accounts/always/${id}/check`,
+    ),
 
   // 6. POST /api/vpn/accounts/always/:id/renew
-  renewAlwaysAccount: (id: number | string, data: RenewVpnAccountDto, idempotencyKey?: string): Promise<ApiResponse<VpnAccount>> =>
-    apiClient.post<VpnAccount>(`/api/vpn/accounts/always/${id}/renew`, data, { idempotencyKey }),
+  renewAlwaysAccount: (
+    id: number | string,
+    data: RenewVpnAccountDto,
+    idempotencyKey?: string,
+  ): Promise<ApiResponse<VpnAccount>> =>
+    apiClient.post<VpnAccount>(`/api/vpn/accounts/always/${id}/renew`, data, {
+      idempotencyKey,
+    }),
 
   // === FREE ACCOUNTS (1 Endpoint) ===
   // 7. GET /api/vpn/accounts/free/:id
@@ -49,24 +73,43 @@ export const vpnUserApi = {
     apiClient.get<VpnAccount[]>("/api/vpn/accounts/month"),
 
   // 9. POST /api/vpn/accounts/month
-  createMonthAccount: (data: CreateVpnAccountDto, idempotencyKey?: string): Promise<ApiResponse<VpnAccount>> =>
-    apiClient.post<VpnAccount>("/api/vpn/accounts/month", data, { idempotencyKey }),
+  createMonthAccount: (
+    data: CreateVpnAccountDto,
+    idempotencyKey?: string,
+  ): Promise<ApiResponse<VpnAccount>> =>
+    apiClient.post<VpnAccount>("/api/vpn/accounts/month", data, {
+      idempotencyKey,
+    }),
 
   // 10. GET /api/vpn/accounts/month/:id
-  getMonthAccountById: (id: number | string): Promise<ApiResponse<VpnAccount>> =>
+  getMonthAccountById: (
+    id: number | string,
+  ): Promise<ApiResponse<VpnAccount>> =>
     apiClient.get<VpnAccount>(`/api/vpn/accounts/month/${id}`),
 
   // 11. DELETE /api/vpn/accounts/month/:id
-  deleteMonthAccount: (id: number | string): Promise<ApiResponse<{ deleted: boolean }>> =>
+  deleteMonthAccount: (
+    id: number | string,
+  ): Promise<ApiResponse<{ deleted: boolean }>> =>
     apiClient.delete<{ deleted: boolean }>(`/api/vpn/accounts/month/${id}`),
 
   // 12. GET /api/vpn/accounts/month/:id/check
-  checkMonthAccount: (id: number | string): Promise<ApiResponse<VpnAccountCheckResponse>> =>
-    apiClient.get<VpnAccountCheckResponse>(`/api/vpn/accounts/month/${id}/check`),
+  checkMonthAccount: (
+    id: number | string,
+  ): Promise<ApiResponse<VpnAccountCheckResponse>> =>
+    apiClient.get<VpnAccountCheckResponse>(
+      `/api/vpn/accounts/month/${id}/check`,
+    ),
 
   // 13. POST /api/vpn/accounts/month/:id/renew
-  renewMonthAccount: (id: number | string, data: RenewVpnAccountDto, idempotencyKey?: string): Promise<ApiResponse<VpnAccount>> =>
-    apiClient.post<VpnAccount>(`/api/vpn/accounts/month/${id}/renew`, data, { idempotencyKey }),
+  renewMonthAccount: (
+    id: number | string,
+    data: RenewVpnAccountDto,
+    idempotencyKey?: string,
+  ): Promise<ApiResponse<VpnAccount>> =>
+    apiClient.post<VpnAccount>(`/api/vpn/accounts/month/${id}/renew`, data, {
+      idempotencyKey,
+    }),
 
   // === PAY-AS-YOU-GO ACCOUNTS (7 Endpoints) ===
   // 14. GET /api/vpn/accounts/payas
@@ -74,36 +117,67 @@ export const vpnUserApi = {
     apiClient.get<VpnAccount[]>("/api/vpn/accounts/payas"),
 
   // 15. POST /api/vpn/accounts/payas
-  createPayasAccount: (data: CreatePayasAccountDto, idempotencyKey?: string): Promise<ApiResponse<VpnAccount>> =>
-    apiClient.post<VpnAccount>("/api/vpn/accounts/payas", data, { idempotencyKey }),
+  createPayasAccount: (
+    data: CreatePayasAccountDto,
+    idempotencyKey?: string,
+  ): Promise<ApiResponse<VpnAccount>> =>
+    apiClient.post<VpnAccount>("/api/vpn/accounts/payas", data, {
+      idempotencyKey,
+    }),
 
   // 16. GET /api/vpn/accounts/payas/:id
-  getPayasAccountById: (id: number | string): Promise<ApiResponse<VpnAccount>> =>
+  getPayasAccountById: (
+    id: number | string,
+  ): Promise<ApiResponse<VpnAccount>> =>
     apiClient.get<VpnAccount>(`/api/vpn/accounts/payas/${id}`),
 
   // 17. DELETE /api/vpn/accounts/payas/:id
-  deletePayasAccount: (id: number | string): Promise<ApiResponse<{ deleted: boolean }>> =>
+  deletePayasAccount: (
+    id: number | string,
+  ): Promise<ApiResponse<{ deleted: boolean }>> =>
     apiClient.delete<{ deleted: boolean }>(`/api/vpn/accounts/payas/${id}`),
 
   // 18. PATCH /api/vpn/accounts/payas/:id/change-status
-  changePayasStatus: (id: number | string, data: { status: "ACTIVE" | "PAUSED" }): Promise<ApiResponse<VpnAccount>> =>
-    apiClient.patch<VpnAccount>(`/api/vpn/accounts/payas/${id}/change-status`, data),
+  changePayasStatus: (
+    id: number | string,
+    data: { status: "ACTIVE" | "PAUSED" },
+  ): Promise<ApiResponse<VpnAccount>> =>
+    apiClient.patch<VpnAccount>(
+      `/api/vpn/accounts/payas/${id}/change-status`,
+      data,
+    ),
 
   // 19. GET /api/vpn/accounts/payas/:id/check
-  checkPayasAccount: (id: number | string): Promise<ApiResponse<VpnAccountCheckResponse>> =>
-    apiClient.get<VpnAccountCheckResponse>(`/api/vpn/accounts/payas/${id}/check`),
+  checkPayasAccount: (
+    id: number | string,
+  ): Promise<ApiResponse<VpnAccountCheckResponse>> =>
+    apiClient.get<VpnAccountCheckResponse>(
+      `/api/vpn/accounts/payas/${id}/check`,
+    ),
 
   // 20. POST /api/vpn/accounts/payas/:id/pause
-  pausePayasAccount: (id: number | string, idempotencyKey?: string): Promise<ApiResponse<VpnAccount>> =>
-    apiClient.post<VpnAccount>(`/api/vpn/accounts/payas/${id}/pause`, {}, { idempotencyKey }),
+  pausePayasAccount: (
+    id: number | string,
+    idempotencyKey?: string,
+  ): Promise<ApiResponse<VpnAccount>> =>
+    apiClient.post<VpnAccount>(
+      `/api/vpn/accounts/payas/${id}/pause`,
+      {},
+      { idempotencyKey },
+    ),
 
   // === SERVER CONNECTS (2 Endpoints) ===
   // 21. GET /api/vpn/server-connects
-  getServerConnects: (params?: { server_id?: number; protocol?: string }): Promise<ApiResponse<VpnServerConnect[]>> =>
+  getServerConnects: (params?: {
+    server_id?: number;
+    protocol?: string;
+  }): Promise<ApiResponse<VpnServerConnect[]>> =>
     apiClient.get<VpnServerConnect[]>("/api/vpn/server-connects", { params }),
 
   // 22. GET /api/vpn/server-connects/:id
-  getServerConnectById: (id: number | string): Promise<ApiResponse<VpnServerConnect>> =>
+  getServerConnectById: (
+    id: number | string,
+  ): Promise<ApiResponse<VpnServerConnect>> =>
     apiClient.get<VpnServerConnect>(`/api/vpn/server-connects/${id}`),
 
   // === SERVER TYPES (2 Endpoints) ===
@@ -121,12 +195,19 @@ export const vpnUserApi = {
     apiClient.get<ServerNode[]>("/api/vpn/servers/always"),
 
   // 26. GET /api/vpn/servers/always/:id
-  getAlwaysServerById: (id: number | string): Promise<ApiResponse<ServerNode>> =>
+  getAlwaysServerById: (
+    id: number | string,
+  ): Promise<ApiResponse<ServerNode>> =>
     apiClient.get<ServerNode>(`/api/vpn/servers/always/${id}`),
 
   // 27. GET /api/vpn/servers/always/available
-  getAlwaysServersAvailable: (params?: { protocol?: string; country?: string }): Promise<ApiResponse<ServerNode[]>> =>
-    apiClient.get<ServerNode[]>("/api/vpn/servers/always/available", { params }),
+  getAlwaysServersAvailable: (params?: {
+    protocol?: string;
+    country?: string;
+  }): Promise<ApiResponse<ServerNode[]>> =>
+    apiClient.get<ServerNode[]>("/api/vpn/servers/always/available", {
+      params,
+    }),
 
   // === USER SERVERS: FREE (3 Endpoints) ===
   // 28. GET /api/vpn/servers/free
@@ -138,7 +219,10 @@ export const vpnUserApi = {
     apiClient.get<ServerNode>(`/api/vpn/servers/free/${id}`),
 
   // 30. GET /api/vpn/servers/free/available
-  getFreeServersAvailable: (params?: { protocol?: string; country?: string }): Promise<ApiResponse<ServerNode[]>> =>
+  getFreeServersAvailable: (params?: {
+    protocol?: string;
+    country?: string;
+  }): Promise<ApiResponse<ServerNode[]>> =>
     apiClient.get<ServerNode[]>("/api/vpn/servers/free/available", { params }),
 
   // === USER SERVERS: MONTH (3 Endpoints) ===
@@ -151,7 +235,10 @@ export const vpnUserApi = {
     apiClient.get<ServerNode>(`/api/vpn/servers/month/${id}`),
 
   // 33. GET /api/vpn/servers/month/available
-  getMonthServersAvailable: (params?: { protocol?: string; country?: string }): Promise<ApiResponse<ServerNode[]>> =>
+  getMonthServersAvailable: (params?: {
+    protocol?: string;
+    country?: string;
+  }): Promise<ApiResponse<ServerNode[]>> =>
     apiClient.get<ServerNode[]>("/api/vpn/servers/month/available", { params }),
 
   // === USER SERVERS: PAYAS (3 Endpoints) ===
@@ -164,6 +251,9 @@ export const vpnUserApi = {
     apiClient.get<ServerNode>(`/api/vpn/servers/payas/${id}`),
 
   // 36. GET /api/vpn/servers/payas/available
-  getPayasServersAvailable: (params?: { protocol?: string; country?: string }): Promise<ApiResponse<ServerNode[]>> =>
+  getPayasServersAvailable: (params?: {
+    protocol?: string;
+    country?: string;
+  }): Promise<ApiResponse<ServerNode[]>> =>
     apiClient.get<ServerNode[]>("/api/vpn/servers/payas/available", { params }),
 };

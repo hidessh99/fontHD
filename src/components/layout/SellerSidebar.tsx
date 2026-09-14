@@ -47,14 +47,17 @@ interface SellerSidebarProps {
   onCloseMobile?: () => void;
 }
 
-export function SellerSidebar({ className, onCloseMobile }: SellerSidebarProps) {
+export function SellerSidebar({
+  className,
+  onCloseMobile,
+}: SellerSidebarProps) {
   const pathname = usePathname();
 
   return (
     <aside
       className={cn(
         "flex h-full w-64 flex-col border-r border-amber-500/20 bg-sidebar text-sidebar-foreground",
-        className
+        className,
       )}
     >
       {/* Brand Header */}
@@ -86,7 +89,9 @@ export function SellerSidebar({ className, onCloseMobile }: SellerSidebarProps) 
           <span className="font-semibold text-foreground flex items-center gap-1">
             <Sparkles className="size-3 text-amber-500" /> Reseller Tier
           </span>
-          <span className="font-bold text-amber-500 text-[11px]">25% Komisi</span>
+          <span className="font-bold text-amber-500 text-[11px]">
+            25% Komisi
+          </span>
         </div>
         <p className="text-[11px] text-muted-foreground leading-tight">
           White-label tunneling & multi-tenant customer fleet.
@@ -111,14 +116,14 @@ export function SellerSidebar({ className, onCloseMobile }: SellerSidebarProps) 
                 "flex items-center justify-between rounded-xl px-3 py-2 text-xs font-semibold transition-all duration-150",
                 isActive
                   ? "bg-amber-500 text-black shadow-sm shadow-amber-500/25 font-bold"
-                  : "text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground"
+                  : "text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground",
               )}
             >
               <div className="flex items-center gap-2.5">
                 <item.icon
                   className={cn(
                     "size-4",
-                    isActive ? "text-black" : "text-amber-500"
+                    isActive ? "text-black" : "text-amber-500",
                   )}
                 />
                 <span>{item.title}</span>
@@ -130,7 +135,7 @@ export function SellerSidebar({ className, onCloseMobile }: SellerSidebarProps) 
                     "text-[9px] px-1.5 py-0 border-none font-mono",
                     isActive
                       ? "bg-black/20 text-black"
-                      : "bg-amber-500/10 text-amber-500"
+                      : "bg-amber-500/10 text-amber-500",
                   )}
                 >
                   {item.badge}

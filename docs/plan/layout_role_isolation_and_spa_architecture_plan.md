@@ -11,7 +11,9 @@
 ## 🎯 1. Latar Belakang & Analisis Gap Arsitektural
 
 ### 1.1 Kondisi Saat Ini (Current State)
+
 Berdasarkan audit mendalam pada direktori `src/app/` dan `src/components/layout/`:
+
 1. **Navigasi SPA**: Seluruh modul telah mengimplementasikan **Algoritma 4 (Dynamic Island Route Splitting)** dengan `next/dynamic` dan `<Suspense fallback={<Skeleton />}>` sehingga transisi rute telah berjalan 100% di sisi klien tanpa full page reload (F5).
 2. **Pemisahan User vs Public**:
    - Public: `src/app/(public)/layout.tsx` terisolasi dengan `PublicNavbar` dan `PublicFooter`.
@@ -19,7 +21,7 @@ Berdasarkan audit mendalam pada direktori `src/app/` dan `src/components/layout/
 3. **GAP ARSITEKTURAL 1 — Modul Seller (Reseller / Partner) Belum Terisolasi**:
    - Rute seller saat ini berada di `src/app/(dashboard)/seller/*` (`/seller/vpn`, `/seller/subscription`, `/seller/withdrawal`).
    - Karena berada di dalam route group `(dashboard)`, rute seller **terpaksa mewarisi sidebar dan header milik User biasa** (`DashboardSidebar` & `DashboardHeader`).
-   - Akibatnya: Pengguna dengan peran Reseller disuguhkan navigasi member umum ("Overview", "VPN Protocols"), padahal domain Seller memerlukan UI khusus: *Ringkasan Komisi, Kuota Minting Akun VPN, Daftar Pelanggan White-Label, dan Pencairan Komisi (Withdrawal)*.
+   - Akibatnya: Pengguna dengan peran Reseller disuguhkan navigasi member umum ("Overview", "VPN Protocols"), padahal domain Seller memerlukan UI khusus: _Ringkasan Komisi, Kuota Minting Akun VPN, Daftar Pelanggan White-Label, dan Pencairan Komisi (Withdrawal)_.
 4. **GAP ARSITEKTURAL 2 — Admin Portal Belum Memiliki Header & Navigasi Belum Lengkap**:
    - `src/app/admin/layout.tsx` belum memiliki `AdminHeader.tsx` terdedikasi (tidak ada breadcrumb admin, indikator status root engine, quick alerts, profil admin, dan theme toggle).
    - `AdminSidebar.tsx` saat ini hanya mendaftarkan 7 rute lama dan **belum mencakup 7 modul admin modern** yang telah dibangun (`/admin/dns`, `/admin/ai`, `/admin/kubernetes`, `/admin/subscription`, `/admin/support`, `/admin/notifications`, `/admin/content`).
@@ -28,7 +30,7 @@ Berdasarkan audit mendalam pada direktori `src/app/` dan `src/components/layout/
 
 ## 🏛️ 2. Blueprint Target Arsitektur Layout Multi-Role
 
-Arsitektur layout akan dibagi menjadi **4 domain fisik independen**, masing-masing dengan Guard, Sidebar, Header, dan tema visual yang berbeda sesuai *Coinbase Institutional High-Trust Design System*:
+Arsitektur layout akan dibagi menjadi **4 domain fisik independen**, masing-masing dengan Guard, Sidebar, Header, dan tema visual yang berbeda sesuai _Coinbase Institutional High-Trust Design System_:
 
 ```
 src/app/
@@ -40,18 +42,19 @@ src/app/
 
 ### 2.1 Matriks Peran & Karakteristik Visual Shell
 
-| Domain | Route Prefix | Accent Token | Route Guard | Sidebar | Header |
-|---|---|---|---|---|---|
-| **Public** | `/`, `/login`, `/articles` | Neutral / Blue (`#0052ff`) | None (Public) | N/A (Top Nav) | `PublicNavbar.tsx` |
-| **User** | `/dashboard`, `/vpn`, `/billing`, `/ai`, `/subscription`, `/support`, `/notifications` | Coinbase Blue (`#0052ff`) | `MemberRouteGuard` | `DashboardSidebar.tsx` | `DashboardHeader.tsx` |
-| **Seller** | `/seller/dashboard`, `/seller/vpn`, `/seller/subscription`, `/seller/withdrawal` | Amber / Partner Gold (`#f59e0b`) | `SellerRouteGuard` | `SellerSidebar.tsx` | `SellerHeader.tsx` |
-| **Admin** | `/admin/*` (Seluruh 11 modul admin) | Rose / Root Red (`#f43f5e`) | `AdminRouteGuard` | `AdminSidebar.tsx` | `AdminHeader.tsx` |
+| Domain     | Route Prefix                                                                           | Accent Token                     | Route Guard        | Sidebar                | Header                |
+| ---------- | -------------------------------------------------------------------------------------- | -------------------------------- | ------------------ | ---------------------- | --------------------- |
+| **Public** | `/`, `/login`, `/articles`                                                             | Neutral / Blue (`#0052ff`)       | None (Public)      | N/A (Top Nav)          | `PublicNavbar.tsx`    |
+| **User**   | `/dashboard`, `/vpn`, `/billing`, `/ai`, `/subscription`, `/support`, `/notifications` | Coinbase Blue (`#0052ff`)        | `MemberRouteGuard` | `DashboardSidebar.tsx` | `DashboardHeader.tsx` |
+| **Seller** | `/seller/dashboard`, `/seller/vpn`, `/seller/subscription`, `/seller/withdrawal`       | Amber / Partner Gold (`#f59e0b`) | `SellerRouteGuard` | `SellerSidebar.tsx`    | `SellerHeader.tsx`    |
+| **Admin**  | `/admin/*` (Seluruh 11 modul admin)                                                    | Rose / Root Red (`#f43f5e`)      | `AdminRouteGuard`  | `AdminSidebar.tsx`     | `AdminHeader.tsx`     |
 
 ---
 
 ## 🚀 3. Rencana Eksekusi Bertahap (Phased Execution)
 
 ### Fase 1: Pemisahan Fisik Rute Seller (`src/app/seller`)
+
 1. **Memindahkan Rute Seller ke Root App Router**:
    - Pindahkan `src/app/(dashboard)/seller/` $\rightarrow$ `src/app/seller/`.
    - URL rute tetap identik dan backward-compatible:
@@ -61,6 +64,7 @@ src/app/
    - Tambahkan halaman ringkasan: `src/app/seller/page.tsx` (Redirect atau Reseller Executive Overview).
 
 ### Fase 2: Pembangunan Komponen Shell Seller Terdedikasi
+
 1. **`src/components/layout/shared/SellerRouteGuard.tsx`**:
    - Validasi sesi cookie `hide-jwt` dan verifikasi payload role (`role === 'SELLER' || role === 'ADMIN' || role === 'SUPERADMIN'`).
    - Redirect pengguna reguler (`USER`) kembali ke `/dashboard` dengan notifikasi toast informatif jika mencoba mengakses portal reseller.
@@ -71,16 +75,17 @@ src/app/
      - **Provisi VPN & Minting** (`/seller/vpn`)
      - **Langganan Pelanggan** (`/seller/subscription`)
      - **Penarikan Komisi (Payout)** (`/seller/withdrawal`)
-   - Footer Switcher: Tombol cepat *"Kembali ke Console Member"* (`/dashboard`).
+   - Footer Switcher: Tombol cepat _"Kembali ke Console Member"_ (`/dashboard`).
 3. **`src/components/layout/SellerHeader.tsx`**:
    - Indikator saldo komisi reseller aktif (`Rp XXX.XXX`).
-   - Quick CTA: *"Tarik Komisi"* langsung membuka dialog penarikan.
+   - Quick CTA: _"Tarik Komisi"_ langsung membuka dialog penarikan.
    - Breadcrumb dinamis (`Partner / Subscriptions`).
    - Notification bell & Theme switcher.
 4. **`src/app/seller/layout.tsx`**:
    - Menggabungkan `SellerRouteGuard`, `SellerSidebar`, `SellerHeader`, dan area `<main>` dengan scroll container terisolasi.
 
 ### Fase 3: Penyempurnaan Shell Superadmin (`src/app/admin`)
+
 1. **`src/components/layout/AdminHeader.tsx`**:
    - Brand Superadmin Root Indicator dengan pulse status hijau (All Systems Operational).
    - Breadcrumbs hirarkis admin (`Superadmin / Kubernetes / Pods`).
@@ -104,11 +109,12 @@ src/app/
      - **Communications & Content**:
        - Antrean Siaran & Queue (`/admin/notifications`)
        - Artikel & Config Sistem (`/admin/content` / `/admin/settings`)
-   - Tombol switch: *"Kembali ke Console Member"* (`/dashboard`).
+   - Tombol switch: _"Kembali ke Console Member"_ (`/dashboard`).
 3. **Penyempurnaan `src/app/admin/layout.tsx`**:
    - Memasukkan `AdminHeader` ke dalam shell admin agar sejajar dan konsisten dengan User dan Seller layout.
 
 ### Fase 4: Sinkronisasi Navigasi User Shell (`src/components/layout/DashboardSidebar.tsx`)
+
 1. Pastikan seluruh tautan modul baru terdaftar di sidebar pengguna:
    - Overview (`/dashboard`)
    - VPN Protocols (`/vpn`)
@@ -121,7 +127,7 @@ src/app/
    - Bantuan & CS (`/support`)
    - Notifikasi (`/notifications`)
    - Pusat Pengetahuan (`/articles`)
-2. Tambahkan switcher kondisional: Jika akun memiliki role `SELLER` atau `ADMIN`, tampilkan tombol switch *"Buka Portal Partner / Reseller"* atau *"Buka Superadmin Console"*.
+2. Tambahkan switcher kondisional: Jika akun memiliki role `SELLER` atau `ADMIN`, tampilkan tombol switch _"Buka Portal Partner / Reseller"_ atau _"Buka Superadmin Console"_.
 
 ---
 

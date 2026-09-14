@@ -2,7 +2,16 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Shield, Menu, X, ArrowRight, Zap, Server, FileText, Activity } from "lucide-react";
+import {
+  Shield,
+  Menu,
+  X,
+  ArrowRight,
+  Zap,
+  Server,
+  FileText,
+  Activity,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ThemeToggle } from "./ThemeToggle";
@@ -21,24 +30,39 @@ export function PublicNavbar() {
           <span className="text-xl font-black tracking-tight text-foreground">
             Go<span className="text-primary">VPN</span>
           </span>
-          <Badge variant="outline" className="border-primary/30 text-primary font-mono text-xs hidden sm:inline">
+          <Badge
+            variant="outline"
+            className="border-primary/30 text-primary font-mono text-xs hidden sm:inline"
+          >
             v2.0
           </Badge>
         </Link>
 
         {/* Desktop Nav Links */}
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
-          <Link href="/pricing" className="text-muted-foreground hover:text-foreground transition-colors">
+          <Link
+            href="/pricing"
+            className="text-muted-foreground hover:text-foreground transition-colors"
+          >
             Paket Harga
           </Link>
-          <Link href="/servers" className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1.5">
+          <Link
+            href="/servers"
+            className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1.5"
+          >
             <Activity className="size-3.5 text-emerald-400" />
             <span>Server Nodes</span>
           </Link>
-          <Link href="/tools" className="text-muted-foreground hover:text-foreground transition-colors">
+          <Link
+            href="/tools"
+            className="text-muted-foreground hover:text-foreground transition-colors"
+          >
             Network Tools
           </Link>
-          <Link href="/docs" className="text-muted-foreground hover:text-foreground transition-colors">
+          <Link
+            href="/docs"
+            className="text-muted-foreground hover:text-foreground transition-colors"
+          >
             Dokumentasi
           </Link>
         </nav>
@@ -46,10 +70,19 @@ export function PublicNavbar() {
         {/* Right CTA */}
         <div className="flex items-center gap-2.5">
           <ThemeToggle />
-          <Button variant="ghost" size="sm" asChild className="hidden sm:inline-flex">
+          <Button
+            variant="ghost"
+            size="sm"
+            asChild
+            className="hidden sm:inline-flex"
+          >
             <Link href="/login">Masuk</Link>
           </Button>
-          <Button size="sm" className="bg-primary hover:bg-primary-hover text-white shadow-md shadow-primary/20" asChild>
+          <Button
+            size="sm"
+            className="bg-primary hover:bg-primary-hover text-white shadow-md shadow-primary/20"
+            asChild
+          >
             <Link href="/register">
               Mulai <ArrowRight className="ml-1 size-3.5" />
             </Link>
@@ -62,7 +95,11 @@ export function PublicNavbar() {
             className="md:hidden size-9"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
-            {mobileMenuOpen ? <X className="size-4" /> : <Menu className="size-4" />}
+            {mobileMenuOpen ? (
+              <X className="size-4" />
+            ) : (
+              <Menu className="size-4" />
+            )}
           </Button>
         </div>
       </div>

@@ -8,7 +8,11 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { subscriptionSellerApi } from "../api/seller.api";
-import type { Subscription, Tenant, SellerStats } from "../types/subscription.types";
+import type {
+  Subscription,
+  Tenant,
+  SellerStats,
+} from "../types/subscription.types";
 import type {
   SellerCreateSubscriptionDto,
   SellerCreateTenantDto,
@@ -81,10 +85,15 @@ export function useSubscriptionSeller() {
     fetchData();
   }, [fetchData]);
 
-  const createCustomerSubscription = async (dto: SellerCreateSubscriptionDto) => {
+  const createCustomerSubscription = async (
+    dto: SellerCreateSubscriptionDto,
+  ) => {
     const key = crypto.randomUUID();
     try {
-      const res = await subscriptionSellerApi.createCustomerSubscription(dto, key);
+      const res = await subscriptionSellerApi.createCustomerSubscription(
+        dto,
+        key,
+      );
       const created = res.payload || res.data;
       if (created) {
         setSubscriptions((prev) => [created, ...prev]);

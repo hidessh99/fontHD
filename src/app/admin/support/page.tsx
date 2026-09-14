@@ -10,14 +10,15 @@ import { SupportSkeleton } from "@/modules/support/components/shared/SupportSkel
 
 export const metadata: Metadata = {
   title: "Operasional Helpdesk & Tiket | GoVPN Superadmin",
-  description: "Manajemen eskalasi tiket bantuan pelanggan dan respon teknis tim internal",
+  description:
+    "Manajemen eskalasi tiket bantuan pelanggan dan respon teknis tim internal",
 };
 
 const DynamicAdminSupportView = dynamic(
   () => import("@/modules/support").then((mod) => mod.AdminSupportView),
   {
     loading: () => <SupportSkeleton />,
-  }
+  },
 );
 
 export default function AdminSupportPage() {

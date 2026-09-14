@@ -11,11 +11,11 @@ import { VpnProtocolSkeleton } from "@/modules/vpn/components/shared/VpnProtocol
 const AdminServersView = dynamic(
   () =>
     import("@/modules/vpn/views/admin/AdminServersView").then(
-      (mod) => mod.AdminServersView
+      (mod) => mod.AdminServersView,
     ),
   {
     loading: () => <VpnProtocolSkeleton />,
-  }
+  },
 );
 
 export const metadata: Metadata = {

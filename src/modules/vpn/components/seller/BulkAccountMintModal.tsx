@@ -42,7 +42,9 @@ export function BulkAccountMintModal({
     // Simulate batch creation
     setTimeout(() => {
       setIsMinting(false);
-      toast.success(`Berhasil mencetak ${quantity} akun ${protocol.toUpperCase()}! File TXT siap diunduh.`);
+      toast.success(
+        `Berhasil mencetak ${quantity} akun ${protocol.toUpperCase()}! File TXT siap diunduh.`,
+      );
       onClose();
     }, 1200);
   };
@@ -61,7 +63,8 @@ export function BulkAccountMintModal({
             Cetak Massal Akun VPN
           </DialogTitle>
           <DialogDescription className="text-xs text-muted-foreground">
-            Cetak hingga 100 akun VPN secara instan untuk didistribusikan kepada sub-klien Anda.
+            Cetak hingga 100 akun VPN secara instan untuk didistribusikan kepada
+            sub-klien Anda.
           </DialogDescription>
         </DialogHeader>
 
@@ -135,7 +138,8 @@ export function BulkAccountMintModal({
             >
               {isMinting ? (
                 <>
-                  <Loader2 className="mr-1.5 size-3.5 animate-spin" /> Mencetak...
+                  <Loader2 className="mr-1.5 size-3.5 animate-spin" />{" "}
+                  Mencetak...
                 </>
               ) : (
                 <>

@@ -26,7 +26,9 @@ import { toast } from "sonner";
 
 export function useFinanceAdmin() {
   const [billingRecords, setBillingRecords] = useState<BillingRecord[]>([]);
-  const [incomePendingList, setIncomePendingList] = useState<IncomePending[]>([]);
+  const [incomePendingList, setIncomePendingList] = useState<IncomePending[]>(
+    [],
+  );
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [vouchers, setVouchers] = useState<Voucher[]>([]);
   const [withdrawals, setWithdrawals] = useState<WithdrawalRecord[]>([]);
@@ -178,16 +180,22 @@ export function useFinanceAdmin() {
     }
   };
 
-  const updateIncomePendingStatus = async (id: string | number, status: string) => {
+  const updateIncomePendingStatus = async (
+    id: string | number,
+    status: string,
+  ) => {
     try {
-      const res = await financeAdminApi.updateIncomePendingStatus({ id, status });
+      const res = await financeAdminApi.updateIncomePendingStatus({
+        id,
+        status,
+      });
       setIncomePendingList((prev) =>
-        prev.map((item) => (item.id === id ? { ...item, status } : item))
+        prev.map((item) => (item.id === id ? { ...item, status } : item)),
       );
       return res.payload || res.data;
     } catch {
       setIncomePendingList((prev) =>
-        prev.map((item) => (item.id === id ? { ...item, status } : item))
+        prev.map((item) => (item.id === id ? { ...item, status } : item)),
       );
       return null;
     }
@@ -205,12 +213,14 @@ export function useFinanceAdmin() {
 
   const updateInvoiceStatus = async (
     id: string | number,
-    data: AdminUpdateInvoiceStatusDto
+    data: AdminUpdateInvoiceStatusDto,
   ) => {
     try {
       const res = await financeAdminApi.updateInvoiceStatus(id, data);
       setInvoices((prev) =>
-        prev.map((inv) => (inv.id === id ? { ...inv, status: data.status } : inv))
+        prev.map((inv) =>
+          inv.id === id ? { ...inv, status: data.status } : inv,
+        ),
       );
       toast.success("Status invoice berhasil diperbarui!");
       return res.payload || res.data;
@@ -304,12 +314,12 @@ export function useFinanceAdmin() {
 
   const updateWithdrawalStatus = async (
     id: string | number,
-    data: AdminUpdateWithdrawalStatusDto
+    data: AdminUpdateWithdrawalStatusDto,
   ) => {
     try {
       const res = await financeAdminApi.updateWithdrawalStatus(id, data);
       setWithdrawals((prev) =>
-        prev.map((w) => (w.id === id ? { ...w, status: data.status } : w))
+        prev.map((w) => (w.id === id ? { ...w, status: data.status } : w)),
       );
       toast.success("Status penarikan dana berhasil diperbarui!");
       return res.payload || res.data;

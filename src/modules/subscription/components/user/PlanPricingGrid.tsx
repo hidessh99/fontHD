@@ -30,7 +30,8 @@ export function PlanPricingGrid({
           Pilihan Paket Berlangganan GoVPN
         </h2>
         <p className="text-xs text-muted-foreground">
-          Dapatkan akses prioritas tanpa batas ke seluruh protokol tunneling VPN dan AI Gateway
+          Dapatkan akses prioritas tanpa batas ke seluruh protokol tunneling VPN
+          dan AI Gateway
         </p>
       </div>
 
@@ -56,7 +57,9 @@ export function PlanPricingGrid({
 
               <div className="space-y-4">
                 <div>
-                  <h3 className="font-bold text-lg text-foreground">{plan.name}</h3>
+                  <h3 className="font-bold text-lg text-foreground">
+                    {plan.name}
+                  </h3>
                   {plan.description && (
                     <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
                       {plan.description}
@@ -81,16 +84,26 @@ export function PlanPricingGrid({
 
                   <div className="flex items-center gap-2 font-medium text-foreground">
                     <Check className="h-4 w-4 text-emerald-400 shrink-0" />
-                    <span>Bandwidth {plan.bandwidth_gb > 0 ? `${plan.bandwidth_gb} GB` : "Unlimited Kuota"}</span>
+                    <span>
+                      Bandwidth{" "}
+                      {plan.bandwidth_gb > 0
+                        ? `${plan.bandwidth_gb} GB`
+                        : "Unlimited Kuota"}
+                    </span>
                   </div>
 
                   <div className="flex items-center gap-2 font-medium text-foreground">
                     <Check className="h-4 w-4 text-emerald-400 shrink-0" />
-                    <span>Akses Seluruh Protokol (SSH, VMess, VLess, Trojan, WG)</span>
+                    <span>
+                      Akses Seluruh Protokol (SSH, VMess, VLess, Trojan, WG)
+                    </span>
                   </div>
 
                   {plan.features?.map((f, i) => (
-                    <div key={i} className="flex items-center gap-2 text-muted-foreground">
+                    <div
+                      key={i}
+                      className="flex items-center gap-2 text-muted-foreground"
+                    >
                       <Check className="h-4 w-4 text-primary shrink-0" />
                       <span>{f}</span>
                     </div>
@@ -106,8 +119,8 @@ export function PlanPricingGrid({
                     isCurrent
                       ? "bg-muted text-muted-foreground"
                       : isFeatured
-                      ? "bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/25"
-                      : "bg-card border border-border hover:bg-muted text-foreground"
+                        ? "bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/25"
+                        : "bg-card border border-border hover:bg-muted text-foreground"
                   }`}
                 >
                   {isCurrent ? "Paket Aktif Anda" : "Pilih Paket Ini"}

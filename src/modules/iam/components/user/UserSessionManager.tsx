@@ -62,7 +62,8 @@ export function UserSessionManager({
             Manajemen Sesi Login Aktif ({sessions.length})
           </h3>
           <p className="text-xs text-muted-foreground">
-            Daftar perangkat yang saat ini memiliki token akses ke akun GoVPN Anda.
+            Daftar perangkat yang saat ini memiliki token akses ke akun GoVPN
+            Anda.
           </p>
         </div>
 

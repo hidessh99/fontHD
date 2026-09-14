@@ -68,7 +68,11 @@ export function K8sAppCard({
             </div>
             <div className="flex items-center gap-1.5 text-xs text-muted-foreground font-mono">
               <span className="truncate max-w-[260px]">{app.docker_image}</span>
-              <CopyButton text={app.docker_image} label="" className="h-4 w-4 p-0" />
+              <CopyButton
+                text={app.docker_image}
+                label=""
+                className="h-4 w-4 p-0"
+              />
             </div>
           </div>
 
@@ -119,7 +123,10 @@ export function K8sAppCard({
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1">
           <div className="text-[11px] text-muted-foreground flex items-center gap-1.5 font-mono">
             <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
-            <span>Aktif hingga: {new Date(app.expires_at).toLocaleDateString("id-ID")}</span>
+            <span>
+              Aktif hingga:{" "}
+              {new Date(app.expires_at).toLocaleDateString("id-ID")}
+            </span>
           </div>
 
           <div className="flex items-center gap-1.5 self-end sm:self-auto flex-wrap">
@@ -131,7 +138,9 @@ export function K8sAppCard({
               className="h-8 px-2.5 rounded-lg border-border text-xs gap-1"
               title="Restart Container Pod"
             >
-              <RotateCcw className={`h-3 w-3 ${restarting ? "animate-spin text-primary" : ""}`} />
+              <RotateCcw
+                className={`h-3 w-3 ${restarting ? "animate-spin text-primary" : ""}`}
+              />
               Restart
             </Button>
 

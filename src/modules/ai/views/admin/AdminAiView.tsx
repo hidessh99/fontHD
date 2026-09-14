@@ -13,7 +13,15 @@ import { AdminAiProviderTable } from "../../components/admin/AdminAiProviderTabl
 import { AdminAiWalletManager } from "../../components/admin/AdminAiWalletManager";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Cpu, Server, Wallet, Activity, RefreshCw, Sparkles, Coins } from "lucide-react";
+import {
+  Cpu,
+  Server,
+  Wallet,
+  Activity,
+  RefreshCw,
+  Sparkles,
+  Coins,
+} from "lucide-react";
 
 export function AdminAiView() {
   const {
@@ -30,7 +38,9 @@ export function AdminAiView() {
     refresh,
   } = useAiAdmin();
 
-  const [activeTab, setActiveTab] = useState<"models" | "providers" | "wallets">("models");
+  const [activeTab, setActiveTab] = useState<
+    "models" | "providers" | "wallets"
+  >("models");
 
   return (
     <div className="space-y-6 pb-12">
@@ -44,7 +54,8 @@ export function AdminAiView() {
             Admin AI Gateway Control Center
           </h1>
           <p className="text-xs text-muted-foreground mt-1">
-            Manajemen model inferensi LLM, koneksi provider upstream, dan audit dompet pengguna
+            Manajemen model inferensi LLM, koneksi provider upstream, dan audit
+            dompet pengguna
           </p>
         </div>
 
@@ -55,7 +66,9 @@ export function AdminAiView() {
           disabled={loading}
           className="border-border bg-card/60 hover:bg-muted text-foreground gap-2 h-9 px-3.5 text-xs rounded-xl shadow-sm"
         >
-          <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`} />
+          <RefreshCw
+            className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`}
+          />
           Segarkan
         </Button>
       </div>
@@ -65,7 +78,9 @@ export function AdminAiView() {
         <Card className="border-border/80 bg-card/60 backdrop-blur-sm p-4 rounded-2xl shadow-sm">
           <CardContent className="p-0 flex items-center justify-between">
             <div>
-              <span className="text-xs text-muted-foreground font-medium">Total Permintaan</span>
+              <span className="text-xs text-muted-foreground font-medium">
+                Total Permintaan
+              </span>
               <div className="font-mono text-2xl font-bold text-foreground mt-1">
                 {stats.total_requests.toLocaleString()}
               </div>
@@ -79,7 +94,9 @@ export function AdminAiView() {
         <Card className="border-border/80 bg-card/60 backdrop-blur-sm p-4 rounded-2xl shadow-sm">
           <CardContent className="p-0 flex items-center justify-between">
             <div>
-              <span className="text-xs text-muted-foreground font-medium">Konsumsi Token</span>
+              <span className="text-xs text-muted-foreground font-medium">
+                Konsumsi Token
+              </span>
               <div className="font-mono text-2xl font-bold text-primary mt-1">
                 {(stats.total_tokens / 1000000).toFixed(2)}M
               </div>
@@ -93,7 +110,9 @@ export function AdminAiView() {
         <Card className="border-border/80 bg-card/60 backdrop-blur-sm p-4 rounded-2xl shadow-sm">
           <CardContent className="p-0 flex items-center justify-between">
             <div>
-              <span className="text-xs text-muted-foreground font-medium">Model Aktif</span>
+              <span className="text-xs text-muted-foreground font-medium">
+                Model Aktif
+              </span>
               <div className="font-mono text-2xl font-bold text-emerald-400 mt-1">
                 {models.length} Model
               </div>
@@ -107,7 +126,9 @@ export function AdminAiView() {
         <Card className="border-border/80 bg-card/60 backdrop-blur-sm p-4 rounded-2xl shadow-sm">
           <CardContent className="p-0 flex items-center justify-between">
             <div>
-              <span className="text-xs text-muted-foreground font-medium">Provider Terhubung</span>
+              <span className="text-xs text-muted-foreground font-medium">
+                Provider Terhubung
+              </span>
               <div className="font-mono text-2xl font-bold text-amber-400 mt-1">
                 {providers.length} Provider
               </div>

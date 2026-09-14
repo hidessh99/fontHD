@@ -6,14 +6,23 @@
 import React from "react";
 import { Badge } from "@/components/ui/badge";
 import { K8sAppStatus } from "../../types/k8s.types";
-import { CheckCircle2, AlertTriangle, XCircle, RotateCcw, StopCircle } from "lucide-react";
+import {
+  CheckCircle2,
+  AlertTriangle,
+  XCircle,
+  RotateCcw,
+  StopCircle,
+} from "lucide-react";
 
 interface K8sAppStatusBadgeProps {
   status: K8sAppStatus | string;
   className?: string;
 }
 
-export function K8sAppStatusBadge({ status, className }: K8sAppStatusBadgeProps) {
+export function K8sAppStatusBadge({
+  status,
+  className,
+}: K8sAppStatusBadgeProps) {
   const norm = status?.toUpperCase();
 
   if (norm === "RUNNING") {

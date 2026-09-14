@@ -50,7 +50,9 @@ export function AdminGlobalRecordTable({
     setCleaning(true);
     try {
       const res = await onCleanupRecords();
-      toast.success(`Pembersihan Selesai: ${res?.cleaned_count ?? 0} record kadaluarsa dihapus`);
+      toast.success(
+        `Pembersihan Selesai: ${res?.cleaned_count ?? 0} record kadaluarsa dihapus`,
+      );
     } catch {
       toast.error("Gagal menjalankan pembersihan record");
     } finally {
@@ -74,7 +76,8 @@ export function AdminGlobalRecordTable({
             Audit Global DNS Record
           </h3>
           <p className="text-xs text-muted-foreground mt-0.5">
-            Semua record DNS yang dibuat oleh seluruh pengguna di seluruh zona domain
+            Semua record DNS yang dibuat oleh seluruh pengguna di seluruh zona
+            domain
           </p>
         </div>
 
@@ -123,7 +126,10 @@ export function AdminGlobalRecordTable({
                   : rec.name;
 
                 return (
-                  <tr key={rec.id} className="hover:bg-muted/20 transition-colors">
+                  <tr
+                    key={rec.id}
+                    className="hover:bg-muted/20 transition-colors"
+                  >
                     <td className="px-5 py-3.5">
                       <DnsTypeBadge type={rec.type} />
                     </td>
@@ -135,20 +141,28 @@ export function AdminGlobalRecordTable({
                           <span>#{rec.user_id}</span>
                         </div>
                       ) : (
-                        <span className="text-muted-foreground text-[11px]">System</span>
+                        <span className="text-muted-foreground text-[11px]">
+                          System
+                        </span>
                       )}
                     </td>
 
                     <td className="px-5 py-3.5">
                       <div className="flex flex-col">
                         <div className="flex items-center gap-1.5">
-                          <span className="font-bold text-foreground">{rec.name}</span>
+                          <span className="font-bold text-foreground">
+                            {rec.name}
+                          </span>
                           {rec.domain_name && (
                             <span className="text-muted-foreground text-[11px]">
                               .{rec.domain_name}
                             </span>
                           )}
-                          <CopyButton text={fqdn} label="" className="h-5 w-5 p-0" />
+                          <CopyButton
+                            text={fqdn}
+                            label=""
+                            className="h-5 w-5 p-0"
+                          />
                         </div>
                         {rec.comment && (
                           <span className="text-[11px] text-muted-foreground font-sans truncate max-w-[200px]">
@@ -163,7 +177,11 @@ export function AdminGlobalRecordTable({
                         <span className="text-foreground font-semibold bg-surface border border-border/60 px-2 py-0.5 rounded text-[11px]">
                           {rec.content}
                         </span>
-                        <CopyButton text={rec.content} label="" className="h-5 w-5 p-0" />
+                        <CopyButton
+                          text={rec.content}
+                          label=""
+                          className="h-5 w-5 p-0"
+                        />
                       </div>
                     </td>
 

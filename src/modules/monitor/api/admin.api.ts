@@ -13,11 +13,15 @@ import {
 
 export const monitorAdminApi = {
   // 1. GET /api/admin/monitor
-  getMonitors: (params?: AdminMonitorFilterParams): Promise<ApiResponse<MonitorTarget[]>> =>
+  getMonitors: (
+    params?: AdminMonitorFilterParams,
+  ): Promise<ApiResponse<MonitorTarget[]>> =>
     apiClient.get<MonitorTarget[]>("/api/admin/monitor", { params }),
 
   // 2. POST /api/admin/monitor
-  createMonitor: (data: AdminCreateMonitorDto): Promise<ApiResponse<MonitorTarget>> =>
+  createMonitor: (
+    data: AdminCreateMonitorDto,
+  ): Promise<ApiResponse<MonitorTarget>> =>
     apiClient.post<MonitorTarget>("/api/admin/monitor", data),
 
   // 3. GET /api/admin/monitor/:id
@@ -25,11 +29,16 @@ export const monitorAdminApi = {
     apiClient.get<MonitorTarget>(`/api/admin/monitor/${id}`),
 
   // 4. PUT /api/admin/monitor/:id
-  updateMonitor: (id: string | number, data: AdminUpdateMonitorDto): Promise<ApiResponse<MonitorTarget>> =>
+  updateMonitor: (
+    id: string | number,
+    data: AdminUpdateMonitorDto,
+  ): Promise<ApiResponse<MonitorTarget>> =>
     apiClient.put<MonitorTarget>(`/api/admin/monitor/${id}`, data),
 
   // 5. DELETE /api/admin/monitor/:id
-  deleteMonitor: (id: string | number): Promise<ApiResponse<{ deleted: boolean }>> =>
+  deleteMonitor: (
+    id: string | number,
+  ): Promise<ApiResponse<{ deleted: boolean }>> =>
     apiClient.delete<{ deleted: boolean }>(`/api/admin/monitor/${id}`),
 
   // === CRONJOB / SYSTEM ROUTINES (2 Endpoints) ===
@@ -39,5 +48,7 @@ export const monitorAdminApi = {
 
   // 7. GET /api/cronjob/monitor/check-uptime
   checkUptime: (): Promise<ApiResponse<{ checked_count: number }>> =>
-    apiClient.get<{ checked_count: number }>("/api/cronjob/monitor/check-uptime"),
+    apiClient.get<{ checked_count: number }>(
+      "/api/cronjob/monitor/check-uptime",
+    ),
 };

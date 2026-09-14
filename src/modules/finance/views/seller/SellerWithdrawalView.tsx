@@ -14,12 +14,8 @@ import { Landmark, Calendar, Clock, CreditCard } from "lucide-react";
 import { EmptyState } from "@/components/shared/EmptyState";
 
 export function SellerWithdrawalView() {
-  const {
-    stats,
-    withdrawals,
-    fetchSellerStats,
-    requestWithdrawal,
-  } = useFinanceSeller();
+  const { stats, withdrawals, fetchSellerStats, requestWithdrawal } =
+    useFinanceSeller();
 
   useEffect(() => {
     fetchSellerStats();
@@ -42,7 +38,8 @@ export function SellerWithdrawalView() {
           Komisi &amp; Pencairan Reseller
         </h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Pantau akumulasi komisi penjualan VPN Anda dan cairkan dana langsung ke rekening bank atau dompet digital.
+          Pantau akumulasi komisi penjualan VPN Anda dan cairkan dana langsung
+          ke rekening bank atau dompet digital.
         </p>
       </div>
 
@@ -80,7 +77,10 @@ export function SellerWithdrawalView() {
               </thead>
               <tbody className="divide-y border-border/40 text-xs">
                 {withdrawals.map((w) => (
-                  <tr key={w.id} className="hover:bg-muted/20 transition-colors">
+                  <tr
+                    key={w.id}
+                    className="hover:bg-muted/20 transition-colors"
+                  >
                     <td className="px-5 py-3.5 text-muted-foreground whitespace-nowrap">
                       <div className="flex items-center gap-1.5">
                         <Calendar className="h-3.5 w-3.5 text-muted-foreground" />

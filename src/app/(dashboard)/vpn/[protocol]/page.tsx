@@ -13,18 +13,20 @@ import { VpnProtocolSkeleton } from "@/modules/vpn/components/shared/VpnProtocol
 const VpnProtocolView = dynamic(
   () =>
     import("@/modules/vpn/views/user/VpnProtocolView").then(
-      (mod) => mod.VpnProtocolView
+      (mod) => mod.VpnProtocolView,
     ),
   {
     loading: () => <VpnProtocolSkeleton />,
-  }
+  },
 );
 
 interface PageProps {
   params: Promise<{ protocol: string }>;
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
   const { protocol } = await params;
   return {
     title: `Akun ${protocol.toUpperCase()} | GoVPN`,

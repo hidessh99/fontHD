@@ -3,8 +3,10 @@
 // Synchronized with backendv2 Queue & Broadcast Domain
 // ==============================================================================
 
-export type NotificationChannel = "EMAIL" | "TELEGRAM" | "WHATSAPP" | "PUSH" | "IN_APP";
-export type QueueStatus = "PENDING" | "PROCESSING" | "SENT" | "FAILED" | "CANCELLED";
+export type NotificationChannel =
+  "EMAIL" | "TELEGRAM" | "WHATSAPP" | "PUSH" | "IN_APP";
+export type QueueStatus =
+  "PENDING" | "PROCESSING" | "SENT" | "FAILED" | "CANCELLED";
 
 export interface QueueItem {
   id: string | number;

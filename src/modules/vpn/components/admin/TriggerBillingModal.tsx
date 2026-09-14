@@ -36,18 +36,24 @@ export function TriggerBillingModal({
   const handleTrigger = async () => {
     setIsProcessing(true);
     try {
-      const txId = typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : `tx_${Date.now()}`;
+      const txId =
+        typeof crypto !== "undefined" && crypto.randomUUID
+          ? crypto.randomUUID()
+          : `tx_${Date.now()}`;
       const res = await vpnAdminApi.triggerPayasBilling(txId);
 
       if (res.payload) {
-        toast.success(`Billing berhasil diproses! Total: Rp ${res.payload.total_billed_amount.toLocaleString()}`);
+        toast.success(
+          `Billing berhasil diproses! Total: Rp ${res.payload.total_billed_amount.toLocaleString()}`,
+        );
         onSuccess?.(res.payload);
         onClose();
       } else {
         toast.error(res.message || "Gagal memproses billing.");
       }
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Terjadi kesalahan saat billing.";
+      const msg =
+        err instanceof Error ? err.message : "Terjadi kesalahan saat billing.";
       toast.error(msg);
     } finally {
       setIsProcessing(false);
@@ -68,7 +74,8 @@ export function TriggerBillingModal({
             Eksekusi Billing PayAsYouGo
           </DialogTitle>
           <DialogDescription className="text-xs text-muted-foreground">
-            Sistem akan menghitung uptime aktif seluruh akun PayAsYouGo dan memotong saldo dompet pengguna secara real-time.
+            Sistem akan menghitung uptime aktif seluruh akun PayAsYouGo dan
+            memotong saldo dompet pengguna secara real-time.
           </DialogDescription>
         </DialogHeader>
 
@@ -76,7 +83,8 @@ export function TriggerBillingModal({
           <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-300 flex items-start gap-2.5">
             <AlertTriangle className="size-4 shrink-0 mt-0.5" />
             <span>
-              Tindakan ini mengirimkan header idempotensi ke backend Go. Akun dengan saldo tidak mencukupi akan otomatis dijeda (PAUSED).
+              Tindakan ini mengirimkan header idempotensi ke backend Go. Akun
+              dengan saldo tidak mencukupi akan otomatis dijeda (PAUSED).
             </span>
           </div>
 
@@ -99,11 +107,13 @@ export function TriggerBillingModal({
             >
               {isProcessing ? (
                 <>
-                  <Loader2 className="mr-1.5 size-3.5 animate-spin" /> Memproses Billing...
+                  <Loader2 className="mr-1.5 size-3.5 animate-spin" /> Memproses
+                  Billing...
                 </>
               ) : (
                 <>
-                  <CreditCard className="mr-1.5 size-3.5" /> Jalankan Billing Sekarang
+                  <CreditCard className="mr-1.5 size-3.5" /> Jalankan Billing
+                  Sekarang
                 </>
               )}
             </Button>

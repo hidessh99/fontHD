@@ -22,15 +22,25 @@ export const k8sUserApi = {
     apiClient.post<K8sApp>("/api/kubernetes/deploy", data),
 
   // 3. POST /api/kubernetes/apps/:id/restart
-  restartApp: (id: string | number): Promise<ApiResponse<{ restarted: boolean }>> =>
-    apiClient.post<{ restarted: boolean }>(`/api/kubernetes/apps/${id}/restart`),
+  restartApp: (
+    id: string | number,
+  ): Promise<ApiResponse<{ restarted: boolean }>> =>
+    apiClient.post<{ restarted: boolean }>(
+      `/api/kubernetes/apps/${id}/restart`,
+    ),
 
   // 4. PUT /api/kubernetes/apps/:id/env
-  updateEnv: (id: string | number, data: UpdateK8sAppEnvDto): Promise<ApiResponse<K8sApp>> =>
+  updateEnv: (
+    id: string | number,
+    data: UpdateK8sAppEnvDto,
+  ): Promise<ApiResponse<K8sApp>> =>
     apiClient.put<K8sApp>(`/api/kubernetes/apps/${id}/env`, data),
 
   // 5. PUT /api/kubernetes/apps/:id/renew
-  renewApp: (id: string | number, data: RenewK8sAppDto): Promise<ApiResponse<K8sApp>> =>
+  renewApp: (
+    id: string | number,
+    data: RenewK8sAppDto,
+  ): Promise<ApiResponse<K8sApp>> =>
     apiClient.put<K8sApp>(`/api/kubernetes/apps/${id}/renew`, data),
 
   // 6. GET /api/kubernetes/apps/:id/logs

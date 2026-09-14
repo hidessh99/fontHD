@@ -19,7 +19,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { MapPin, Plus, Trash2, Home, Loader2, CheckCircle2 } from "lucide-react";
+import {
+  MapPin,
+  Plus,
+  Trash2,
+  Home,
+  Loader2,
+  CheckCircle2,
+} from "lucide-react";
 import { toast } from "sonner";
 
 interface AddressManagerProps {
@@ -99,17 +106,20 @@ export function AddressManager({
             Buku Alamat Penagihan ({addresses.length})
           </h3>
           <p className="text-xs text-muted-foreground">
-            Alamat yang dicantumkan pada faktur pembayaran dan verifikasi identitas resmi.
+            Alamat yang dicantumkan pada faktur pembayaran dan verifikasi
+            identitas resmi.
           </p>
         </div>
 
         <Dialog open={open} onOpenChange={setOpen}>
-          <DialogTrigger render={
-            <Button className="bg-primary hover:bg-primary-hover text-white gap-2 font-semibold text-xs rounded-full min-h-9 px-4 shadow-sm">
-              <Plus className="h-4 w-4" />
-              Tambah Alamat
-            </Button>
-          } />
+          <DialogTrigger
+            render={
+              <Button className="bg-primary hover:bg-primary-hover text-white gap-2 font-semibold text-xs rounded-full min-h-9 px-4 shadow-sm">
+                <Plus className="h-4 w-4" />
+                Tambah Alamat
+              </Button>
+            }
+          />
           <DialogContent className="sm:max-w-md bg-card border-border/80 text-foreground rounded-2xl">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2 text-lg font-bold">
@@ -121,7 +131,9 @@ export function AddressManager({
             <form onSubmit={handleSubmit} className="space-y-3 pt-2">
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <Label className="text-xs font-medium text-muted-foreground">Label Alamat</Label>
+                  <Label className="text-xs font-medium text-muted-foreground">
+                    Label Alamat
+                  </Label>
                   <Input
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
@@ -131,7 +143,9 @@ export function AddressManager({
                   />
                 </div>
                 <div>
-                  <Label className="text-xs font-medium text-muted-foreground">Nama Penerima</Label>
+                  <Label className="text-xs font-medium text-muted-foreground">
+                    Nama Penerima
+                  </Label>
                   <Input
                     value={recipientName}
                     onChange={(e) => setRecipientName(e.target.value)}
@@ -143,7 +157,9 @@ export function AddressManager({
               </div>
 
               <div>
-                <Label className="text-xs font-medium text-muted-foreground">Nomor Telepon</Label>
+                <Label className="text-xs font-medium text-muted-foreground">
+                  Nomor Telepon
+                </Label>
                 <Input
                   value={phoneNumber}
                   onChange={(e) => setPhoneNumber(e.target.value)}
@@ -154,7 +170,9 @@ export function AddressManager({
               </div>
 
               <div>
-                <Label className="text-xs font-medium text-muted-foreground">Alamat Lengkap</Label>
+                <Label className="text-xs font-medium text-muted-foreground">
+                  Alamat Lengkap
+                </Label>
                 <Input
                   value={addressLine1}
                   onChange={(e) => setAddressLine1(e.target.value)}
@@ -166,7 +184,9 @@ export function AddressManager({
 
               <div className="grid grid-cols-3 gap-2">
                 <div>
-                  <Label className="text-xs font-medium text-muted-foreground">Kota</Label>
+                  <Label className="text-xs font-medium text-muted-foreground">
+                    Kota
+                  </Label>
                   <Input
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
@@ -176,7 +196,9 @@ export function AddressManager({
                   />
                 </div>
                 <div>
-                  <Label className="text-xs font-medium text-muted-foreground">Provinsi</Label>
+                  <Label className="text-xs font-medium text-muted-foreground">
+                    Provinsi
+                  </Label>
                   <Input
                     value={stateProvince}
                     onChange={(e) => setStateProvince(e.target.value)}
@@ -186,7 +208,9 @@ export function AddressManager({
                   />
                 </div>
                 <div>
-                  <Label className="text-xs font-medium text-muted-foreground">Kode Pos</Label>
+                  <Label className="text-xs font-medium text-muted-foreground">
+                    Kode Pos
+                  </Label>
                   <Input
                     value={postalCode}
                     onChange={(e) => setPostalCode(e.target.value)}
@@ -213,7 +237,8 @@ export function AddressManager({
                 >
                   {isSubmitting ? (
                     <>
-                      <Loader2 className="mr-1.5 h-4 w-4 animate-spin" /> Menyimpan...
+                      <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />{" "}
+                      Menyimpan...
                     </>
                   ) : (
                     "Simpan Alamat"
@@ -227,7 +252,8 @@ export function AddressManager({
 
       {addresses.length === 0 ? (
         <div className="rounded-2xl border border-dashed border-border/80 p-8 text-center text-xs text-muted-foreground">
-          Belum ada alamat tersimpan. Klik &quot;Tambah Alamat&quot; untuk mendaftarkan alamat penagihan Anda.
+          Belum ada alamat tersimpan. Klik &quot;Tambah Alamat&quot; untuk
+          mendaftarkan alamat penagihan Anda.
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -267,7 +293,8 @@ export function AddressManager({
                 </span>
               </div>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                {addr.address_line1}, {addr.city}, {addr.state_province} {addr.postal_code}, {addr.country}
+                {addr.address_line1}, {addr.city}, {addr.state_province}{" "}
+                {addr.postal_code}, {addr.country}
               </p>
             </div>
           ))}

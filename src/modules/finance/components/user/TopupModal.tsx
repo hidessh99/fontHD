@@ -23,7 +23,9 @@ import { toast } from "sonner";
 
 interface TopupModalProps {
   onTopup: (dto: CreateTopupDto) => Promise<unknown>;
-  onValidateVoucher?: (code: string) => Promise<{ valid: boolean; discount_amount: number; message?: string }>;
+  onValidateVoucher?: (
+    code: string,
+  ) => Promise<{ valid: boolean; discount_amount: number; message?: string }>;
   triggerButton?: React.ReactNode;
 }
 
@@ -43,7 +45,9 @@ export function TopupModal({
   const [isCheckingVoucher, setIsCheckingVoucher] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const selectedAmount = customAmount ? parseInt(customAmount, 10) || 0 : amount;
+  const selectedAmount = customAmount
+    ? parseInt(customAmount, 10) || 0
+    : amount;
   const finalAmount = Math.max(0, selectedAmount - voucherDiscount);
 
   const handleApplyVoucher = async () => {
@@ -95,16 +99,18 @@ export function TopupModal({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger render={
-        triggerButton ? (
-          (triggerButton as React.ReactElement)
-        ) : (
-          <Button className="bg-primary hover:bg-primary-hover text-white gap-2 font-semibold text-xs rounded-full min-h-11 px-6 shadow-md shadow-primary/25">
-            <Wallet className="h-4 w-4" />
-            Top Up Saldo
-          </Button>
-        )
-      } />
+      <DialogTrigger
+        render={
+          triggerButton ? (
+            (triggerButton as React.ReactElement)
+          ) : (
+            <Button className="bg-primary hover:bg-primary-hover text-white gap-2 font-semibold text-xs rounded-full min-h-11 px-6 shadow-md shadow-primary/25">
+              <Wallet className="h-4 w-4" />
+              Top Up Saldo
+            </Button>
+          )
+        }
+      />
 
       <DialogContent className="sm:max-w-md bg-card border-border/80 text-foreground rounded-2xl">
         <DialogHeader>
@@ -117,7 +123,9 @@ export function TopupModal({
         <form onSubmit={handleSubmit} className="space-y-4 pt-2">
           {/* Preset Amounts */}
           <div>
-            <Label className="text-xs font-medium text-muted-foreground">Pilih Nominal Cepat</Label>
+            <Label className="text-xs font-medium text-muted-foreground">
+              Pilih Nominal Cepat
+            </Label>
             <div className="grid grid-cols-3 gap-2 mt-1.5">
               {PRESET_AMOUNTS.map((amt) => (
                 <button
@@ -141,7 +149,10 @@ export function TopupModal({
 
           {/* Custom Amount */}
           <div>
-            <Label htmlFor="custom-amount" className="text-xs font-medium text-muted-foreground">
+            <Label
+              htmlFor="custom-amount"
+              className="text-xs font-medium text-muted-foreground"
+            >
               Atau Nominal Lainnya (Min. Rp 10.000)
             </Label>
             <div className="relative mt-1.5">
@@ -161,7 +172,9 @@ export function TopupModal({
 
           {/* Payment Method */}
           <div>
-            <Label className="text-xs font-medium text-muted-foreground">Metode Pembayaran</Label>
+            <Label className="text-xs font-medium text-muted-foreground">
+              Metode Pembayaran
+            </Label>
             <div className="grid grid-cols-2 gap-2 mt-1.5">
               <button
                 type="button"
@@ -174,8 +187,12 @@ export function TopupModal({
               >
                 <QrCode className="h-5 w-5 text-primary" />
                 <div>
-                  <div className="text-xs font-bold font-mono">QRIS Realtime</div>
-                  <div className="text-[10px] text-muted-foreground">Semua Bank & E-Wallet</div>
+                  <div className="text-xs font-bold font-mono">
+                    QRIS Realtime
+                  </div>
+                  <div className="text-[10px] text-muted-foreground">
+                    Semua Bank & E-Wallet
+                  </div>
                 </div>
               </button>
 
@@ -190,8 +207,12 @@ export function TopupModal({
               >
                 <Wallet className="h-5 w-5 text-indigo-400" />
                 <div>
-                  <div className="text-xs font-bold font-mono">Virtual Account</div>
-                  <div className="text-[10px] text-muted-foreground">BCA, Mandiri, BRI, BNI</div>
+                  <div className="text-xs font-bold font-mono">
+                    Virtual Account
+                  </div>
+                  <div className="text-[10px] text-muted-foreground">
+                    BCA, Mandiri, BRI, BNI
+                  </div>
                 </div>
               </button>
             </div>
@@ -200,7 +221,10 @@ export function TopupModal({
           {/* Voucher Code */}
           {onValidateVoucher && (
             <div>
-              <Label htmlFor="voucher" className="text-xs font-medium text-muted-foreground">
+              <Label
+                htmlFor="voucher"
+                className="text-xs font-medium text-muted-foreground"
+              >
                 Kupon Promo / Voucher
               </Label>
               <div className="flex gap-2 mt-1.5">
@@ -210,7 +234,9 @@ export function TopupModal({
                     id="voucher"
                     placeholder="KODE PROMO"
                     value={voucherCode}
-                    onChange={(e) => setVoucherCode(e.target.value.toUpperCase())}
+                    onChange={(e) =>
+                      setVoucherCode(e.target.value.toUpperCase())
+                    }
                     className="pl-9 font-mono text-xs uppercase rounded-xl min-h-10"
                   />
                 </div>
@@ -265,7 +291,8 @@ export function TopupModal({
             >
               {isSubmitting ? (
                 <>
-                  <Loader2 className="mr-1.5 h-4 w-4 animate-spin" /> Memproses...
+                  <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />{" "}
+                  Memproses...
                 </>
               ) : (
                 "Lanjut ke Pembayaran"

@@ -27,7 +27,9 @@ export function VpnProtocolView({ protocol }: VpnProtocolViewProps) {
   const { accounts, isLoading, refresh, deleteAccount } = useVpnUser(normProto);
 
   const [createModalOpen, setCreateModalOpen] = useState(false);
-  const [renewModalAccount, setRenewModalAccount] = useState<number | string | null>(null);
+  const [renewModalAccount, setRenewModalAccount] = useState<
+    number | string | null
+  >(null);
 
   return (
     <div className="space-y-6">
@@ -41,7 +43,8 @@ export function VpnProtocolView({ protocol }: VpnProtocolViewProps) {
             </h1>
           </div>
           <p className="text-xs text-muted-foreground">
-            Daftar akun tunneling aktif, masa berlaku, dan kredensial koneksi 1-Click Copy.
+            Daftar akun tunneling aktif, masa berlaku, dan kredensial koneksi
+            1-Click Copy.
           </p>
         </div>
 
@@ -64,7 +67,8 @@ export function VpnProtocolView({ protocol }: VpnProtocolViewProps) {
             onClick={() => setCreateModalOpen(true)}
             className="bg-primary hover:bg-primary-hover text-white text-xs font-semibold h-10 px-5 rounded-full shadow-md shadow-primary/25"
           >
-            <Plus className="mr-1.5 size-4" /> Buat Akun {normProto.toUpperCase()}
+            <Plus className="mr-1.5 size-4" /> Buat Akun{" "}
+            {normProto.toUpperCase()}
           </Button>
         </div>
       </div>

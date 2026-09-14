@@ -21,7 +21,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/shared/EmptyState";
-import { Globe, Plus, Trash2, Loader2, CheckCircle2, ShieldAlert } from "lucide-react";
+import {
+  Globe,
+  Plus,
+  Trash2,
+  Loader2,
+  CheckCircle2,
+  ShieldAlert,
+} from "lucide-react";
 import { toast } from "sonner";
 
 interface AdminDomainManagerProps {
@@ -40,7 +47,9 @@ export function AdminDomainManager({
   loading = false,
 }: AdminDomainManagerProps) {
   const [openCreate, setOpenCreate] = useState(false);
-  const [accountId, setAccountId] = useState<string | number>(accounts[0]?.id || "");
+  const [accountId, setAccountId] = useState<string | number>(
+    accounts[0]?.id || "",
+  );
   const [domainName, setDomainName] = useState("");
   const [zoneId, setZoneId] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -76,7 +85,11 @@ export function AdminDomainManager({
   };
 
   const handleDelete = async (id: string | number) => {
-    if (!confirm("Hapus domain zona ini? Semua record di domain ini akan terhapus.")) {
+    if (
+      !confirm(
+        "Hapus domain zona ini? Semua record di domain ini akan terhapus.",
+      )
+    ) {
       return;
     }
     setDeletingId(id);
@@ -97,17 +110,23 @@ export function AdminDomainManager({
             Zona Domain Terdaftar
           </h3>
           <p className="text-xs text-muted-foreground mt-0.5">
-            Daftar domain aktif yang dapat digunakan pengguna untuk membuat subdomain VPN
+            Daftar domain aktif yang dapat digunakan pengguna untuk membuat
+            subdomain VPN
           </p>
         </div>
 
         <Dialog open={openCreate} onOpenChange={setOpenCreate}>
-          <DialogTrigger render={
-            <Button size="sm" className="h-9 px-3.5 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs gap-1.5 shadow-lg shadow-primary/20">
-              <Plus className="h-4 w-4" />
-              Tambah Domain
-            </Button>
-          } />
+          <DialogTrigger
+            render={
+              <Button
+                size="sm"
+                className="h-9 px-3.5 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs gap-1.5 shadow-lg shadow-primary/20"
+              >
+                <Plus className="h-4 w-4" />
+                Tambah Domain
+              </Button>
+            }
+          />
           <DialogContent className="sm:max-w-md bg-card border-border text-foreground shadow-2xl rounded-2xl">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2.5 text-base font-bold">
@@ -119,7 +138,9 @@ export function AdminDomainManager({
             </DialogHeader>
             <form onSubmit={handleCreate} className="space-y-3.5 pt-2">
               <div>
-                <Label className="text-xs text-muted-foreground">Pilih Akun Cloudflare</Label>
+                <Label className="text-xs text-muted-foreground">
+                  Pilih Akun Cloudflare
+                </Label>
                 <select
                   value={accountId}
                   onChange={(e) => setAccountId(e.target.value)}
@@ -134,7 +155,9 @@ export function AdminDomainManager({
               </div>
 
               <div>
-                <Label className="text-xs text-muted-foreground">Nama Domain (Root FQDN)</Label>
+                <Label className="text-xs text-muted-foreground">
+                  Nama Domain (Root FQDN)
+                </Label>
                 <Input
                   placeholder="misal: govpn-network.id"
                   value={domainName}
@@ -144,7 +167,9 @@ export function AdminDomainManager({
               </div>
 
               <div>
-                <Label className="text-xs text-muted-foreground">Cloudflare Zone ID (Opsional)</Label>
+                <Label className="text-xs text-muted-foreground">
+                  Cloudflare Zone ID (Opsional)
+                </Label>
                 <Input
                   placeholder="32 Karakter Hex Zone ID dari Dashboard CF"
                   value={zoneId}
@@ -191,13 +216,18 @@ export function AdminDomainManager({
             </thead>
             <tbody className="divide-y border-border/40 text-xs">
               {domains.map((dom) => (
-                <tr key={dom.id} className="hover:bg-muted/20 transition-colors">
+                <tr
+                  key={dom.id}
+                  className="hover:bg-muted/20 transition-colors"
+                >
                   <td className="px-5 py-3.5">
                     <div className="flex items-center gap-2">
                       <div className="h-7 w-7 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold font-mono text-xs border border-emerald-500/20">
                         <Globe className="h-3.5 w-3.5" />
                       </div>
-                      <span className="font-bold text-foreground">{dom.domain_name}</span>
+                      <span className="font-bold text-foreground">
+                        {dom.domain_name}
+                      </span>
                     </div>
                   </td>
 

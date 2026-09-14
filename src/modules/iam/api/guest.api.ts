@@ -24,27 +24,41 @@ export const iamGuestApi = {
     apiClient.post<AuthSession>("/api/auth/register", data),
 
   // 3. POST /api/auth/forgot-password
-  forgotPassword: (data: ForgotPasswordRequest): Promise<ApiResponse<{ message: string }>> =>
+  forgotPassword: (
+    data: ForgotPasswordRequest,
+  ): Promise<ApiResponse<{ message: string }>> =>
     apiClient.post<{ message: string }>("/api/auth/forgot-password", data),
 
   // 4. POST /api/auth/reset-password
-  resetPassword: (data: ResetPasswordRequest): Promise<ApiResponse<{ message: string }>> =>
+  resetPassword: (
+    data: ResetPasswordRequest,
+  ): Promise<ApiResponse<{ message: string }>> =>
     apiClient.post<{ message: string }>("/api/auth/reset-password", data),
 
   // 5. GET /api/auth/verify
-  verifyEmail: (params: VerifyEmailRequest): Promise<ApiResponse<{ verified: boolean }>> =>
-    apiClient.get<{ verified: boolean }>("/api/auth/verify", { params: { token: params.token } }),
+  verifyEmail: (
+    params: VerifyEmailRequest,
+  ): Promise<ApiResponse<{ verified: boolean }>> =>
+    apiClient.get<{ verified: boolean }>("/api/auth/verify", {
+      params: { token: params.token },
+    }),
 
   // 6. GET /api/auth/resend-verify
   resendVerifyGet: (email: string): Promise<ApiResponse<{ sent: boolean }>> =>
-    apiClient.get<{ sent: boolean }>("/api/auth/resend-verify", { params: { email } }),
+    apiClient.get<{ sent: boolean }>("/api/auth/resend-verify", {
+      params: { email },
+    }),
 
   // 7. POST /api/auth/verify/resend
-  resendVerifyPost: (data: ResendVerifyRequest): Promise<ApiResponse<{ sent: boolean }>> =>
+  resendVerifyPost: (
+    data: ResendVerifyRequest,
+  ): Promise<ApiResponse<{ sent: boolean }>> =>
     apiClient.post<{ sent: boolean }>("/api/auth/verify/resend", data),
 
   // 8. POST /api/auth/verify-password
-  verifyPassword: (data: ResetPasswordRequest): Promise<ApiResponse<{ valid: boolean }>> =>
+  verifyPassword: (
+    data: ResetPasswordRequest,
+  ): Promise<ApiResponse<{ valid: boolean }>> =>
     apiClient.post<{ valid: boolean }>("/api/auth/verify-password", data),
 
   // 9. GET /api/auth/google/login

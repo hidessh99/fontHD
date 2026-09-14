@@ -30,7 +30,9 @@ export function CreateMonitorModal({ onCreate }: CreateMonitorModalProps) {
   const [name, setName] = useState("");
   const [host, setHost] = useState("");
   const [port, setPort] = useState<number | undefined>(undefined);
-  const [protocol, setProtocol] = useState<"ICMP" | "TCP" | "HTTP" | "GRPC">("ICMP");
+  const [protocol, setProtocol] = useState<"ICMP" | "TCP" | "HTTP" | "GRPC">(
+    "ICMP",
+  );
   const [interval, setInterval] = useState<number>(30);
   const [threshold, setThreshold] = useState<number>(150);
   const [submitting, setSubmitting] = useState(false);
@@ -64,12 +66,14 @@ export function CreateMonitorModal({ onCreate }: CreateMonitorModalProps) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger render={
-        <Button className="h-10 px-4 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs shadow-lg shadow-primary/20 gap-2 transition-all">
-          <Plus className="h-4 w-4" />
-          Tambah Target Monitor
-        </Button>
-      } />
+      <DialogTrigger
+        render={
+          <Button className="h-10 px-4 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs shadow-lg shadow-primary/20 gap-2 transition-all">
+            <Plus className="h-4 w-4" />
+            Tambah Target Monitor
+          </Button>
+        }
+      />
 
       <DialogContent className="sm:max-w-md bg-card border-border text-foreground shadow-2xl rounded-2xl">
         <DialogHeader>
@@ -83,7 +87,9 @@ export function CreateMonitorModal({ onCreate }: CreateMonitorModalProps) {
 
         <form onSubmit={handleSubmit} className="space-y-4 pt-2">
           <div>
-            <Label className="text-xs text-muted-foreground font-medium">Nama Server / Target</Label>
+            <Label className="text-xs text-muted-foreground font-medium">
+              Nama Server / Target
+            </Label>
             <Input
               placeholder="misal: SG-Edge-01 (Equinix)"
               value={name}
@@ -94,7 +100,9 @@ export function CreateMonitorModal({ onCreate }: CreateMonitorModalProps) {
 
           <div className="grid grid-cols-3 gap-2.5">
             <div className="col-span-2">
-              <Label className="text-xs text-muted-foreground font-medium">Host / IP Target</Label>
+              <Label className="text-xs text-muted-foreground font-medium">
+                Host / IP Target
+              </Label>
               <Input
                 placeholder="103.147.12.88 / domain.id"
                 value={host}
@@ -103,19 +111,25 @@ export function CreateMonitorModal({ onCreate }: CreateMonitorModalProps) {
               />
             </div>
             <div>
-              <Label className="text-xs text-muted-foreground font-medium">Port</Label>
+              <Label className="text-xs text-muted-foreground font-medium">
+                Port
+              </Label>
               <Input
                 type="number"
                 placeholder="443"
                 value={port || ""}
-                onChange={(e) => setPort(e.target.value ? Number(e.target.value) : undefined)}
+                onChange={(e) =>
+                  setPort(e.target.value ? Number(e.target.value) : undefined)
+                }
                 className="mt-1.5 bg-muted/30 border-border text-foreground font-mono text-xs h-10"
               />
             </div>
           </div>
 
           <div>
-            <Label className="text-xs text-muted-foreground font-medium">Protokol Health Check</Label>
+            <Label className="text-xs text-muted-foreground font-medium">
+              Protokol Health Check
+            </Label>
             <div className="grid grid-cols-4 gap-2 mt-1.5">
               {(["ICMP", "TCP", "HTTP", "GRPC"] as const).map((p) => (
                 <button
@@ -136,7 +150,9 @@ export function CreateMonitorModal({ onCreate }: CreateMonitorModalProps) {
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <Label className="text-xs text-muted-foreground font-medium">Interval Ping (Detik)</Label>
+              <Label className="text-xs text-muted-foreground font-medium">
+                Interval Ping (Detik)
+              </Label>
               <select
                 value={interval}
                 onChange={(e) => setInterval(Number(e.target.value))}
@@ -150,7 +166,9 @@ export function CreateMonitorModal({ onCreate }: CreateMonitorModalProps) {
             </div>
 
             <div>
-              <Label className="text-xs text-muted-foreground font-medium">Ambang Peringatan (ms)</Label>
+              <Label className="text-xs text-muted-foreground font-medium">
+                Ambang Peringatan (ms)
+              </Label>
               <Input
                 type="number"
                 placeholder="150"

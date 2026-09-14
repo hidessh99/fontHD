@@ -20,7 +20,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Cpu, Plus, Trash2, Loader2, CheckCircle2, XCircle } from "lucide-react";
+import {
+  Cpu,
+  Plus,
+  Trash2,
+  Loader2,
+  CheckCircle2,
+  XCircle,
+} from "lucide-react";
 import { toast } from "sonner";
 import { EmptyState } from "@/components/shared/EmptyState";
 
@@ -42,7 +49,9 @@ export function AdminAiModelTable({
   const [openCreate, setOpenCreate] = useState(false);
   const [name, setName] = useState("");
   const [modelId, setModelId] = useState("");
-  const [providerId, setProviderId] = useState<string | number>(providers[0]?.id || "");
+  const [providerId, setProviderId] = useState<string | number>(
+    providers[0]?.id || "",
+  );
   const [contextWindow, setContextWindow] = useState(128000);
   const [inputPrice, setInputPrice] = useState(15);
   const [outputPrice, setOutputPrice] = useState(60);
@@ -102,17 +111,23 @@ export function AdminAiModelTable({
             Manajemen Model AI Gateway
           </h3>
           <p className="text-xs text-muted-foreground mt-0.5">
-            Daftar model LLM terintegrasi, kuota konteks, dan tarif biaya per 1K token
+            Daftar model LLM terintegrasi, kuota konteks, dan tarif biaya per 1K
+            token
           </p>
         </div>
 
         <Dialog open={openCreate} onOpenChange={setOpenCreate}>
-          <DialogTrigger render={
-            <Button size="sm" className="h-9 px-3.5 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs gap-1.5 shadow-md shadow-primary/20">
-              <Plus className="h-4 w-4" />
-              Tambah Model
-            </Button>
-          } />
+          <DialogTrigger
+            render={
+              <Button
+                size="sm"
+                className="h-9 px-3.5 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs gap-1.5 shadow-md shadow-primary/20"
+              >
+                <Plus className="h-4 w-4" />
+                Tambah Model
+              </Button>
+            }
+          />
           <DialogContent className="sm:max-w-md bg-card border-border text-foreground shadow-2xl rounded-2xl">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2 text-base font-bold">
@@ -122,7 +137,9 @@ export function AdminAiModelTable({
             </DialogHeader>
             <form onSubmit={handleCreate} className="space-y-3.5 pt-2">
               <div>
-                <Label className="text-xs text-muted-foreground">Pilih Provider Backend</Label>
+                <Label className="text-xs text-muted-foreground">
+                  Pilih Provider Backend
+                </Label>
                 <select
                   value={providerId}
                   onChange={(e) => setProviderId(e.target.value)}
@@ -137,7 +154,9 @@ export function AdminAiModelTable({
               </div>
 
               <div>
-                <Label className="text-xs text-muted-foreground">Nama Tampilan Model</Label>
+                <Label className="text-xs text-muted-foreground">
+                  Nama Tampilan Model
+                </Label>
                 <Input
                   placeholder="misal: GPT-4o Omni"
                   value={name}
@@ -147,7 +166,9 @@ export function AdminAiModelTable({
               </div>
 
               <div>
-                <Label className="text-xs text-muted-foreground">Model Identifier (API)</Label>
+                <Label className="text-xs text-muted-foreground">
+                  Model Identifier (API)
+                </Label>
                 <Input
                   placeholder="misal: gpt-4o atau claude-3-5-sonnet"
                   value={modelId}
@@ -158,7 +179,9 @@ export function AdminAiModelTable({
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <Label className="text-xs text-muted-foreground">Context Window</Label>
+                  <Label className="text-xs text-muted-foreground">
+                    Context Window
+                  </Label>
                   <Input
                     type="number"
                     value={contextWindow}
@@ -167,7 +190,9 @@ export function AdminAiModelTable({
                   />
                 </div>
                 <div>
-                  <Label className="text-xs text-muted-foreground">Tarif Input / 1K (IDR)</Label>
+                  <Label className="text-xs text-muted-foreground">
+                    Tarif Input / 1K (IDR)
+                  </Label>
                   <Input
                     type="number"
                     value={inputPrice}
@@ -233,12 +258,15 @@ export function AdminAiModelTable({
                   </td>
 
                   <td className="px-5 py-3.5 text-foreground">
-                    {m.context_window ? `${m.context_window.toLocaleString()} tokens` : "128k"}
+                    {m.context_window
+                      ? `${m.context_window.toLocaleString()} tokens`
+                      : "128k"}
                   </td>
 
                   <td className="px-5 py-3.5 font-sans">
                     <span className="text-foreground font-mono text-[11px]">
-                      Rp {m.input_price_per_1k || 15} / Rp {m.output_price_per_1k || 60}
+                      Rp {m.input_price_per_1k || 15} / Rp{" "}
+                      {m.output_price_per_1k || 60}
                     </span>
                   </td>
 

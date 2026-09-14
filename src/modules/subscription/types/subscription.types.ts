@@ -3,7 +3,8 @@
 // Synchronized with backendv2 Subscription & Tenant Architecture
 // ==============================================================================
 
-export type SubscriptionStatus = "ACTIVE" | "PENDING" | "EXPIRED" | "CANCELLED" | "TRIAL";
+export type SubscriptionStatus =
+  "ACTIVE" | "PENDING" | "EXPIRED" | "CANCELLED" | "TRIAL";
 
 export type BillingCycle = "MONTHLY" | "QUARTERLY" | "SEMI_ANNUAL" | "ANNUAL";
 

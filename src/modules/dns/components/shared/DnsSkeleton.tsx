@@ -36,7 +36,10 @@ export function DnsSkeleton() {
           <Skeleton className="h-4 w-16 rounded bg-muted/30" />
         </div>
         {[1, 2, 3, 4, 5].map((i) => (
-          <div key={i} className="flex items-center justify-between py-3 border-b border-border/20">
+          <div
+            key={i}
+            className="flex items-center justify-between py-3 border-b border-border/20"
+          >
             <div className="flex items-center gap-3">
               <Skeleton className="h-6 w-14 rounded-full bg-muted/30" />
               <div className="space-y-1">

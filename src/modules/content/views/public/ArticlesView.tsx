@@ -23,9 +23,7 @@ export function ArticlesView() {
   }
 
   // Collect all unique tags
-  const allTags = Array.from(
-    new Set(posts.flatMap((p) => p.tags || []))
-  );
+  const allTags = Array.from(new Set(posts.flatMap((p) => p.tags || [])));
 
   const filteredPosts = posts.filter((p) => {
     const matchesSearch =
@@ -48,7 +46,8 @@ export function ArticlesView() {
             Artikel, Tutorial & Update Jaringan
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Panduan teknis bypass DPI, optimalisasi koneksi gaming, dan arsitektur keamanan GoVPN.
+            Panduan teknis bypass DPI, optimalisasi koneksi gaming, dan
+            arsitektur keamanan GoVPN.
           </p>
         </div>
 

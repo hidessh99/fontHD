@@ -10,7 +10,13 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 import { LoginRequest } from "../../types/guest.types";
 import { ForgotPasswordModal } from "./ForgotPasswordModal";
 import { Lock, Mail, Loader2, ArrowRight, ShieldCheck } from "lucide-react";
@@ -57,7 +63,8 @@ export function LoginForm({ onLogin, onForgotPassword }: LoginFormProps) {
           Masuk ke GoVPN
         </CardTitle>
         <CardDescription className="text-xs text-muted-foreground">
-          Kelola server VPN berkecepatan tinggi, saldo akun, dan telemetri jaringan.
+          Kelola server VPN berkecepatan tinggi, saldo akun, dan telemetri
+          jaringan.
         </CardDescription>
       </CardHeader>
 
@@ -65,7 +72,10 @@ export function LoginForm({ onLogin, onForgotPassword }: LoginFormProps) {
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Username or Email */}
           <div>
-            <Label htmlFor="login-id" className="text-xs font-medium text-muted-foreground">
+            <Label
+              htmlFor="login-id"
+              className="text-xs font-medium text-muted-foreground"
+            >
               Email atau Username
             </Label>
             <div className="relative mt-1.5">
@@ -86,7 +96,10 @@ export function LoginForm({ onLogin, onForgotPassword }: LoginFormProps) {
           {/* Password */}
           <div>
             <div className="flex items-center justify-between">
-              <Label htmlFor="login-pw" className="text-xs font-medium text-muted-foreground">
+              <Label
+                htmlFor="login-pw"
+                className="text-xs font-medium text-muted-foreground"
+              >
                 Kata Sandi
               </Label>
               {onForgotPassword && (
@@ -111,7 +124,10 @@ export function LoginForm({ onLogin, onForgotPassword }: LoginFormProps) {
           {/* Optional 2FA Code */}
           {show2Fa && (
             <div>
-              <Label htmlFor="login-2fa" className="text-xs font-medium text-muted-foreground">
+              <Label
+                htmlFor="login-2fa"
+                className="text-xs font-medium text-muted-foreground"
+              >
                 Kode Autentikasi 2FA (6 Digit)
               </Label>
               <div className="relative mt-1.5">

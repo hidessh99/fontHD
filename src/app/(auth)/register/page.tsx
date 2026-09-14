@@ -11,16 +11,17 @@ import { IamSkeleton } from "@/modules/iam/components/shared/IamSkeleton";
 const RegisterView = dynamic(
   () =>
     import("@/modules/iam/views/guest/RegisterView").then(
-      (mod) => mod.RegisterView
+      (mod) => mod.RegisterView,
     ),
   {
     loading: () => <IamSkeleton />,
-  }
+  },
 );
 
 export const metadata: Metadata = {
   title: "Daftar Akun Baru | GoVPN",
-  description: "Daftar akun GoVPN untuk mendapatkan akses VPN berkecepatan tinggi.",
+  description:
+    "Daftar akun GoVPN untuk mendapatkan akses VPN berkecepatan tinggi.",
 };
 
 export default function RegisterPage() {

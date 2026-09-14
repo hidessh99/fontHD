@@ -46,7 +46,8 @@ export function AdminUsersView() {
           Manajemen Pengguna &amp; Audit Akses
         </h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Pusat kendali akun pengguna, mutasi saldo/komisi admin, penetapan peran hierarkis, dan audit trail.
+          Pusat kendali akun pengguna, mutasi saldo/komisi admin, penetapan
+          peran hierarkis, dan audit trail.
         </p>
       </div>
 
@@ -54,7 +55,9 @@ export function AdminUsersView() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div className="rounded-2xl border border-border/80 bg-card/60 p-5 space-y-1">
           <div className="flex items-center justify-between">
-            <span className="text-xs text-muted-foreground font-mono uppercase">Total Pengguna</span>
+            <span className="text-xs text-muted-foreground font-mono uppercase">
+              Total Pengguna
+            </span>
             <Users className="h-4 w-4 text-primary" />
           </div>
           <div className="font-mono text-2xl font-bold text-foreground">
@@ -64,31 +67,42 @@ export function AdminUsersView() {
 
         <div className="rounded-2xl border border-border/80 bg-card/60 p-5 space-y-1">
           <div className="flex items-center justify-between">
-            <span className="text-xs text-muted-foreground font-mono uppercase">Pengguna Aktif</span>
+            <span className="text-xs text-muted-foreground font-mono uppercase">
+              Pengguna Aktif
+            </span>
             <UserCheck className="h-4 w-4 text-emerald-400" />
           </div>
           <div className="font-mono text-2xl font-bold text-emerald-400">
-            {stats?.active_users || users.filter((u) => u.isActive !== false).length}
+            {stats?.active_users ||
+              users.filter((u) => u.isActive !== false).length}
           </div>
         </div>
 
         <div className="rounded-2xl border border-border/80 bg-card/60 p-5 space-y-1">
           <div className="flex items-center justify-between">
-            <span className="text-xs text-muted-foreground font-mono uppercase">Mitra Reseller</span>
+            <span className="text-xs text-muted-foreground font-mono uppercase">
+              Mitra Reseller
+            </span>
             <Store className="h-4 w-4 text-blue-400" />
           </div>
           <div className="font-mono text-2xl font-bold text-blue-400">
-            {stats?.total_sellers || users.filter((u) => u.role === "SELLER" || u.role === "RESELLER").length}
+            {stats?.total_sellers ||
+              users.filter((u) => u.role === "SELLER" || u.role === "RESELLER")
+                .length}
           </div>
         </div>
 
         <div className="rounded-2xl border border-border/80 bg-card/60 p-5 space-y-1">
           <div className="flex items-center justify-between">
-            <span className="text-xs text-muted-foreground font-mono uppercase">Administrator</span>
+            <span className="text-xs text-muted-foreground font-mono uppercase">
+              Administrator
+            </span>
             <ShieldAlert className="h-4 w-4 text-purple-400" />
           </div>
           <div className="font-mono text-2xl font-bold text-purple-400">
-            {stats?.total_admins || users.filter((u) => u.role === "ADMIN" || u.role === "SUPERADMIN").length}
+            {stats?.total_admins ||
+              users.filter((u) => u.role === "ADMIN" || u.role === "SUPERADMIN")
+                .length}
           </div>
         </div>
       </div>

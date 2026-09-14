@@ -36,7 +36,10 @@ export function FinanceSkeleton() {
           <Skeleton className="h-4 w-16 rounded bg-muted/30" />
         </div>
         {[1, 2, 3, 4, 5].map((i) => (
-          <div key={i} className="flex items-center justify-between py-2 border-b border-border/20">
+          <div
+            key={i}
+            className="flex items-center justify-between py-2 border-b border-border/20"
+          >
             <Skeleton className="h-4 w-32 rounded bg-muted/20" />
             <Skeleton className="h-4 w-24 rounded bg-muted/20" />
             <Skeleton className="h-6 w-20 rounded-full bg-muted/30" />

@@ -10,10 +10,7 @@ import { useState, useCallback, useEffect } from "react";
 import { useAuthStore } from "../store/auth.store";
 import { iamUserApi } from "../api/user.api";
 import { iamGuestApi } from "../api/guest.api";
-import {
-  UserDeviceSession,
-  UserAddress,
-} from "../types/iam.types";
+import { UserDeviceSession, UserAddress } from "../types/iam.types";
 import {
   UpdateProfileDto,
   ChangePasswordRequest,
@@ -25,7 +22,9 @@ export function useIamUser() {
   const [sessions, setSessions] = useState<UserDeviceSession[]>([]);
   const [addresses, setAddresses] = useState<UserAddress[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [twoFactorEnabled, setTwoFactorEnabled] = useState(user?.twoFactorEnabled || false);
+  const [twoFactorEnabled, setTwoFactorEnabled] = useState(
+    user?.twoFactorEnabled || false,
+  );
 
   // 1. Fetch Active Sessions
   const fetchSessions = useCallback(async () => {
@@ -40,7 +39,10 @@ export function useIamUser() {
           id: "sess-cur",
           user_id: user?.id || "usr-1",
           ip_address: "180.252.164.22",
-          user_agent: typeof navigator !== "undefined" ? navigator.userAgent : "Chrome / Windows 11",
+          user_agent:
+            typeof navigator !== "undefined"
+              ? navigator.userAgent
+              : "Chrome / Windows 11",
           device_name: "Desktop PC",
           browser: "Chrome 128",
           os: "Windows 11",

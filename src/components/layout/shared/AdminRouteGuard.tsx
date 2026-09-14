@@ -14,8 +14,7 @@ export function AdminRouteGuard({ children }: AdminRouteGuardProps) {
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
 
   useEffect(() => {
-    const token =
-      getCookie("hide-jwt") || getCookie("govpn_session_token");
+    const token = getCookie("hide-jwt") || getCookie("govpn_session_token");
     const role = (getCookie("govpn_user_role") || "").toUpperCase();
 
     if (!token) {

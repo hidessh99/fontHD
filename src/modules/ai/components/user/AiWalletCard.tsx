@@ -19,7 +19,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Wallet, Plus, ArrowUpRight, Zap, Loader2, Sparkles } from "lucide-react";
+import {
+  Wallet,
+  Plus,
+  ArrowUpRight,
+  Zap,
+  Loader2,
+  Sparkles,
+} from "lucide-react";
 import { toast } from "sonner";
 
 interface AiWalletCardProps {
@@ -47,7 +54,9 @@ export function AiWalletCard({ wallet, onTopup }: AiWalletCardProps) {
     try {
       await onTopup(amount);
       setOpenTopup(false);
-      toast.success(`Topup Saldo AI Rp ${amount.toLocaleString("id-ID")} berhasil`);
+      toast.success(
+        `Topup Saldo AI Rp ${amount.toLocaleString("id-ID")} berhasil`,
+      );
     } finally {
       setSubmitting(false);
     }
@@ -62,7 +71,9 @@ export function AiWalletCard({ wallet, onTopup }: AiWalletCardProps) {
               <Wallet className="h-5 w-5" />
             </div>
             <div>
-              <span className="text-xs text-muted-foreground font-medium">Saldo Dompet AI</span>
+              <span className="text-xs text-muted-foreground font-medium">
+                Saldo Dompet AI
+              </span>
               <div className="font-mono text-2xl font-bold text-foreground mt-0.5">
                 Rp {balance.toLocaleString("id-ID")}
               </div>
@@ -70,12 +81,17 @@ export function AiWalletCard({ wallet, onTopup }: AiWalletCardProps) {
           </div>
 
           <Dialog open={openTopup} onOpenChange={setOpenTopup}>
-            <DialogTrigger render={
-              <Button size="sm" className="h-9 px-3.5 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs gap-1.5 shadow-md shadow-primary/20">
-                <Plus className="h-4 w-4" />
-                Topup Saldo
-              </Button>
-            } />
+            <DialogTrigger
+              render={
+                <Button
+                  size="sm"
+                  className="h-9 px-3.5 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs gap-1.5 shadow-md shadow-primary/20"
+                >
+                  <Plus className="h-4 w-4" />
+                  Topup Saldo
+                </Button>
+              }
+            />
             <DialogContent className="sm:max-w-md bg-card border-border text-foreground shadow-2xl rounded-2xl">
               <DialogHeader>
                 <DialogTitle className="flex items-center gap-2 text-base font-bold">
@@ -86,7 +102,9 @@ export function AiWalletCard({ wallet, onTopup }: AiWalletCardProps) {
 
               <form onSubmit={handleTopupSubmit} className="space-y-4 pt-2">
                 <div>
-                  <Label className="text-xs text-muted-foreground">Pilih Nominal Topup</Label>
+                  <Label className="text-xs text-muted-foreground">
+                    Pilih Nominal Topup
+                  </Label>
                   <div className="grid grid-cols-3 gap-2 mt-2">
                     {[25000, 50000, 100000].map((preset) => (
                       <button
@@ -106,7 +124,9 @@ export function AiWalletCard({ wallet, onTopup }: AiWalletCardProps) {
                 </div>
 
                 <div>
-                  <Label className="text-xs text-muted-foreground">Nominal Kustom (IDR)</Label>
+                  <Label className="text-xs text-muted-foreground">
+                    Nominal Kustom (IDR)
+                  </Label>
                   <Input
                     type="number"
                     min={10000}

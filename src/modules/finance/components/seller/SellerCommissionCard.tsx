@@ -8,7 +8,10 @@
 
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { SellerCommissionStats, SellerWithdrawalRequestDto } from "../../types/seller.types";
+import {
+  SellerCommissionStats,
+  SellerWithdrawalRequestDto,
+} from "../../types/seller.types";
 import { SellerWithdrawalModal } from "./SellerWithdrawalModal";
 import { DollarSign, Clock, CheckCircle2, TrendingUp } from "lucide-react";
 
@@ -53,7 +56,8 @@ export function SellerCommissionCard({
                 </span>
               </div>
               <p className="text-xs text-muted-foreground mt-1">
-                Hasil penjualan paket VPN, perpanjangan user, dan bonus afiliasi.
+                Hasil penjualan paket VPN, perpanjangan user, dan bonus
+                afiliasi.
               </p>
             </div>
           </div>

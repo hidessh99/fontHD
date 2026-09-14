@@ -96,7 +96,9 @@ export function TicketConversationView({
             <TicketStatusBadge status={ticket.status} />
             <TicketPriorityBadge priority={ticket.priority} />
           </div>
-          <h2 className="text-lg font-bold text-foreground">{ticket.subject}</h2>
+          <h2 className="text-lg font-bold text-foreground">
+            {ticket.subject}
+          </h2>
           <div className="flex items-center gap-3 text-xs text-muted-foreground">
             <span>Kategori: {ticket.department || "General"}</span>
             <span>•</span>
@@ -191,7 +193,8 @@ export function TicketConversationView({
                       )}
                     </div>
                     <span className="text-xs font-semibold text-foreground">
-                      {reply.user_name || (isAdmin ? "GoVPN Technical Support" : "Anda")}
+                      {reply.user_name ||
+                        (isAdmin ? "GoVPN Technical Support" : "Anda")}
                     </span>
                     {isAdmin && (
                       <span className="text-[10px] px-1.5 py-0.2 rounded bg-primary/20 text-primary font-bold">
@@ -217,14 +220,20 @@ export function TicketConversationView({
         {isClosed && (
           <div className="p-3 rounded-lg bg-muted/40 border border-border/30 text-center text-xs text-muted-foreground flex items-center justify-center gap-2">
             <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-            <span>Tiket ini telah ditutup. Silakan buat tiket baru jika masih mengalami kendala.</span>
+            <span>
+              Tiket ini telah ditutup. Silakan buat tiket baru jika masih
+              mengalami kendala.
+            </span>
           </div>
         )}
       </div>
 
       {/* Reply Input Bar */}
       {!isClosed && (
-        <form onSubmit={handleSend} className="p-4 border-t border-border/40 bg-card/50 flex gap-3">
+        <form
+          onSubmit={handleSend}
+          className="p-4 border-t border-border/40 bg-card/50 flex gap-3"
+        >
           <input
             type="text"
             placeholder="Ketik balasan atau update kendala Anda di sini..."

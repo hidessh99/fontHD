@@ -21,7 +21,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/shared/EmptyState";
-import { Cloud, Plus, Trash2, Key, Loader2, ShieldCheck, Mail } from "lucide-react";
+import {
+  Cloud,
+  Plus,
+  Trash2,
+  Key,
+  Loader2,
+  ShieldCheck,
+  Mail,
+} from "lucide-react";
 import { toast } from "sonner";
 
 interface AdminDnsAccountTableProps {
@@ -72,7 +80,11 @@ export function AdminDnsAccountTable({
   };
 
   const handleDelete = async (id: string | number) => {
-    if (!confirm("Hapus akun Cloudflare ini? Semua domain yang terhubung akan terpengaruh.")) {
+    if (
+      !confirm(
+        "Hapus akun Cloudflare ini? Semua domain yang terhubung akan terpengaruh.",
+      )
+    ) {
       return;
     }
     setDeletingId(id);
@@ -99,12 +111,17 @@ export function AdminDnsAccountTable({
         </div>
 
         <Dialog open={openCreate} onOpenChange={setOpenCreate}>
-          <DialogTrigger render={
-            <Button size="sm" className="h-9 px-3.5 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs gap-1.5 shadow-lg shadow-primary/20">
-              <Plus className="h-4 w-4" />
-              Tambah Akun CF
-            </Button>
-          } />
+          <DialogTrigger
+            render={
+              <Button
+                size="sm"
+                className="h-9 px-3.5 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs gap-1.5 shadow-lg shadow-primary/20"
+              >
+                <Plus className="h-4 w-4" />
+                Tambah Akun CF
+              </Button>
+            }
+          />
           <DialogContent className="sm:max-w-md bg-card border-border text-foreground shadow-2xl rounded-2xl">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2.5 text-base font-bold">
@@ -116,7 +133,9 @@ export function AdminDnsAccountTable({
             </DialogHeader>
             <form onSubmit={handleCreate} className="space-y-3.5 pt-2">
               <div>
-                <Label className="text-xs text-muted-foreground">Nama Akun / Label</Label>
+                <Label className="text-xs text-muted-foreground">
+                  Nama Akun / Label
+                </Label>
                 <Input
                   placeholder="misal: Cloudflare Production SG"
                   value={name}
@@ -126,7 +145,9 @@ export function AdminDnsAccountTable({
               </div>
 
               <div>
-                <Label className="text-xs text-muted-foreground">Email Akun Cloudflare</Label>
+                <Label className="text-xs text-muted-foreground">
+                  Email Akun Cloudflare
+                </Label>
                 <Input
                   type="email"
                   placeholder="admin@domain.com"
@@ -137,7 +158,9 @@ export function AdminDnsAccountTable({
               </div>
 
               <div>
-                <Label className="text-xs text-muted-foreground">Global API Key / API Token</Label>
+                <Label className="text-xs text-muted-foreground">
+                  Global API Key / API Token
+                </Label>
                 <Input
                   type="password"
                   placeholder="Paste Cloudflare Global API Key atau API Token"
@@ -148,7 +171,9 @@ export function AdminDnsAccountTable({
               </div>
 
               <div>
-                <Label className="text-xs text-muted-foreground">Account ID (Opsional)</Label>
+                <Label className="text-xs text-muted-foreground">
+                  Account ID (Opsional)
+                </Label>
                 <Input
                   placeholder="Cloudflare Account Tag / ID"
                   value={accountId}
@@ -198,14 +223,19 @@ export function AdminDnsAccountTable({
             </thead>
             <tbody className="divide-y border-border/40 text-xs">
               {accounts.map((acc) => (
-                <tr key={acc.id} className="hover:bg-muted/20 transition-colors">
+                <tr
+                  key={acc.id}
+                  className="hover:bg-muted/20 transition-colors"
+                >
                   <td className="px-5 py-3.5">
                     <div className="flex items-center gap-2">
                       <div className="h-7 w-7 rounded-lg bg-primary/10 text-primary flex items-center justify-center font-bold font-mono text-xs border border-primary/20">
                         CF
                       </div>
                       <div className="flex flex-col font-sans">
-                        <span className="font-bold text-foreground">{acc.name}</span>
+                        <span className="font-bold text-foreground">
+                          {acc.name}
+                        </span>
                         {acc.account_id && (
                           <span className="text-[10px] text-muted-foreground font-mono">
                             ID: {acc.account_id}
@@ -230,7 +260,10 @@ export function AdminDnsAccountTable({
                   </td>
 
                   <td className="px-5 py-3.5 text-center">
-                    <Badge variant="outline" className="border-border bg-surface text-foreground font-mono text-[11px] px-2.5">
+                    <Badge
+                      variant="outline"
+                      className="border-border bg-surface text-foreground font-mono text-[11px] px-2.5"
+                    >
                       {acc.zone_count ?? 0} Zones
                     </Badge>
                   </td>

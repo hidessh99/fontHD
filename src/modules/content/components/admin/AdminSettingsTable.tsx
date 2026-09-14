@@ -16,13 +16,24 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Sliders, Plus, Edit2, Trash2, Globe, Lock, Search } from "lucide-react";
+import {
+  Sliders,
+  Plus,
+  Edit2,
+  Trash2,
+  Globe,
+  Lock,
+  Search,
+} from "lucide-react";
 import { toast } from "sonner";
 
 interface AdminSettingsTableProps {
   settings: SystemSetting[];
   onCreateSetting: (dto: CreateSettingDto) => Promise<unknown>;
-  onUpdateSetting: (id: string | number, dto: UpdateSettingDto) => Promise<unknown>;
+  onUpdateSetting: (
+    id: string | number,
+    dto: UpdateSettingDto,
+  ) => Promise<unknown>;
   onDeleteSetting: (id: string | number) => Promise<unknown>;
 }
 
@@ -34,7 +45,9 @@ export function AdminSettingsTable({
 }: AdminSettingsTableProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [editingSetting, setEditingSetting] = useState<SystemSetting | null>(null);
+  const [editingSetting, setEditingSetting] = useState<SystemSetting | null>(
+    null,
+  );
 
   // Form State
   const [key, setKey] = useState("");
@@ -48,7 +61,7 @@ export function AdminSettingsTable({
     (s) =>
       s.key.toLowerCase().includes(searchTerm.toLowerCase()) ||
       s.value.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (s.group && s.group.toLowerCase().includes(searchTerm.toLowerCase()))
+      (s.group && s.group.toLowerCase().includes(searchTerm.toLowerCase())),
   );
 
   const handleOpenAdd = () => {
@@ -204,22 +217,30 @@ export function AdminSettingsTable({
           <DialogHeader>
             <div className="flex items-center gap-2 text-primary mb-1">
               <Sliders className="w-4 h-4" />
-              <span className="text-xs font-bold uppercase tracking-wider">System Config</span>
+              <span className="text-xs font-bold uppercase tracking-wider">
+                System Config
+              </span>
             </div>
             <DialogTitle className="text-lg font-bold">
-              {editingSetting ? "Perbarui Parameter Sistem" : "Tambah Parameter Sistem"}
+              {editingSetting
+                ? "Perbarui Parameter Sistem"
+                : "Tambah Parameter Sistem"}
             </DialogTitle>
           </DialogHeader>
 
           <form onSubmit={handleSubmit} className="space-y-4 pt-2">
             <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-muted-foreground">Config Key (Identifier)</label>
+              <label className="text-xs font-semibold text-muted-foreground">
+                Config Key (Identifier)
+              </label>
               <input
                 type="text"
                 required
                 placeholder="APP_NAME, QRIS_TAX_RATE, dsb"
                 value={key}
-                onChange={(e) => setKey(e.target.value.toUpperCase().replace(/\s+/g, "_"))}
+                onChange={(e) =>
+                  setKey(e.target.value.toUpperCase().replace(/\s+/g, "_"))
+                }
                 disabled={!!editingSetting}
                 className="w-full px-3 py-2 text-xs rounded-lg border border-border/50 bg-background/50 focus:outline-none focus:ring-1 focus:ring-primary font-mono"
               />
@@ -227,7 +248,9 @@ export function AdminSettingsTable({
 
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-muted-foreground">Kategori / Grup</label>
+                <label className="text-xs font-semibold text-muted-foreground">
+                  Kategori / Grup
+                </label>
                 <select
                   value={group}
                   onChange={(e) => setGroup(e.target.value)}
@@ -242,20 +265,26 @@ export function AdminSettingsTable({
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-muted-foreground">Visibilitas</label>
+                <label className="text-xs font-semibold text-muted-foreground">
+                  Visibilitas
+                </label>
                 <select
                   value={isPublic ? "true" : "false"}
                   onChange={(e) => setIsPublic(e.target.value === "true")}
                   className="w-full px-3 py-2 text-xs rounded-lg border border-border/50 bg-background/50 focus:outline-none focus:ring-1 focus:ring-primary"
                 >
                   <option value="false">Internal Only (Privat)</option>
-                  <option value="true">Terekspos Publik (GET /api/settings)</option>
+                  <option value="true">
+                    Terekspos Publik (GET /api/settings)
+                  </option>
                 </select>
               </div>
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-muted-foreground">Nilai Parameter (Value)</label>
+              <label className="text-xs font-semibold text-muted-foreground">
+                Nilai Parameter (Value)
+              </label>
               <textarea
                 required
                 rows={3}
@@ -267,7 +296,9 @@ export function AdminSettingsTable({
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-muted-foreground">Deskripsi (Opsional)</label>
+              <label className="text-xs font-semibold text-muted-foreground">
+                Deskripsi (Opsional)
+              </label>
               <input
                 type="text"
                 placeholder="Penjelasan fungsi konfigurasi ini..."

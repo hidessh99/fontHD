@@ -24,7 +24,10 @@ interface SubscribeModalProps {
   plan: Plan | null;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onConfirmSubscribe: (dto: CreateSubscriptionDto, idempotencyKey: string) => Promise<unknown>;
+  onConfirmSubscribe: (
+    dto: CreateSubscriptionDto,
+    idempotencyKey: string,
+  ) => Promise<unknown>;
 }
 
 export function SubscribeModal({
@@ -49,12 +52,14 @@ export function SubscribeModal({
           plan_id: plan.id,
           auto_renew: autoRenew,
         },
-        idempotencyKey
+        idempotencyKey,
       );
       onOpenChange(false);
       toast.success(`Berhasil berlangganan paket ${plan.name}`);
     } catch {
-      toast.error("Gagal memproses langganan. Silakan periksa saldo dompet Anda.");
+      toast.error(
+        "Gagal memproses langganan. Silakan periksa saldo dompet Anda.",
+      );
     } finally {
       setSubmitting(false);
     }
@@ -74,8 +79,12 @@ export function SubscribeModal({
           <div className="rounded-2xl border border-primary/20 bg-primary/5 p-4 space-y-2">
             <div className="flex justify-between items-start">
               <div>
-                <h4 className="font-bold text-sm text-foreground">{plan.name}</h4>
-                <p className="text-xs text-muted-foreground">Siklus: {plan.billing_cycle}</p>
+                <h4 className="font-bold text-sm text-foreground">
+                  {plan.name}
+                </h4>
+                <p className="text-xs text-muted-foreground">
+                  Siklus: {plan.billing_cycle}
+                </p>
               </div>
               <span className="text-lg font-bold text-primary font-mono">
                 Rp {plan.price.toLocaleString("id-ID")}
@@ -89,15 +98,24 @@ export function SubscribeModal({
               </div>
               <div className="flex items-center gap-2">
                 <Check className="h-3.5 w-3.5 text-emerald-400" />
-                <span>Bandwidth: {plan.bandwidth_gb > 0 ? `${plan.bandwidth_gb} GB` : "Unlimited"}</span>
+                <span>
+                  Bandwidth:{" "}
+                  {plan.bandwidth_gb > 0
+                    ? `${plan.bandwidth_gb} GB`
+                    : "Unlimited"}
+                </span>
               </div>
             </div>
           </div>
 
           <div className="flex items-center justify-between p-3 rounded-xl border border-border bg-muted/20 text-xs">
             <div>
-              <span className="font-semibold text-foreground block">Perpanjangan Otomatis</span>
-              <span className="text-muted-foreground text-[11px]">Perpanjang otomatis jika saldo dompet mencukupi</span>
+              <span className="font-semibold text-foreground block">
+                Perpanjangan Otomatis
+              </span>
+              <span className="text-muted-foreground text-[11px]">
+                Perpanjang otomatis jika saldo dompet mencukupi
+              </span>
             </div>
             <input
               type="checkbox"

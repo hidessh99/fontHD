@@ -28,6 +28,10 @@ interface K8sDeployModalProps {
   onDeploy: (dto: DeployK8sAppDto) => Promise<unknown>;
 }
 
+function generateDefaultSlug(slug: string): string {
+  return `${slug}-${Date.now().toString().slice(-4)}`;
+}
+
 export function K8sDeployModal({
   templates,
   specs,
@@ -35,9 +39,13 @@ export function K8sDeployModal({
 }: K8sDeployModalProps) {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
-  const [selectedTemplateId, setSelectedTemplateId] = useState<string | number>("");
+  const [selectedTemplateId, setSelectedTemplateId] = useState<string | number>(
+    "",
+  );
   const [customImage, setCustomImage] = useState("");
-  const [selectedSpecId, setSelectedSpecId] = useState<string | number>(specs[0]?.id || "");
+  const [selectedSpecId, setSelectedSpecId] = useState<string | number>(
+    specs[0]?.id || "",
+  );
   const [port, setPort] = useState<number>(80);
   const [submitting, setSubmitting] = useState(false);
 
@@ -52,7 +60,7 @@ export function K8sDeployModal({
     setCustomImage(tmpl.docker_image);
     setPort(tmpl.default_port || 80);
     if (!name) {
-      setName(`${tmpl.slug}-${Math.floor(Math.random() * 1000)}`);
+      setName(generateDefaultSlug(tmpl.slug));
     }
   };
 
@@ -83,12 +91,14 @@ export function K8sDeployModal({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger render={
-        <Button className="h-10 px-4 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs shadow-lg shadow-primary/20 gap-2 transition-all">
-          <Plus className="h-4 w-4" />
-          Deploy Container Baru
-        </Button>
-      } />
+      <DialogTrigger
+        render={
+          <Button className="h-10 px-4 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs shadow-lg shadow-primary/20 gap-2 transition-all">
+            <Plus className="h-4 w-4" />
+            Deploy Container Baru
+          </Button>
+        }
+      />
 
       <DialogContent className="sm:max-w-xl bg-card border-border text-foreground shadow-2xl rounded-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
@@ -133,7 +143,9 @@ export function K8sDeployModal({
 
           {/* App Name */}
           <div>
-            <Label className="text-xs text-muted-foreground font-medium">Nama Aplikasi</Label>
+            <Label className="text-xs text-muted-foreground font-medium">
+              Nama Aplikasi
+            </Label>
             <Input
               placeholder="misal: my-vpn-gateway / my-wordpress"
               value={name}
@@ -145,7 +157,9 @@ export function K8sDeployModal({
           {/* Docker Image & Port */}
           <div className="grid grid-cols-3 gap-2.5">
             <div className="col-span-2">
-              <Label className="text-xs text-muted-foreground font-medium">Docker Image</Label>
+              <Label className="text-xs text-muted-foreground font-medium">
+                Docker Image
+              </Label>
               <Input
                 placeholder="misal: nginx:alpine / shadowsocks/shadowsocks-libev"
                 value={customImage}
@@ -154,7 +168,9 @@ export function K8sDeployModal({
               />
             </div>
             <div>
-              <Label className="text-xs text-muted-foreground font-medium">Port</Label>
+              <Label className="text-xs text-muted-foreground font-medium">
+                Port
+              </Label>
               <Input
                 type="number"
                 value={port}
@@ -166,7 +182,9 @@ export function K8sDeployModal({
 
           {/* Resource Specs Selector */}
           <div>
-            <Label className="text-xs text-muted-foreground font-medium">Pilih Paket Resource (Spec)</Label>
+            <Label className="text-xs text-muted-foreground font-medium">
+              Pilih Paket Resource (Spec)
+            </Label>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 mt-2">
               {specs.map((spec) => (
                 <button

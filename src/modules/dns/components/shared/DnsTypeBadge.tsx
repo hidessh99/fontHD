@@ -46,7 +46,7 @@ export function DnsTypeBadge({ type, className }: DnsTypeBadgeProps) {
       className={cn(
         "font-mono text-[11px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wider",
         color,
-        className
+        className,
       )}
     >
       {norm}

@@ -32,7 +32,8 @@ export function SellerVpnOverviewView() {
             </h1>
           </div>
           <p className="text-xs text-muted-foreground">
-            Manajemen armada server reseller, kuota lisensi grosir, dan pencetakan batch akun VPN.
+            Manajemen armada server reseller, kuota lisensi grosir, dan
+            pencetakan batch akun VPN.
           </p>
         </div>
 
@@ -44,7 +45,9 @@ export function SellerVpnOverviewView() {
             disabled={isLoading}
             className="text-xs font-mono h-10 px-4 rounded-full"
           >
-            <RefreshCw className={`mr-1.5 size-3.5 ${isLoading ? "animate-spin" : ""}`} />
+            <RefreshCw
+              className={`mr-1.5 size-3.5 ${isLoading ? "animate-spin" : ""}`}
+            />
             Segarkan
           </Button>
 

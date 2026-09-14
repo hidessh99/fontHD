@@ -36,7 +36,7 @@ export function SupportTicketsView() {
     return <SupportSkeleton />;
   }
 
-  const handleSelectTicket = (ticket: typeof tickets[0]) => {
+  const handleSelectTicket = (ticket: (typeof tickets)[0]) => {
     setSelectedTicket(ticket);
     setMobileChatOpen(true);
   };
@@ -53,7 +53,8 @@ export function SupportTicketsView() {
             Bantuan Teknis & Tiket
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Dukungan teknis dedicated untuk pemecahan masalah protokol, rute tunneling, dan kendala akun.
+            Dukungan teknis dedicated untuk pemecahan masalah protokol, rute
+            tunneling, dan kendala akun.
           </p>
         </div>
 
@@ -125,7 +126,8 @@ export function SupportTicketsView() {
                 Pilih tiket untuk melihat riwayat percakapan
               </p>
               <p className="text-xs text-muted-foreground mt-1 max-w-xs">
-                Klik salah satu tiket di daftar sebelah kiri untuk membalas respon teknis dari tim GoVPN.
+                Klik salah satu tiket di daftar sebelah kiri untuk membalas
+                respon teknis dari tim GoVPN.
               </p>
             </div>
           )}

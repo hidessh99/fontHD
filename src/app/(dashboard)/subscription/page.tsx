@@ -10,14 +10,16 @@ import { SubscriptionSkeleton } from "@/modules/subscription/components/shared/S
 
 export const metadata: Metadata = {
   title: "Paket & Langganan VPN | GoVPN Institutional",
-  description: "Pilih paket VPN tunneling berkecepatan tinggi dengan jaminan zero-logs dan aktivasi instan",
+  description:
+    "Pilih paket VPN tunneling berkecepatan tinggi dengan jaminan zero-logs dan aktivasi instan",
 };
 
 const DynamicSubscriptionPlansView = dynamic(
-  () => import("@/modules/subscription").then((mod) => mod.SubscriptionPlansView),
+  () =>
+    import("@/modules/subscription").then((mod) => mod.SubscriptionPlansView),
   {
     loading: () => <SubscriptionSkeleton />,
-  }
+  },
 );
 
 export default function SubscriptionPage() {

@@ -10,14 +10,15 @@ import { SupportSkeleton } from "@/modules/support/components/shared/SupportSkel
 
 export const metadata: Metadata = {
   title: "Bantuan & Helpdesk | GoVPN Institutional",
-  description: "Dukungan teknis responsif 24/7 untuk pemecahan masalah konektivitas VPN dan billing",
+  description:
+    "Dukungan teknis responsif 24/7 untuk pemecahan masalah konektivitas VPN dan billing",
 };
 
 const DynamicSupportTicketsView = dynamic(
   () => import("@/modules/support").then((mod) => mod.SupportTicketsView),
   {
     loading: () => <SupportSkeleton />,
-  }
+  },
 );
 
 export default function SupportPage() {

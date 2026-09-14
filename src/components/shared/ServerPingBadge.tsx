@@ -24,7 +24,9 @@ export function ServerPingBadge({
         className,
       )}
     >
-      <span className={cn("size-2 rounded-full animate-pulse", meta.dotClass)} />
+      <span
+        className={cn("size-2 rounded-full animate-pulse", meta.dotClass)}
+      />
       {showLabel && <span className={meta.colorClass}>{meta.label}</span>}
     </Badge>
   );

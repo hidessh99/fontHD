@@ -28,7 +28,9 @@ export function AiDashboardView() {
     refresh,
   } = useAiUser();
 
-  const [activeTab, setActiveTab] = useState<"keys" | "catalog" | "playground">("keys");
+  const [activeTab, setActiveTab] = useState<"keys" | "catalog" | "playground">(
+    "keys",
+  );
 
   return (
     <div className="space-y-6 pb-12">
@@ -42,7 +44,8 @@ export function AiDashboardView() {
             AI Gateway & LLM Inference
           </h1>
           <p className="text-xs text-muted-foreground mt-1">
-            Akses multi-model LLM (GPT-4o, Claude 3.5, DeepSeek) melalui single endpoint API berkecepatan tinggi
+            Akses multi-model LLM (GPT-4o, Claude 3.5, DeepSeek) melalui single
+            endpoint API berkecepatan tinggi
           </p>
         </div>
 
@@ -54,7 +57,9 @@ export function AiDashboardView() {
             disabled={loading}
             className="border-border bg-card/60 hover:bg-muted text-foreground gap-2 h-9 px-3.5 text-xs rounded-xl shadow-sm"
           >
-            <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`} />
+            <RefreshCw
+              className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`}
+            />
             Segarkan
           </Button>
         </div>

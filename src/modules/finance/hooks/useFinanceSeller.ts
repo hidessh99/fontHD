@@ -38,7 +38,7 @@ export function useFinanceSeller() {
   }, []);
 
   const requestWithdrawal = async (
-    dto: SellerWithdrawalRequestDto
+    dto: SellerWithdrawalRequestDto,
   ): Promise<WithdrawalRecord | null> => {
     setLoading(true);
     const idempotencyKey =

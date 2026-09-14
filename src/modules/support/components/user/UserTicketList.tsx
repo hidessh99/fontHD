@@ -76,7 +76,9 @@ export function UserTicketList({
                 <div className="flex items-center gap-1.5">
                   <Clock className="w-3.5 h-3.5" />
                   <span>
-                    {new Date(ticket.last_reply_at || ticket.created_at).toLocaleDateString("id-ID", {
+                    {new Date(
+                      ticket.last_reply_at || ticket.created_at,
+                    ).toLocaleDateString("id-ID", {
                       day: "numeric",
                       month: "short",
                       hour: "2-digit",

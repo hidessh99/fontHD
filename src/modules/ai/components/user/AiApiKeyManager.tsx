@@ -21,7 +21,15 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { EmptyState } from "@/components/shared/EmptyState";
-import { Key, Plus, Trash2, Loader2, ShieldCheck, Check, Clock } from "lucide-react";
+import {
+  Key,
+  Plus,
+  Trash2,
+  Loader2,
+  ShieldCheck,
+  Check,
+  Clock,
+} from "lucide-react";
 import { toast } from "sonner";
 
 interface AiApiKeyManagerProps {
@@ -66,7 +74,11 @@ export function AiApiKeyManager({
   };
 
   const handleDelete = async (id: string | number) => {
-    if (!confirm("Cabut API Key ini? Permintaan dari aplikasi Anda akan segera ditolak.")) {
+    if (
+      !confirm(
+        "Cabut API Key ini? Permintaan dari aplikasi Anda akan segera ditolak.",
+      )
+    ) {
       return;
     }
     setDeletingId(id);
@@ -87,7 +99,8 @@ export function AiApiKeyManager({
             API Key Gateway
           </h3>
           <p className="text-xs text-muted-foreground mt-0.5">
-            Gunakan API Key ini untuk mengakses endpoint OpenAI-compatible `/api/ai/v1`
+            Gunakan API Key ini untuk mengakses endpoint OpenAI-compatible
+            `/api/ai/v1`
           </p>
         </div>
 
@@ -98,12 +111,17 @@ export function AiApiKeyManager({
             if (!open) setNewlyCreatedKey(null);
           }}
         >
-          <DialogTrigger render={
-            <Button size="sm" className="h-9 px-3.5 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs gap-1.5 shadow-md shadow-primary/20">
-              <Plus className="h-4 w-4" />
-              Buat API Key Baru
-            </Button>
-          } />
+          <DialogTrigger
+            render={
+              <Button
+                size="sm"
+                className="h-9 px-3.5 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs gap-1.5 shadow-md shadow-primary/20"
+              >
+                <Plus className="h-4 w-4" />
+                Buat API Key Baru
+              </Button>
+            }
+          />
 
           <DialogContent className="sm:max-w-md bg-card border-border text-foreground shadow-2xl rounded-2xl">
             <DialogHeader>
@@ -116,18 +134,26 @@ export function AiApiKeyManager({
             {newlyCreatedKey ? (
               <div className="space-y-4 pt-2">
                 <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-3.5 text-xs text-amber-300">
-                  ⚠️ <strong>Penting:</strong> Salin API Key ini sekarang. Demi keamanan, kunci rahasia ini tidak akan pernah ditampilkan lagi.
+                  ⚠️ <strong>Penting:</strong> Salin API Key ini sekarang. Demi
+                  keamanan, kunci rahasia ini tidak akan pernah ditampilkan
+                  lagi.
                 </div>
 
                 <div>
-                  <Label className="text-xs text-muted-foreground font-medium">Secret Key</Label>
+                  <Label className="text-xs text-muted-foreground font-medium">
+                    Secret Key
+                  </Label>
                   <div className="flex items-center gap-2 mt-1.5">
                     <Input
                       readOnly
                       value={newlyCreatedKey}
                       className="bg-muted/40 border-border text-foreground font-mono text-xs h-10"
                     />
-                    <CopyButton text={newlyCreatedKey} label="Salin" className="h-10 px-3" />
+                    <CopyButton
+                      text={newlyCreatedKey}
+                      label="Salin"
+                      className="h-10 px-3"
+                    />
                   </div>
                 </div>
 
@@ -144,7 +170,9 @@ export function AiApiKeyManager({
             ) : (
               <form onSubmit={handleCreate} className="space-y-4 pt-2">
                 <div>
-                  <Label className="text-xs text-muted-foreground font-medium">Nama / Label Kunci</Label>
+                  <Label className="text-xs text-muted-foreground font-medium">
+                    Nama / Label Kunci
+                  </Label>
                   <Input
                     placeholder="misal: Python App / LangChain Prod"
                     value={keyName}
@@ -207,7 +235,9 @@ export function AiApiKeyManager({
                   <td className="px-5 py-3.5 font-sans text-muted-foreground">
                     <div className="flex items-center gap-1.5 text-[11px]">
                       <Clock className="h-3 w-3 text-muted-foreground" />
-                      <span>{new Date(k.created_at).toLocaleDateString("id-ID")}</span>
+                      <span>
+                        {new Date(k.created_at).toLocaleDateString("id-ID")}
+                      </span>
                     </div>
                   </td>
 
@@ -217,7 +247,9 @@ export function AiApiKeyManager({
                         {new Date(k.last_used_at).toLocaleDateString("id-ID")}
                       </span>
                     ) : (
-                      <span className="text-[11px] text-muted-foreground">Belum pernah</span>
+                      <span className="text-[11px] text-muted-foreground">
+                        Belum pernah
+                      </span>
                     )}
                   </td>
 

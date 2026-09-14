@@ -11,16 +11,17 @@ import { FinanceSkeleton } from "@/modules/finance/components/shared/FinanceSkel
 const AdminFinanceLedgerView = dynamic(
   () =>
     import("@/modules/finance/views/admin/AdminFinanceLedgerView").then(
-      (mod) => mod.AdminFinanceLedgerView
+      (mod) => mod.AdminFinanceLedgerView,
     ),
   {
     loading: () => <FinanceSkeleton />,
-  }
+  },
 );
 
 export const metadata: Metadata = {
   title: "Audit Ledger & Keuangan | GoVPN Superadmin",
-  description: "Manajemen mutasi saldo ledger, approval penarikan dana, dan kupon diskon global",
+  description:
+    "Manajemen mutasi saldo ledger, approval penarikan dana, dan kupon diskon global",
 };
 
 export default function AdminFinancePage() {

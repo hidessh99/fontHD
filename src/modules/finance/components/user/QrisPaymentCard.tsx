@@ -12,7 +12,13 @@ import QRCode from "qrcode";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CopyButton } from "@/components/shared/CopyButton";
-import { CheckCircle2, Clock, RefreshCw, ShieldCheck, AlertCircle } from "lucide-react";
+import {
+  CheckCircle2,
+  Clock,
+  RefreshCw,
+  ShieldCheck,
+  AlertCircle,
+} from "lucide-react";
 import { toast } from "sonner";
 import { startAdaptivePoller } from "@/lib/utils/adaptive-poller";
 import { financeUserApi } from "../../api/user.api";
@@ -73,7 +79,9 @@ export function QrisPaymentCard({
           if (res.payload && res.payload.status === "PAID") {
             setIsPaid(true);
             setIsPollingActive(false);
-            toast.success("Pembayaran QRIS Berhasil Diverifikasi! Saldo otomatis bertambah.");
+            toast.success(
+              "Pembayaran QRIS Berhasil Diverifikasi! Saldo otomatis bertambah.",
+            );
             onPaymentSuccess?.(res.payload);
             return true; // Stop polling
           }
@@ -86,7 +94,7 @@ export function QrisPaymentCard({
         baseIntervalMs: 2000,
         maxIntervalMs: 12000,
         maxAttempts: 75,
-      }
+      },
     );
 
     stopPollerRef.current = stop;
@@ -131,7 +139,8 @@ export function QrisPaymentCard({
           )}
         </CardTitle>
         <p className="text-xs text-muted-foreground">
-          Mendukung BCA, Mandiri, BRI, BNI, GoPay, OVO, DANA, ShopeePay & LinkAja
+          Mendukung BCA, Mandiri, BRI, BNI, GoPay, OVO, DANA, ShopeePay &
+          LinkAja
         </p>
       </CardHeader>
 
@@ -178,7 +187,9 @@ export function QrisPaymentCard({
         {!isPaid && (
           <div className="flex items-center gap-2 text-xs font-mono text-amber-400 bg-amber-500/10 border border-amber-500/20 px-4 py-2 rounded-full">
             <Clock className="h-3.5 w-3.5" />
-            <span>Sisa Waktu Bayar: <strong>{formattedTime}</strong></span>
+            <span>
+              Sisa Waktu Bayar: <strong>{formattedTime}</strong>
+            </span>
           </div>
         )}
 

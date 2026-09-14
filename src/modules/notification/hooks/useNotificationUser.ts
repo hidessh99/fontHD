@@ -14,7 +14,8 @@ const MOCK_USER_NOTIFICATIONS: NotificationItem[] = [
     id: 1,
     user_id: 101,
     title: "Pemeliharaan Node SG-01 Berhasil",
-    message: "Pemeliharaan server tunneling SG-01 telah tuntas. Seluruh sesi koneksi kembali normal dengan latency optimal.",
+    message:
+      "Pemeliharaan server tunneling SG-01 telah tuntas. Seluruh sesi koneksi kembali normal dengan latency optimal.",
     channel: "IN_APP",
     type: "SUCCESS",
     is_read: false,
@@ -25,7 +26,8 @@ const MOCK_USER_NOTIFICATIONS: NotificationItem[] = [
     id: 2,
     user_id: 101,
     title: "Masa Aktif Langganan Tersisa 5 Hari",
-    message: "Paket Premium Pro Max Anda akan berakhir dalam 5 hari. Perpanjang sekarang untuk menghindari pemutusan akses rute prioritas.",
+    message:
+      "Paket Premium Pro Max Anda akan berakhir dalam 5 hari. Perpanjang sekarang untuk menghindari pemutusan akses rute prioritas.",
     channel: "IN_APP",
     type: "WARNING",
     is_read: false,
@@ -36,7 +38,8 @@ const MOCK_USER_NOTIFICATIONS: NotificationItem[] = [
     id: 3,
     user_id: 101,
     title: "Tiket Bantuan #TKT-2026-001 Dijawab",
-    message: "Staff support teknis telah menanggapi tiket bantuan terkait rute V2Ray CDN Telkomsel.",
+    message:
+      "Staff support teknis telah menanggapi tiket bantuan terkait rute V2Ray CDN Telkomsel.",
     channel: "IN_APP",
     type: "INFO",
     is_read: true,
@@ -73,7 +76,7 @@ export function useNotificationUser() {
       // Mock update
     }
     setNotifications((prev) =>
-      prev.map((n) => (n.id === id ? { ...n, is_read: true } : n))
+      prev.map((n) => (n.id === id ? { ...n, is_read: true } : n)),
     );
   };
 

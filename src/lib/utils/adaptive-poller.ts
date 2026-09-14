@@ -15,7 +15,7 @@ export interface AdaptivePollerOptions {
 
 export function startAdaptivePoller(
   fn: () => Promise<boolean>, // Return true to STOP polling (e.g. invoice is PAID)
-  options: AdaptivePollerOptions = {}
+  options: AdaptivePollerOptions = {},
 ): () => void {
   const {
     baseIntervalMs = 2000,
@@ -58,7 +58,7 @@ export function startAdaptivePoller(
     // 2. Exponential backoff with jitter
     const backoff = Math.min(
       maxIntervalMs,
-      baseIntervalMs * Math.pow(1.4, attempt)
+      baseIntervalMs * Math.pow(1.4, attempt),
     );
     const jitter = Math.random() * jitterMs;
     const nextInterval = backoff + jitter;

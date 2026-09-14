@@ -8,8 +8,16 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { subscriptionAdminApi } from "../api/admin.api";
-import type { Plan, Subscription, Tenant, SubscriptionStatus } from "../types/subscription.types";
-import type { AdminCreatePlanDto, AdminUpdatePlanDto } from "../types/admin.types";
+import type {
+  Plan,
+  Subscription,
+  Tenant,
+  SubscriptionStatus,
+} from "../types/subscription.types";
+import type {
+  AdminCreatePlanDto,
+  AdminUpdatePlanDto,
+} from "../types/admin.types";
 
 const MOCK_ADMIN_PLANS: Plan[] = [
   {
@@ -120,33 +128,43 @@ export function useSubscriptionAdmin() {
     }
   };
 
-  const changeSubscriptionPlan = async (id: string | number, planId: string | number) => {
+  const changeSubscriptionPlan = async (
+    id: string | number,
+    planId: string | number,
+  ) => {
     try {
-      const res = await subscriptionAdminApi.changeSubscriptionPlan(id, { plan_id: planId });
+      const res = await subscriptionAdminApi.changeSubscriptionPlan(id, {
+        plan_id: planId,
+      });
       const updated = res.payload || res.data;
       if (updated) {
-        setSubscriptions((prev) => prev.map((s) => (s.id === id ? updated : s)));
+        setSubscriptions((prev) =>
+          prev.map((s) => (s.id === id ? updated : s)),
+        );
       }
     } catch {
       const plan = plans.find((p) => String(p.id) === String(planId));
       setSubscriptions((prev) =>
-        prev.map((s) => (s.id === id ? { ...s, plan_id: planId, plan } : s))
+        prev.map((s) => (s.id === id ? { ...s, plan_id: planId, plan } : s)),
       );
     }
   };
 
-  const updateSubscriptionStatus = async (id: string | number, status: SubscriptionStatus) => {
+  const updateSubscriptionStatus = async (
+    id: string | number,
+    status: SubscriptionStatus,
+  ) => {
     try {
       await subscriptionAdminApi.updateSubscriptionStatus({
         subscription_id: id,
         status,
       });
       setSubscriptions((prev) =>
-        prev.map((s) => (s.id === id ? { ...s, status } : s))
+        prev.map((s) => (s.id === id ? { ...s, status } : s)),
       );
     } catch {
       setSubscriptions((prev) =>
-        prev.map((s) => (s.id === id ? { ...s, status } : s))
+        prev.map((s) => (s.id === id ? { ...s, status } : s)),
       );
     }
   };

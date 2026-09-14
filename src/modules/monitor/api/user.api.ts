@@ -9,10 +9,14 @@ import { UserMonitorFilterParams } from "../types/user.types";
 
 export const monitorUserApi = {
   // 1. GET /api/monitor
-  getMonitors: (params?: UserMonitorFilterParams): Promise<ApiResponse<ServerTelemetry[]>> =>
+  getMonitors: (
+    params?: UserMonitorFilterParams,
+  ): Promise<ApiResponse<ServerTelemetry[]>> =>
     apiClient.get<ServerTelemetry[]>("/api/monitor", { params }),
 
   // 2. GET /api/monitor/:id
-  getMonitorById: (id: string | number): Promise<ApiResponse<ServerTelemetry>> =>
+  getMonitorById: (
+    id: string | number,
+  ): Promise<ApiResponse<ServerTelemetry>> =>
     apiClient.get<ServerTelemetry>(`/api/monitor/${id}`),
 };

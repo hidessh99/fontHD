@@ -15,7 +15,14 @@ import { SystemHealthBanner } from "../../components/shared/SystemHealthBanner";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Server, Users, Zap, RefreshCw, Search, ShieldCheck } from "lucide-react";
+import {
+  Server,
+  Users,
+  Zap,
+  RefreshCw,
+  Search,
+  ShieldCheck,
+} from "lucide-react";
 
 export function ServersMonitorView() {
   const {
@@ -46,7 +53,9 @@ export function ServersMonitorView() {
         <Card className="border-border/80 bg-card/60 backdrop-blur-sm p-4 rounded-2xl shadow-sm">
           <CardContent className="p-0 flex items-center justify-between">
             <div>
-              <span className="text-xs text-muted-foreground font-medium">Total Node Server</span>
+              <span className="text-xs text-muted-foreground font-medium">
+                Total Node Server
+              </span>
               <div className="font-mono text-2xl font-bold text-foreground mt-1">
                 {stats.totalNodes}
               </div>
@@ -60,7 +69,9 @@ export function ServersMonitorView() {
         <Card className="border-border/80 bg-card/60 backdrop-blur-sm p-4 rounded-2xl shadow-sm">
           <CardContent className="p-0 flex items-center justify-between">
             <div>
-              <span className="text-xs text-muted-foreground font-medium">Status Sehat (Online)</span>
+              <span className="text-xs text-muted-foreground font-medium">
+                Status Sehat (Online)
+              </span>
               <div className="font-mono text-2xl font-bold text-emerald-400 mt-1">
                 {stats.onlineNodes} / {stats.totalNodes}
               </div>
@@ -74,7 +85,9 @@ export function ServersMonitorView() {
         <Card className="border-border/80 bg-card/60 backdrop-blur-sm p-4 rounded-2xl shadow-sm">
           <CardContent className="p-0 flex items-center justify-between">
             <div>
-              <span className="text-xs text-muted-foreground font-medium">Pengguna Terhubung</span>
+              <span className="text-xs text-muted-foreground font-medium">
+                Pengguna Terhubung
+              </span>
               <div className="font-mono text-2xl font-bold text-indigo-400 mt-1">
                 {stats.totalUsers.toLocaleString()}
               </div>
@@ -88,7 +101,9 @@ export function ServersMonitorView() {
         <Card className="border-border/80 bg-card/60 backdrop-blur-sm p-4 rounded-2xl shadow-sm">
           <CardContent className="p-0 flex items-center justify-between">
             <div>
-              <span className="text-xs text-muted-foreground font-medium">Rata-rata Latensi</span>
+              <span className="text-xs text-muted-foreground font-medium">
+                Rata-rata Latensi
+              </span>
               <div className="font-mono text-2xl font-bold text-amber-400 mt-1">
                 {stats.avgPing} ms
               </div>
@@ -152,7 +167,9 @@ export function ServersMonitorView() {
             disabled={loading}
             className="border-border bg-card/60 hover:bg-muted text-foreground gap-2 h-10 px-3.5 text-xs rounded-xl shadow-sm"
           >
-            <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`} />
+            <RefreshCw
+              className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`}
+            />
             Segarkan Telemetri
           </Button>
         </div>

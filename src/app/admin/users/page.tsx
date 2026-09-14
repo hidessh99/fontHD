@@ -11,16 +11,17 @@ import { IamSkeleton } from "@/modules/iam/components/shared/IamSkeleton";
 const AdminUsersView = dynamic(
   () =>
     import("@/modules/iam/views/admin/AdminUsersView").then(
-      (mod) => mod.AdminUsersView
+      (mod) => mod.AdminUsersView,
     ),
   {
     loading: () => <IamSkeleton />,
-  }
+  },
 );
 
 export const metadata: Metadata = {
   title: "Manajemen Pengguna & Saldo | GoVPN Superadmin",
-  description: "Pusat kendali pengguna, penyesuaian saldo ledger, dan riwayat aktivitas sistem.",
+  description:
+    "Pusat kendali pengguna, penyesuaian saldo ledger, dan riwayat aktivitas sistem.",
 };
 
 export default function AdminUsersPage() {

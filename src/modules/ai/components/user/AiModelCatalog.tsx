@@ -21,10 +21,12 @@ interface AiModelCatalogProps {
 export function AiModelCatalog({ models }: AiModelCatalogProps) {
   const [search, setSearch] = useState("");
 
-  const filtered = models.filter((m) =>
-    m.name.toLowerCase().includes(search.toLowerCase()) ||
-    m.model_id.toLowerCase().includes(search.toLowerCase()) ||
-    (m.provider_name && m.provider_name.toLowerCase().includes(search.toLowerCase()))
+  const filtered = models.filter(
+    (m) =>
+      m.name.toLowerCase().includes(search.toLowerCase()) ||
+      m.model_id.toLowerCase().includes(search.toLowerCase()) ||
+      (m.provider_name &&
+        m.provider_name.toLowerCase().includes(search.toLowerCase())),
   );
 
   return (
@@ -89,7 +91,9 @@ export function AiModelCatalog({ models }: AiModelCatalogProps) {
                       <Layers className="h-3 w-3 text-primary" /> Context
                     </span>
                     <span className="font-semibold text-foreground mt-0.5 block">
-                      {model.context_window ? `${model.context_window / 1000}k` : "128k"}
+                      {model.context_window
+                        ? `${model.context_window / 1000}k`
+                        : "128k"}
                     </span>
                   </div>
 

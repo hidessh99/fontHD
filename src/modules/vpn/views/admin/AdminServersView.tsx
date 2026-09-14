@@ -46,7 +46,8 @@ export function AdminServersView() {
             </h1>
           </div>
           <p className="text-xs text-muted-foreground">
-            Kontrol penuh seluruh node VPS (Always, Month, PayAsYouGo, Free), port routing, dan manual cron trigger.
+            Kontrol penuh seluruh node VPS (Always, Month, PayAsYouGo, Free),
+            port routing, dan manual cron trigger.
           </p>
         </div>
 
@@ -58,7 +59,9 @@ export function AdminServersView() {
             disabled={isLoading}
             className="text-xs font-mono h-10 px-4 rounded-full"
           >
-            <RefreshCw className={`mr-1.5 size-3.5 ${isLoading ? "animate-spin" : ""}`} />
+            <RefreshCw
+              className={`mr-1.5 size-3.5 ${isLoading ? "animate-spin" : ""}`}
+            />
             Segarkan
           </Button>
 

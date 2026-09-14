@@ -12,7 +12,8 @@ import { Post, SystemSetting } from "../types/content.types";
 const MOCK_PUBLIC_POSTS: Post[] = [
   {
     id: 1,
-    title: "Panduan Lengkap Bypass DPI ISP Indonesia dengan Protokol V2Ray & Trojan",
+    title:
+      "Panduan Lengkap Bypass DPI ISP Indonesia dengan Protokol V2Ray & Trojan",
     slug: "panduan-lengkap-bypass-dpi-v2ray-trojan",
     summary:
       "Pelajari bagaimana arsitektur enkripsi TLS dan gRPC GoVPN mampu menembus pemblokiran Deep Packet Inspection operator seluler secara stabil.",
@@ -26,7 +27,8 @@ Dengan mengombinasikan:
 3. **Domain Fronting & Custom SNI**: Memastikan routing jalur aman tanpa pembatasan bandwidth (throttling).
 
 Ikuti langkah instalasi aplikasi klien resmi GoVPN untuk menikmati koneksi internet tanpa batas dengan latency gaming rendah!`,
-    featured_image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80",
+    featured_image:
+      "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80",
     author_name: "Tim Riset Jaringan GoVPN",
     status: "PUBLISHED",
     tags: ["TUTORIAL", "V2RAY", "DPI_BYPASS"],
@@ -36,7 +38,8 @@ Ikuti langkah instalasi aplikasi klien resmi GoVPN untuk menikmati koneksi inter
   },
   {
     id: 2,
-    title: "Optimalisasi Latency Rendah untuk Mobile Gaming Menggunakan Node Asia Pasifik",
+    title:
+      "Optimalisasi Latency Rendah untuk Mobile Gaming Menggunakan Node Asia Pasifik",
     slug: "optimalisasi-latency-rendah-gaming-asia-pasifik",
     summary:
       "Rute langsung peering Tier-1 Singapore & Jakarta memangkas ping Mobile Legends dan PUBG Mobile hingga di bawah 25ms.",
@@ -48,7 +51,8 @@ Node kami terhubung langsung ke OpenIXP Jakarta dan Equinix Singapore (SG1), men
 - Jakarta - Singapore: ~12ms
 - Surabaya - Singapore: ~22ms
 - Medan - Singapore: ~18ms`,
-    featured_image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80",
+    featured_image:
+      "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80",
     author_name: "DevOps Infrastructure",
     status: "PUBLISHED",
     tags: ["GAMING", "INFRASTRUCTURE", "SPEED"],
@@ -79,7 +83,8 @@ export function useContentPublic(initialSlug?: string) {
       setSettings(sList);
 
       if (initialSlug) {
-        const found = pList.find((p) => p.slug === initialSlug) ||
+        const found =
+          pList.find((p) => p.slug === initialSlug) ||
           MOCK_PUBLIC_POSTS.find((p) => p.slug === initialSlug);
         setSelectedPost(found || null);
       }

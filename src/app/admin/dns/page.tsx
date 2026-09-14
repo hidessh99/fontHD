@@ -10,14 +10,15 @@ import { DnsSkeleton } from "@/modules/dns/components/shared/DnsSkeleton";
 
 export const metadata: Metadata = {
   title: "Admin DNS & Cloudflare API | GoVPN Institutional",
-  description: "Kelola akun Cloudflare API multi-tenant, root domain zones, dan global audit DNS records",
+  description:
+    "Kelola akun Cloudflare API multi-tenant, root domain zones, dan global audit DNS records",
 };
 
 const DynamicAdminDnsView = dynamic(
   () => import("@/modules/dns").then((mod) => mod.AdminDnsView),
   {
     loading: () => <DnsSkeleton />,
-  }
+  },
 );
 
 export default function AdminDnsPage() {

@@ -57,7 +57,9 @@ export function AdminPlanTable({
     try {
       await onCreatePlan({
         name: name.trim(),
-        slug: slug.trim().toLowerCase() || name.trim().toLowerCase().replace(/\s+/g, "-"),
+        slug:
+          slug.trim().toLowerCase() ||
+          name.trim().toLowerCase().replace(/\s+/g, "-"),
         price: Number(price) || 35000,
         billing_cycle: billingCycle,
         max_devices: Number(maxDevices) || 3,
@@ -75,7 +77,12 @@ export function AdminPlanTable({
   };
 
   const handleDelete = async (id: string | number) => {
-    if (!confirm("Hapus paket ini? Pengguna yang berlangganan aktif tidak akan terpengaruh.")) return;
+    if (
+      !confirm(
+        "Hapus paket ini? Pengguna yang berlangganan aktif tidak akan terpengaruh.",
+      )
+    )
+      return;
     setDeletingId(id);
     try {
       await onDeletePlan(id);
@@ -94,17 +101,23 @@ export function AdminPlanTable({
             Daftar Paket Berlangganan (Membership Tiers)
           </h3>
           <p className="text-xs text-muted-foreground mt-0.5">
-            Konfigurasi paket keanggotaan publik, batas perangkat simultan, dan tarif tagihan
+            Konfigurasi paket keanggotaan publik, batas perangkat simultan, dan
+            tarif tagihan
           </p>
         </div>
 
         <Dialog open={openCreate} onOpenChange={setOpenCreate}>
-          <DialogTrigger render={
-            <Button size="sm" className="h-9 px-3.5 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs gap-1.5 shadow-md shadow-primary/20">
-              <Plus className="h-4 w-4" />
-              Tambah Paket
-            </Button>
-          } />
+          <DialogTrigger
+            render={
+              <Button
+                size="sm"
+                className="h-9 px-3.5 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs gap-1.5 shadow-md shadow-primary/20"
+              >
+                <Plus className="h-4 w-4" />
+                Tambah Paket
+              </Button>
+            }
+          />
           <DialogContent className="sm:max-w-md bg-card border-border text-foreground shadow-2xl rounded-2xl">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2 text-base font-bold">
@@ -114,7 +127,9 @@ export function AdminPlanTable({
             </DialogHeader>
             <form onSubmit={handleCreate} className="space-y-3.5 pt-2">
               <div>
-                <Label className="text-xs text-muted-foreground">Nama Paket</Label>
+                <Label className="text-xs text-muted-foreground">
+                  Nama Paket
+                </Label>
                 <Input
                   placeholder="misal: Premium Pro Monthly"
                   value={name}
@@ -124,7 +139,9 @@ export function AdminPlanTable({
               </div>
 
               <div>
-                <Label className="text-xs text-muted-foreground">Harga Langganan (IDR)</Label>
+                <Label className="text-xs text-muted-foreground">
+                  Harga Langganan (IDR)
+                </Label>
                 <Input
                   type="number"
                   step="5000"
@@ -136,10 +153,14 @@ export function AdminPlanTable({
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <Label className="text-xs text-muted-foreground">Siklus Tagihan</Label>
+                  <Label className="text-xs text-muted-foreground">
+                    Siklus Tagihan
+                  </Label>
                   <select
                     value={billingCycle}
-                    onChange={(e) => setBillingCycle(e.target.value as BillingCycle)}
+                    onChange={(e) =>
+                      setBillingCycle(e.target.value as BillingCycle)
+                    }
                     className="mt-1.5 w-full rounded-xl border border-border bg-card px-3 py-2 text-xs font-mono text-foreground outline-none focus:border-primary"
                   >
                     <option value="MONTHLY">Bulanan</option>
@@ -149,7 +170,9 @@ export function AdminPlanTable({
                   </select>
                 </div>
                 <div>
-                  <Label className="text-xs text-muted-foreground">Maks. Perangkat</Label>
+                  <Label className="text-xs text-muted-foreground">
+                    Maks. Perangkat
+                  </Label>
                   <Input
                     type="number"
                     value={maxDevices}
@@ -160,7 +183,9 @@ export function AdminPlanTable({
               </div>
 
               <div>
-                <Label className="text-xs text-muted-foreground">Batas Kuota GB (0 = Unlimited)</Label>
+                <Label className="text-xs text-muted-foreground">
+                  Batas Kuota GB (0 = Unlimited)
+                </Label>
                 <Input
                   type="number"
                   value={bandwidth}

@@ -16,11 +16,11 @@ export const metadata: Metadata = {
 const SellerVpnOverviewView = dynamic(
   () =>
     import("@/modules/vpn/views/seller/SellerVpnOverviewView").then(
-      (mod) => mod.SellerVpnOverviewView
+      (mod) => mod.SellerVpnOverviewView,
     ),
   {
     loading: () => <VpnProtocolSkeleton />,
-  }
+  },
 );
 
 export default function SellerVpnPage() {

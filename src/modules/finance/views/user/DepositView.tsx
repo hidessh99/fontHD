@@ -9,12 +9,26 @@
 import React, { useState } from "react";
 import { useFinanceUser } from "../../hooks/useFinanceUser";
 import { QrisPaymentCard } from "../../components/user/QrisPaymentCard";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PaymentMethod } from "../../types/finance.types";
-import { Wallet, QrCode, Tag, ArrowRight, ShieldCheck, Zap, Loader2 } from "lucide-react";
+import {
+  Wallet,
+  QrCode,
+  Tag,
+  ArrowRight,
+  ShieldCheck,
+  Zap,
+  Loader2,
+} from "lucide-react";
 import { toast } from "sonner";
 
 const PRESET_AMOUNTS = [10000, 25000, 50000, 100000, 250000, 500000];
@@ -36,7 +50,9 @@ export function DepositView() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isCheckingVoucher, setIsCheckingVoucher] = useState(false);
 
-  const selectedAmount = customAmount ? parseInt(customAmount, 10) || 0 : amount;
+  const selectedAmount = customAmount
+    ? parseInt(customAmount, 10) || 0
+    : amount;
   const finalAmount = Math.max(0, selectedAmount - voucherDiscount);
 
   const handleApplyVoucher = async () => {
@@ -91,7 +107,8 @@ export function DepositView() {
           Deposit Saldo Akun
         </h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Isi saldo dompet GoVPN Anda secara instan menggunakan QRIS atau Virtual Account otomatis.
+          Isi saldo dompet GoVPN Anda secara instan menggunakan QRIS atau
+          Virtual Account otomatis.
         </p>
       </div>
 
@@ -137,7 +154,10 @@ export function DepositView() {
 
                 {/* Custom Amount */}
                 <div>
-                  <Label htmlFor="dep-amount" className="text-xs font-medium text-muted-foreground">
+                  <Label
+                    htmlFor="dep-amount"
+                    className="text-xs font-medium text-muted-foreground"
+                  >
                     Atau Masukkan Nominal Lain (Min. Rp 10.000)
                   </Label>
                   <div className="relative mt-1.5">
@@ -157,7 +177,9 @@ export function DepositView() {
 
                 {/* Method */}
                 <div>
-                  <Label className="text-xs font-medium text-muted-foreground">Metode Pembayaran</Label>
+                  <Label className="text-xs font-medium text-muted-foreground">
+                    Metode Pembayaran
+                  </Label>
                   <div className="grid grid-cols-2 gap-3 mt-1.5">
                     <button
                       type="button"
@@ -170,8 +192,12 @@ export function DepositView() {
                     >
                       <QrCode className="h-5 w-5 shrink-0 text-primary mt-0.5" />
                       <div>
-                        <div className="font-bold text-foreground font-mono">QRIS Real-Time</div>
-                        <div className="text-[11px] text-muted-foreground">BCA, Gopay, Dana, Ovo</div>
+                        <div className="font-bold text-foreground font-mono">
+                          QRIS Real-Time
+                        </div>
+                        <div className="text-[11px] text-muted-foreground">
+                          BCA, Gopay, Dana, Ovo
+                        </div>
                       </div>
                     </button>
 
@@ -186,8 +212,12 @@ export function DepositView() {
                     >
                       <Zap className="h-5 w-5 shrink-0 text-amber-400 mt-0.5" />
                       <div>
-                        <div className="font-bold text-foreground font-mono">Virtual Account</div>
-                        <div className="text-[11px] text-muted-foreground">BCA, Mandiri, BRI, BNI</div>
+                        <div className="font-bold text-foreground font-mono">
+                          Virtual Account
+                        </div>
+                        <div className="text-[11px] text-muted-foreground">
+                          BCA, Mandiri, BRI, BNI
+                        </div>
                       </div>
                     </button>
                   </div>
@@ -195,7 +225,10 @@ export function DepositView() {
 
                 {/* Promo Coupon */}
                 <div>
-                  <Label htmlFor="dep-voucher" className="text-xs font-medium text-muted-foreground">
+                  <Label
+                    htmlFor="dep-voucher"
+                    className="text-xs font-medium text-muted-foreground"
+                  >
                     Kupon Promo (Opsional)
                   </Label>
                   <div className="flex gap-2 mt-1.5">
@@ -205,7 +238,9 @@ export function DepositView() {
                         id="dep-voucher"
                         placeholder="KODE PROMO"
                         value={voucherCode}
-                        onChange={(e) => setVoucherCode(e.target.value.toUpperCase())}
+                        onChange={(e) =>
+                          setVoucherCode(e.target.value.toUpperCase())
+                        }
                         className="pl-9 uppercase font-mono text-xs rounded-xl min-h-10"
                       />
                     </div>
@@ -230,7 +265,9 @@ export function DepositView() {
                 <div className="rounded-xl bg-surface border border-border/60 p-4 text-xs space-y-2 font-mono">
                   <div className="flex justify-between text-muted-foreground">
                     <span>Nominal Deposit:</span>
-                    <span className="text-foreground">{formatIDR(selectedAmount)}</span>
+                    <span className="text-foreground">
+                      {formatIDR(selectedAmount)}
+                    </span>
                   </div>
                   {voucherDiscount > 0 && (
                     <div className="flex justify-between text-emerald-400 font-semibold">
@@ -278,12 +315,28 @@ export function DepositView() {
                 Panduan Pembayaran QRIS Instan
               </h3>
               <ol className="list-decimal list-inside space-y-2 text-xs text-muted-foreground leading-relaxed">
-                <li>Tentukan nominal deposit yang Anda inginkan (minimal Rp 10.000).</li>
-                <li>Klik tombol <strong>&quot;Konfirmasi &amp; Terbitkan QRIS&quot;</strong>.</li>
-                <li>Buka aplikasi m-Banking atau e-Wallet favorit Anda (BCA, Mandiri, GoPay, OVO, DANA).</li>
-                <li>Pindai (scan) kode QRIS yang muncul di layar pembayaran.</li>
-                <li>Pastikan nama merchant tertera <strong>GoVPN Network</strong>.</li>
-                <li>Selesaikan transaksi dan saldo Anda akan bertambah secara otomatis dalam 3-5 detik.</li>
+                <li>
+                  Tentukan nominal deposit yang Anda inginkan (minimal Rp
+                  10.000).
+                </li>
+                <li>
+                  Klik tombol{" "}
+                  <strong>&quot;Konfirmasi &amp; Terbitkan QRIS&quot;</strong>.
+                </li>
+                <li>
+                  Buka aplikasi m-Banking atau e-Wallet favorit Anda (BCA,
+                  Mandiri, GoPay, OVO, DANA).
+                </li>
+                <li>
+                  Pindai (scan) kode QRIS yang muncul di layar pembayaran.
+                </li>
+                <li>
+                  Pastikan nama merchant tertera <strong>GoVPN Network</strong>.
+                </li>
+                <li>
+                  Selesaikan transaksi dan saldo Anda akan bertambah secara
+                  otomatis dalam 3-5 detik.
+                </li>
               </ol>
             </Card>
           )}

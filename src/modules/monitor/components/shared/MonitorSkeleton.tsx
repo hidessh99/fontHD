@@ -57,7 +57,10 @@ export function MonitorSkeleton() {
       {/* 6 Node Cards Grid Skeleton */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
         {[...Array(6)].map((_, i) => (
-          <Card key={i} className="border-border/80 bg-card/60 rounded-2xl overflow-hidden">
+          <Card
+            key={i}
+            className="border-border/80 bg-card/60 rounded-2xl overflow-hidden"
+          >
             <div className="p-4 border-b border-border/80 flex items-start justify-between">
               <div className="flex items-center gap-3">
                 <Skeleton className="h-8 w-8 rounded-full" />

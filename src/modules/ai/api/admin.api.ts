@@ -25,26 +25,38 @@ export const aiAdminApi = {
   getModel: (id: string | number): Promise<ApiResponse<AiModel>> =>
     apiClient.get<AiModel>(`/api/admin/ai-models/${id}`),
 
-  updateModel: (id: string | number, data: AdminUpdateModelDto): Promise<ApiResponse<AiModel>> =>
+  updateModel: (
+    id: string | number,
+    data: AdminUpdateModelDto,
+  ): Promise<ApiResponse<AiModel>> =>
     apiClient.put<AiModel>(`/api/admin/ai-models/${id}`, data),
 
-  deleteModel: (id: string | number): Promise<ApiResponse<{ deleted: boolean }>> =>
+  deleteModel: (
+    id: string | number,
+  ): Promise<ApiResponse<{ deleted: boolean }>> =>
     apiClient.delete<{ deleted: boolean }>(`/api/admin/ai-models/${id}`),
 
   // === AI PROVIDERS (5 Endpoints) ===
   listProviders: (): Promise<ApiResponse<AiProvider[]>> =>
     apiClient.get<AiProvider[]>("/api/admin/ai-providers"),
 
-  createProvider: (data: AdminCreateProviderDto): Promise<ApiResponse<AiProvider>> =>
+  createProvider: (
+    data: AdminCreateProviderDto,
+  ): Promise<ApiResponse<AiProvider>> =>
     apiClient.post<AiProvider>("/api/admin/ai-providers", data),
 
   getProvider: (id: string | number): Promise<ApiResponse<AiProvider>> =>
     apiClient.get<AiProvider>(`/api/admin/ai-providers/${id}`),
 
-  updateProvider: (id: string | number, data: AdminUpdateProviderDto): Promise<ApiResponse<AiProvider>> =>
+  updateProvider: (
+    id: string | number,
+    data: AdminUpdateProviderDto,
+  ): Promise<ApiResponse<AiProvider>> =>
     apiClient.put<AiProvider>(`/api/admin/ai-providers/${id}`, data),
 
-  deleteProvider: (id: string | number): Promise<ApiResponse<{ deleted: boolean }>> =>
+  deleteProvider: (
+    id: string | number,
+  ): Promise<ApiResponse<{ deleted: boolean }>> =>
     apiClient.delete<{ deleted: boolean }>(`/api/admin/ai-providers/${id}`),
 
   // === ANALYTICS & DASHBOARD (2 Endpoints) ===

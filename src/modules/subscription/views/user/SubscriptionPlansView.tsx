@@ -18,7 +18,8 @@ import { RefreshCw, ShieldCheck, Zap, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 
 export function SubscriptionPlansView() {
-  const { plans, subscription, loading, subscribe, upgrade, refresh } = useSubscriptionUser();
+  const { plans, subscription, loading, subscribe, upgrade, refresh } =
+    useSubscriptionUser();
   const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpgrading, setIsUpgrading] = useState(false);
@@ -33,7 +34,10 @@ export function SubscriptionPlansView() {
     setIsModalOpen(true);
   };
 
-  const handleSubscribeSubmit = async (dto: CreateSubscriptionDto, idempotencyKey: string) => {
+  const handleSubscribeSubmit = async (
+    dto: CreateSubscriptionDto,
+    idempotencyKey: string,
+  ) => {
     if (isUpgrading && subscription) {
       await upgrade({ new_plan_id: dto.plan_id }, idempotencyKey);
       toast.success("Paket langganan berhasil diperbarui!");
@@ -55,7 +59,8 @@ export function SubscriptionPlansView() {
             Paket & Langganan VPN
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Pilih paket bandwidth tanpa batas dengan latency gaming rendah dan enkripsi kelas militer.
+            Pilih paket bandwidth tanpa batas dengan latency gaming rendah dan
+            enkripsi kelas militer.
           </p>
         </div>
 
@@ -93,7 +98,8 @@ export function SubscriptionPlansView() {
             Pilihan Paket Terbaik Sesuai Kebutuhan
           </h2>
           <p className="text-xs sm:text-sm text-muted-foreground">
-            Semua paket mendukung bypass DPI, protokol V2Ray/Trojan/WireGuard, dan jaminan uptime 99.9%.
+            Semua paket mendukung bypass DPI, protokol V2Ray/Trojan/WireGuard,
+            dan jaminan uptime 99.9%.
           </p>
         </div>
 
@@ -121,9 +127,12 @@ export function SubscriptionPlansView() {
             <ShieldCheck className="w-5 h-5" />
           </div>
           <div>
-            <h4 className="text-sm font-semibold text-foreground">Zero-Logs Policy</h4>
+            <h4 className="text-sm font-semibold text-foreground">
+              Zero-Logs Policy
+            </h4>
             <p className="text-xs text-muted-foreground mt-0.5">
-              Tidak ada riwayat DNS, IP tujuan, atau lalu lintas data pengguna yang disimpan di disk server kami.
+              Tidak ada riwayat DNS, IP tujuan, atau lalu lintas data pengguna
+              yang disimpan di disk server kami.
             </p>
           </div>
         </div>
@@ -133,9 +142,12 @@ export function SubscriptionPlansView() {
             <Zap className="w-5 h-5" />
           </div>
           <div>
-            <h4 className="text-sm font-semibold text-foreground">Aktivasi Instan</h4>
+            <h4 className="text-sm font-semibold text-foreground">
+              Aktivasi Instan
+            </h4>
             <p className="text-xs text-muted-foreground mt-0.5">
-              Kredensial dan konfigurasi protokol diterbitkan dalam hitungan detik setelah verifikasi pembayaran.
+              Kredensial dan konfigurasi protokol diterbitkan dalam hitungan
+              detik setelah verifikasi pembayaran.
             </p>
           </div>
         </div>
@@ -145,9 +157,12 @@ export function SubscriptionPlansView() {
             <Sparkles className="w-5 h-5" />
           </div>
           <div>
-            <h4 className="text-sm font-semibold text-foreground">Garansi 7 Hari</h4>
+            <h4 className="text-sm font-semibold text-foreground">
+              Garansi 7 Hari
+            </h4>
             <p className="text-xs text-muted-foreground mt-0.5">
-              Pengembalian saldo instan jika terjadi kendala konektivitas server yang tidak dapat terselesaikan.
+              Pengembalian saldo instan jika terjadi kendala konektivitas server
+              yang tidak dapat terselesaikan.
             </p>
           </div>
         </div>

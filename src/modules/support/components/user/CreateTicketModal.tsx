@@ -23,7 +23,10 @@ import { toast } from "sonner";
 interface CreateTicketModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onSubmitTicket: (dto: CreateTicketDto, idempotencyKey: string) => Promise<unknown>;
+  onSubmitTicket: (
+    dto: CreateTicketDto,
+    idempotencyKey: string,
+  ) => Promise<unknown>;
 }
 
 export function CreateTicketModal({
@@ -56,7 +59,7 @@ export function CreateTicketModal({
           priority,
           description: description.trim(),
         },
-        idempotencyKey
+        idempotencyKey,
       );
       toast.success("Tiket bantuan berhasil diajukan!");
       onOpenChange(false);
@@ -75,14 +78,20 @@ export function CreateTicketModal({
         <DialogHeader>
           <div className="flex items-center gap-2 text-primary mb-1">
             <LifeBuoy className="w-5 h-5" />
-            <span className="text-xs font-bold uppercase tracking-wider">Helpdesk & Support</span>
+            <span className="text-xs font-bold uppercase tracking-wider">
+              Helpdesk & Support
+            </span>
           </div>
-          <DialogTitle className="text-xl font-bold">Buat Tiket Bantuan Baru</DialogTitle>
+          <DialogTitle className="text-xl font-bold">
+            Buat Tiket Bantuan Baru
+          </DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4 pt-2">
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-muted-foreground">Subjek Tiket</label>
+            <label className="text-xs font-semibold text-muted-foreground">
+              Subjek Tiket
+            </label>
             <input
               type="text"
               required
@@ -95,22 +104,32 @@ export function CreateTicketModal({
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-muted-foreground">Departemen / Kategori</label>
+              <label className="text-xs font-semibold text-muted-foreground">
+                Departemen / Kategori
+              </label>
               <select
                 value={department}
                 onChange={(e) => setDepartment(e.target.value)}
                 className="w-full px-3.5 py-2 text-sm rounded-lg border border-border/50 bg-background/50 focus:outline-none focus:ring-2 focus:ring-primary"
               >
-                <option value="Konektivitas VPN">Konektivitas VPN & Protokol</option>
-                <option value="Billing & Langganan">Billing, Invoice & Langganan</option>
+                <option value="Konektivitas VPN">
+                  Konektivitas VPN & Protokol
+                </option>
+                <option value="Billing & Langganan">
+                  Billing, Invoice & Langganan
+                </option>
                 <option value="DNS & Routing">DNS Cloudflare & Routing</option>
-                <option value="Akun & Kredensial">Akun & Kredensial Pengguna</option>
+                <option value="Akun & Kredensial">
+                  Akun & Kredensial Pengguna
+                </option>
                 <option value="Lainnya">Pertanyaan Umum Lainnya</option>
               </select>
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-muted-foreground">Prioritas</label>
+              <label className="text-xs font-semibold text-muted-foreground">
+                Prioritas
+              </label>
               <select
                 value={priority}
                 onChange={(e) => setPriority(e.target.value as TicketPriority)}
@@ -125,7 +144,9 @@ export function CreateTicketModal({
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-muted-foreground">Detail Kendala & Pesan Error</label>
+            <label className="text-xs font-semibold text-muted-foreground">
+              Detail Kendala & Pesan Error
+            </label>
             <textarea
               required
               rows={4}

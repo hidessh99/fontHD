@@ -11,16 +11,17 @@ import { IamSkeleton } from "@/modules/iam/components/shared/IamSkeleton";
 const UserProfileSettingsView = dynamic(
   () =>
     import("@/modules/iam/views/user/UserProfileSettingsView").then(
-      (mod) => mod.UserProfileSettingsView
+      (mod) => mod.UserProfileSettingsView,
     ),
   {
     loading: () => <IamSkeleton />,
-  }
+  },
 );
 
 export const metadata: Metadata = {
   title: "Pengaturan & Keamanan Akun | GoVPN",
-  description: "Kelola profil akun, autentikasi dua faktor (2FA), sesi aktif, dan buku alamat.",
+  description:
+    "Kelola profil akun, autentikasi dua faktor (2FA), sesi aktif, dan buku alamat.",
 };
 
 export default function SettingsPage() {

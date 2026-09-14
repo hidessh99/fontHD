@@ -18,15 +18,17 @@ export function useVpnSeller() {
     setIsLoading(true);
     try {
       // In a real environment, seller servers are fetched from the seller endpoint
-      const res = await vpnSellerApi.createMonthServer({
-        name: "Mock Server",
-        country: "Singapore",
-        country_code: "SG",
-        ip: "103.1.1.1",
-        domain: "sg.reseller.vpn",
-        supported_protocols: ["vmess", "vless"],
-        max_users: 50,
-      }).catch(() => null);
+      const res = await vpnSellerApi
+        .createMonthServer({
+          name: "Mock Server",
+          country: "Singapore",
+          country_code: "SG",
+          ip: "103.1.1.1",
+          domain: "sg.reseller.vpn",
+          supported_protocols: ["vmess", "vless"],
+          max_users: 50,
+        })
+        .catch(() => null);
 
       if (res?.payload) {
         setServers([res.payload]);
@@ -48,7 +50,8 @@ export function useVpnSeller() {
       toast.success("Server node reseller berhasil dihapus.");
       setServers((prev) => prev.filter((s) => s.id !== id));
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Gagal menghapus server.";
+      const msg =
+        err instanceof Error ? err.message : "Gagal menghapus server.";
       toast.error(msg);
     }
   };

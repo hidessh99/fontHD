@@ -18,7 +18,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CopyButton } from "@/components/shared/CopyButton";
-import { ShieldCheck, Smartphone, Key, CheckCircle2, Loader2 } from "lucide-react";
+import {
+  ShieldCheck,
+  Smartphone,
+  Key,
+  CheckCircle2,
+  Loader2,
+} from "lucide-react";
 import QRCode from "qrcode";
 import { toast } from "sonner";
 
@@ -93,23 +99,25 @@ export function TwoFactorSetupModal({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger render={
-        triggerButton ? (
-          (triggerButton as React.ReactElement)
-        ) : (
-          <Button
-            variant={isEnabled ? "outline" : "default"}
-            className={`gap-2 font-semibold text-xs rounded-full min-h-10 px-5 ${
-              isEnabled
-                ? "border-emerald-500/40 text-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20"
-                : "bg-primary hover:bg-primary-hover text-white shadow-md shadow-primary/25"
-            }`}
-          >
-            <ShieldCheck className="h-4 w-4" />
-            {isEnabled ? "2FA Aktif (Kelola)" : "Aktifkan 2FA"}
-          </Button>
-        )
-      } />
+      <DialogTrigger
+        render={
+          triggerButton ? (
+            (triggerButton as React.ReactElement)
+          ) : (
+            <Button
+              variant={isEnabled ? "outline" : "default"}
+              className={`gap-2 font-semibold text-xs rounded-full min-h-10 px-5 ${
+                isEnabled
+                  ? "border-emerald-500/40 text-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20"
+                  : "bg-primary hover:bg-primary-hover text-white shadow-md shadow-primary/25"
+              }`}
+            >
+              <ShieldCheck className="h-4 w-4" />
+              {isEnabled ? "2FA Aktif (Kelola)" : "Aktifkan 2FA"}
+            </Button>
+          )
+        }
+      />
 
       <DialogContent className="sm:max-w-md bg-card border-border/80 text-foreground rounded-2xl">
         <DialogHeader>
@@ -125,15 +133,21 @@ export function TwoFactorSetupModal({
             <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4 flex items-center gap-3">
               <CheckCircle2 className="h-6 w-6 text-emerald-400 shrink-0" />
               <div className="text-xs">
-                <span className="font-bold text-foreground block">Akun Anda Dilindungi 2FA</span>
+                <span className="font-bold text-foreground block">
+                  Akun Anda Dilindungi 2FA
+                </span>
                 <span className="text-muted-foreground">
-                  Setiap kali login memerlukan kode 6-digit dari aplikasi authenticator.
+                  Setiap kali login memerlukan kode 6-digit dari aplikasi
+                  authenticator.
                 </span>
               </div>
             </div>
 
             <div>
-              <Label htmlFor="disable-2fa-code" className="text-xs font-medium text-muted-foreground">
+              <Label
+                htmlFor="disable-2fa-code"
+                className="text-xs font-medium text-muted-foreground"
+              >
                 Masukkan Kode 6-Digit Authenticator untuk Menonaktifkan
               </Label>
               <Input
@@ -160,7 +174,11 @@ export function TwoFactorSetupModal({
                 disabled={isSubmitting || code.length < 6}
                 className="bg-rose-600 hover:bg-rose-500 text-white text-xs font-semibold rounded-full min-h-10 px-6"
               >
-                {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : "Nonaktifkan 2FA"}
+                {isSubmitting ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  "Nonaktifkan 2FA"
+                )}
               </Button>
             </div>
           </form>
@@ -172,11 +190,16 @@ export function TwoFactorSetupModal({
                 Simpan Kode Cadangan Pemulihan (Backup Codes)
               </span>
               <p className="text-xs text-muted-foreground">
-                Gunakan kode ini untuk masuk ke akun jika Anda kehilangan akses ke aplikasi authenticator. Setiap kode hanya dapat dipakai satu kali.
+                Gunakan kode ini untuk masuk ke akun jika Anda kehilangan akses
+                ke aplikasi authenticator. Setiap kode hanya dapat dipakai satu
+                kali.
               </p>
               <div className="grid grid-cols-2 gap-2 pt-2 font-mono text-xs font-bold text-primary">
                 {backupCodes.map((c) => (
-                  <div key={c} className="bg-background/80 border border-border/60 p-2 rounded-lg text-center">
+                  <div
+                    key={c}
+                    className="bg-background/80 border border-border/60 p-2 rounded-lg text-center"
+                  >
                     {c}
                   </div>
                 ))}
@@ -207,7 +230,11 @@ export function TwoFactorSetupModal({
             <div className="flex flex-col items-center justify-center p-3 rounded-2xl bg-white border border-border/60 mx-auto w-48 h-48">
               {qrDataUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={qrDataUrl} alt="2FA QR Code" className="w-44 h-44 object-contain rounded-xl" />
+                <img
+                  src={qrDataUrl}
+                  alt="2FA QR Code"
+                  className="w-44 h-44 object-contain rounded-xl"
+                />
               ) : (
                 <Smartphone className="h-10 w-10 text-muted-foreground animate-pulse" />
               )}
@@ -225,7 +252,10 @@ export function TwoFactorSetupModal({
             </div>
 
             <div>
-              <Label htmlFor="verify-2fa-code" className="text-xs font-medium text-muted-foreground">
+              <Label
+                htmlFor="verify-2fa-code"
+                className="text-xs font-medium text-muted-foreground"
+              >
                 Masukkan Kode 6-Digit Verifikasi
               </Label>
               <Input
@@ -252,7 +282,11 @@ export function TwoFactorSetupModal({
                 disabled={isSubmitting || code.length < 6}
                 className="bg-primary hover:bg-primary-hover text-white text-xs font-semibold rounded-full min-h-10 px-6 shadow-md shadow-primary/25"
               >
-                {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : "Verifikasi & Aktifkan"}
+                {isSubmitting ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  "Verifikasi & Aktifkan"
+                )}
               </Button>
             </div>
           </form>

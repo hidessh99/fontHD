@@ -10,14 +10,16 @@ import { NotificationSkeleton } from "@/modules/notification/components/shared/N
 
 export const metadata: Metadata = {
   title: "Antrean Siaran & Notifikasi | GoVPN Superadmin",
-  description: "Manajemen broadcast masal multi-saluran dan antrean worker asinkron",
+  description:
+    "Manajemen broadcast masal multi-saluran dan antrean worker asinkron",
 };
 
 const DynamicAdminNotificationView = dynamic(
-  () => import("@/modules/notification").then((mod) => mod.AdminNotificationView),
+  () =>
+    import("@/modules/notification").then((mod) => mod.AdminNotificationView),
   {
     loading: () => <NotificationSkeleton />,
-  }
+  },
 );
 
 export default function AdminNotificationPage() {

@@ -90,17 +90,23 @@ export function AdminK8sSpecTable({
             Paket Resource Pod (Specs)
           </h3>
           <p className="text-xs text-muted-foreground mt-0.5">
-            Konfigurasi batas vCPU, RAM, dan tarif bulanan untuk deployment container
+            Konfigurasi batas vCPU, RAM, dan tarif bulanan untuk deployment
+            container
           </p>
         </div>
 
         <Dialog open={openCreate} onOpenChange={setOpenCreate}>
-          <DialogTrigger render={
-            <Button size="sm" className="h-9 px-3.5 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs gap-1.5 shadow-md shadow-primary/20">
-              <Plus className="h-4 w-4" />
-              Tambah Paket Spec
-            </Button>
-          } />
+          <DialogTrigger
+            render={
+              <Button
+                size="sm"
+                className="h-9 px-3.5 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs gap-1.5 shadow-md shadow-primary/20"
+              >
+                <Plus className="h-4 w-4" />
+                Tambah Paket Spec
+              </Button>
+            }
+          />
           <DialogContent className="sm:max-w-md bg-card border-border text-foreground shadow-2xl rounded-2xl">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2 text-base font-bold">
@@ -110,7 +116,9 @@ export function AdminK8sSpecTable({
             </DialogHeader>
             <form onSubmit={handleCreate} className="space-y-3.5 pt-2">
               <div>
-                <Label className="text-xs text-muted-foreground">Nama Paket</Label>
+                <Label className="text-xs text-muted-foreground">
+                  Nama Paket
+                </Label>
                 <Input
                   placeholder="misal: Standard 1 Core / 2GB"
                   value={name}
@@ -121,7 +129,9 @@ export function AdminK8sSpecTable({
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <Label className="text-xs text-muted-foreground">vCPU Cores</Label>
+                  <Label className="text-xs text-muted-foreground">
+                    vCPU Cores
+                  </Label>
                   <Input
                     type="number"
                     step="0.5"
@@ -131,7 +141,9 @@ export function AdminK8sSpecTable({
                   />
                 </div>
                 <div>
-                  <Label className="text-xs text-muted-foreground">RAM (MB)</Label>
+                  <Label className="text-xs text-muted-foreground">
+                    RAM (MB)
+                  </Label>
                   <Input
                     type="number"
                     step="512"
@@ -144,7 +156,9 @@ export function AdminK8sSpecTable({
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <Label className="text-xs text-muted-foreground">Storage (GB)</Label>
+                  <Label className="text-xs text-muted-foreground">
+                    Storage (GB)
+                  </Label>
                   <Input
                     type="number"
                     value={storage}
@@ -153,7 +167,9 @@ export function AdminK8sSpecTable({
                   />
                 </div>
                 <div>
-                  <Label className="text-xs text-muted-foreground">Tarif Bulanan (IDR)</Label>
+                  <Label className="text-xs text-muted-foreground">
+                    Tarif Bulanan (IDR)
+                  </Label>
                   <Input
                     type="number"
                     step="5000"
@@ -213,9 +229,7 @@ export function AdminK8sSpecTable({
                     {s.cpu_cores} Cores
                   </td>
 
-                  <td className="px-5 py-3.5 text-foreground">
-                    {s.ram_mb} MB
-                  </td>
+                  <td className="px-5 py-3.5 text-foreground">{s.ram_mb} MB</td>
 
                   <td className="px-5 py-3.5 text-foreground">
                     {s.storage_gb} GB

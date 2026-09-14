@@ -55,7 +55,9 @@ export function AdminVoucherManager({
     const q = parseInt(quota, 10);
 
     if (!code.trim() || isNaN(discount) || isNaN(q) || !expiredAt) {
-      toast.error("Harap isi kode voucher, nominal diskon, kuota, dan masa berlaku.");
+      toast.error(
+        "Harap isi kode voucher, nominal diskon, kuota, dan masa berlaku.",
+      );
       return;
     }
 
@@ -103,17 +105,20 @@ export function AdminVoucherManager({
             Manajemen Kupon &amp; Voucher Diskon
           </h3>
           <p className="text-xs text-muted-foreground">
-            Atur kuota dan potongan harga transaksi saldo maupun pembelian paket VPN.
+            Atur kuota dan potongan harga transaksi saldo maupun pembelian paket
+            VPN.
           </p>
         </div>
 
         <Dialog open={open} onOpenChange={setOpen}>
-          <DialogTrigger render={
-            <Button className="bg-primary hover:bg-primary-hover text-white gap-2 font-semibold text-xs rounded-full min-h-9 px-5 shadow-sm">
-              <PlusCircle className="h-4 w-4" />
-              Buat Voucher
-            </Button>
-          } />
+          <DialogTrigger
+            render={
+              <Button className="bg-primary hover:bg-primary-hover text-white gap-2 font-semibold text-xs rounded-full min-h-9 px-5 shadow-sm">
+                <PlusCircle className="h-4 w-4" />
+                Buat Voucher
+              </Button>
+            }
+          />
           <DialogContent className="sm:max-w-md bg-card border-border/80 text-foreground rounded-2xl">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2 text-lg font-bold">
@@ -124,7 +129,10 @@ export function AdminVoucherManager({
 
             <form onSubmit={handleCreate} className="space-y-4 pt-2">
               <div>
-                <Label htmlFor="v-code" className="text-xs font-medium text-muted-foreground">
+                <Label
+                  htmlFor="v-code"
+                  className="text-xs font-medium text-muted-foreground"
+                >
                   Kode Kupon (Uppercase)
                 </Label>
                 <Input
@@ -138,7 +146,10 @@ export function AdminVoucherManager({
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <Label htmlFor="v-disc" className="text-xs font-medium text-muted-foreground">
+                  <Label
+                    htmlFor="v-disc"
+                    className="text-xs font-medium text-muted-foreground"
+                  >
                     Potongan Harga (IDR)
                   </Label>
                   <Input
@@ -151,7 +162,10 @@ export function AdminVoucherManager({
                   />
                 </div>
                 <div>
-                  <Label htmlFor="v-quota" className="text-xs font-medium text-muted-foreground">
+                  <Label
+                    htmlFor="v-quota"
+                    className="text-xs font-medium text-muted-foreground"
+                  >
                     Batas Kuota Pemakaian
                   </Label>
                   <Input
@@ -166,7 +180,10 @@ export function AdminVoucherManager({
               </div>
 
               <div>
-                <Label htmlFor="v-exp" className="text-xs font-medium text-muted-foreground">
+                <Label
+                  htmlFor="v-exp"
+                  className="text-xs font-medium text-muted-foreground"
+                >
                   Tanggal Kedaluwarsa
                 </Label>
                 <Input
@@ -194,7 +211,8 @@ export function AdminVoucherManager({
                 >
                   {isSubmitting ? (
                     <>
-                      <Loader2 className="mr-1.5 h-4 w-4 animate-spin" /> Menyimpan...
+                      <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />{" "}
+                      Menyimpan...
                     </>
                   ) : (
                     "Buat Kupon"
@@ -222,7 +240,10 @@ export function AdminVoucherManager({
           <tbody className="divide-y border-border/40 font-mono text-xs">
             {vouchers.length === 0 ? (
               <tr>
-                <td colSpan={6} className="px-5 py-8 text-center text-muted-foreground font-sans">
+                <td
+                  colSpan={6}
+                  className="px-5 py-8 text-center text-muted-foreground font-sans"
+                >
                   Belum ada voucher yang dibuat.
                 </td>
               </tr>

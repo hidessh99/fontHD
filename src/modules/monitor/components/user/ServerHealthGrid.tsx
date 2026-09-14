@@ -10,7 +10,16 @@ import React from "react";
 import { ServerTelemetry } from "../../types/monitor.types";
 import { Card } from "@/components/ui/card";
 import { NodeStatusBadge } from "../shared/NodeStatusBadge";
-import { Cpu, HardDrive, Users, ArrowDown, ArrowUp, Activity, Clock, Server } from "lucide-react";
+import {
+  Cpu,
+  HardDrive,
+  Users,
+  ArrowDown,
+  ArrowUp,
+  Activity,
+  Clock,
+  Server,
+} from "lucide-react";
 import { EmptyState } from "@/components/shared/EmptyState";
 
 interface ServerHealthGridProps {
@@ -41,14 +50,14 @@ export function ServerHealthGrid({ nodes }: ServerHealthGridProps) {
           node.cpu_percent > 80
             ? "bg-rose-500"
             : node.cpu_percent > 50
-            ? "bg-amber-500"
-            : "bg-primary";
+              ? "bg-amber-500"
+              : "bg-primary";
         const ramColor =
           node.ram_percent > 80
             ? "bg-rose-500"
             : node.ram_percent > 50
-            ? "bg-amber-500"
-            : "bg-indigo-500";
+              ? "bg-amber-500"
+              : "bg-indigo-500";
 
         return (
           <Card
@@ -59,7 +68,11 @@ export function ServerHealthGrid({ nodes }: ServerHealthGridProps) {
               {/* Header */}
               <div className="p-4 border-b border-border/80 bg-muted/20 flex items-start justify-between gap-3">
                 <div className="flex items-center gap-3">
-                  <span className="text-2xl leading-none" role="img" aria-label={node.country}>
+                  <span
+                    className="text-2xl leading-none"
+                    role="img"
+                    aria-label={node.country}
+                  >
                     {node.flag || "🌐"}
                   </span>
                   <div>
@@ -103,7 +116,8 @@ export function ServerHealthGrid({ nodes }: ServerHealthGridProps) {
                 <div className="space-y-1">
                   <div className="flex justify-between text-xs">
                     <span className="flex items-center gap-1.5 text-muted-foreground">
-                      <HardDrive className="h-3.5 w-3.5 text-indigo-400" /> Pemakaian RAM
+                      <HardDrive className="h-3.5 w-3.5 text-indigo-400" />{" "}
+                      Pemakaian RAM
                     </span>
                     <span className="font-mono font-bold text-foreground">
                       {node.ram_percent}%
@@ -121,7 +135,8 @@ export function ServerHealthGrid({ nodes }: ServerHealthGridProps) {
                 <div className="grid grid-cols-2 gap-2.5 pt-2 border-t border-border/60">
                   <div className="rounded-xl bg-muted/30 p-2.5 text-xs border border-border/40">
                     <span className="text-[11px] text-muted-foreground flex items-center gap-1 font-medium">
-                      <Activity className="h-3 w-3 text-primary" /> Bandwidth I/O
+                      <Activity className="h-3 w-3 text-primary" /> Bandwidth
+                      I/O
                     </span>
                     <div className="flex items-center gap-2 mt-1.5 font-mono font-semibold text-foreground text-[11px]">
                       <span className="flex items-center text-emerald-400">
@@ -137,7 +152,8 @@ export function ServerHealthGrid({ nodes }: ServerHealthGridProps) {
 
                   <div className="rounded-xl bg-muted/30 p-2.5 text-xs border border-border/40">
                     <span className="text-[11px] text-muted-foreground flex items-center gap-1 font-medium">
-                      <Users className="h-3 w-3 text-indigo-400" /> Sesi Terhubung
+                      <Users className="h-3 w-3 text-indigo-400" /> Sesi
+                      Terhubung
                     </span>
                     <div className="mt-1.5 font-mono font-bold text-foreground text-xs">
                       {node.active_sessions}{" "}

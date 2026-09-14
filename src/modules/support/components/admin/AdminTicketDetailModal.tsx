@@ -68,7 +68,11 @@ export function AdminTicketDetailModal({
       });
       setReplyMessage("");
       setIsInternal(false);
-      toast.success(isInternal ? "Catatan internal disimpan" : "Balasan terkirim ke pengguna");
+      toast.success(
+        isInternal
+          ? "Catatan internal disimpan"
+          : "Balasan terkirim ke pengguna",
+      );
     } catch {
       toast.error("Gagal mengirim balasan");
     } finally {
@@ -108,7 +112,12 @@ export function AdminTicketDetailModal({
           </DialogTitle>
 
           <div className="text-xs text-muted-foreground flex items-center gap-2">
-            <span>Pelapor: {ticket.user_name || ticket.user_email || `User #${ticket.user_id}`}</span>
+            <span>
+              Pelapor:{" "}
+              {ticket.user_name ||
+                ticket.user_email ||
+                `User #${ticket.user_id}`}
+            </span>
             <span>•</span>
             <span>Kategori: {ticket.department || "Umum"}</span>
           </div>
@@ -142,7 +151,8 @@ export function AdminTicketDetailModal({
             </div>
           ) : (
             replies.map((r) => {
-              const isAdmin = r.user_role === "ADMIN" || r.user_role === "SUPERADMIN";
+              const isAdmin =
+                r.user_role === "ADMIN" || r.user_role === "SUPERADMIN";
               return (
                 <div
                   key={r.id}
@@ -150,8 +160,8 @@ export function AdminTicketDetailModal({
                     r.is_internal
                       ? "bg-amber-500/10 border-amber-500/30"
                       : isAdmin
-                      ? "bg-primary/5 border-primary/20 ml-6"
-                      : "bg-accent/30 border-border/40 mr-6"
+                        ? "bg-primary/5 border-primary/20 ml-6"
+                        : "bg-accent/30 border-border/40 mr-6"
                   }`}
                 >
                   <div className="flex items-center justify-between text-xs">
@@ -196,7 +206,10 @@ export function AdminTicketDetailModal({
         </div>
 
         {/* Action / Reply Bar */}
-        <form onSubmit={handleSend} className="p-4 border-t border-border/40 bg-card space-y-3">
+        <form
+          onSubmit={handleSend}
+          className="p-4 border-t border-border/40 bg-card space-y-3"
+        >
           <textarea
             rows={2}
             required

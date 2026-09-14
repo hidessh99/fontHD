@@ -97,14 +97,21 @@ export function AdminPostTable({
                   <th className="p-3.5 font-semibold">Penulis</th>
                   <th className="p-3.5 font-semibold">Views</th>
                   <th className="p-3.5 font-semibold">Tanggal Terbit</th>
-                  <th className="p-3.5 font-semibold text-right">Aksi Operasional</th>
+                  <th className="p-3.5 font-semibold text-right">
+                    Aksi Operasional
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border/30">
                 {filteredPosts.map((post) => (
-                  <tr key={post.id} className="hover:bg-accent/30 transition-colors">
+                  <tr
+                    key={post.id}
+                    className="hover:bg-accent/30 transition-colors"
+                  >
                     <td className="p-3.5 max-w-sm">
-                      <div className="font-semibold text-foreground truncate">{post.title}</div>
+                      <div className="font-semibold text-foreground truncate">
+                        {post.title}
+                      </div>
                       <div className="text-muted-foreground font-mono text-[11px]">
                         /{post.slug}
                       </div>
@@ -119,7 +126,9 @@ export function AdminPostTable({
                       {post.views_count || 0}
                     </td>
                     <td className="p-3.5 whitespace-nowrap text-muted-foreground">
-                      {new Date(post.published_at || post.created_at).toLocaleDateString("id-ID", {
+                      {new Date(
+                        post.published_at || post.created_at,
+                      ).toLocaleDateString("id-ID", {
                         day: "numeric",
                         month: "short",
                         year: "numeric",
@@ -129,7 +138,12 @@ export function AdminPostTable({
                       <div className="inline-flex items-center gap-1">
                         <select
                           value={post.status}
-                          onChange={(e) => onUpdateStatus(post.id, e.target.value as PostStatus)}
+                          onChange={(e) =>
+                            onUpdateStatus(
+                              post.id,
+                              e.target.value as PostStatus,
+                            )
+                          }
                           className="h-7 px-2 text-[11px] rounded border border-border/50 bg-background font-semibold focus:outline-none focus:ring-1 focus:ring-primary mr-1"
                         >
                           <option value="PUBLISHED">PUBLISHED</option>

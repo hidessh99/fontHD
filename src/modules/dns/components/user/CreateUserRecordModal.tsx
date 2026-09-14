@@ -34,7 +34,9 @@ export function CreateUserRecordModal({
   onAddRecord,
 }: CreateUserRecordModalProps) {
   const [open, setOpen] = useState(false);
-  const [domainId, setDomainId] = useState<string | number>(domains[0]?.id || "");
+  const [domainId, setDomainId] = useState<string | number>(
+    domains[0]?.id || "",
+  );
   const [type, setType] = useState<DnsRecordType>("A");
   const [name, setName] = useState("");
   const [content, setContent] = useState("");
@@ -85,12 +87,14 @@ export function CreateUserRecordModal({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger render={
-        <Button className="h-10 px-4 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs shadow-lg shadow-primary/20 gap-2 transition-all">
-          <Plus className="h-4 w-4" />
-          Tambah Record DNS
-        </Button>
-      } />
+      <DialogTrigger
+        render={
+          <Button className="h-10 px-4 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs shadow-lg shadow-primary/20 gap-2 transition-all">
+            <Plus className="h-4 w-4" />
+            Tambah Record DNS
+          </Button>
+        }
+      />
 
       <DialogContent className="sm:max-w-md bg-card border-border text-foreground shadow-2xl rounded-2xl">
         <DialogHeader>
@@ -105,7 +109,9 @@ export function CreateUserRecordModal({
         <form onSubmit={handleSubmit} className="space-y-4 pt-2">
           {/* Domain Selection */}
           <div>
-            <Label className="text-xs text-muted-foreground font-medium">Pilih Zona Domain</Label>
+            <Label className="text-xs text-muted-foreground font-medium">
+              Pilih Zona Domain
+            </Label>
             <select
               value={domainId}
               onChange={(e) => setDomainId(e.target.value)}
@@ -121,7 +127,9 @@ export function CreateUserRecordModal({
 
           {/* Record Type Selection */}
           <div>
-            <Label className="text-xs text-muted-foreground font-medium">Tipe Record</Label>
+            <Label className="text-xs text-muted-foreground font-medium">
+              Tipe Record
+            </Label>
             <div className="grid grid-cols-4 gap-2 mt-1.5">
               {RECORD_TYPES.map((t) => (
                 <button
@@ -142,7 +150,10 @@ export function CreateUserRecordModal({
 
           {/* Host / Subdomain */}
           <div>
-            <Label htmlFor="rec-name" className="text-xs text-muted-foreground font-medium">
+            <Label
+              htmlFor="rec-name"
+              className="text-xs text-muted-foreground font-medium"
+            >
               Nama Subdomain
             </Label>
             <div className="flex items-center mt-1.5">
@@ -159,19 +170,37 @@ export function CreateUserRecordModal({
             </div>
             {name && (
               <p className="mt-1 text-[11px] text-muted-foreground font-mono">
-                FQDN: <span className="text-primary font-bold">{name}.{selectedDomain?.domain_name || "domain.id"}</span>
+                FQDN:{" "}
+                <span className="text-primary font-bold">
+                  {name}.{selectedDomain?.domain_name || "domain.id"}
+                </span>
               </p>
             )}
           </div>
 
           {/* Target / Content */}
           <div>
-            <Label htmlFor="rec-content" className="text-xs text-muted-foreground font-medium">
-              {type === "A" ? "Alamat IPv4 Server" : type === "AAAA" ? "Alamat IPv6 Server" : type === "CNAME" ? "Target Hostname" : "Nilai / Text"}
+            <Label
+              htmlFor="rec-content"
+              className="text-xs text-muted-foreground font-medium"
+            >
+              {type === "A"
+                ? "Alamat IPv4 Server"
+                : type === "AAAA"
+                  ? "Alamat IPv6 Server"
+                  : type === "CNAME"
+                    ? "Target Hostname"
+                    : "Nilai / Text"}
             </Label>
             <Input
               id="rec-content"
-              placeholder={type === "A" ? "103.147.12.88" : type === "AAAA" ? "2001:db8::1" : "sg1.govpn-network.id"}
+              placeholder={
+                type === "A"
+                  ? "103.147.12.88"
+                  : type === "AAAA"
+                    ? "2001:db8::1"
+                    : "sg1.govpn-network.id"
+              }
               value={content}
               onChange={(e) => setContent(e.target.value)}
               className="mt-1.5 bg-muted/30 border-border text-foreground font-mono text-xs h-10"
@@ -181,7 +210,9 @@ export function CreateUserRecordModal({
           {/* Proxy toggle & TTL */}
           <div className="grid grid-cols-2 gap-3 pt-1">
             <div className="rounded-xl border border-border bg-muted/20 p-3 flex flex-col justify-between">
-              <span className="text-xs text-muted-foreground font-medium">Cloudflare CDN</span>
+              <span className="text-xs text-muted-foreground font-medium">
+                Cloudflare CDN
+              </span>
               <button
                 type="button"
                 onClick={() => setProxied(!proxied)}
@@ -191,13 +222,17 @@ export function CreateUserRecordModal({
                     : "bg-muted text-muted-foreground hover:text-foreground"
                 }`}
               >
-                <Cloud className={`h-3.5 w-3.5 ${proxied ? "fill-amber-400 text-amber-400" : ""}`} />
+                <Cloud
+                  className={`h-3.5 w-3.5 ${proxied ? "fill-amber-400 text-amber-400" : ""}`}
+                />
                 {proxied ? "Proxied (CDN)" : "DNS Only"}
               </button>
             </div>
 
             <div className="rounded-xl border border-border bg-muted/20 p-3 flex flex-col justify-between">
-              <span className="text-xs text-muted-foreground font-medium">TTL (Time to Live)</span>
+              <span className="text-xs text-muted-foreground font-medium">
+                TTL (Time to Live)
+              </span>
               <select
                 value={ttl}
                 onChange={(e) => setTtl(Number(e.target.value))}
@@ -213,7 +248,10 @@ export function CreateUserRecordModal({
 
           {/* Comment */}
           <div>
-            <Label htmlFor="rec-comment" className="text-xs text-muted-foreground font-medium">
+            <Label
+              htmlFor="rec-comment"
+              className="text-xs text-muted-foreground font-medium"
+            >
               Keterangan / Catatan (Opsional)
             </Label>
             <Input

@@ -10,7 +10,13 @@ import React from "react";
 import { Invoice } from "../../types/finance.types";
 import { StatusBadge } from "@/components/shared/StatusBadge";
 import { Button } from "@/components/ui/button";
-import { CreditCard, QrCode, ExternalLink, Calendar, Receipt } from "lucide-react";
+import {
+  CreditCard,
+  QrCode,
+  ExternalLink,
+  Calendar,
+  Receipt,
+} from "lucide-react";
 import { EmptyState } from "@/components/shared/EmptyState";
 
 interface InvoiceTableProps {
@@ -84,7 +90,9 @@ export function InvoiceTable({ invoices, onSelectInvoice }: InvoiceTableProps) {
                 <td className="px-5 py-4 text-xs text-muted-foreground">
                   <div className="flex items-center gap-1.5">
                     <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
-                    <span className="font-mono">{formatDate(inv.created_at)}</span>
+                    <span className="font-mono">
+                      {formatDate(inv.created_at)}
+                    </span>
                   </div>
                 </td>
                 <td className="px-5 py-4">
@@ -161,13 +169,17 @@ export function InvoiceTable({ invoices, onSelectInvoice }: InvoiceTableProps) {
 
             <div className="grid grid-cols-2 gap-2 text-xs pt-1 border-t border-border/40">
               <div>
-                <span className="text-[11px] text-muted-foreground block">Nominal</span>
+                <span className="text-[11px] text-muted-foreground block">
+                  Nominal
+                </span>
                 <span className="font-mono font-bold text-foreground text-sm">
                   {formatIDR(inv.total_amount || inv.amount)}
                 </span>
               </div>
               <div>
-                <span className="text-[11px] text-muted-foreground block">Metode</span>
+                <span className="text-[11px] text-muted-foreground block">
+                  Metode
+                </span>
                 <span className="font-mono text-foreground font-semibold">
                   {inv.payment_method}
                 </span>

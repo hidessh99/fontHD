@@ -11,11 +11,11 @@ import { FinanceSkeleton } from "@/modules/finance/components/shared/FinanceSkel
 const BillingInvoicesView = dynamic(
   () =>
     import("@/modules/finance/views/user/BillingInvoicesView").then(
-      (mod) => mod.BillingInvoicesView
+      (mod) => mod.BillingInvoicesView,
     ),
   {
     loading: () => <FinanceSkeleton />,
-  }
+  },
 );
 
 export const metadata: Metadata = {

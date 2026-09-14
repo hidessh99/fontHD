@@ -64,7 +64,9 @@ export function K8sPodLogsModal({
   }, [open, app, onFetchLogs]);
 
   const handleCopy = () => {
-    const text = logs.map((l) => `[${l.timestamp}] [${l.stream}] ${l.message}`).join("\n");
+    const text = logs
+      .map((l) => `[${l.timestamp}] [${l.stream}] ${l.message}`)
+      .join("\n");
     navigator.clipboard.writeText(text);
     setCopied(true);
     toast.success("Logs berhasil disalin ke clipboard");
@@ -88,7 +90,11 @@ export function K8sPodLogsModal({
               onClick={handleCopy}
               className="h-8 px-2.5 text-xs text-zinc-400 hover:text-zinc-200 gap-1.5"
             >
-              {copied ? <Check className="h-3 w-3 text-emerald-400" /> : <Copy className="h-3 w-3" />}
+              {copied ? (
+                <Check className="h-3 w-3 text-emerald-400" />
+              ) : (
+                <Copy className="h-3 w-3" />
+              )}
               {copied ? "Tersalin" : "Salin"}
             </Button>
           </div>
@@ -102,7 +108,9 @@ export function K8sPodLogsModal({
               <span>Streaming pod logs...</span>
             </div>
           ) : logs.length === 0 ? (
-            <span className="text-zinc-500">Belum ada output log dari pod container ini.</span>
+            <span className="text-zinc-500">
+              Belum ada output log dari pod container ini.
+            </span>
           ) : (
             logs.map((log, idx) => (
               <div key={idx} className="flex items-start gap-2 leading-relaxed">
@@ -111,7 +119,9 @@ export function K8sPodLogsModal({
                 </span>
                 <span
                   className={
-                    log.stream === "stderr" ? "text-rose-400" : "text-emerald-400/90"
+                    log.stream === "stderr"
+                      ? "text-rose-400"
+                      : "text-emerald-400/90"
                   }
                 >
                   {log.message}

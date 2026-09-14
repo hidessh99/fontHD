@@ -18,7 +18,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { SellerWithdrawalRequestDto } from "../../types/seller.types";
-import { ArrowUpRight, CreditCard, Loader2, User, Landmark } from "lucide-react";
+import {
+  ArrowUpRight,
+  CreditCard,
+  Loader2,
+  User,
+  Landmark,
+} from "lucide-react";
 import { toast } from "sonner";
 
 interface SellerWithdrawalModalProps {
@@ -27,7 +33,16 @@ interface SellerWithdrawalModalProps {
   triggerButton?: React.ReactNode;
 }
 
-const SELLER_BANKS = ["BCA", "MANDIRI", "BRI", "BNI", "BSI", "SEABANK", "DANA", "GOPAY"];
+const SELLER_BANKS = [
+  "BCA",
+  "MANDIRI",
+  "BRI",
+  "BNI",
+  "BSI",
+  "SEABANK",
+  "DANA",
+  "GOPAY",
+];
 
 export function SellerWithdrawalModal({
   availableBalance,
@@ -91,16 +106,18 @@ export function SellerWithdrawalModal({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger render={
-        triggerButton ? (
-          (triggerButton as React.ReactElement)
-        ) : (
-          <Button className="bg-emerald-600 hover:bg-emerald-500 text-white gap-2 font-semibold text-xs rounded-full min-h-11 px-6 shadow-md shadow-emerald-600/20">
-            <ArrowUpRight className="h-4 w-4" />
-            Cairkan Komisi
-          </Button>
-        )
-      } />
+      <DialogTrigger
+        render={
+          triggerButton ? (
+            (triggerButton as React.ReactElement)
+          ) : (
+            <Button className="bg-emerald-600 hover:bg-emerald-500 text-white gap-2 font-semibold text-xs rounded-full min-h-11 px-6 shadow-md shadow-emerald-600/20">
+              <ArrowUpRight className="h-4 w-4" />
+              Cairkan Komisi
+            </Button>
+          )
+        }
+      />
 
       <DialogContent className="sm:max-w-md bg-card border-border/80 text-foreground rounded-2xl">
         <DialogHeader>
@@ -114,12 +131,17 @@ export function SellerWithdrawalModal({
           {/* Available balance indicator */}
           <div className="rounded-xl bg-surface border border-border/60 p-3 flex items-center justify-between font-mono text-xs">
             <span className="text-muted-foreground">Komisi Tersedia:</span>
-            <span className="font-bold text-emerald-400">{formatIDR(availableBalance)}</span>
+            <span className="font-bold text-emerald-400">
+              {formatIDR(availableBalance)}
+            </span>
           </div>
 
           {/* Amount input */}
           <div>
-            <Label htmlFor="seller-with-amount" className="text-xs font-medium text-muted-foreground">
+            <Label
+              htmlFor="seller-with-amount"
+              className="text-xs font-medium text-muted-foreground"
+            >
               Nominal Pencairan (Min. Rp 50.000)
             </Label>
             <div className="relative mt-1.5">
@@ -139,7 +161,9 @@ export function SellerWithdrawalModal({
 
           {/* Bank selector */}
           <div>
-            <Label className="text-xs font-medium text-muted-foreground">Pilih Bank / Dompet Tujuan</Label>
+            <Label className="text-xs font-medium text-muted-foreground">
+              Pilih Bank / Dompet Tujuan
+            </Label>
             <div className="grid grid-cols-4 gap-2 mt-1.5">
               {SELLER_BANKS.map((b) => (
                 <button
@@ -160,7 +184,10 @@ export function SellerWithdrawalModal({
 
           {/* Account Number */}
           <div>
-            <Label htmlFor="seller-acc-no" className="text-xs font-medium text-muted-foreground">
+            <Label
+              htmlFor="seller-acc-no"
+              className="text-xs font-medium text-muted-foreground"
+            >
               Nomor Rekening Tujuan
             </Label>
             <div className="relative mt-1.5">
@@ -177,7 +204,10 @@ export function SellerWithdrawalModal({
 
           {/* Account Name */}
           <div>
-            <Label htmlFor="seller-acc-name" className="text-xs font-medium text-muted-foreground">
+            <Label
+              htmlFor="seller-acc-name"
+              className="text-xs font-medium text-muted-foreground"
+            >
               Nama Rekening Pemilik
             </Label>
             <div className="relative mt-1.5">
@@ -194,7 +224,10 @@ export function SellerWithdrawalModal({
 
           {/* Notes */}
           <div>
-            <Label htmlFor="seller-notes" className="text-xs font-medium text-muted-foreground">
+            <Label
+              htmlFor="seller-notes"
+              className="text-xs font-medium text-muted-foreground"
+            >
               Catatan untuk Superadmin (Opsional)
             </Label>
             <Input
@@ -217,12 +250,17 @@ export function SellerWithdrawalModal({
             </Button>
             <Button
               type="submit"
-              disabled={isSubmitting || numAmount < 50000 || numAmount > availableBalance}
+              disabled={
+                isSubmitting ||
+                numAmount < 50000 ||
+                numAmount > availableBalance
+              }
               className="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold rounded-full min-h-10 px-6 shadow-md shadow-emerald-600/20"
             >
               {isSubmitting ? (
                 <>
-                  <Loader2 className="mr-1.5 h-4 w-4 animate-spin" /> Memproses...
+                  <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />{" "}
+                  Memproses...
                 </>
               ) : (
                 "Kirim Pengajuan"

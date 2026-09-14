@@ -72,7 +72,7 @@ export function useFinanceUser() {
                   "00020101021126570014ID.LINKAJA.WWW011893600911002233445502100000000001510200020300303UMI52045999530336054061015005802ID5911GOVPN SPEED6007JAKARTA61051234062070703A016304E64A",
                 description: "Top up Saldo via Tripay QRIS",
               },
-            ]
+            ],
       );
     } finally {
       if (!silent) setLoading(false);
@@ -152,7 +152,7 @@ export function useFinanceUser() {
         baseIntervalMs: 2500,
         maxIntervalMs: 10000,
         maxAttempts: 60,
-      }
+      },
     );
 
     stopPollerRef.current = stop;
@@ -178,7 +178,7 @@ export function useFinanceUser() {
         setInvoices((prev) => [inv, ...prev]);
         toast.success("Tagihan Berhasil Dibuat", {
           description: `Silakan scan QRIS untuk menyelesaikan pembayaran Rp ${dto.amount.toLocaleString(
-            "id-ID"
+            "id-ID",
           )}`,
         });
         return inv;
@@ -212,27 +212,49 @@ export function useFinanceUser() {
   };
 
   // 5. Validate Voucher
-  const validateVoucher = async (code: string): Promise<VoucherValidationResult> => {
+  const validateVoucher = async (
+    code: string,
+  ): Promise<VoucherValidationResult> => {
     const idempotencyKey =
       typeof crypto !== "undefined" && crypto.randomUUID
         ? crypto.randomUUID()
         : `val_${Date.now()}`;
 
     try {
-      const res = await financeUserApi.validateVoucher({ code }, idempotencyKey);
+      const res = await financeUserApi.validateVoucher(
+        { code },
+        idempotencyKey,
+      );
       const data = res.payload || res.data;
       if (data) return data;
-      return { valid: false, code, discount_amount: 0, message: "Kode tidak valid" };
+      return {
+        valid: false,
+        code,
+        discount_amount: 0,
+        message: "Kode tidak valid",
+      };
     } catch {
       if (code.toUpperCase() === "PROMO2026") {
-        return { valid: true, code, discount_amount: 10000, message: "Diskon Rp 10.000 aktif!" };
+        return {
+          valid: true,
+          code,
+          discount_amount: 10000,
+          message: "Diskon Rp 10.000 aktif!",
+        };
       }
-      return { valid: false, code, discount_amount: 0, message: "Voucher tidak ditemukan" };
+      return {
+        valid: false,
+        code,
+        discount_amount: 0,
+        message: "Voucher tidak ditemukan",
+      };
     }
   };
 
   // 6. Request Withdrawal
-  const requestWithdrawal = async (dto: UserWithdrawalRequestDto): Promise<WithdrawalRecord | null> => {
+  const requestWithdrawal = async (
+    dto: UserWithdrawalRequestDto,
+  ): Promise<WithdrawalRecord | null> => {
     const idempotencyKey =
       typeof crypto !== "undefined" && crypto.randomUUID
         ? crypto.randomUUID()
@@ -247,7 +269,9 @@ export function useFinanceUser() {
       }
       return null;
     } catch {
-      toast.info("Permintaan penarikan diterima dalam antrian (Mode Simulasi).");
+      toast.info(
+        "Permintaan penarikan diterima dalam antrian (Mode Simulasi).",
+      );
       return null;
     }
   };

@@ -40,7 +40,9 @@ export function DnsManagerView() {
         <Card className="border-border/80 bg-card/60 backdrop-blur-sm p-4 rounded-2xl shadow-sm">
           <CardContent className="p-0 flex items-center justify-between">
             <div>
-              <span className="text-xs text-muted-foreground font-medium">Domain Zona Terdaftar</span>
+              <span className="text-xs text-muted-foreground font-medium">
+                Domain Zona Terdaftar
+              </span>
               <div className="font-mono text-2xl font-bold text-foreground mt-1">
                 {domains.length} Domain
               </div>
@@ -54,7 +56,9 @@ export function DnsManagerView() {
         <Card className="border-border/80 bg-card/60 backdrop-blur-sm p-4 rounded-2xl shadow-sm">
           <CardContent className="p-0 flex items-center justify-between">
             <div>
-              <span className="text-xs text-muted-foreground font-medium">Total DNS Record</span>
+              <span className="text-xs text-muted-foreground font-medium">
+                Total DNS Record
+              </span>
               <div className="font-mono text-2xl font-bold text-primary mt-1">
                 {allRecords.length} Record
               </div>
@@ -68,7 +72,9 @@ export function DnsManagerView() {
         <Card className="border-border/80 bg-card/60 backdrop-blur-sm p-4 rounded-2xl shadow-sm">
           <CardContent className="p-0 flex items-center justify-between">
             <div>
-              <span className="text-xs text-muted-foreground font-medium">Cloudflare Proxied (CDN)</span>
+              <span className="text-xs text-muted-foreground font-medium">
+                Cloudflare Proxied (CDN)
+              </span>
               <div className="font-mono text-2xl font-bold text-amber-400 mt-1">
                 {proxiedCount} Record
               </div>
@@ -128,14 +134,13 @@ export function DnsManagerView() {
             disabled={loading}
             className="border-border bg-card/60 hover:bg-muted text-foreground gap-2 h-10 px-3.5 text-xs rounded-xl shadow-sm"
           >
-            <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`} />
+            <RefreshCw
+              className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`}
+            />
             Segarkan
           </Button>
 
-          <CreateUserRecordModal
-            domains={domains}
-            onAddRecord={addRecord}
-          />
+          <CreateUserRecordModal domains={domains} onAddRecord={addRecord} />
         </div>
       </div>
 

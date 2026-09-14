@@ -32,7 +32,9 @@ export function SellerStatsWidget({ stats }: SellerStatsWidgetProps) {
       <Card className="border-border/80 bg-card/60 backdrop-blur-sm p-4 rounded-2xl shadow-sm">
         <CardContent className="p-0 flex items-center justify-between">
           <div>
-            <span className="text-xs text-muted-foreground font-medium">Tier Kemitraan</span>
+            <span className="text-xs text-muted-foreground font-medium">
+              Tier Kemitraan
+            </span>
             <div className="font-mono text-xl font-bold text-amber-400 mt-1">
               {data.seller_tier}
             </div>
@@ -46,7 +48,9 @@ export function SellerStatsWidget({ stats }: SellerStatsWidgetProps) {
       <Card className="border-border/80 bg-card/60 backdrop-blur-sm p-4 rounded-2xl shadow-sm">
         <CardContent className="p-0 flex items-center justify-between">
           <div>
-            <span className="text-xs text-muted-foreground font-medium">Total Pelanggan</span>
+            <span className="text-xs text-muted-foreground font-medium">
+              Total Pelanggan
+            </span>
             <div className="font-mono text-2xl font-bold text-foreground mt-1">
               {data.total_customers} User
             </div>
@@ -60,7 +64,9 @@ export function SellerStatsWidget({ stats }: SellerStatsWidgetProps) {
       <Card className="border-border/80 bg-card/60 backdrop-blur-sm p-4 rounded-2xl shadow-sm">
         <CardContent className="p-0 flex items-center justify-between">
           <div>
-            <span className="text-xs text-muted-foreground font-medium">Langganan Aktif</span>
+            <span className="text-xs text-muted-foreground font-medium">
+              Langganan Aktif
+            </span>
             <div className="font-mono text-2xl font-bold text-emerald-400 mt-1">
               {data.active_subscriptions} Akun
             </div>
@@ -74,7 +80,9 @@ export function SellerStatsWidget({ stats }: SellerStatsWidgetProps) {
       <Card className="border-border/80 bg-card/60 backdrop-blur-sm p-4 rounded-2xl shadow-sm">
         <CardContent className="p-0 flex items-center justify-between">
           <div>
-            <span className="text-xs text-muted-foreground font-medium">Estimasi Komisi ({data.commission_rate}%)</span>
+            <span className="text-xs text-muted-foreground font-medium">
+              Estimasi Komisi ({data.commission_rate}%)
+            </span>
             <div className="font-mono text-2xl font-bold text-primary mt-1">
               Rp {data.pending_commission.toLocaleString("id-ID")}
             </div>

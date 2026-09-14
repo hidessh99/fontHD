@@ -23,7 +23,10 @@ export const iamUserApi = {
     apiClient.get<UserProfile>("/api/users/profile"),
 
   // 2. PUT /api/users/:id
-  updateProfile: (id: string | number, data: UpdateProfileDto): Promise<ApiResponse<UserProfile>> =>
+  updateProfile: (
+    id: string | number,
+    data: UpdateProfileDto,
+  ): Promise<ApiResponse<UserProfile>> =>
     apiClient.put<UserProfile>(`/api/users/${id}`, data),
 
   // 3. GET /api/users/:id
@@ -31,11 +34,15 @@ export const iamUserApi = {
     apiClient.get<UserProfile>(`/api/users/${id}`),
 
   // 4. DELETE /api/users/:id
-  deleteAccount: (id: string | number): Promise<ApiResponse<{ deleted: boolean }>> =>
+  deleteAccount: (
+    id: string | number,
+  ): Promise<ApiResponse<{ deleted: boolean }>> =>
     apiClient.delete<{ deleted: boolean }>(`/api/users/${id}`),
 
   // 5. PUT /api/users/change-password
-  changePassword: (data: ChangePasswordRequest): Promise<ApiResponse<{ success: boolean }>> =>
+  changePassword: (
+    data: ChangePasswordRequest,
+  ): Promise<ApiResponse<{ success: boolean }>> =>
     apiClient.put<{ success: boolean }>("/api/users/change-password", data),
 
   // 6. GET /api/users/dashboard/stats
@@ -77,11 +84,16 @@ export const iamUserApi = {
     apiClient.get<UserAddress>(`/api/users/address/${id}`),
 
   // 15. PUT /api/users/address/:id
-  updateAddress: (id: string | number, data: Partial<UserAddressDto>): Promise<ApiResponse<UserAddress>> =>
+  updateAddress: (
+    id: string | number,
+    data: Partial<UserAddressDto>,
+  ): Promise<ApiResponse<UserAddress>> =>
     apiClient.put<UserAddress>(`/api/users/address/${id}`, data),
 
   // 16. DELETE /api/users/address/:id
-  deleteAddress: (id: string | number): Promise<ApiResponse<{ deleted: boolean }>> =>
+  deleteAddress: (
+    id: string | number,
+  ): Promise<ApiResponse<{ deleted: boolean }>> =>
     apiClient.delete<{ deleted: boolean }>(`/api/users/address/${id}`),
 
   // 17. POST /api/users/address/upsert

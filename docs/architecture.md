@@ -1,9 +1,10 @@
 # Enterprise Frontend System Architecture & Tri-Role Design
+
 **Platform:** GoVPN Enterprise Cloud Web Client  
 **Engine:** Next.js 16 (App Router, Turbopack, Streaming SSR), React 19, Bun 1.4+, Tailwind CSS v4  
 **Design Standard:** Cobalt Tactical Dark System & 100% Shadcn UI Primitives  
 **Architect:** Senior Next.js / React Architect & Lead CTO  
-**Document Status:** Approved Single Source of Truth (SSOT)  
+**Document Status:** Approved Single Source of Truth (SSOT)
 
 ---
 
@@ -53,14 +54,14 @@ graph TD
     User -->|Personal Portal| R_User
 ```
 
-| Layer / Responsibility | `USER` (Customer) | `SELLER` (Reseller) | `ADMIN` (Superadmin) |
-| :--- | :--- | :--- | :--- |
-| **App Router Route** | `src/app/(dashboard)/*` | `src/app/(dashboard)/seller/*` | `src/app/admin/*` |
-| **Layout Shell** | `DashboardSidebar` & `Header` | Same Dashboard Shell + Reseller Menu | Isolated `AdminSidebar` & Admin Header |
-| **Edge Guard** | `hide-jwt` present | `hide-jwt` + Role `SELLER` or higher | `hide-jwt` + Role `SUPERADMIN` only |
-| **Domain Views** | `modules/<feature>/views/` | `modules/<feature>/views/seller/` | `modules/<feature>/views/admin/` |
-| **API Endpoints** | `/api/<feature>` | `/api/seller/<feature>` | `/api/admin/<feature>` |
-| **Data Scope** | Own accounts & invoices | Tenant sub-users, wholesale quota | Global fleet, ledger, 40 cron tasks |
+| Layer / Responsibility | `USER` (Customer)             | `SELLER` (Reseller)                  | `ADMIN` (Superadmin)                   |
+| :--------------------- | :---------------------------- | :----------------------------------- | :------------------------------------- |
+| **App Router Route**   | `src/app/(dashboard)/*`       | `src/app/(dashboard)/seller/*`       | `src/app/admin/*`                      |
+| **Layout Shell**       | `DashboardSidebar` & `Header` | Same Dashboard Shell + Reseller Menu | Isolated `AdminSidebar` & Admin Header |
+| **Edge Guard**         | `hide-jwt` present            | `hide-jwt` + Role `SELLER` or higher | `hide-jwt` + Role `SUPERADMIN` only    |
+| **Domain Views**       | `modules/<feature>/views/`    | `modules/<feature>/views/seller/`    | `modules/<feature>/views/admin/`       |
+| **API Endpoints**      | `/api/<feature>`              | `/api/seller/<feature>`              | `/api/admin/<feature>`                 |
+| **Data Scope**         | Own accounts & invoices       | Tenant sub-users, wholesale quota    | Global fleet, ledger, 40 cron tasks    |
 
 ---
 
@@ -177,7 +178,7 @@ Untuk seluruh domain bisnis di `src/modules/<domain>/`, sistem mengadopsi standa
 
 ### 4.1 Cetak Biru Lengkap Anatomi Modul (Contoh: `src/modules/vpn/`)
 
-```
+````
 src/modules/vpn/
 ├── types/                                 # 1. KONTRAK DATA & DTO PER ROLE
 │   ├── index.ts                           # Re-export barrel
@@ -285,18 +286,30 @@ sequenceDiagram
         API-->>View: 200 { success: true, payload: [...] }
         View-->>Client: Complete Interactive UI (60 FPS)
     end
-```
+````
 
 ### 5.1 Edge Proxy Implementation (`src/proxy.ts`)
+
 Next.js 16's canonical `proxy.ts` executes at the Cloudflare / Vercel Edge runtime prior to executing any React rendering or RSC streaming. It inspects:
+
 1. `hide-jwt`: Cryptographic session token.
 2. `govpn_user_role`: User role (`USER`, `SELLER`, `SUPERADMIN`).
 
 ```ts
 // Protected route boundaries
-const MEMBER_ROUTES = ["/dashboard", "/vpn", "/servers", "/billing", "/dns", "/ai", "/k8s", "/support", "/settings"];
+const MEMBER_ROUTES = [
+  "/dashboard",
+  "/vpn",
+  "/servers",
+  "/billing",
+  "/dns",
+  "/ai",
+  "/k8s",
+  "/support",
+  "/settings",
+];
 const SELLER_ROUTES = ["/seller", "/dashboard/seller"];
-const ADMIN_ROUTES  = ["/admin"];
+const ADMIN_ROUTES = ["/admin"];
 ```
 
 ---
@@ -307,28 +320,33 @@ To ensure zero visual inconsistency and maintain enterprise design integrity, Go
 
 ### 6.1 Complete Standardized Component Catalog
 
-| Category | Standardized Components in `src/components/ui/` |
-| :--- | :--- |
-| **Actions & Triggers** | `button.tsx`, `toggle.tsx`, `toggle-group.tsx`, `context-menu.tsx`, `dropdown-menu.tsx`, `menubar.tsx` |
-| **Containers & Surfaces** | `card.tsx`, `sheet.tsx`, `dialog.tsx`, `drawer.tsx`, `popover.tsx`, `collapsible.tsx`, `accordion.tsx` |
-| **Form Controls** | `input.tsx`, `textarea.tsx`, `checkbox.tsx`, `radio-group.tsx`, `select.tsx`, `slider.tsx`, `switch.tsx`, `input-otp.tsx`, `calendar.tsx` |
-| **Data Presentation** | `table.tsx`, `badge.tsx`, `avatar.tsx`, `separator.tsx`, `aspect-ratio.tsx`, `scroll-area.tsx`, `carousel.tsx`, `tabs.tsx` |
-| **Feedback & Status** | `alert.tsx`, `alert-dialog.tsx`, `progress.tsx`, `skeleton.tsx`, `tooltip.tsx`, `hover-card.tsx` |
-| **Navigation & Search** | `command.tsx`, `breadcrumb.tsx`, `pagination.tsx`, `navigation-menu.tsx`, `sidebar.tsx` |
-| **Visual Charts** | `chart.tsx` (Recharts integration for latency and bandwidth telemetry) |
+| Category                  | Standardized Components in `src/components/ui/`                                                                                           |
+| :------------------------ | :---------------------------------------------------------------------------------------------------------------------------------------- |
+| **Actions & Triggers**    | `button.tsx`, `toggle.tsx`, `toggle-group.tsx`, `context-menu.tsx`, `dropdown-menu.tsx`, `menubar.tsx`                                    |
+| **Containers & Surfaces** | `card.tsx`, `sheet.tsx`, `dialog.tsx`, `drawer.tsx`, `popover.tsx`, `collapsible.tsx`, `accordion.tsx`                                    |
+| **Form Controls**         | `input.tsx`, `textarea.tsx`, `checkbox.tsx`, `radio-group.tsx`, `select.tsx`, `slider.tsx`, `switch.tsx`, `input-otp.tsx`, `calendar.tsx` |
+| **Data Presentation**     | `table.tsx`, `badge.tsx`, `avatar.tsx`, `separator.tsx`, `aspect-ratio.tsx`, `scroll-area.tsx`, `carousel.tsx`, `tabs.tsx`                |
+| **Feedback & Status**     | `alert.tsx`, `alert-dialog.tsx`, `progress.tsx`, `skeleton.tsx`, `tooltip.tsx`, `hover-card.tsx`                                          |
+| **Navigation & Search**   | `command.tsx`, `breadcrumb.tsx`, `pagination.tsx`, `navigation-menu.tsx`, `sidebar.tsx`                                                   |
+| **Visual Charts**         | `chart.tsx` (Recharts integration for latency and bandwidth telemetry)                                                                    |
 
 ### 6.2 The Base UI Trigger Convention (`render` vs `asChild`)
+
 Because our Shadcn suite leverages modern `@base-ui/react`:
+
 - In primitives such as `DialogTrigger`, `SheetTrigger`, and `DropdownMenuItem`, use the **`render={<Component ... />}`** prop.
 - In `button.tsx`, custom `asChild` support is implemented using `React.cloneElement` to ensure `<Button asChild><Link href="...">...</Link></Button>` renders clean semantic HTML without nested button tags.
 
 ### 6.3 Popover & Dropdown Anti-Clipping Mandate
+
 > [!IMPORTANT]
 > **Zero Overflow-Hidden on Form Card Wrappers:**
 > Shadcn `<Card>` elements include `overflow-hidden` by default. When wrapping inputs that contain floating popovers or dropdown menus (e.g. protocol selectors, country code pickers), you **MUST** pass:
+>
 > ```tsx
 > <Card className="overflow-visible relative z-20 ...">
 > ```
+>
 > This prevents dropdown menus from being clipped by the card container boundaries.
 
 ---
@@ -349,15 +367,16 @@ Sesuai standar `modern-web-guidance`, antarmuka GoVPN dirancang untuk memberikan
 
 ### 8.1 Matriks Breakpoint & Adaptasi Layout
 
-| Breakpoint Tailwind | Rentang Layar | Adaptasi Navigasi & Shell | Perilaku Komponen Data |
-| :--- | :--- | :--- | :--- |
-| **Mobile (`< 640px`)** | 320px – 639px | `DashboardSidebar` disembunyikan; diakses via menu hamburger `Sheet` (kiri). Header ramping dengan saldo ringkas. | Kartu VPN stacked (1 kolom), tabel bertransisi ke kartu mobile, tombol aksi berukuran $\ge 44\text{px}$ (*touch-friendly*). |
-| **Tablet (`md: 768px`)** | 640px – 1023px | Sidebar dapat diciutkan (*collapsible*); breadcrumbs mulai ditampilkan. | Grid 2 kolom untuk Server Nodes dan kartu protokol VPN. |
-| **Desktop (`lg: 1024px`)** | 1024px – 1535px | Fixed Left Sidebar (lebar 256px), Header penuh dengan Cmd+K search, dropdown profil, dan widget saldo. | Grid 3 kolom, tabel data lengkap dengan kolom aksi di kanan, dialog popup melayang di tengah layar. |
-| **Ultrawide (`2xl: 1536px`)** | $\ge 1536\text{px}$ | Shell utama terpusat dengan pembatas `max-w-7xl` agar konten tidak melebar berlebihan (*eye-strain prevention*). | Grid 4 kolom untuk Telemetri Server dan monitoring beban CPU/RAM. |
+| Breakpoint Tailwind           | Rentang Layar       | Adaptasi Navigasi & Shell                                                                                         | Perilaku Komponen Data                                                                                                      |
+| :---------------------------- | :------------------ | :---------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------- |
+| **Mobile (`< 640px`)**        | 320px – 639px       | `DashboardSidebar` disembunyikan; diakses via menu hamburger `Sheet` (kiri). Header ramping dengan saldo ringkas. | Kartu VPN stacked (1 kolom), tabel bertransisi ke kartu mobile, tombol aksi berukuran $\ge 44\text{px}$ (_touch-friendly_). |
+| **Tablet (`md: 768px`)**      | 640px – 1023px      | Sidebar dapat diciutkan (_collapsible_); breadcrumbs mulai ditampilkan.                                           | Grid 2 kolom untuk Server Nodes dan kartu protokol VPN.                                                                     |
+| **Desktop (`lg: 1024px`)**    | 1024px – 1535px     | Fixed Left Sidebar (lebar 256px), Header penuh dengan Cmd+K search, dropdown profil, dan widget saldo.            | Grid 3 kolom, tabel data lengkap dengan kolom aksi di kanan, dialog popup melayang di tengah layar.                         |
+| **Ultrawide (`2xl: 1536px`)** | $\ge 1536\text{px}$ | Shell utama terpusat dengan pembatas `max-w-7xl` agar konten tidak melebar berlebihan (_eye-strain prevention_).  | Grid 4 kolom untuk Telemetri Server dan monitoring beban CPU/RAM.                                                           |
 
 ### 8.2 Kaidah Responsif Anti-Slop:
-1. **Dynamic Viewport (`min-h-dvh`):** Menjamin seluruh kontainer layout memperhitungkan kemunculan/penutupan address bar mobile browser tanpa memicu lonjakan visual (*zero layout shift*).
+
+1. **Dynamic Viewport (`min-h-dvh`):** Menjamin seluruh kontainer layout memperhitungkan kemunculan/penutupan address bar mobile browser tanpa memicu lonjakan visual (_zero layout shift_).
 2. **Container Queries (`@container`):** Setiap kartu VPN (`VpnAccountCard`) dan node server (`ServerNodeCard`) memiliki kemampuan kalkulasi dimensi berbasis lebar elemennya sendiri, sehingga tata letaknya selalu proporsional baik saat diletakkan di sidebar, modal, maupun grid utama.
 3. **Ergonomi Sentuh Jempol (Thumb-Zone Optimization):** Pada smartphone, modal dialog otomatis bertransisi menjadi bottom sheet (`Drawer` via Vaul / `Sheet side="bottom"`) sehingga tombol konfirmasi berada di area bawah yang mudah dijangkau satu tangan.
 4. **Scrollbar Gutter (`scrollbar-gutter: stable`):** Menjamin kemunculan data dinamis tidak menggeser lebar viewport horizontal.

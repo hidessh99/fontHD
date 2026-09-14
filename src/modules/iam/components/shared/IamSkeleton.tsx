@@ -47,7 +47,10 @@ export function IamSkeleton() {
       <div className="rounded-2xl border border-border/60 bg-card/40 p-6 space-y-4">
         <Skeleton className="h-5 w-32 rounded bg-muted/30" />
         {[1, 2, 3].map((i) => (
-          <div key={i} className="flex items-center justify-between py-3 border-b border-border/20">
+          <div
+            key={i}
+            className="flex items-center justify-between py-3 border-b border-border/20"
+          >
             <div className="flex items-center gap-3">
               <Skeleton className="h-8 w-8 rounded-lg bg-muted/30" />
               <div className="space-y-1.5">

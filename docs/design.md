@@ -1,14 +1,16 @@
 # 🛡️ GoVPN (HideSSH) Enterprise Frontend Architecture & Design System Specification
+
 **Project:** GoVPN / HideSSH Web Client  
 **Target Path:** `G:\WEB2026\fontgovpn`  
 **API Specification Source:** `G:\WEB2026\postman-govpn` (388 Modern Endpoints / 12 Modules)  
 **Architectural Baseline:** `G:\WEB2026\fontwahide\doc\frontend-architecture-guidelines.md`  
 **Design & Domain Identity Reference:** `G:\WEB2026\fontend\docs\ENTERPRISE_PRODUCT_DESIGN_BRIEF.md`  
-**Version:** 2.0 (Next.js 16 App Router, React 19, Bun 1.4, Tailwind CSS v4, Turbopack)  
+**Version:** 2.0 (Next.js 16 App Router, React 19, Bun 1.4, Tailwind CSS v4, Turbopack)
 
 ---
 
 ## 📑 Daftar Isi
+
 1. [Ringkasan Eksekutif & Filosofi Desain](#1-ringkasan-eksekutif--filosofi-desain)
 2. [Keputusan Arsitektur: Rebuild vs Fork vs Selective Extraction](#2-keputusan-arsitektur-rebuild-vs-fork-vs-selective-extraction)
 3. [Tech Stack & Runtime Specifications](#3-tech-stack--runtime-specifications)
@@ -48,45 +50,47 @@ Aplikasi **GoVPN (HideSSH)** adalah antarmuka web enterprise untuk platform peny
 ## 2. Keputusan Arsitektur: Rebuild vs Fork vs Selective Extraction
 
 Berdasarkan audit mendalam terhadap:
+
 - `G:\WEB2026\postman-govpn` (388 modern endpoints teruji TDD 100%)
 - `G:\WEB2026\fontwahide` (Next.js 16 + React 19 + Tailwind v4 + Bun)
 - `G:\WEB2026\fontend` (Nuxt 3 / Vue 3 legacy code)
 
 ### Analisis 3 Opsi Utama:
 
-| Metrik Evaluasi | Opsi A: Buat Ulang dari Nol (Scratch) | Opsi B: Fork/Salin Penuh `fontwahide` | Opsi C: Selective Enterprise Extraction (Rekomendasi CTO) |
-| :--- | :--- | :--- | :--- |
-| **Kecepatan Setup (TTM)** | ⚠️ Sangat Lambat (2–4 Minggu) | ⚡ Instan (1 Hari) | 🚀 Cepat & Terukur (1–2 Hari) |
-| **Kualitas Pondasi (Foundation)** | Rentan bug baru (FOUC, SSR cookie mismatch) | ✅ Sangat Matang | ✅ Sangat Matang (Teruji di Wahide) |
-| **Technical Debt & Dead Code** | Rendah | ❌ Ekstrem (Tercampur kode WhatsApp) | 🟢 Nol (Clean Domain) |
-| **Kesesuaian Desain Merek** | Perlu dibuat manual | Perlu diganti dari Wise Green | Dikonfigurasi langsung ke Cobalt Blue |
-| **Kesesuaian Kontrak Backend** | Perlu dibuat dari awal | Menggunakan envelope Go yang sama | Langsung sinkron dengan `backendv2` |
+| Metrik Evaluasi                   | Opsi A: Buat Ulang dari Nol (Scratch)       | Opsi B: Fork/Salin Penuh `fontwahide` | Opsi C: Selective Enterprise Extraction (Rekomendasi CTO) |
+| :-------------------------------- | :------------------------------------------ | :------------------------------------ | :-------------------------------------------------------- |
+| **Kecepatan Setup (TTM)**         | ⚠️ Sangat Lambat (2–4 Minggu)               | ⚡ Instan (1 Hari)                    | 🚀 Cepat & Terukur (1–2 Hari)                             |
+| **Kualitas Pondasi (Foundation)** | Rentan bug baru (FOUC, SSR cookie mismatch) | ✅ Sangat Matang                      | ✅ Sangat Matang (Teruji di Wahide)                       |
+| **Technical Debt & Dead Code**    | Rendah                                      | ❌ Ekstrem (Tercampur kode WhatsApp)  | 🟢 Nol (Clean Domain)                                     |
+| **Kesesuaian Desain Merek**       | Perlu dibuat manual                         | Perlu diganti dari Wise Green         | Dikonfigurasi langsung ke Cobalt Blue                     |
+| **Kesesuaian Kontrak Backend**    | Perlu dibuat dari awal                      | Menggunakan envelope Go yang sama     | Langsung sinkron dengan `backendv2`                       |
 
 > [!IMPORTANT]
-> **Keputusan Resmi (CTO Verdict): Gunakan Opsi C (Selective Enterprise Extraction).**  
-> - **Jangan Fork Blindly:** `fontwahide` memiliki 15 modul WhatsApp (spintax, pairing QR WhatsApp, kontak, form dinamis) yang sama sekali tidak relevan dengan VPN. Menyalin utuh akan mencemari codebase dengan dead code dan membingungkan developer.  
-> - **Jangan Buat dari Nol:** Mengonfigurasi ulang Next.js 16 Edge proxy, Tailwind v4 tokens, 26 komponen Shadcn, HTTP client dengan auto-refresh cookie, dan Sonner toast akan membuang waktu dan berisiko memunculkan bug edge-cases.  
+> **Keputusan Resmi (CTO Verdict): Gunakan Opsi C (Selective Enterprise Extraction).**
+>
+> - **Jangan Fork Blindly:** `fontwahide` memiliki 15 modul WhatsApp (spintax, pairing QR WhatsApp, kontak, form dinamis) yang sama sekali tidak relevan dengan VPN. Menyalin utuh akan mencemari codebase dengan dead code dan membingungkan developer.
+> - **Jangan Buat dari Nol:** Mengonfigurasi ulang Next.js 16 Edge proxy, Tailwind v4 tokens, 26 komponen Shadcn, HTTP client dengan auto-refresh cookie, dan Sonner toast akan membuang waktu dan berisiko memunculkan bug edge-cases.
 > - **Posisi `fontend` (Vue 3/Nuxt 3):** `fontend` TIDAK BISA disalin ke Next.js karena perbedaan framework. Namun, `fontend` adalah **acuan bisnis & UI/UX terbaik** (daftar form protokol, logika parameter VPN, dan design token di `fontend/docs/ENTERPRISE_PRODUCT_DESIGN_BRIEF.md`).
 
 ---
 
 ## 3. Tech Stack & Runtime Specifications
 
-| Komponen | Spesifikasi & Versi | Peran & Rationale |
-| :--- | :--- | :--- |
-| **Runtime Engine** | **Bun** `bun@1.4.0` | Eksekutor ultra-cepat, instalasi paket deterministik via `bun.lock`. |
-| **Web Framework** | **Next.js 16** (`16.3.3`) | App Router, Server Actions, Streaming SSR, Turbopack engine (`--turbopack`). |
-| **Core UI Library** | **React 19** (`19.2.8`) | React Server Components (RSC) by default, Leaf Client Components (`"use client"`). |
-| **Styling Engine** | **Tailwind CSS v4** (`@tailwindcss/postcss@^4`) | CSS Variables, `@theme inline`, zero config overhead, instant build. |
-| **Theme System** | **next-themes** (`^0.4.6`) | Dark mode by default (`class="dark"`), zero flash flicker. |
-| **UI Primitives** | **Base UI** (`@base-ui/react`) & **shadcn/ui** | Headless, accessible dialogs, dropdowns, tabs, sheets, popovers. |
-| **Iconography** | **lucide-react** (`^1.37.0`) | Konsisten, tree-shaken, ukuran standar (`size-3.5`, `size-4`, `size-5`). |
-| **State Management** | **Zustand 5** (`^5.0.15`) | Session store, cart/order store, UI ephemeral state. |
-| **Data Fetching** | **Custom HTTP Client** + TanStack Patterns | In-flight deduplication, auto-retry exponential backoff, cookie auth. |
-| **Virtualization** | **@tanstack/react-virtual** (`^3.14.10`) | Render tabel 10.000+ baris akun/log VPN dengan performa 60 FPS. |
-| **Schema Validation** | **Zod 4** (`zod@^4.5.4`) | Sinkronisasi kontrak DTO backend Go & validasi form input. |
-| **Notifications** | **Sonner** (`sonner@^2.0.8`) | Toast interaktif toast.success, toast.error, toast.promise. |
-| **Anti-Bot / Security** | **@marsidev/react-turnstile** (`^1.6.1`) | Cloudflare Turnstile CAPTCHA untuk registrasi, login, dan order VPN. |
+| Komponen                | Spesifikasi & Versi                             | Peran & Rationale                                                                  |
+| :---------------------- | :---------------------------------------------- | :--------------------------------------------------------------------------------- |
+| **Runtime Engine**      | **Bun** `bun@1.4.0`                             | Eksekutor ultra-cepat, instalasi paket deterministik via `bun.lock`.               |
+| **Web Framework**       | **Next.js 16** (`16.3.3`)                       | App Router, Server Actions, Streaming SSR, Turbopack engine (`--turbopack`).       |
+| **Core UI Library**     | **React 19** (`19.2.8`)                         | React Server Components (RSC) by default, Leaf Client Components (`"use client"`). |
+| **Styling Engine**      | **Tailwind CSS v4** (`@tailwindcss/postcss@^4`) | CSS Variables, `@theme inline`, zero config overhead, instant build.               |
+| **Theme System**        | **next-themes** (`^0.4.6`)                      | Dark mode by default (`class="dark"`), zero flash flicker.                         |
+| **UI Primitives**       | **Base UI** (`@base-ui/react`) & **shadcn/ui**  | Headless, accessible dialogs, dropdowns, tabs, sheets, popovers.                   |
+| **Iconography**         | **lucide-react** (`^1.37.0`)                    | Konsisten, tree-shaken, ukuran standar (`size-3.5`, `size-4`, `size-5`).           |
+| **State Management**    | **Zustand 5** (`^5.0.15`)                       | Session store, cart/order store, UI ephemeral state.                               |
+| **Data Fetching**       | **Custom HTTP Client** + TanStack Patterns      | In-flight deduplication, auto-retry exponential backoff, cookie auth.              |
+| **Virtualization**      | **@tanstack/react-virtual** (`^3.14.10`)        | Render tabel 10.000+ baris akun/log VPN dengan performa 60 FPS.                    |
+| **Schema Validation**   | **Zod 4** (`zod@^4.5.4`)                        | Sinkronisasi kontrak DTO backend Go & validasi form input.                         |
+| **Notifications**       | **Sonner** (`sonner@^2.0.8`)                    | Toast interaktif toast.success, toast.error, toast.promise.                        |
+| **Anti-Bot / Security** | **@marsidev/react-turnstile** (`^1.6.1`)        | Cloudflare Turnstile CAPTCHA untuk registrasi, login, dan order VPN.               |
 
 ---
 
@@ -115,8 +119,8 @@ GoVPN mengusung identitas visual **Cyber-Tactical Elegance & High-Assurance Infr
   --color-popover-foreground: var(--popover-foreground);
 
   /* Brand Tactical Cobalt Colors */
-  --color-primary: #2563eb;          /* Cobalt Blue CTA & Active Items */
-  --color-primary-hover: #1d4ed8;    /* Deep Cobalt Hover */
+  --color-primary: #2563eb; /* Cobalt Blue CTA & Active Items */
+  --color-primary-hover: #1d4ed8; /* Deep Cobalt Hover */
   --color-primary-glow: rgba(37, 99, 235, 0.2);
   --color-primary-foreground: #ffffff;
 
@@ -126,14 +130,16 @@ GoVPN mengusung identitas visual **Cyber-Tactical Elegance & High-Assurance Infr
   --color-ring: #2563eb;
 
   /* Status Semantics */
-  --color-success: #10b981;          /* Active VPN, Online Server, Paid Invoice */
-  --color-warning: #f59e0b;          /* Expiring Soon (<3 Days), Pending Topup */
-  --color-destructive: #ef4444;      /* Expired Account, Node Offline, Failed */
-  --color-info: #06b6d4;             /* System Notices, Cloudflare Telemetry */
+  --color-success: #10b981; /* Active VPN, Online Server, Paid Invoice */
+  --color-warning: #f59e0b; /* Expiring Soon (<3 Days), Pending Topup */
+  --color-destructive: #ef4444; /* Expired Account, Node Offline, Failed */
+  --color-info: #06b6d4; /* System Notices, Cloudflare Telemetry */
 
   /* Typography Fonts */
-  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+  --font-sans:
+    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono:
+    "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
 
   /* Radius Scale */
   --radius-sm: 8px;
@@ -144,12 +150,13 @@ GoVPN mengusung identitas visual **Cyber-Tactical Elegance & High-Assurance Infr
 }
 
 /* Dark Mode (Default Canvas) */
-:root, .dark {
-  --background: #09090b;             /* Zinc 950 Deep Canvas */
-  --foreground: #f8fafc;             /* Slate 50 Crisp High-Contrast */
-  --surface: #121215;                /* Elevated Canvas */
-  --surface-subtle: #18181b;         /* Zinc 900 */
-  --card: #141417;                   /* Card Background */
+:root,
+.dark {
+  --background: #09090b; /* Zinc 950 Deep Canvas */
+  --foreground: #f8fafc; /* Slate 50 Crisp High-Contrast */
+  --surface: #121215; /* Elevated Canvas */
+  --surface-subtle: #18181b; /* Zinc 900 */
+  --card: #141417; /* Card Background */
   --card-foreground: #f8fafc;
   --popover: #141417;
   --popover-foreground: #f8fafc;
@@ -177,6 +184,7 @@ GoVPN mengusung identitas visual **Cyber-Tactical Elegance & High-Assurance Infr
 ```
 
 ### B. Aturan Tipografi
+
 - **UI & Navigasi:** Font `'Inter'` dengan modular major third scale.
 - **Data Teknis:** Font `'JetBrains Mono'` (`font-mono`) untuk IP Address, Port, UUID VMess, Trojan Password, Public Key WireGuard, Cron Syntax, dan Base64 payloads.
 
@@ -312,7 +320,8 @@ src/modules/<domain>/
     └── admin/Admin<Domain>View.tsx     # Assembled view untuk rute admin
 ```
 
-### Empat Hukum Emas Pola C (*The 4 Golden Rules*):
+### Empat Hukum Emas Pola C (_The 4 Golden Rules_):
+
 1. **Downward Dependency Only:** Komponen `user/`, `seller/`, dan `admin/` boleh mengimpor dari `shared/`, namun komponen `shared/` **DILARANG KERAS** mengimpor dari `user/`, `seller/`, atau `admin/`.
 2. **No Cross-Role Imports:** Komponen `user/` tidak boleh mengimpor komponen dari `seller/` atau `admin/`, begitu juga sebaliknya.
 3. **Penyimpanan Komponen Bersama:** Jika suatu komponen atomik atau modal dibutuhkan oleh lebih dari satu role, komponen tersebut **WAJIB** berada di dalam subfolder `shared/`.
@@ -334,7 +343,9 @@ interface PageProps {
   params: Promise<{ protocol: string }>;
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
   const { protocol } = await params;
   return {
     title: `${protocol.toUpperCase()} Tunneling Accounts | GoVPN`,
@@ -358,6 +369,7 @@ export default async function VpnProtocolPage({ params }: PageProps) {
 ## 8. Edge Security, Zero-Trust Proxy & Auth Architecture
 
 ### A. Edge Route Protection (`src/proxy.ts`)
+
 Next.js 16 menggunakan konvensi `src/proxy.ts` yang berjalan di **Edge Runtime**. Ini mengeliminasi Flash of Unauthenticated Content (FOUC) dengan memeriksa status sesi dalam `0ms` sebelum HTML di-render ke browser.
 
 ```ts
@@ -443,6 +455,7 @@ export const config = {
 ```
 
 ### B. Sinkronisasi Cookie & Token
+
 - Backend Go `backendv2` mengatur cookie sesi bernama `hide-jwt`.
 - Frontend menyimpan status presentasi non-sensitif (`username`, `role`, `balance`) pada Zustand store `useAuthStore`.
 - Penghapusan sesi (`logout`) wajib membersihkan `hide-jwt`, `govpn_session_token`, dan `govpn_user_role` dengan flag `Expires=1970` dan `Max-Age=0`.
@@ -477,6 +490,7 @@ export interface ApiResponse<T = unknown> {
 ```
 
 ### Fitur Utama HTTP Client:
+
 1. **Deduplikasi In-Flight:** Mencegah request ganda untuk GET query yang sama saat user mengklik tombol berkali-kali.
 2. **Auto-Retry dengan Exponential Jitter:** Menoleransi fluktuasi jaringan mikro pada endpoint GET.
 3. **Idempotency Key Injection:** Menjamin transaksi finansial (topup, create account) tidak ter-charge dua kali.
@@ -509,7 +523,9 @@ Berdasarkan `G:\WEB2026\postman-govpn` (OpenAPI 3.0), berikut adalah pemetaan le
 ```
 
 ### Rincian Modul VPN (`src/modules/vpn/`):
+
 Mendukung 6 protokol tunneling utama:
+
 1. **SSH:** Port Dropbear, OpenSSH, SSL/TLS, WebSocket CDN (Cloudflare & Fastly).
 2. **VMess:** WS, gRPC, TCP HTTP, UUID generation, auto-link `vmess://`.
 3. **VLess:** WS TLS, gRPC XTLS Reality, Flow control, auto-link `vless://`.
@@ -522,17 +538,22 @@ Mendukung 6 protokol tunneling utama:
 ## 11. Performa Tinggi, Virtualisasi DOM & Real-Time Streaming
 
 ### A. Virtualisasi Data Besar (`@tanstack/react-virtual`)
+
 Untuk tabel dengan ratusan riwayat akun atau log telemetri server:
+
 - Gunakan `useVirtualizer` untuk merender hanya elemen yang terlihat di viewport.
 - Mengurangi penggunaan memori DOM browser hingga 90%.
 
 ### B. 1-Click Copy & Quick Actions
+
 Komponen `<CopyButton text={configString} />` harus menyediakan:
+
 - Visual feedback ikon checklist hijau selama 2 detik.
-- Toast Sonner singkat: *"Konfigurasi VMess berhasil disalin!"*.
+- Toast Sonner singkat: _"Konfigurasi VMess berhasil disalin!"_.
 - Opsional: Modal QR Code untuk pemindaian instan via smartphone (v2rayNG, Clash, Shadowrocket).
 
 ### C. Server Latency SSE / WebSocket Polling
+
 - Tampilkan ping real-time server node dengan warna indikator:
   - `< 100ms`: Emerald Green (Sangat Baik / Direct)
   - `100ms - 250ms`: Amber Yellow (Stabil / Inter-Asia)
@@ -569,4 +590,5 @@ Semua developer manusia dan AI Agent yang bekerja pada repositori `fontgovpn` **
 ```
 
 ---
-*Dokumen ini disahkan oleh Senior Next.js Architect & CTO Programmer sebagai acuan resmi implementasi `G:\WEB2026\fontgovpn`.*
+
+_Dokumen ini disahkan oleh Senior Next.js Architect & CTO Programmer sebagai acuan resmi implementasi `G:\WEB2026\fontgovpn`._

@@ -211,7 +211,9 @@ export function useAiAdmin() {
       const res = await aiAdminApi.adjustWallet(dto);
       const updated = res.payload || res.data;
       if (updated) {
-        setWallets((prev) => prev.map((w) => (w.user_id === dto.user_id ? updated : w)));
+        setWallets((prev) =>
+          prev.map((w) => (w.user_id === dto.user_id ? updated : w)),
+        );
         return updated;
       }
     } catch {
@@ -219,8 +221,8 @@ export function useAiAdmin() {
         prev.map((w) =>
           String(w.user_id) === String(dto.user_id)
             ? { ...w, balance: Math.max(0, w.balance + dto.amount) }
-            : w
-        )
+            : w,
+        ),
       );
     }
   };

@@ -85,17 +85,20 @@ export function AdminRoleManager({
             Manajemen Peran &amp; Hak Akses (RBAC) ({roles.length})
           </h3>
           <p className="text-xs text-muted-foreground">
-            Definisikan hierarki akses kontrol sistem untuk User, Reseller, Finance, Support, dan Admin.
+            Definisikan hierarki akses kontrol sistem untuk User, Reseller,
+            Finance, Support, dan Admin.
           </p>
         </div>
 
         <Dialog open={open} onOpenChange={setOpen}>
-          <DialogTrigger render={
-            <Button className="bg-primary hover:bg-primary-hover text-white gap-2 font-semibold text-xs rounded-full min-h-9 px-5 shadow-sm">
-              <Plus className="h-4 w-4" />
-              Tambah Peran
-            </Button>
-          } />
+          <DialogTrigger
+            render={
+              <Button className="bg-primary hover:bg-primary-hover text-white gap-2 font-semibold text-xs rounded-full min-h-9 px-5 shadow-sm">
+                <Plus className="h-4 w-4" />
+                Tambah Peran
+              </Button>
+            }
+          />
           <DialogContent className="sm:max-w-md bg-card border-border/80 text-foreground rounded-2xl">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2 text-lg font-bold">
@@ -106,7 +109,10 @@ export function AdminRoleManager({
 
             <form onSubmit={handleCreate} className="space-y-4 pt-2">
               <div>
-                <Label htmlFor="role-name" className="text-xs font-medium text-muted-foreground">
+                <Label
+                  htmlFor="role-name"
+                  className="text-xs font-medium text-muted-foreground"
+                >
                   Nama Peran (Display Name)
                 </Label>
                 <Input
@@ -116,7 +122,9 @@ export function AdminRoleManager({
                   onChange={(e) => {
                     setName(e.target.value);
                     if (!slug) {
-                      setSlug(e.target.value.toLowerCase().replace(/\s+/g, "_"));
+                      setSlug(
+                        e.target.value.toLowerCase().replace(/\s+/g, "_"),
+                      );
                     }
                   }}
                   required
@@ -125,7 +133,10 @@ export function AdminRoleManager({
               </div>
 
               <div>
-                <Label htmlFor="role-slug" className="text-xs font-medium text-muted-foreground">
+                <Label
+                  htmlFor="role-slug"
+                  className="text-xs font-medium text-muted-foreground"
+                >
                   Identifier Slug (Uppercase/Snake Case)
                 </Label>
                 <Input
@@ -139,7 +150,10 @@ export function AdminRoleManager({
               </div>
 
               <div>
-                <Label htmlFor="role-desc" className="text-xs font-medium text-muted-foreground">
+                <Label
+                  htmlFor="role-desc"
+                  className="text-xs font-medium text-muted-foreground"
+                >
                   Deskripsi Hak Akses
                 </Label>
                 <Input
@@ -167,7 +181,8 @@ export function AdminRoleManager({
                 >
                   {isSubmitting ? (
                     <>
-                      <Loader2 className="mr-1.5 h-4 w-4 animate-spin" /> Menyimpan...
+                      <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />{" "}
+                      Menyimpan...
                     </>
                   ) : (
                     "Buat Peran"
@@ -194,16 +209,18 @@ export function AdminRoleManager({
                   <span className="text-[10px] font-mono font-bold text-muted-foreground bg-muted/40 px-2 py-0.5 rounded-full">
                     SISTEM
                   </span>
-                ) : onDeleteRole && (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    disabled={deletingId === r.id}
-                    onClick={() => handleDelete(r.id)}
-                    className="h-7 w-7 p-0 text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 rounded-full"
-                  >
-                    <Trash2 className="h-3.5 w-3.5" />
-                  </Button>
+                ) : (
+                  onDeleteRole && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      disabled={deletingId === r.id}
+                      onClick={() => handleDelete(r.id)}
+                      className="h-7 w-7 p-0 text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 rounded-full"
+                    >
+                      <Trash2 className="h-3.5 w-3.5" />
+                    </Button>
+                  )
                 )}
               </div>
 

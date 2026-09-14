@@ -8,14 +8,24 @@
 
 import React from "react";
 import { SystemHealthResponse } from "../../types/monitor.types";
-import { CheckCircle2, AlertTriangle, Database, Server, Cpu, ShieldCheck } from "lucide-react";
+import {
+  CheckCircle2,
+  AlertTriangle,
+  Database,
+  Server,
+  Cpu,
+  ShieldCheck,
+} from "lucide-react";
 
 interface SystemHealthBannerProps {
   health?: SystemHealthResponse | null;
   loading?: boolean;
 }
 
-export function SystemHealthBanner({ health, loading }: SystemHealthBannerProps) {
+export function SystemHealthBanner({
+  health,
+  loading,
+}: SystemHealthBannerProps) {
   if (loading || !health) return null;
 
   const isAllHealthy =
@@ -58,7 +68,11 @@ export function SystemHealthBanner({ health, loading }: SystemHealthBannerProps)
           <div className="flex items-center gap-1 text-[11px] font-mono px-2.5 py-1 rounded-lg bg-card/60 border border-border">
             <Database className="h-3 w-3 text-primary" />
             <span className="text-muted-foreground font-sans">Database:</span>
-            <span className={health.services.database ? "text-emerald-400" : "text-rose-400"}>
+            <span
+              className={
+                health.services.database ? "text-emerald-400" : "text-rose-400"
+              }
+            >
               {health.services.database ? "OK" : "ERR"}
             </span>
           </div>
@@ -66,7 +80,11 @@ export function SystemHealthBanner({ health, loading }: SystemHealthBannerProps)
           <div className="flex items-center gap-1 text-[11px] font-mono px-2.5 py-1 rounded-lg bg-card/60 border border-border">
             <Server className="h-3 w-3 text-rose-400" />
             <span className="text-muted-foreground font-sans">Redis:</span>
-            <span className={health.services.redis ? "text-emerald-400" : "text-rose-400"}>
+            <span
+              className={
+                health.services.redis ? "text-emerald-400" : "text-rose-400"
+              }
+            >
               {health.services.redis ? "OK" : "ERR"}
             </span>
           </div>
@@ -74,7 +92,13 @@ export function SystemHealthBanner({ health, loading }: SystemHealthBannerProps)
           <div className="flex items-center gap-1 text-[11px] font-mono px-2.5 py-1 rounded-lg bg-card/60 border border-border">
             <Cpu className="h-3 w-3 text-blue-400" />
             <span className="text-muted-foreground font-sans">K8s:</span>
-            <span className={health.services.kubernetes ? "text-emerald-400" : "text-rose-400"}>
+            <span
+              className={
+                health.services.kubernetes
+                  ? "text-emerald-400"
+                  : "text-rose-400"
+              }
+            >
               {health.services.kubernetes ? "OK" : "ERR"}
             </span>
           </div>
@@ -82,7 +106,13 @@ export function SystemHealthBanner({ health, loading }: SystemHealthBannerProps)
           <div className="flex items-center gap-1 text-[11px] font-mono px-2.5 py-1 rounded-lg bg-card/60 border border-border">
             <ShieldCheck className="h-3 w-3 text-amber-400" />
             <span className="text-muted-foreground font-sans">VPN Engine:</span>
-            <span className={health.services.vpn_engine ? "text-emerald-400" : "text-rose-400"}>
+            <span
+              className={
+                health.services.vpn_engine
+                  ? "text-emerald-400"
+                  : "text-rose-400"
+              }
+            >
               {health.services.vpn_engine ? "OK" : "ERR"}
             </span>
           </div>

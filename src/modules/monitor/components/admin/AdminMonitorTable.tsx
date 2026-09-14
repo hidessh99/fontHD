@@ -14,7 +14,15 @@ import { CreateMonitorModal } from "./CreateMonitorModal";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/shared/EmptyState";
-import { Activity, Trash2, RefreshCw, Sparkles, Loader2, Clock, Globe } from "lucide-react";
+import {
+  Activity,
+  Trash2,
+  RefreshCw,
+  Sparkles,
+  Loader2,
+  Clock,
+  Globe,
+} from "lucide-react";
 import { toast } from "sonner";
 
 interface AdminMonitorTableProps {
@@ -39,7 +47,8 @@ export function AdminMonitorTable({
   const [checking, setChecking] = useState(false);
 
   const handleDelete = async (id: string | number) => {
-    if (!confirm("Hapus target monitor ini? Riwayat telemetri akan dihapus.")) return;
+    if (!confirm("Hapus target monitor ini? Riwayat telemetri akan dihapus."))
+      return;
     setDeletingId(id);
     try {
       await onDeleteMonitor(id);
@@ -54,7 +63,9 @@ export function AdminMonitorTable({
     setSyncing(true);
     try {
       const res = await onSyncServers();
-      toast.success(`Sinkronisasi Sukses: ${res?.synced_count ?? 0} node VPN disinkronkan ke monitor`);
+      toast.success(
+        `Sinkronisasi Sukses: ${res?.synced_count ?? 0} node VPN disinkronkan ke monitor`,
+      );
     } catch {
       toast.error("Gagal menjalankan sinkronisasi server");
     } finally {
@@ -67,7 +78,9 @@ export function AdminMonitorTable({
     setChecking(true);
     try {
       const res = await onCheckUptime();
-      toast.success(`Pengecekan Uptime Sukses: ${res?.checked_count ?? 0} node diperiksa`);
+      toast.success(
+        `Pengecekan Uptime Sukses: ${res?.checked_count ?? 0} node diperiksa`,
+      );
     } catch {
       toast.error("Gagal menjalankan pengecekan uptime");
     } finally {
@@ -85,7 +98,8 @@ export function AdminMonitorTable({
             Target Telemetri & Health Checks
           </h3>
           <p className="text-xs text-muted-foreground mt-0.5">
-            Daftar target node VPN yang dipantau latensi dan status ketersediaannya secara real-time
+            Daftar target node VPN yang dipantau latensi dan status
+            ketersediaannya secara real-time
           </p>
         </div>
 
@@ -151,7 +165,10 @@ export function AdminMonitorTable({
             </thead>
             <tbody className="divide-y border-border/40 text-xs">
               {monitors.map((target) => (
-                <tr key={target.id} className="hover:bg-muted/20 transition-colors">
+                <tr
+                  key={target.id}
+                  className="hover:bg-muted/20 transition-colors"
+                >
                   <td className="px-5 py-3.5">
                     <NodeStatusBadge status={target.status} />
                   </td>
@@ -162,7 +179,9 @@ export function AdminMonitorTable({
                         <Globe className="h-3.5 w-3.5" />
                       </div>
                       <div className="flex flex-col">
-                        <span className="font-bold text-foreground">{target.name}</span>
+                        <span className="font-bold text-foreground">
+                          {target.name}
+                        </span>
                         <span className="text-[10px] text-muted-foreground font-mono">
                           ID: #{target.id}
                         </span>
@@ -178,7 +197,10 @@ export function AdminMonitorTable({
                   </td>
 
                   <td className="px-5 py-3.5">
-                    <Badge variant="outline" className="border-border bg-card text-foreground font-mono text-[11px]">
+                    <Badge
+                      variant="outline"
+                      className="border-border bg-card text-foreground font-mono text-[11px]"
+                    >
                       {target.protocol}
                     </Badge>
                   </td>
@@ -200,10 +222,16 @@ export function AdminMonitorTable({
                     {target.last_check_at ? (
                       <div className="flex items-center gap-1 font-mono text-[11px]">
                         <Clock className="h-3 w-3" />
-                        <span>{new Date(target.last_check_at).toLocaleTimeString("id-ID")}</span>
+                        <span>
+                          {new Date(target.last_check_at).toLocaleTimeString(
+                            "id-ID",
+                          )}
+                        </span>
                       </div>
                     ) : (
-                      <span className="text-[11px] text-muted-foreground">Belum diperiksa</span>
+                      <span className="text-[11px] text-muted-foreground">
+                        Belum diperiksa
+                      </span>
                     )}
                   </td>
 

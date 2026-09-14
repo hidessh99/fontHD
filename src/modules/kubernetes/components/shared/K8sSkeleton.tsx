@@ -35,7 +35,10 @@ export function K8sSkeleton() {
       {/* 4 App Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {[...Array(4)].map((_, i) => (
-          <Card key={i} className="border-border/80 bg-card/60 rounded-2xl p-5 space-y-4">
+          <Card
+            key={i}
+            className="border-border/80 bg-card/60 rounded-2xl p-5 space-y-4"
+          >
             <div className="flex items-start justify-between">
               <div className="space-y-1.5">
                 <Skeleton className="h-5 w-44 rounded-md" />

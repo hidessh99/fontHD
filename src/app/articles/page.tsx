@@ -10,14 +10,15 @@ import { ContentSkeleton } from "@/modules/content/components/shared/ContentSkel
 
 export const metadata: Metadata = {
   title: "Pusat Pengetahuan & Panduan VPN | GoVPN Institutional",
-  description: "Tutorial teknis tunneling, optimalisasi protokol V2Ray & Trojan, dan panduan keamanan",
+  description:
+    "Tutorial teknis tunneling, optimalisasi protokol V2Ray & Trojan, dan panduan keamanan",
 };
 
 const DynamicArticlesView = dynamic(
   () => import("@/modules/content").then((mod) => mod.ArticlesView),
   {
     loading: () => <ContentSkeleton />,
-  }
+  },
 );
 
 export default function ArticlesPage() {

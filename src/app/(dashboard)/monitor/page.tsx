@@ -10,14 +10,15 @@ import { MonitorSkeleton } from "@/modules/monitor/components/shared/MonitorSkel
 
 export const metadata: Metadata = {
   title: "Telemetri Server & Monitoring | GoVPN Institutional",
-  description: "Status latensi, beban CPU, pemakaian RAM, dan kesehatan node server GoVPN",
+  description:
+    "Status latensi, beban CPU, pemakaian RAM, dan kesehatan node server GoVPN",
 };
 
 const DynamicServersMonitorView = dynamic(
   () => import("@/modules/monitor").then((mod) => mod.ServersMonitorView),
   {
     loading: () => <MonitorSkeleton />,
-  }
+  },
 );
 
 export default function MonitorPage() {

@@ -24,7 +24,9 @@ interface ForgotPasswordModalProps {
   onSubmitForgot: (email: string) => Promise<unknown>;
 }
 
-export function ForgotPasswordModal({ onSubmitForgot }: ForgotPasswordModalProps) {
+export function ForgotPasswordModal({
+  onSubmitForgot,
+}: ForgotPasswordModalProps) {
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -48,14 +50,16 @@ export function ForgotPasswordModal({ onSubmitForgot }: ForgotPasswordModalProps
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger render={
-        <button
-          type="button"
-          className="text-xs text-primary hover:underline font-mono font-medium"
-        >
-          Lupa Kata Sandi?
-        </button>
-      } />
+      <DialogTrigger
+        render={
+          <button
+            type="button"
+            className="text-xs text-primary hover:underline font-mono font-medium"
+          >
+            Lupa Kata Sandi?
+          </button>
+        }
+      />
 
       <DialogContent className="sm:max-w-md bg-card border-border/80 text-foreground rounded-2xl">
         <DialogHeader>
@@ -67,11 +71,15 @@ export function ForgotPasswordModal({ onSubmitForgot }: ForgotPasswordModalProps
 
         <form onSubmit={handleSubmit} className="space-y-4 pt-2">
           <p className="text-xs text-muted-foreground leading-relaxed">
-            Masukkan alamat email yang terdaftar pada akun GoVPN Anda. Kami akan mengirimkan tautan aman untuk membuat kata sandi baru.
+            Masukkan alamat email yang terdaftar pada akun GoVPN Anda. Kami akan
+            mengirimkan tautan aman untuk membuat kata sandi baru.
           </p>
 
           <div>
-            <Label htmlFor="forgot-email" className="text-xs font-medium text-muted-foreground">
+            <Label
+              htmlFor="forgot-email"
+              className="text-xs font-medium text-muted-foreground"
+            >
               Alamat Email Terdaftar
             </Label>
             <div className="relative mt-1.5">
@@ -104,7 +112,8 @@ export function ForgotPasswordModal({ onSubmitForgot }: ForgotPasswordModalProps
             >
               {isSubmitting ? (
                 <>
-                  <Loader2 className="mr-1.5 h-4 w-4 animate-spin" /> Mengirim...
+                  <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />{" "}
+                  Mengirim...
                 </>
               ) : (
                 "Kirim Tautan Reset"

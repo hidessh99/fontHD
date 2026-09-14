@@ -7,7 +7,15 @@
 "use client";
 
 import React, { useState } from "react";
-import { Server, Calendar, QrCode, RefreshCw, Trash2, PauseCircle, PlayCircle } from "lucide-react";
+import {
+  Server,
+  Calendar,
+  QrCode,
+  RefreshCw,
+  Trash2,
+  PauseCircle,
+  PlayCircle,
+} from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ProtocolBadge } from "@/components/shared/ProtocolBadge";
@@ -33,8 +41,12 @@ export function VpnAccountCard({
   const [qrOpen, setQrOpen] = useState(false);
   const [isPending, setIsPending] = useState(false);
 
-  const optimisticPauseAccount = useVpnUserStore((s) => s.optimisticPauseAccount);
-  const optimisticResumeAccount = useVpnUserStore((s) => s.optimisticResumeAccount);
+  const optimisticPauseAccount = useVpnUserStore(
+    (s) => s.optimisticPauseAccount,
+  );
+  const optimisticResumeAccount = useVpnUserStore(
+    (s) => s.optimisticResumeAccount,
+  );
 
   const configString =
     account.config_url ||
@@ -76,7 +88,11 @@ export function VpnAccountCard({
               </CardTitle>
               <div className="flex items-center gap-1.5 text-xs text-muted-foreground mt-0.5">
                 <Server className="size-3" />
-                <span>{account.server_name || account.server_host || `Server #${account.server_id}`}</span>
+                <span>
+                  {account.server_name ||
+                    account.server_host ||
+                    `Server #${account.server_id}`}
+                </span>
               </div>
             </div>
           </div>
@@ -87,17 +103,27 @@ export function VpnAccountCard({
           {/* Metadata Grid */}
           <div className="grid grid-cols-2 gap-2 text-xs font-mono p-2.5 rounded-xl bg-surface border border-border/60">
             <div>
-              <span className="text-[10px] text-muted-foreground uppercase block">Host / Server</span>
-              <span className="font-semibold truncate block">{account.server_host || "vpn.hidessh.com"}</span>
+              <span className="text-[10px] text-muted-foreground uppercase block">
+                Host / Server
+              </span>
+              <span className="font-semibold truncate block">
+                {account.server_host || "vpn.hidessh.com"}
+              </span>
             </div>
             <div>
-              <span className="text-[10px] text-muted-foreground uppercase block">Port</span>
+              <span className="text-[10px] text-muted-foreground uppercase block">
+                Port
+              </span>
               <span className="font-semibold block">{account.port || 443}</span>
             </div>
             {account.uuid && (
               <div className="col-span-2">
-                <span className="text-[10px] text-muted-foreground uppercase block">UUID</span>
-                <span className="text-[11px] truncate block text-primary">{account.uuid}</span>
+                <span className="text-[10px] text-muted-foreground uppercase block">
+                  UUID
+                </span>
+                <span className="text-[11px] truncate block text-primary">
+                  {account.uuid}
+                </span>
               </div>
             )}
             <div className="col-span-2 flex items-center justify-between border-t border-border/40 pt-1.5 mt-0.5">
@@ -137,7 +163,9 @@ export function VpnAccountCard({
                   disabled={isPending}
                   onClick={handleTogglePayas}
                   className="h-8 px-2.5 text-xs font-mono rounded-full"
-                  title={isPaused ? "Lanjutkan Billing Akun" : "Jeda Akun Sementara"}
+                  title={
+                    isPaused ? "Lanjutkan Billing Akun" : "Jeda Akun Sementara"
+                  }
                 >
                   {isPaused ? (
                     <PlayCircle className="size-3.5 text-emerald-400" />

@@ -16,7 +16,14 @@ import { K8sEnvEditorModal } from "../../components/user/K8sEnvEditorModal";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Rocket, Server, Cpu, HardDrive, Search, RefreshCw } from "lucide-react";
+import {
+  Rocket,
+  Server,
+  Cpu,
+  HardDrive,
+  Search,
+  RefreshCw,
+} from "lucide-react";
 import { EmptyState } from "@/components/shared/EmptyState";
 
 export function K8sAppsView() {
@@ -44,8 +51,13 @@ export function K8sAppsView() {
   const [envOpen, setEnvOpen] = useState(false);
 
   const runningCount = allApps.filter((a) => a.status === "RUNNING").length;
-  const totalCores = allApps.reduce((sum, a) => sum + (a.spec?.cpu_cores || 1), 0);
-  const totalRamGb = (allApps.reduce((sum, a) => sum + (a.spec?.ram_mb || 1024), 0) / 1024).toFixed(1);
+  const totalCores = allApps.reduce(
+    (sum, a) => sum + (a.spec?.cpu_cores || 1),
+    0,
+  );
+  const totalRamGb = (
+    allApps.reduce((sum, a) => sum + (a.spec?.ram_mb || 1024), 0) / 1024
+  ).toFixed(1);
 
   return (
     <div className="space-y-6 pb-12">
@@ -54,7 +66,9 @@ export function K8sAppsView() {
         <Card className="border-border/80 bg-card/60 backdrop-blur-sm p-4 rounded-2xl shadow-sm">
           <CardContent className="p-0 flex items-center justify-between">
             <div>
-              <span className="text-xs text-muted-foreground font-medium">Aplikasi Aktif (Pods)</span>
+              <span className="text-xs text-muted-foreground font-medium">
+                Aplikasi Aktif (Pods)
+              </span>
               <div className="font-mono text-2xl font-bold text-foreground mt-1">
                 {runningCount} / {allApps.length} Pods
               </div>
@@ -68,7 +82,9 @@ export function K8sAppsView() {
         <Card className="border-border/80 bg-card/60 backdrop-blur-sm p-4 rounded-2xl shadow-sm">
           <CardContent className="p-0 flex items-center justify-between">
             <div>
-              <span className="text-xs text-muted-foreground font-medium">Total Alokasi vCPU</span>
+              <span className="text-xs text-muted-foreground font-medium">
+                Total Alokasi vCPU
+              </span>
               <div className="font-mono text-2xl font-bold text-emerald-400 mt-1">
                 {totalCores} Cores
               </div>
@@ -82,7 +98,9 @@ export function K8sAppsView() {
         <Card className="border-border/80 bg-card/60 backdrop-blur-sm p-4 rounded-2xl shadow-sm">
           <CardContent className="p-0 flex items-center justify-between">
             <div>
-              <span className="text-xs text-muted-foreground font-medium">Total Alokasi Memori</span>
+              <span className="text-xs text-muted-foreground font-medium">
+                Total Alokasi Memori
+              </span>
               <div className="font-mono text-2xl font-bold text-primary mt-1">
                 {totalRamGb} GB
               </div>
@@ -132,7 +150,9 @@ export function K8sAppsView() {
             disabled={loading}
             className="border-border bg-card/60 hover:bg-muted text-foreground gap-2 h-10 px-3.5 text-xs rounded-xl shadow-sm"
           >
-            <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`} />
+            <RefreshCw
+              className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`}
+            />
             Segarkan
           </Button>
 

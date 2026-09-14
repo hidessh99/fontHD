@@ -18,7 +18,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { UserWithdrawalRequestDto } from "../../types/user.types";
-import { ArrowUpRight, Building2, CreditCard, Loader2, User } from "lucide-react";
+import {
+  ArrowUpRight,
+  Building2,
+  CreditCard,
+  Loader2,
+  User,
+} from "lucide-react";
 import { toast } from "sonner";
 
 interface UserWithdrawalModalProps {
@@ -27,7 +33,17 @@ interface UserWithdrawalModalProps {
   triggerButton?: React.ReactNode;
 }
 
-const POPULAR_BANKS = ["BCA", "MANDIRI", "BRI", "BNI", "BSI", "SEABANK", "DANA", "GOPAY", "OVO"];
+const POPULAR_BANKS = [
+  "BCA",
+  "MANDIRI",
+  "BRI",
+  "BNI",
+  "BSI",
+  "SEABANK",
+  "DANA",
+  "GOPAY",
+  "OVO",
+];
 
 export function UserWithdrawalModal({
   availableBalance,
@@ -91,19 +107,21 @@ export function UserWithdrawalModal({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger render={
-        triggerButton ? (
-          (triggerButton as React.ReactElement)
-        ) : (
-          <Button
-            variant="outline"
-            className="border-border/80 hover:bg-muted/30 text-foreground gap-2 font-semibold text-xs rounded-full min-h-11 px-5"
-          >
-            <ArrowUpRight className="h-4 w-4 text-primary" />
-            Tarik Saldo
-          </Button>
-        )
-      } />
+      <DialogTrigger
+        render={
+          triggerButton ? (
+            (triggerButton as React.ReactElement)
+          ) : (
+            <Button
+              variant="outline"
+              className="border-border/80 hover:bg-muted/30 text-foreground gap-2 font-semibold text-xs rounded-full min-h-11 px-5"
+            >
+              <ArrowUpRight className="h-4 w-4 text-primary" />
+              Tarik Saldo
+            </Button>
+          )
+        }
+      />
 
       <DialogContent className="sm:max-w-md bg-card border-border/80 text-foreground rounded-2xl">
         <DialogHeader>
@@ -117,12 +135,17 @@ export function UserWithdrawalModal({
           {/* Available balance indicator */}
           <div className="rounded-xl bg-surface border border-border/60 p-3 flex items-center justify-between font-mono text-xs">
             <span className="text-muted-foreground">Saldo Dapat Ditarik:</span>
-            <span className="font-bold text-emerald-400">{formatIDR(availableBalance)}</span>
+            <span className="font-bold text-emerald-400">
+              {formatIDR(availableBalance)}
+            </span>
           </div>
 
           {/* Amount input */}
           <div>
-            <Label htmlFor="with-amount" className="text-xs font-medium text-muted-foreground">
+            <Label
+              htmlFor="with-amount"
+              className="text-xs font-medium text-muted-foreground"
+            >
               Nominal Penarikan (Min. Rp 50.000)
             </Label>
             <div className="relative mt-1.5">
@@ -142,7 +165,9 @@ export function UserWithdrawalModal({
 
           {/* Bank selector */}
           <div>
-            <Label className="text-xs font-medium text-muted-foreground">Bank / E-Wallet Tujuan</Label>
+            <Label className="text-xs font-medium text-muted-foreground">
+              Bank / E-Wallet Tujuan
+            </Label>
             <div className="grid grid-cols-3 gap-2 mt-1.5">
               {POPULAR_BANKS.map((b) => (
                 <button
@@ -163,7 +188,10 @@ export function UserWithdrawalModal({
 
           {/* Account Number */}
           <div>
-            <Label htmlFor="with-acc-no" className="text-xs font-medium text-muted-foreground">
+            <Label
+              htmlFor="with-acc-no"
+              className="text-xs font-medium text-muted-foreground"
+            >
               Nomor Rekening / Nomor Ponsel E-Wallet
             </Label>
             <div className="relative mt-1.5">
@@ -180,7 +208,10 @@ export function UserWithdrawalModal({
 
           {/* Account Name */}
           <div>
-            <Label htmlFor="with-acc-name" className="text-xs font-medium text-muted-foreground">
+            <Label
+              htmlFor="with-acc-name"
+              className="text-xs font-medium text-muted-foreground"
+            >
               Nama Lengkap Pemilik Rekening
             </Label>
             <div className="relative mt-1.5">
@@ -197,7 +228,10 @@ export function UserWithdrawalModal({
 
           {/* Optional Notes */}
           <div>
-            <Label htmlFor="with-notes" className="text-xs font-medium text-muted-foreground">
+            <Label
+              htmlFor="with-notes"
+              className="text-xs font-medium text-muted-foreground"
+            >
               Catatan (Opsional)
             </Label>
             <Input
@@ -220,12 +254,17 @@ export function UserWithdrawalModal({
             </Button>
             <Button
               type="submit"
-              disabled={isSubmitting || numAmount < 50000 || numAmount > availableBalance}
+              disabled={
+                isSubmitting ||
+                numAmount < 50000 ||
+                numAmount > availableBalance
+              }
               className="bg-primary hover:bg-primary-hover text-white text-xs font-semibold rounded-full min-h-10 px-6 shadow-md shadow-primary/25"
             >
               {isSubmitting ? (
                 <>
-                  <Loader2 className="mr-1.5 h-4 w-4 animate-spin" /> Mengajukan...
+                  <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />{" "}
+                  Mengajukan...
                 </>
               ) : (
                 "Kirim Permintaan"

@@ -10,12 +10,10 @@ import { IamSkeleton } from "@/modules/iam/components/shared/IamSkeleton";
 
 const LoginView = dynamic(
   () =>
-    import("@/modules/iam/views/guest/LoginView").then(
-      (mod) => mod.LoginView
-    ),
+    import("@/modules/iam/views/guest/LoginView").then((mod) => mod.LoginView),
   {
     loading: () => <IamSkeleton />,
-  }
+  },
 );
 
 export const metadata: Metadata = {

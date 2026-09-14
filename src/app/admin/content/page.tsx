@@ -10,14 +10,15 @@ import { ContentSkeleton } from "@/modules/content/components/shared/ContentSkel
 
 export const metadata: Metadata = {
   title: "CMS & Parameter Sistem | GoVPN Superadmin",
-  description: "Manajemen artikel pusat pengetahuan dan kontrol konfigurasi parameter sistem",
+  description:
+    "Manajemen artikel pusat pengetahuan dan kontrol konfigurasi parameter sistem",
 };
 
 const DynamicAdminContentView = dynamic(
   () => import("@/modules/content").then((mod) => mod.AdminContentView),
   {
     loading: () => <ContentSkeleton />,
-  }
+  },
 );
 
 export default function AdminContentPage() {

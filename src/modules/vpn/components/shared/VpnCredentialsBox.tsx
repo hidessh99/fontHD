@@ -29,27 +29,45 @@ export function VpnCredentialsBox({
     <div className="p-4 rounded-2xl bg-surface border border-border/70 space-y-3 font-mono text-xs">
       <div className="grid grid-cols-2 gap-2">
         <div>
-          <span className="text-[10px] text-muted-foreground uppercase block tracking-wider">Host / SNI</span>
-          <span className="font-semibold text-foreground truncate block">{host}</span>
+          <span className="text-[10px] text-muted-foreground uppercase block tracking-wider">
+            Host / SNI
+          </span>
+          <span className="font-semibold text-foreground truncate block">
+            {host}
+          </span>
         </div>
         <div>
-          <span className="text-[10px] text-muted-foreground uppercase block tracking-wider">Port</span>
+          <span className="text-[10px] text-muted-foreground uppercase block tracking-wider">
+            Port
+          </span>
           <span className="font-semibold text-foreground block">{port}</span>
         </div>
         <div>
-          <span className="text-[10px] text-muted-foreground uppercase block tracking-wider">Username</span>
-          <span className="font-semibold text-foreground truncate block">{username}</span>
+          <span className="text-[10px] text-muted-foreground uppercase block tracking-wider">
+            Username
+          </span>
+          <span className="font-semibold text-foreground truncate block">
+            {username}
+          </span>
         </div>
         {password && (
           <div>
-            <span className="text-[10px] text-muted-foreground uppercase block tracking-wider">Password</span>
-            <span className="font-semibold text-foreground truncate block">{password}</span>
+            <span className="text-[10px] text-muted-foreground uppercase block tracking-wider">
+              Password
+            </span>
+            <span className="font-semibold text-foreground truncate block">
+              {password}
+            </span>
           </div>
         )}
         {uuid && (
           <div className="col-span-2">
-            <span className="text-[10px] text-muted-foreground uppercase block tracking-wider">UUID / User ID</span>
-            <span className="font-semibold text-primary truncate block select-all">{uuid}</span>
+            <span className="text-[10px] text-muted-foreground uppercase block tracking-wider">
+              UUID / User ID
+            </span>
+            <span className="font-semibold text-primary truncate block select-all">
+              {uuid}
+            </span>
           </div>
         )}
       </div>

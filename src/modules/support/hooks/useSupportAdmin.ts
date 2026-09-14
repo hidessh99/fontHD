@@ -19,7 +19,8 @@ const MOCK_ADMIN_TICKETS: Ticket[] = [
     user_name: "Budi Santoso",
     user_email: "budi@example.com",
     subject: "Koneksi V2Ray WS CDN sering putus di ISP Telkomsel",
-    description: "Koneksi V2Ray CDN port 443 sering disconnect tiap 15 menit ketika menggunakan jaringan Telkomsel.",
+    description:
+      "Koneksi V2Ray CDN port 443 sering disconnect tiap 15 menit ketika menggunakan jaringan Telkomsel.",
     status: "IN_PROGRESS",
     priority: "HIGH",
     department: "Konektivitas VPN",
@@ -33,7 +34,8 @@ const MOCK_ADMIN_TICKETS: Ticket[] = [
     user_name: "Siti Rahma",
     user_email: "siti@partner.net",
     subject: "Permintaan Custom DNS Cloudflare Subdomain",
-    description: "Mohon bantuan mapping record host VPN ke zone domain pribadi saya.",
+    description:
+      "Mohon bantuan mapping record host VPN ke zone domain pribadi saya.",
     status: "OPEN",
     priority: "MEDIUM",
     department: "DNS & Routing",
@@ -47,7 +49,8 @@ const MOCK_ADMIN_TICKETS: Ticket[] = [
     user_name: "Dedi Setiawan",
     user_email: "dedi@corporate.id",
     subject: "Kendala Konfirmasi Pembayaran QRIS Deposit",
-    description: "Pembayaran QRIS sudah sukses di mobile banking namun saldo deposit belum ter-update.",
+    description:
+      "Pembayaran QRIS sudah sukses di mobile banking namun saldo deposit belum ter-update.",
     status: "RESOLVED",
     priority: "URGENT",
     department: "Billing & Langganan",
@@ -106,7 +109,7 @@ export function useSupportAdmin() {
       // Mock update
     }
     setTickets((prev) =>
-      prev.map((t) => (t.id === id ? { ...t, status: "IN_PROGRESS" } : t))
+      prev.map((t) => (t.id === id ? { ...t, status: "IN_PROGRESS" } : t)),
     );
     if (selectedTicket && selectedTicket.id === id) {
       setSelectedTicket({ ...selectedTicket, status: "IN_PROGRESS" });
@@ -120,7 +123,7 @@ export function useSupportAdmin() {
       // Mock update
     }
     setTickets((prev) =>
-      prev.map((t) => (t.id === id ? { ...t, status: "RESOLVED" } : t))
+      prev.map((t) => (t.id === id ? { ...t, status: "RESOLVED" } : t)),
     );
     if (selectedTicket && selectedTicket.id === id) {
       setSelectedTicket({ ...selectedTicket, status: "RESOLVED" });
@@ -134,7 +137,7 @@ export function useSupportAdmin() {
       // Mock update
     }
     setTickets((prev) =>
-      prev.map((t) => (t.id === id ? { ...t, status: "CLOSED" } : t))
+      prev.map((t) => (t.id === id ? { ...t, status: "CLOSED" } : t)),
     );
     if (selectedTicket && selectedTicket.id === id) {
       setSelectedTicket({ ...selectedTicket, status: "CLOSED" });
@@ -159,15 +162,16 @@ export function useSupportAdmin() {
     } catch {
       // Mock update
     }
-    setTickets((prev) =>
-      prev.map((t) => (t.id === id ? { ...t, status } : t))
-    );
+    setTickets((prev) => prev.map((t) => (t.id === id ? { ...t, status } : t)));
     if (selectedTicket && selectedTicket.id === id) {
       setSelectedTicket({ ...selectedTicket, status });
     }
   };
 
-  const sendReply = async (ticketId: string | number, dto: AdminCreateReplyDto) => {
+  const sendReply = async (
+    ticketId: string | number,
+    dto: AdminCreateReplyDto,
+  ) => {
     try {
       const res = await supportAdminApi.createReply(ticketId, dto);
       const created = res.payload || res.data;

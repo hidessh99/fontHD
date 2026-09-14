@@ -51,7 +51,7 @@ export function K8sEnvEditorModal({
 
   const handleChange = (index: number, field: "key" | "value", val: string) => {
     setEnvs((prev) =>
-      prev.map((item, i) => (i === index ? { ...item, [field]: val } : item))
+      prev.map((item, i) => (i === index ? { ...item, [field]: val } : item)),
     );
   };
 
@@ -99,7 +99,8 @@ export function K8sEnvEditorModal({
           <div className="max-h-64 overflow-y-auto space-y-2 pr-1">
             {envs.length === 0 ? (
               <div className="text-center py-6 text-xs text-muted-foreground border border-dashed border-border rounded-xl">
-                Belum ada custom environment variables. Klik &quot;Tambah Baris&quot; untuk menambahkan.
+                Belum ada custom environment variables. Klik &quot;Tambah
+                Baris&quot; untuk menambahkan.
               </div>
             ) : (
               envs.map((env, idx) => (

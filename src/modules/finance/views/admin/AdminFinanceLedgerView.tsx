@@ -73,7 +73,8 @@ export function AdminFinanceLedgerView() {
             Audit Ledger &amp; Keuangan Global
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Pusat kendali transaksi keuangan, mutasi balance user, approval pencairan, dan diskon kupon.
+            Pusat kendali transaksi keuangan, mutasi balance user, approval
+            pencairan, dan diskon kupon.
           </p>
         </div>
 
@@ -151,13 +152,19 @@ export function AdminFinanceLedgerView() {
               <tbody className="divide-y border-border/40 text-xs">
                 {withdrawals.length === 0 ? (
                   <tr>
-                    <td colSpan={7} className="px-5 py-8 text-center text-muted-foreground font-sans">
+                    <td
+                      colSpan={7}
+                      className="px-5 py-8 text-center text-muted-foreground font-sans"
+                    >
                       Tidak ada permohonan penarikan dana pending.
                     </td>
                   </tr>
                 ) : (
                   withdrawals.map((w) => (
-                    <tr key={w.id} className="hover:bg-muted/20 transition-colors">
+                    <tr
+                      key={w.id}
+                      className="hover:bg-muted/20 transition-colors"
+                    >
                       <td className="px-5 py-3.5 text-muted-foreground whitespace-nowrap">
                         <div className="flex items-center gap-1">
                           <Calendar className="h-3 w-3 text-muted-foreground" />
@@ -169,8 +176,12 @@ export function AdminFinanceLedgerView() {
                       </td>
                       <td className="px-5 py-3.5">
                         <div className="flex flex-col">
-                          <span className="font-bold text-foreground">{w.bank_name}</span>
-                          <span className="text-[11px] text-muted-foreground">{w.account_number}</span>
+                          <span className="font-bold text-foreground">
+                            {w.bank_name}
+                          </span>
+                          <span className="text-[11px] text-muted-foreground">
+                            {w.account_number}
+                          </span>
                         </div>
                       </td>
                       <td className="px-5 py-3.5 font-sans font-medium text-foreground">
@@ -187,7 +198,11 @@ export function AdminFinanceLedgerView() {
                           <div className="flex items-center justify-end gap-2">
                             <Button
                               size="sm"
-                              onClick={() => updateWithdrawalStatus(w.id, { status: "APPROVED" })}
+                              onClick={() =>
+                                updateWithdrawalStatus(w.id, {
+                                  status: "APPROVED",
+                                })
+                              }
                               className="bg-emerald-600 hover:bg-emerald-500 text-white rounded-full text-xs font-semibold px-3.5 h-8 gap-1 shadow-sm"
                             >
                               <CheckCircle2 className="h-3.5 w-3.5" /> Setujui
@@ -195,14 +210,20 @@ export function AdminFinanceLedgerView() {
                             <Button
                               size="sm"
                               variant="outline"
-                              onClick={() => updateWithdrawalStatus(w.id, { status: "REJECTED" })}
+                              onClick={() =>
+                                updateWithdrawalStatus(w.id, {
+                                  status: "REJECTED",
+                                })
+                              }
                               className="border-rose-500/30 text-rose-400 hover:bg-rose-500/10 rounded-full text-xs font-semibold px-3 h-8 gap-1"
                             >
                               <XCircle className="h-3.5 w-3.5" /> Tolak
                             </Button>
                           </div>
                         ) : (
-                          <span className="text-xs text-muted-foreground font-mono">Selesai</span>
+                          <span className="text-xs text-muted-foreground font-mono">
+                            Selesai
+                          </span>
                         )}
                       </td>
                     </tr>

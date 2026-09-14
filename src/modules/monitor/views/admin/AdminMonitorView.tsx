@@ -41,7 +41,9 @@ export function AdminMonitorView() {
         <Card className="border-border/80 bg-card/60 backdrop-blur-sm p-4 rounded-2xl shadow-sm">
           <CardContent className="p-0 flex items-center justify-between">
             <div>
-              <span className="text-xs text-muted-foreground font-medium">Total Target Telemetri</span>
+              <span className="text-xs text-muted-foreground font-medium">
+                Total Target Telemetri
+              </span>
               <div className="font-mono text-2xl font-bold text-foreground mt-1">
                 {monitors.length} Node
               </div>
@@ -55,7 +57,9 @@ export function AdminMonitorView() {
         <Card className="border-border/80 bg-card/60 backdrop-blur-sm p-4 rounded-2xl shadow-sm">
           <CardContent className="p-0 flex items-center justify-between">
             <div>
-              <span className="text-xs text-muted-foreground font-medium">Node Sehat (Online)</span>
+              <span className="text-xs text-muted-foreground font-medium">
+                Node Sehat (Online)
+              </span>
               <div className="font-mono text-2xl font-bold text-emerald-400 mt-1">
                 {onlineCount} / {monitors.length}
               </div>
@@ -69,7 +73,9 @@ export function AdminMonitorView() {
         <Card className="border-border/80 bg-card/60 backdrop-blur-sm p-4 rounded-2xl shadow-sm">
           <CardContent className="p-0 flex items-center justify-between">
             <div>
-              <span className="text-xs text-muted-foreground font-medium">Probe Aktif</span>
+              <span className="text-xs text-muted-foreground font-medium">
+                Probe Aktif
+              </span>
               <div className="font-mono text-2xl font-bold text-primary mt-1">
                 {activeProbesCount} Probe
               </div>
@@ -88,7 +94,8 @@ export function AdminMonitorView() {
             Armada Pemantau Server & Log Telemetri
           </h2>
           <p className="text-xs text-muted-foreground mt-0.5">
-            Konfigurasi target health probe periodik dan batas ambang notifikasi latensi
+            Konfigurasi target health probe periodik dan batas ambang notifikasi
+            latensi
           </p>
         </div>
 
@@ -99,7 +106,9 @@ export function AdminMonitorView() {
           disabled={loading}
           className="border-border bg-card/60 hover:bg-muted text-foreground gap-2 h-9 px-3.5 text-xs rounded-xl shadow-sm"
         >
-          <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`} />
+          <RefreshCw
+            className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`}
+          />
           Segarkan
         </Button>
       </div>

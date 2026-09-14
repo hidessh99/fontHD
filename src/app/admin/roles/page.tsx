@@ -11,16 +11,17 @@ import { IamSkeleton } from "@/modules/iam/components/shared/IamSkeleton";
 const AdminRolesView = dynamic(
   () =>
     import("@/modules/iam/views/admin/AdminRolesView").then(
-      (mod) => mod.AdminRolesView
+      (mod) => mod.AdminRolesView,
     ),
   {
     loading: () => <IamSkeleton />,
-  }
+  },
 );
 
 export const metadata: Metadata = {
   title: "Manajemen Peran & RBAC | GoVPN Superadmin",
-  description: "Konfigurasi hierarki peran akun, definisi perizinan modul, dan pembatasan hak akses.",
+  description:
+    "Konfigurasi hierarki peran akun, definisi perizinan modul, dan pembatasan hak akses.",
 };
 
 export default function AdminRolesPage() {

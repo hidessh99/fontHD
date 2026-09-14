@@ -78,14 +78,13 @@ export function ArticleDetailView({ slug }: ArticleDetailViewProps) {
             <span>•</span>
             <span className="flex items-center gap-1.5">
               <Clock className="w-3.5 h-3.5" />
-              {new Date(selectedPost.published_at || selectedPost.created_at).toLocaleDateString(
-                "id-ID",
-                {
-                  day: "numeric",
-                  month: "long",
-                  year: "numeric",
-                }
-              )}
+              {new Date(
+                selectedPost.published_at || selectedPost.created_at,
+              ).toLocaleDateString("id-ID", {
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+              })}
             </span>
             {selectedPost.views_count !== undefined && (
               <>

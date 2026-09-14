@@ -11,11 +11,11 @@ import { VpnProtocolSkeleton } from "@/modules/vpn/components/shared/VpnProtocol
 const DashboardOverviewView = dynamic(
   () =>
     import("@/modules/vpn/views/user/DashboardOverviewView").then(
-      (mod) => mod.DashboardOverviewView
+      (mod) => mod.DashboardOverviewView,
     ),
   {
     loading: () => <VpnProtocolSkeleton />,
-  }
+  },
 );
 
 export const metadata: Metadata = {

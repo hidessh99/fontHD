@@ -3,13 +3,17 @@
 // Synchronized with backendv2 58 Finance Endpoints
 // ==============================================================================
 
-export type PaymentMethod = "QRIS" | "MIDTRANS" | "TRIPAY" | "DUITKU" | "MANUAL_TRANSFER";
+export type PaymentMethod =
+  "QRIS" | "MIDTRANS" | "TRIPAY" | "DUITKU" | "MANUAL_TRANSFER";
 
-export type InvoiceStatus = "PENDING" | "PAID" | "EXPIRED" | "CANCELLED" | "FAILED";
+export type InvoiceStatus =
+  "PENDING" | "PAID" | "EXPIRED" | "CANCELLED" | "FAILED";
 
-export type BillingType = "TOPUP" | "PURCHASE" | "RENEWAL" | "REFUND" | "CASHBACK" | "ADMIN_ADJUST";
+export type BillingType =
+  "TOPUP" | "PURCHASE" | "RENEWAL" | "REFUND" | "CASHBACK" | "ADMIN_ADJUST";
 
-export type WithdrawalStatus = "PENDING" | "APPROVED" | "REJECTED" | "PROCESSED";
+export type WithdrawalStatus =
+  "PENDING" | "APPROVED" | "REJECTED" | "PROCESSED";
 
 export interface Invoice {
   id: string | number;

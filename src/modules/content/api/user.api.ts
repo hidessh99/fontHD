@@ -15,7 +15,7 @@ export const contentUserApi = {
   // 2. GET /api/upload/presign
   presignUpload: (
     fileName: string,
-    mimeType: string
+    mimeType: string,
   ): Promise<ApiResponse<PresignUploadResult>> =>
     apiClient.get<PresignUploadResult>("/api/upload/presign", {
       params: { file_name: fileName, mime_type: mimeType },

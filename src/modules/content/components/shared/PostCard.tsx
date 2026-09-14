@@ -55,7 +55,8 @@ export function PostCard({ post }: PostCardProps) {
         </h3>
 
         <p className="text-xs text-muted-foreground line-clamp-3 leading-relaxed">
-          {post.summary || post.content.replace(/<[^>]*>?/gm, "").slice(0, 140) + "..."}
+          {post.summary ||
+            post.content.replace(/<[^>]*>?/gm, "").slice(0, 140) + "..."}
         </p>
       </div>
 
@@ -64,11 +65,14 @@ export function PostCard({ post }: PostCardProps) {
         <div className="flex items-center gap-3">
           <span className="flex items-center gap-1 text-[11px]">
             <Clock className="w-3 h-3" />
-            {new Date(post.published_at || post.created_at).toLocaleDateString("id-ID", {
-              day: "numeric",
-              month: "short",
-              year: "numeric",
-            })}
+            {new Date(post.published_at || post.created_at).toLocaleDateString(
+              "id-ID",
+              {
+                day: "numeric",
+                month: "short",
+                year: "numeric",
+              },
+            )}
           </span>
           {post.views_count !== undefined && (
             <span className="flex items-center gap-1 text-[11px]">

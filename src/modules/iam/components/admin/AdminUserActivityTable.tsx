@@ -85,13 +85,19 @@ export function AdminUserActivityTable({
               <tbody className="divide-y border-border/40 text-xs">
                 {activities.length === 0 ? (
                   <tr>
-                    <td colSpan={5} className="px-5 py-8 text-center text-muted-foreground font-sans">
+                    <td
+                      colSpan={5}
+                      className="px-5 py-8 text-center text-muted-foreground font-sans"
+                    >
                       Belum ada catatan log aktivitas pengguna.
                     </td>
                   </tr>
                 ) : (
                   activities.map((item) => (
-                    <tr key={item.id} className="hover:bg-muted/20 transition-colors">
+                    <tr
+                      key={item.id}
+                      className="hover:bg-muted/20 transition-colors"
+                    >
                       <td className="px-5 py-3.5 whitespace-nowrap text-muted-foreground">
                         <div className="flex items-center gap-1.5">
                           <Calendar className="h-3.5 w-3.5" />
@@ -149,13 +155,19 @@ export function AdminUserActivityTable({
               <tbody className="divide-y border-border/40 text-xs">
                 {logs.length === 0 ? (
                   <tr>
-                    <td colSpan={5} className="px-5 py-8 text-center text-muted-foreground font-sans">
+                    <td
+                      colSpan={5}
+                      className="px-5 py-8 text-center text-muted-foreground font-sans"
+                    >
                       Belum ada catatan log audit superadmin.
                     </td>
                   </tr>
                 ) : (
                   logs.map((item) => (
-                    <tr key={item.id} className="hover:bg-muted/20 transition-colors">
+                    <tr
+                      key={item.id}
+                      className="hover:bg-muted/20 transition-colors"
+                    >
                       <td className="px-5 py-3.5 whitespace-nowrap text-muted-foreground">
                         <div className="flex items-center gap-1.5">
                           <Calendar className="h-3.5 w-3.5" />

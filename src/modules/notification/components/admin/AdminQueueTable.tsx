@@ -7,7 +7,11 @@
 "use client";
 
 import React, { useState } from "react";
-import { QueueItem, NotificationChannel, QueueStatus } from "../../types/notification.types";
+import {
+  QueueItem,
+  NotificationChannel,
+  QueueStatus,
+} from "../../types/notification.types";
 import { QueueStatusBadge } from "../shared/QueueStatusBadge";
 import { ChannelBadge } from "../shared/ChannelBadge";
 import { Button } from "@/components/ui/button";
@@ -30,10 +34,13 @@ export function AdminQueueTable({
   const filteredQueue = queue.filter((item) => {
     const matchesSearch =
       item.recipient.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (item.subject && item.subject.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (item.subject &&
+        item.subject.toLowerCase().includes(searchTerm.toLowerCase())) ||
       item.message.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesChannel = channelFilter === "ALL" || item.channel === channelFilter;
-    const matchesStatus = statusFilter === "ALL" || item.status === statusFilter;
+    const matchesChannel =
+      channelFilter === "ALL" || item.channel === channelFilter;
+    const matchesStatus =
+      statusFilter === "ALL" || item.status === statusFilter;
     return matchesSearch && matchesChannel && matchesStatus;
   });
 
@@ -105,7 +112,10 @@ export function AdminQueueTable({
               </thead>
               <tbody className="divide-y divide-border/30">
                 {filteredQueue.map((item) => (
-                  <tr key={item.id} className="hover:bg-accent/30 transition-colors">
+                  <tr
+                    key={item.id}
+                    className="hover:bg-accent/30 transition-colors"
+                  >
                     <td className="p-3.5 whitespace-nowrap">
                       <ChannelBadge channel={item.channel} />
                     </td>
@@ -114,7 +124,9 @@ export function AdminQueueTable({
                     </td>
                     <td className="p-3.5 max-w-sm">
                       {item.subject && (
-                        <div className="font-semibold text-foreground truncate">{item.subject}</div>
+                        <div className="font-semibold text-foreground truncate">
+                          {item.subject}
+                        </div>
                       )}
                       <div className="text-muted-foreground line-clamp-1 text-[11px]">
                         {item.message}

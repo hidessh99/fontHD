@@ -33,7 +33,8 @@ export function NotificationsView() {
             Notifikasi & Pengumuman
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Riwayat pembaruan status server, notifikasi billing paket, dan respon tiket helpdesk.
+            Riwayat pembaruan status server, notifikasi billing paket, dan
+            respon tiket helpdesk.
           </p>
         </div>
 

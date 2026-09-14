@@ -49,10 +49,7 @@ export function UserProfileSettingsView() {
       />
 
       {/* Main Profile Header Card */}
-      <ProfileCard
-        user={user}
-        onUpdateProfile={updateProfile}
-      />
+      <ProfileCard user={user} onUpdateProfile={updateProfile} />
 
       {/* Settings Navigation Tabs */}
       <Tabs defaultValue="security" className="w-full">
@@ -91,9 +88,12 @@ export function UserProfileSettingsView() {
                     <KeyRound className="h-5 w-5" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-foreground">Kata Sandi Akun</h4>
+                    <h4 className="text-sm font-bold text-foreground">
+                      Kata Sandi Akun
+                    </h4>
                     <p className="text-xs text-muted-foreground">
-                      Ubah kata sandi secara berkala untuk menjaga keamanan akun.
+                      Ubah kata sandi secara berkala untuk menjaga keamanan
+                      akun.
                     </p>
                   </div>
                 </div>
@@ -116,7 +116,8 @@ export function UserProfileSettingsView() {
                       Autentikasi Dua Faktor (2FA)
                     </h4>
                     <p className="text-xs text-muted-foreground">
-                      Wajibkan kode 6-digit dari Google Authenticator saat login.
+                      Wajibkan kode 6-digit dari Google Authenticator saat
+                      login.
                     </p>
                   </div>
                 </div>
@@ -124,7 +125,12 @@ export function UserProfileSettingsView() {
 
               <div className="pt-2 border-t border-border/40 flex items-center justify-between">
                 <span className="text-xs font-mono text-muted-foreground">
-                  Status: <strong className={twoFactorEnabled ? "text-emerald-400" : "text-amber-400"}>
+                  Status:{" "}
+                  <strong
+                    className={
+                      twoFactorEnabled ? "text-emerald-400" : "text-amber-400"
+                    }
+                  >
                     {twoFactorEnabled ? "AKTIF" : "TIDAK AKTIF"}
                   </strong>
                 </span>

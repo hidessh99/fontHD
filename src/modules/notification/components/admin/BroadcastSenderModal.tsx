@@ -24,8 +24,14 @@ import { toast } from "sonner";
 interface BroadcastSenderModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onBroadcastAll: (dto: BroadcastAllDto, idempotencyKey: string) => Promise<unknown>;
-  onBroadcastUsers: (dto: BroadcastUsersDto, idempotencyKey: string) => Promise<unknown>;
+  onBroadcastAll: (
+    dto: BroadcastAllDto,
+    idempotencyKey: string,
+  ) => Promise<unknown>;
+  onBroadcastUsers: (
+    dto: BroadcastUsersDto,
+    idempotencyKey: string,
+  ) => Promise<unknown>;
 }
 
 export function BroadcastSenderModal({
@@ -60,9 +66,11 @@ export function BroadcastSenderModal({
             message: message.trim(),
             channel,
           },
-          idempotencyKey
+          idempotencyKey,
         );
-        toast.success("Siaran masal ke seluruh pengguna berhasil dimasukkan ke antrean!");
+        toast.success(
+          "Siaran masal ke seluruh pengguna berhasil dimasukkan ke antrean!",
+        );
       } else {
         const parsedIds = userIdsText
           .split(",")
@@ -82,9 +90,11 @@ export function BroadcastSenderModal({
             message: message.trim(),
             channel,
           },
-          idempotencyKey
+          idempotencyKey,
         );
-        toast.success(`Pesan berhasil dikirim ke ${parsedIds.length} pengguna terpilih!`);
+        toast.success(
+          `Pesan berhasil dikirim ke ${parsedIds.length} pengguna terpilih!`,
+        );
       }
 
       onOpenChange(false);
@@ -104,15 +114,21 @@ export function BroadcastSenderModal({
         <DialogHeader>
           <div className="flex items-center gap-2 text-primary mb-1">
             <Megaphone className="w-5 h-5" />
-            <span className="text-xs font-bold uppercase tracking-wider">Broadcast Engine</span>
+            <span className="text-xs font-bold uppercase tracking-wider">
+              Broadcast Engine
+            </span>
           </div>
-          <DialogTitle className="text-xl font-bold">Kirim Notifikasi & Siaran Global</DialogTitle>
+          <DialogTitle className="text-xl font-bold">
+            Kirim Notifikasi & Siaran Global
+          </DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSend} className="space-y-4 pt-2">
           {/* Target Audience */}
           <div className="space-y-2">
-            <label className="text-xs font-semibold text-muted-foreground">Target Penerima</label>
+            <label className="text-xs font-semibold text-muted-foreground">
+              Target Penerima
+            </label>
             <div className="grid grid-cols-2 gap-3">
               <div
                 onClick={() => setTargetType("ALL")}
@@ -123,7 +139,9 @@ export function BroadcastSenderModal({
                 }`}
               >
                 <Users className="w-4 h-4" />
-                <span className="text-xs font-bold">Seluruh Pengguna Aktif</span>
+                <span className="text-xs font-bold">
+                  Seluruh Pengguna Aktif
+                </span>
               </div>
 
               <div
@@ -142,7 +160,9 @@ export function BroadcastSenderModal({
 
           {targetType === "SPECIFIC" && (
             <div className="space-y-1.5 animate-in fade-in duration-200">
-              <label className="text-xs font-semibold text-muted-foreground">User IDs (Dipisahkan koma)</label>
+              <label className="text-xs font-semibold text-muted-foreground">
+                User IDs (Dipisahkan koma)
+              </label>
               <input
                 type="text"
                 placeholder="101, 102, 205"
@@ -155,13 +175,19 @@ export function BroadcastSenderModal({
 
           {/* Channel */}
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-muted-foreground">Saluran Pengiriman (Channel)</label>
+            <label className="text-xs font-semibold text-muted-foreground">
+              Saluran Pengiriman (Channel)
+            </label>
             <select
               value={channel}
-              onChange={(e) => setChannel(e.target.value as NotificationChannel)}
+              onChange={(e) =>
+                setChannel(e.target.value as NotificationChannel)
+              }
               className="w-full px-3.5 py-2 text-xs rounded-lg border border-border/50 bg-background/50 focus:outline-none focus:ring-2 focus:ring-primary font-semibold"
             >
-              <option value="IN_APP">In-App Notification (Dashboard Bell)</option>
+              <option value="IN_APP">
+                In-App Notification (Dashboard Bell)
+              </option>
               <option value="EMAIL">Email SMTP Delivery</option>
               <option value="TELEGRAM">Telegram Bot Channel</option>
               <option value="WHATSAPP">WhatsApp Business API</option>
@@ -171,7 +197,9 @@ export function BroadcastSenderModal({
 
           {/* Subject */}
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-muted-foreground">Judul / Subjek Pesan</label>
+            <label className="text-xs font-semibold text-muted-foreground">
+              Judul / Subjek Pesan
+            </label>
             <input
               type="text"
               placeholder="Contoh: Pemeliharaan Server SG-01 Dijadwalkan Pukul 02:00 WIB"
@@ -183,7 +211,9 @@ export function BroadcastSenderModal({
 
           {/* Message Body */}
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-muted-foreground">Isi Pengumuman / Pesan</label>
+            <label className="text-xs font-semibold text-muted-foreground">
+              Isi Pengumuman / Pesan
+            </label>
             <textarea
               required
               rows={4}

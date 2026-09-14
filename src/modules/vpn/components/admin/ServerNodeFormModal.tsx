@@ -19,7 +19,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import { ServerNode, VpnProtocol } from "../../types/vpn.types";
+import { ServerNode, VpnProtocol, VpnAccountTier } from "../../types/vpn.types";
 import { vpnAdminApi } from "../../api/admin.api";
 
 interface ServerNodeFormModalProps {
@@ -69,7 +69,12 @@ export function ServerNodeFormModal({
       } else {
         const payload = {
           ...formData,
-          supported_protocols: ["vmess", "vless", "trojan", "ssh"] as VpnProtocol[],
+          supported_protocols: [
+            "vmess",
+            "vless",
+            "trojan",
+            "ssh",
+          ] as VpnProtocol[],
         };
         if (formData.tier === "always") {
           await vpnAdminApi.createAlwaysServer(payload);
@@ -80,13 +85,18 @@ export function ServerNodeFormModal({
         } else {
           await vpnAdminApi.createMonthServer(payload);
         }
-        toast.success(`Server node baru ${formData.name} berhasil ditambahkan!`);
+        toast.success(
+          `Server node baru ${formData.name} berhasil ditambahkan!`,
+        );
       }
 
       onSuccess?.();
       onClose();
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Gagal menyimpan konfigurasi server.";
+      const msg =
+        err instanceof Error
+          ? err.message
+          : "Gagal menyimpan konfigurasi server.";
       toast.error(msg);
     } finally {
       setIsSubmitting(false);
@@ -104,10 +114,13 @@ export function ServerNodeFormModal({
             </span>
           </div>
           <DialogTitle className="text-lg font-bold">
-            {isEditing ? `Edit Server Node #${server?.id}` : "Tambah Server Node Baru"}
+            {isEditing
+              ? `Edit Server Node #${server?.id}`
+              : "Tambah Server Node Baru"}
           </DialogTitle>
           <DialogDescription className="text-xs text-muted-foreground">
-            Konfigurasikan alamat IP publik, domain DNS, kuota kapasitas, dan biaya tiering.
+            Konfigurasikan alamat IP publik, domain DNS, kuota kapasitas, dan
+            biaya tiering.
           </DialogDescription>
         </DialogHeader>
 
@@ -117,7 +130,9 @@ export function ServerNodeFormModal({
               <Label className="text-xs font-medium">Nama Server</Label>
               <Input
                 value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
                 placeholder="SG-Premium-01"
                 className="rounded-xl min-h-10 text-xs"
                 required
@@ -127,7 +142,12 @@ export function ServerNodeFormModal({
               <Label className="text-xs font-medium">Negara / Kode</Label>
               <Input
                 value={formData.country_code}
-                onChange={(e) => setFormData({ ...formData, country_code: e.target.value.toUpperCase() })}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    country_code: e.target.value.toUpperCase(),
+                  })
+                }
                 placeholder="SG"
                 className="rounded-xl min-h-10 text-xs uppercase"
                 required
@@ -140,7 +160,9 @@ export function ServerNodeFormModal({
               <Label className="text-xs font-medium">IP Publik Server</Label>
               <Input
                 value={formData.ip}
-                onChange={(e) => setFormData({ ...formData, ip: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, ip: e.target.value })
+                }
                 placeholder="103.150.xxx.xxx"
                 className="rounded-xl min-h-10 text-xs"
                 required
@@ -150,7 +172,9 @@ export function ServerNodeFormModal({
               <Label className="text-xs font-medium">Domain DNS</Label>
               <Input
                 value={formData.domain}
-                onChange={(e) => setFormData({ ...formData, domain: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, domain: e.target.value })
+                }
                 placeholder="sg1.hidessh.com"
                 className="rounded-xl min-h-10 text-xs"
                 required
@@ -164,7 +188,12 @@ export function ServerNodeFormModal({
               <Input
                 type="number"
                 value={formData.max_users}
-                onChange={(e) => setFormData({ ...formData, max_users: Number(e.target.value) })}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    max_users: Number(e.target.value),
+                  })
+                }
                 className="rounded-xl min-h-10 text-xs"
                 required
               />
@@ -173,7 +202,12 @@ export function ServerNodeFormModal({
               <Label className="text-xs font-medium">Tier Berlangganan</Label>
               <select
                 value={formData.tier}
-                onChange={(e) => setFormData({ ...formData, tier: e.target.value as any })}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    tier: e.target.value as VpnAccountTier,
+                  })
+                }
                 className="w-full rounded-xl min-h-10 text-xs bg-surface border border-border px-3 font-mono"
               >
                 <option value="month">Month</option>
@@ -202,7 +236,8 @@ export function ServerNodeFormModal({
             >
               {isSubmitting ? (
                 <>
-                  <Loader2 className="mr-1.5 size-3.5 animate-spin" /> Menyimpan...
+                  <Loader2 className="mr-1.5 size-3.5 animate-spin" />{" "}
+                  Menyimpan...
                 </>
               ) : (
                 <>

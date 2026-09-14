@@ -30,7 +30,8 @@ const MOCK_USER_TICKETS: Ticket[] = [
     ticket_number: "TKT-2026-002",
     user_id: 101,
     subject: "Permintaan Custom DNS Cloudflare Subdomain",
-    description: "Mohon bantuan mapping record host VPN ke zone domain pribadi saya.",
+    description:
+      "Mohon bantuan mapping record host VPN ke zone domain pribadi saya.",
     status: "RESOLVED",
     priority: "MEDIUM",
     department: "DNS & Routing",
@@ -105,7 +106,10 @@ export function useSupportUser() {
     }
   }, [selectedTicket, fetchReplies]);
 
-  const createTicket = async (dto: CreateTicketDto, idempotencyKey?: string) => {
+  const createTicket = async (
+    dto: CreateTicketDto,
+    idempotencyKey?: string,
+  ) => {
     try {
       const res = await supportUserApi.createTicket(dto, idempotencyKey);
       const created = res.payload || res.data;
@@ -138,7 +142,11 @@ export function useSupportUser() {
     const dto: CreateTicketReplyDto = { message };
 
     try {
-      const res = await supportUserApi.createReply(selectedTicket.id, dto, idempotencyKey);
+      const res = await supportUserApi.createReply(
+        selectedTicket.id,
+        dto,
+        idempotencyKey,
+      );
       const created = res.payload || res.data;
       if (created) {
         setReplies((prev) => [...prev, created]);
@@ -166,7 +174,7 @@ export function useSupportUser() {
       // Mock update
     }
     setTickets((prev) =>
-      prev.map((t) => (t.id === ticketId ? { ...t, status: "CLOSED" } : t))
+      prev.map((t) => (t.id === ticketId ? { ...t, status: "CLOSED" } : t)),
     );
     if (selectedTicket && selectedTicket.id === ticketId) {
       setSelectedTicket({ ...selectedTicket, status: "CLOSED" });

@@ -62,7 +62,8 @@ export function UserServersView() {
             </h1>
           </div>
           <p className="text-xs text-muted-foreground">
-            Status ketersediaan node server global, monitoring ping latensi real-time, dan kapasitas akun aktif.
+            Status ketersediaan node server global, monitoring ping latensi
+            real-time, dan kapasitas akun aktif.
           </p>
         </div>
 
@@ -73,7 +74,9 @@ export function UserServersView() {
           disabled={isLoading}
           className="text-xs font-mono h-10 px-5 rounded-full self-start sm:self-auto"
         >
-          <RefreshCw className={`mr-1.5 size-3.5 ${isLoading ? "animate-spin" : ""}`} />
+          <RefreshCw
+            className={`mr-1.5 size-3.5 ${isLoading ? "animate-spin" : ""}`}
+          />
           Segarkan
         </Button>
       </div>
@@ -148,7 +151,9 @@ export function UserServersView() {
         <CreateVpnModal
           isOpen={orderModalOpen}
           onClose={() => setOrderModalOpen(false)}
-          protocol={(selectedServer.supported_protocols[0] || "vmess") as VpnProtocol}
+          protocol={
+            (selectedServer.supported_protocols[0] || "vmess") as VpnProtocol
+          }
           onSuccess={() => refresh()}
         />
       )}

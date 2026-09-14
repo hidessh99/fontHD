@@ -40,7 +40,9 @@ export function AdminK8sTemplateTable({
   const [openCreate, setOpenCreate] = useState(false);
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");
-  const [category, setCategory] = useState<"DATABASE" | "WEB" | "VPN" | "CMS" | "DEVOPS">("VPN");
+  const [category, setCategory] = useState<
+    "DATABASE" | "WEB" | "VPN" | "CMS" | "DEVOPS"
+  >("VPN");
   const [image, setImage] = useState("");
   const [port, setPort] = useState(8388);
   const [description, setDescription] = useState("");
@@ -58,7 +60,9 @@ export function AdminK8sTemplateTable({
     try {
       await onCreateTemplate({
         name: name.trim(),
-        slug: slug.trim().toLowerCase() || name.trim().toLowerCase().replace(/\s+/g, "-"),
+        slug:
+          slug.trim().toLowerCase() ||
+          name.trim().toLowerCase().replace(/\s+/g, "-"),
         category,
         docker_image: image.trim(),
         default_port: Number(port) || 80,
@@ -94,17 +98,23 @@ export function AdminK8sTemplateTable({
             Template Aplikasi 1-Click Deploy
           </h3>
           <p className="text-xs text-muted-foreground mt-0.5">
-            Daftar blueprint aplikasi siap pakai (Shadowsocks, WireGuard, NGINX, WordPress)
+            Daftar blueprint aplikasi siap pakai (Shadowsocks, WireGuard, NGINX,
+            WordPress)
           </p>
         </div>
 
         <Dialog open={openCreate} onOpenChange={setOpenCreate}>
-          <DialogTrigger render={
-            <Button size="sm" className="h-9 px-3.5 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs gap-1.5 shadow-md shadow-primary/20">
-              <Plus className="h-4 w-4" />
-              Tambah Template
-            </Button>
-          } />
+          <DialogTrigger
+            render={
+              <Button
+                size="sm"
+                className="h-9 px-3.5 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs gap-1.5 shadow-md shadow-primary/20"
+              >
+                <Plus className="h-4 w-4" />
+                Tambah Template
+              </Button>
+            }
+          />
           <DialogContent className="sm:max-w-md bg-card border-border text-foreground shadow-2xl rounded-2xl">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2 text-base font-bold">
@@ -114,7 +124,9 @@ export function AdminK8sTemplateTable({
             </DialogHeader>
             <form onSubmit={handleCreate} className="space-y-3.5 pt-2">
               <div>
-                <Label className="text-xs text-muted-foreground">Nama Aplikasi</Label>
+                <Label className="text-xs text-muted-foreground">
+                  Nama Aplikasi
+                </Label>
                 <Input
                   placeholder="misal: Shadowsocks Libev"
                   value={name}
@@ -124,10 +136,17 @@ export function AdminK8sTemplateTable({
               </div>
 
               <div>
-                <Label className="text-xs text-muted-foreground">Kategori</Label>
+                <Label className="text-xs text-muted-foreground">
+                  Kategori
+                </Label>
                 <select
                   value={category}
-                  onChange={(e) => setCategory(e.target.value as any)}
+                  onChange={(e) =>
+                    setCategory(
+                      e.target.value as
+                        "DATABASE" | "WEB" | "VPN" | "CMS" | "DEVOPS",
+                    )
+                  }
                   className="mt-1.5 w-full rounded-xl border border-border bg-card px-3 py-2 text-xs font-mono text-foreground outline-none focus:border-primary"
                 >
                   <option value="VPN">VPN & Tunneling</option>
@@ -139,7 +158,9 @@ export function AdminK8sTemplateTable({
               </div>
 
               <div>
-                <Label className="text-xs text-muted-foreground">Docker Image</Label>
+                <Label className="text-xs text-muted-foreground">
+                  Docker Image
+                </Label>
                 <Input
                   placeholder="shadowsocks/shadowsocks-libev:latest"
                   value={image}
@@ -149,7 +170,9 @@ export function AdminK8sTemplateTable({
               </div>
 
               <div>
-                <Label className="text-xs text-muted-foreground">Default Port</Label>
+                <Label className="text-xs text-muted-foreground">
+                  Default Port
+                </Label>
                 <Input
                   type="number"
                   value={port}
@@ -159,7 +182,9 @@ export function AdminK8sTemplateTable({
               </div>
 
               <div>
-                <Label className="text-xs text-muted-foreground">Deskripsi Singkat</Label>
+                <Label className="text-xs text-muted-foreground">
+                  Deskripsi Singkat
+                </Label>
                 <Input
                   placeholder="Proxy tunneling aman berkecepatan tinggi"
                   value={description}
@@ -210,7 +235,9 @@ export function AdminK8sTemplateTable({
                 <tr key={t.id} className="hover:bg-muted/20 transition-colors">
                   <td className="px-5 py-3.5 font-sans">
                     <div className="flex flex-col">
-                      <span className="font-bold text-foreground">{t.name}</span>
+                      <span className="font-bold text-foreground">
+                        {t.name}
+                      </span>
                       {t.description && (
                         <span className="text-[11px] text-muted-foreground line-clamp-1">
                           {t.description}
@@ -220,7 +247,10 @@ export function AdminK8sTemplateTable({
                   </td>
 
                   <td className="px-5 py-3.5">
-                    <Badge variant="outline" className="border-border bg-card text-foreground font-mono text-[11px]">
+                    <Badge
+                      variant="outline"
+                      className="border-border bg-card text-foreground font-mono text-[11px]"
+                    >
                       {t.category}
                     </Badge>
                   </td>

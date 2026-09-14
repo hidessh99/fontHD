@@ -191,7 +191,10 @@ export function DashboardHeader({
               </Button>
             }
           />
-          <DropdownMenuContent align="end" className="w-56 bg-card border-border">
+          <DropdownMenuContent
+            align="end"
+            className="w-56 bg-card border-border"
+          >
             <DropdownMenuLabel className="font-normal">
               <div className="flex flex-col space-y-1">
                 <p className="text-sm font-semibold leading-none">{userName}</p>
@@ -201,11 +204,25 @@ export function DashboardHeader({
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem render={<Link href="/settings" className="flex items-center w-full cursor-pointer" />}>
+            <DropdownMenuItem
+              render={
+                <Link
+                  href="/settings"
+                  className="flex items-center w-full cursor-pointer"
+                />
+              }
+            >
               <Shield className="mr-2 size-4 text-muted-foreground" />
               <span>Pengaturan Profil</span>
             </DropdownMenuItem>
-            <DropdownMenuItem render={<Link href="/billing/invoices" className="flex items-center w-full cursor-pointer" />}>
+            <DropdownMenuItem
+              render={
+                <Link
+                  href="/billing/invoices"
+                  className="flex items-center w-full cursor-pointer"
+                />
+              }
+            >
               <Wallet className="mr-2 size-4 text-muted-foreground" />
               <span>Riwayat Transaksi</span>
             </DropdownMenuItem>

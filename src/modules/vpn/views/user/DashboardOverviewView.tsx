@@ -18,7 +18,13 @@ import {
   Shield,
   Layers,
 } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ProtocolBadge } from "@/components/shared/ProtocolBadge";
@@ -36,12 +42,36 @@ export function DashboardOverviewView() {
   const [selectedProto, setSelectedProto] = useState<VpnProtocol>("vmess");
 
   const protocols = [
-    { name: "SSH / Dropbear", id: "ssh" as VpnProtocol, desc: "Port 22, 442, WS CDN & TLS" },
-    { name: "VMess (V2Ray)", id: "vmess" as VpnProtocol, desc: "WS, gRPC, TLS CDN multi-path" },
-    { name: "VLess Reality", id: "vless" as VpnProtocol, desc: "XTLS Reality with direct zero-hop" },
-    { name: "Trojan", id: "trojan" as VpnProtocol, desc: "gRPC & WS TLS high-throughput" },
-    { name: "Shadowsocks", id: "shadowsocks" as VpnProtocol, desc: "AEAD 2022 encryption standard" },
-    { name: "WireGuard", id: "wireguard" as VpnProtocol, desc: "Ultra-low latency kernel tunnel" },
+    {
+      name: "SSH / Dropbear",
+      id: "ssh" as VpnProtocol,
+      desc: "Port 22, 442, WS CDN & TLS",
+    },
+    {
+      name: "VMess (V2Ray)",
+      id: "vmess" as VpnProtocol,
+      desc: "WS, gRPC, TLS CDN multi-path",
+    },
+    {
+      name: "VLess Reality",
+      id: "vless" as VpnProtocol,
+      desc: "XTLS Reality with direct zero-hop",
+    },
+    {
+      name: "Trojan",
+      id: "trojan" as VpnProtocol,
+      desc: "gRPC & WS TLS high-throughput",
+    },
+    {
+      name: "Shadowsocks",
+      id: "shadowsocks" as VpnProtocol,
+      desc: "AEAD 2022 encryption standard",
+    },
+    {
+      name: "WireGuard",
+      id: "wireguard" as VpnProtocol,
+      desc: "Ultra-low latency kernel tunnel",
+    },
   ];
 
   const handleOpenCreate = (protoId: VpnProtocol) => {
@@ -59,7 +89,9 @@ export function DashboardOverviewView() {
             <span className="text-primary">{user?.username || "Member"}</span>!
           </h1>
           <p className="mt-1 text-xs text-muted-foreground max-w-xl">
-            Console infrastruktur tunneling GoVPN. Kelola akun multi-protokol, pantau status server real-time, dan salin kredensial dalam satu klik.
+            Console infrastruktur tunneling GoVPN. Kelola akun multi-protokol,
+            pantau status server real-time, dan salin kredensial dalam satu
+            klik.
           </p>
         </div>
 
@@ -83,7 +115,9 @@ export function DashboardOverviewView() {
             <Zap className="size-4 text-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-black font-mono">{accounts.length}</div>
+            <div className="text-2xl font-black font-mono">
+              {accounts.length}
+            </div>
             <p className="text-[10px] text-muted-foreground mt-1 font-mono">
               Tunnel siap terhubung
             </p>

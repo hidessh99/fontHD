@@ -64,13 +64,15 @@ export function AdminSupportView() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-border/40 pb-6">
         <div>
           <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-xs font-medium text-red-500 mb-2">
-            <ShieldAlert className="w-3.5 h-3.5" /> Superadmin Helpdesk Operations
+            <ShieldAlert className="w-3.5 h-3.5" /> Superadmin Helpdesk
+            Operations
           </div>
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
             Operasional Tiket & Helpdesk
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Respon keluhan pelanggan, catat nota investigasi internal, dan kelola eskalasi isu jaringan VPN.
+            Respon keluhan pelanggan, catat nota investigasi internal, dan
+            kelola eskalasi isu jaringan VPN.
           </p>
         </div>
 

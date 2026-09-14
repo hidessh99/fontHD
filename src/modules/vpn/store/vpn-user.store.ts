@@ -97,7 +97,8 @@ export const useVpnUserStore = create<VpnUserState>((set, get) => ({
         set({ isLoading: false });
       }
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Gagal memuat daftar server";
+      const msg =
+        err instanceof Error ? err.message : "Gagal memuat daftar server";
       set({ error: msg, isLoading: false });
     }
   },
@@ -113,17 +114,21 @@ export const useVpnUserStore = create<VpnUserState>((set, get) => ({
     }
 
     // 1. Generate unique TxID and increment version
-    const txId = typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : `tx_${Date.now()}_${Math.random()}`;
+    const txId =
+      typeof crypto !== "undefined" && crypto.randomUUID
+        ? crypto.randomUUID()
+        : `tx_${Date.now()}_${Math.random()}`;
     const nextVersion = (versionRegistry[accIdStr] || 0) + 1;
 
     // 2. Capture deep snapshot (prevent shallow mutations)
-    const snapshot = typeof structuredClone !== "undefined" 
-      ? structuredClone(currentAccount) 
-      : JSON.parse(JSON.stringify(currentAccount));
+    const snapshot =
+      typeof structuredClone !== "undefined"
+        ? structuredClone(currentAccount)
+        : JSON.parse(JSON.stringify(currentAccount));
 
     // 3. Instant UI Update (0ms)
     const updatedAccounts = accounts.map((acc) =>
-      String(acc.id) === accIdStr ? { ...acc, status: "PAUSED" } : acc
+      String(acc.id) === accIdStr ? { ...acc, status: "PAUSED" } : acc,
     );
 
     set({
@@ -139,7 +144,9 @@ export const useVpnUserStore = create<VpnUserState>((set, get) => ({
     try {
       const response = await vpnUserApi.pausePayasAccount(accountId, txId);
       if (!response.success && response.error) {
-        throw new Error(String(response.message || "Gagal menjeda akun payas."));
+        throw new Error(
+          String(response.message || "Gagal menjeda akun payas."),
+        );
       }
 
       // Success: Commit and clear snapshot from registry
@@ -155,15 +162,19 @@ export const useVpnUserStore = create<VpnUserState>((set, get) => ({
       if (entry && currentVer === entry.version) {
         // Rollback because this failing mutation is still the latest one
         const rolledBackAccounts = get().accounts.map((acc) =>
-          String(acc.id) === accIdStr ? entry.snapshot : acc
+          String(acc.id) === accIdStr ? entry.snapshot : acc,
         );
         const cleanedRollbacks = { ...get().rollbackRegistry };
         delete cleanedRollbacks[txId];
 
-        set({ accounts: rolledBackAccounts, rollbackRegistry: cleanedRollbacks });
+        set({
+          accounts: rolledBackAccounts,
+          rollbackRegistry: cleanedRollbacks,
+        });
       }
 
-      const errMsg = err instanceof Error ? err.message : "Terjadi kesalahan jaringan.";
+      const errMsg =
+        err instanceof Error ? err.message : "Terjadi kesalahan jaringan.";
       return { success: false, error: errMsg };
     }
   },
@@ -178,15 +189,19 @@ export const useVpnUserStore = create<VpnUserState>((set, get) => ({
       return { success: false, error: "Akun tidak ditemukan." };
     }
 
-    const txId = typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : `tx_${Date.now()}_${Math.random()}`;
+    const txId =
+      typeof crypto !== "undefined" && crypto.randomUUID
+        ? crypto.randomUUID()
+        : `tx_${Date.now()}_${Math.random()}`;
     const nextVersion = (versionRegistry[accIdStr] || 0) + 1;
-    const snapshot = typeof structuredClone !== "undefined" 
-      ? structuredClone(currentAccount) 
-      : JSON.parse(JSON.stringify(currentAccount));
+    const snapshot =
+      typeof structuredClone !== "undefined"
+        ? structuredClone(currentAccount)
+        : JSON.parse(JSON.stringify(currentAccount));
 
     // Instant UI Update (0ms)
     const updatedAccounts = accounts.map((acc) =>
-      String(acc.id) === accIdStr ? { ...acc, status: "ACTIVE" } : acc
+      String(acc.id) === accIdStr ? { ...acc, status: "ACTIVE" } : acc,
     );
 
     set({
@@ -199,9 +214,13 @@ export const useVpnUserStore = create<VpnUserState>((set, get) => ({
     });
 
     try {
-      const response = await vpnUserApi.changePayasStatus(accountId, { status: "ACTIVE" });
+      const response = await vpnUserApi.changePayasStatus(accountId, {
+        status: "ACTIVE",
+      });
       if (!response.success && response.error) {
-        throw new Error(String(response.message || "Gagal mengaktifkan kembali akun."));
+        throw new Error(
+          String(response.message || "Gagal mengaktifkan kembali akun."),
+        );
       }
 
       const latestRollbacks = { ...get().rollbackRegistry };
@@ -214,21 +233,28 @@ export const useVpnUserStore = create<VpnUserState>((set, get) => ({
 
       if (entry && currentVer === entry.version) {
         const rolledBackAccounts = get().accounts.map((acc) =>
-          String(acc.id) === accIdStr ? entry.snapshot : acc
+          String(acc.id) === accIdStr ? entry.snapshot : acc,
         );
         const cleanedRollbacks = { ...get().rollbackRegistry };
         delete cleanedRollbacks[txId];
 
-        set({ accounts: rolledBackAccounts, rollbackRegistry: cleanedRollbacks });
+        set({
+          accounts: rolledBackAccounts,
+          rollbackRegistry: cleanedRollbacks,
+        });
       }
 
-      const errMsg = err instanceof Error ? err.message : "Gagal mengaktifkan akun.";
+      const errMsg =
+        err instanceof Error ? err.message : "Gagal mengaktifkan akun.";
       return { success: false, error: errMsg };
     }
   },
 
   // === ALGORITHM 3: OPTIMISTIC RENEW WITH ROLLBACK ===
-  optimisticRenewAccount: async (accountId: number | string, durationDays: number) => {
+  optimisticRenewAccount: async (
+    accountId: number | string,
+    durationDays: number,
+  ) => {
     const accIdStr = String(accountId);
     const { accounts, versionRegistry, rollbackRegistry } = get();
     const currentAccount = accounts.find((a) => String(a.id) === accIdStr);
@@ -237,11 +263,15 @@ export const useVpnUserStore = create<VpnUserState>((set, get) => ({
       return { success: false, error: "Akun tidak ditemukan." };
     }
 
-    const txId = typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : `tx_${Date.now()}_${Math.random()}`;
+    const txId =
+      typeof crypto !== "undefined" && crypto.randomUUID
+        ? crypto.randomUUID()
+        : `tx_${Date.now()}_${Math.random()}`;
     const nextVersion = (versionRegistry[accIdStr] || 0) + 1;
-    const snapshot = typeof structuredClone !== "undefined" 
-      ? structuredClone(currentAccount) 
-      : JSON.parse(JSON.stringify(currentAccount));
+    const snapshot =
+      typeof structuredClone !== "undefined"
+        ? structuredClone(currentAccount)
+        : JSON.parse(JSON.stringify(currentAccount));
 
     // Calculate extended date optimistically
     const currentExpiry = new Date(currentAccount.expired_at || Date.now());
@@ -250,7 +280,7 @@ export const useVpnUserStore = create<VpnUserState>((set, get) => ({
     const updatedAccounts = accounts.map((acc) =>
       String(acc.id) === accIdStr
         ? { ...acc, expired_at: currentExpiry.toISOString(), status: "ACTIVE" }
-        : acc
+        : acc,
     );
 
     set({
@@ -263,9 +293,15 @@ export const useVpnUserStore = create<VpnUserState>((set, get) => ({
     });
 
     try {
-      const response = await vpnUserApi.renewMonthAccount(accountId, { account_id: accountId, duration_days: durationDays }, txId);
+      const response = await vpnUserApi.renewMonthAccount(
+        accountId,
+        { account_id: accountId, duration_days: durationDays },
+        txId,
+      );
       if (!response.success && response.error) {
-        throw new Error(String(response.message || "Gagal memperpanjang akun."));
+        throw new Error(
+          String(response.message || "Gagal memperpanjang akun."),
+        );
       }
 
       const latestRollbacks = { ...get().rollbackRegistry };
@@ -278,15 +314,19 @@ export const useVpnUserStore = create<VpnUserState>((set, get) => ({
 
       if (entry && currentVer === entry.version) {
         const rolledBackAccounts = get().accounts.map((acc) =>
-          String(acc.id) === accIdStr ? entry.snapshot : acc
+          String(acc.id) === accIdStr ? entry.snapshot : acc,
         );
         const cleanedRollbacks = { ...get().rollbackRegistry };
         delete cleanedRollbacks[txId];
 
-        set({ accounts: rolledBackAccounts, rollbackRegistry: cleanedRollbacks });
+        set({
+          accounts: rolledBackAccounts,
+          rollbackRegistry: cleanedRollbacks,
+        });
       }
 
-      const errMsg = err instanceof Error ? err.message : "Gagal memperpanjang masa aktif.";
+      const errMsg =
+        err instanceof Error ? err.message : "Gagal memperpanjang masa aktif.";
       return { success: false, error: errMsg };
     }
   },

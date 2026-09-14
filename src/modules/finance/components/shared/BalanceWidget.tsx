@@ -16,7 +16,9 @@ interface BalanceWidgetProps {
   balance: number;
   totalSpent?: number;
   onTopup: (dto: CreateTopupDto) => Promise<unknown>;
-  onValidateVoucher?: (code: string) => Promise<{ valid: boolean; discount_amount: number; message?: string }>;
+  onValidateVoucher?: (
+    code: string,
+  ) => Promise<{ valid: boolean; discount_amount: number; message?: string }>;
 }
 
 export function BalanceWidget({
@@ -57,16 +59,15 @@ export function BalanceWidget({
             <div className="flex items-center gap-1.5 mt-2 text-xs text-muted-foreground font-mono">
               <TrendingDown className="h-3.5 w-3.5 text-muted-foreground" />
               <span>Total belanja:</span>
-              <span className="font-mono text-foreground font-semibold">{formatIDR(totalSpent)}</span>
+              <span className="font-mono text-foreground font-semibold">
+                {formatIDR(totalSpent)}
+              </span>
             </div>
           </div>
         </div>
 
         <div className="flex items-center gap-3">
-          <TopupModal
-            onTopup={onTopup}
-            onValidateVoucher={onValidateVoucher}
-          />
+          <TopupModal onTopup={onTopup} onValidateVoucher={onValidateVoucher} />
         </div>
       </CardContent>
     </Card>

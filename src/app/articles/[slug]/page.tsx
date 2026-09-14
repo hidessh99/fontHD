@@ -16,10 +16,12 @@ const DynamicArticleDetailView = dynamic(
   () => import("@/modules/content").then((mod) => mod.ArticleDetailView),
   {
     loading: () => <ContentSkeleton />,
-  }
+  },
 );
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const formattedTitle = slug
     .split("-")

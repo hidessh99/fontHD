@@ -4,12 +4,15 @@
 
 import { apiClient, ApiResponse } from "@/lib/api/http-client";
 import { NotificationItem } from "../types/notification.types";
-import { UserNotificationFilterParams, MarkAsReadDto } from "../types/user.types";
+import {
+  UserNotificationFilterParams,
+  MarkAsReadDto,
+} from "../types/user.types";
 
 export const notificationUserApi = {
   // GET /api/notifications
   getNotifications: (
-    params?: UserNotificationFilterParams
+    params?: UserNotificationFilterParams,
   ): Promise<ApiResponse<NotificationItem[]>> =>
     apiClient.get<NotificationItem[]>("/api/notifications", { params }),
 

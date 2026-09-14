@@ -9,7 +9,10 @@
 import { useState, useEffect, useCallback } from "react";
 import { subscriptionUserApi } from "../api/user.api";
 import type { Plan, Subscription } from "../types/subscription.types";
-import type { CreateSubscriptionDto, UpgradeSubscriptionDto } from "../types/user.types";
+import type {
+  CreateSubscriptionDto,
+  UpgradeSubscriptionDto,
+} from "../types/user.types";
 import { toast } from "sonner";
 
 const MOCK_PLANS: Plan[] = [
@@ -31,7 +34,8 @@ const MOCK_PLANS: Plan[] = [
     id: "plan-pro",
     name: "Premium Pro Max",
     slug: "pro",
-    description: "Performa maksimal untuk streaming 4K, gaming, dan bypass DPI.",
+    description:
+      "Performa maksimal untuk streaming 4K, gaming, dan bypass DPI.",
     price: 45000,
     currency: "IDR",
     billing_cycle: "MONTHLY",
@@ -50,7 +54,8 @@ const MOCK_PLANS: Plan[] = [
     id: "plan-annual",
     name: "Enterprise Annual Pass",
     slug: "annual",
-    description: "Hemat 30% dengan langganan tahunan untuk multi-device keluarga/tim.",
+    description:
+      "Hemat 30% dengan langganan tahunan untuk multi-device keluarga/tim.",
     price: 420000,
     currency: "IDR",
     billing_cycle: "ANNUAL",
@@ -109,16 +114,24 @@ export function useSubscriptionUser() {
     fetchData();
   }, [fetchData]);
 
-  const subscribe = async (dto: CreateSubscriptionDto, idempotencyKey?: string) => {
+  const subscribe = async (
+    dto: CreateSubscriptionDto,
+    idempotencyKey?: string,
+  ) => {
     try {
-      const res = await subscriptionUserApi.createSubscription(dto, idempotencyKey);
+      const res = await subscriptionUserApi.createSubscription(
+        dto,
+        idempotencyKey,
+      );
       const created = res.payload || res.data;
       if (created) {
         setSubscription(created);
         return created;
       }
     } catch {
-      const targetPlan = plans.find((p) => String(p.id) === String(dto.plan_id)) || MOCK_PLANS[1];
+      const targetPlan =
+        plans.find((p) => String(p.id) === String(dto.plan_id)) ||
+        MOCK_PLANS[1];
       const mockSub: Subscription = {
         id: "sub-" + Date.now(),
         user_id: 101,
@@ -135,16 +148,24 @@ export function useSubscriptionUser() {
     }
   };
 
-  const upgrade = async (dto: UpgradeSubscriptionDto, idempotencyKey?: string) => {
+  const upgrade = async (
+    dto: UpgradeSubscriptionDto,
+    idempotencyKey?: string,
+  ) => {
     try {
-      const res = await subscriptionUserApi.upgradeSubscription(dto, idempotencyKey);
+      const res = await subscriptionUserApi.upgradeSubscription(
+        dto,
+        idempotencyKey,
+      );
       const updated = res.payload || res.data;
       if (updated) {
         setSubscription(updated);
         return updated;
       }
     } catch {
-      const targetPlan = plans.find((p) => String(p.id) === String(dto.new_plan_id)) || MOCK_PLANS[1];
+      const targetPlan =
+        plans.find((p) => String(p.id) === String(dto.new_plan_id)) ||
+        MOCK_PLANS[1];
       if (subscription) {
         const upgraded: Subscription = {
           ...subscription,

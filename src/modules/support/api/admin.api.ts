@@ -15,7 +15,9 @@ import {
 
 export const supportAdminApi = {
   // 1. GET /api/admin/ticket
-  listTickets: (params?: AdminTicketFilterParams): Promise<ApiResponse<Ticket[]>> =>
+  listTickets: (
+    params?: AdminTicketFilterParams,
+  ): Promise<ApiResponse<Ticket[]>> =>
     apiClient.get<Ticket[]>("/api/admin/ticket", { params }),
 
   // 2. GET /api/admin/ticket/:id
@@ -23,7 +25,10 @@ export const supportAdminApi = {
     apiClient.get<Ticket>(`/api/admin/ticket/${id}`),
 
   // 3. PUT /api/admin/ticket/:id
-  updateTicket: (id: string | number, data: AdminUpdateTicketDto): Promise<ApiResponse<Ticket>> =>
+  updateTicket: (
+    id: string | number,
+    data: AdminUpdateTicketDto,
+  ): Promise<ApiResponse<Ticket>> =>
     apiClient.put<Ticket>(`/api/admin/ticket/${id}`, data),
 
   // 4. DELETE /api/admin/ticket/:id
@@ -43,13 +48,15 @@ export const supportAdminApi = {
     apiClient.patch<Ticket>(`/api/admin/ticket/${id}/resolve`),
 
   // 8. GET /api/admin/ticket/:id/reply
-  getReplies: (ticketId: string | number): Promise<ApiResponse<TicketReply[]>> =>
+  getReplies: (
+    ticketId: string | number,
+  ): Promise<ApiResponse<TicketReply[]>> =>
     apiClient.get<TicketReply[]>(`/api/admin/ticket/${ticketId}/reply`),
 
   // 9. POST /api/admin/ticket/:id/reply
   createReply: (
     ticketId: string | number,
-    data: AdminCreateReplyDto
+    data: AdminCreateReplyDto,
   ): Promise<ApiResponse<TicketReply>> =>
     apiClient.post<TicketReply>(`/api/admin/ticket/${ticketId}/reply`, data),
 

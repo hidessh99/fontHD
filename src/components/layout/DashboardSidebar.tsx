@@ -111,7 +111,10 @@ interface DashboardSidebarProps {
   onCloseMobile?: () => void;
 }
 
-export function DashboardSidebar({ className, onCloseMobile }: DashboardSidebarProps) {
+export function DashboardSidebar({
+  className,
+  onCloseMobile,
+}: DashboardSidebarProps) {
   const pathname = usePathname();
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({
     "VPN Protocols": true,
@@ -144,7 +147,7 @@ export function DashboardSidebar({ className, onCloseMobile }: DashboardSidebarP
     <aside
       className={cn(
         "flex h-full w-64 flex-col border-r border-border/80 bg-sidebar text-sidebar-foreground",
-        className
+        className,
       )}
     >
       {/* Brand Header */}
@@ -162,7 +165,10 @@ export function DashboardSidebar({ className, onCloseMobile }: DashboardSidebarP
             </span>
           </div>
         </Link>
-        <Badge variant="outline" className="border-primary/30 font-mono text-[10px] text-primary">
+        <Badge
+          variant="outline"
+          className="border-primary/30 font-mono text-[10px] text-primary"
+        >
           v2.0
         </Badge>
       </div>
@@ -173,7 +179,8 @@ export function DashboardSidebar({ className, onCloseMobile }: DashboardSidebarP
           const isActive =
             pathname === item.href ||
             (item.href === "/kubernetes" && pathname === "/k8s") ||
-            (item.subItems && item.subItems.some((sub) => pathname === sub.href));
+            (item.subItems &&
+              item.subItems.some((sub) => pathname === sub.href));
           const hasSub = !!item.subItems && item.subItems.length > 0;
           const isExpanded = openGroups[item.title] ?? false;
 
@@ -187,11 +194,16 @@ export function DashboardSidebar({ className, onCloseMobile }: DashboardSidebarP
                     "flex w-full items-center justify-between rounded-xl px-3 py-2 text-xs font-semibold transition-all duration-150",
                     isActive
                       ? "bg-primary/10 text-primary"
-                      : "text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground"
+                      : "text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground",
                   )}
                 >
                   <div className="flex items-center gap-2.5">
-                    <item.icon className={cn("size-4", isActive ? "text-primary" : "text-muted-foreground")} />
+                    <item.icon
+                      className={cn(
+                        "size-4",
+                        isActive ? "text-primary" : "text-muted-foreground",
+                      )}
+                    />
                     <span>{item.title}</span>
                   </div>
                   <div className="flex items-center gap-1.5">
@@ -215,11 +227,18 @@ export function DashboardSidebar({ className, onCloseMobile }: DashboardSidebarP
                     "flex items-center justify-between rounded-xl px-3 py-2 text-xs font-semibold transition-all duration-150",
                     isActive
                       ? "bg-primary text-primary-foreground shadow-sm shadow-primary/20"
-                      : "text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground"
+                      : "text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground",
                   )}
                 >
                   <div className="flex items-center gap-2.5">
-                    <item.icon className={cn("size-4", isActive ? "text-primary-foreground" : "text-muted-foreground")} />
+                    <item.icon
+                      className={cn(
+                        "size-4",
+                        isActive
+                          ? "text-primary-foreground"
+                          : "text-muted-foreground",
+                      )}
+                    />
                     <span>{item.title}</span>
                   </div>
                   {item.badge && (
@@ -227,7 +246,9 @@ export function DashboardSidebar({ className, onCloseMobile }: DashboardSidebarP
                       variant="outline"
                       className={cn(
                         "text-[9px] px-1.5 py-0 border-none font-mono",
-                        isActive ? "bg-white/20 text-white" : "bg-primary/10 text-primary"
+                        isActive
+                          ? "bg-white/20 text-white"
+                          : "bg-primary/10 text-primary",
                       )}
                     >
                       {item.badge}
@@ -250,7 +271,7 @@ export function DashboardSidebar({ className, onCloseMobile }: DashboardSidebarP
                           "block rounded-lg px-2.5 py-1.5 text-xs transition-colors",
                           isSubActive
                             ? "bg-primary text-primary-foreground font-semibold"
-                            : "text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground"
+                            : "text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground",
                         )}
                       >
                         {sub.title}

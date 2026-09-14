@@ -28,7 +28,9 @@ export function AdminSubscriptionView() {
     refresh,
   } = useSubscriptionAdmin();
 
-  const [activeTab, setActiveTab] = useState<"plans" | "subscriptions">("plans");
+  const [activeTab, setActiveTab] = useState<"plans" | "subscriptions">(
+    "plans",
+  );
   const [isAddPlanModalOpen, setIsAddPlanModalOpen] = useState(false);
 
   // Form state
@@ -77,13 +79,15 @@ export function AdminSubscriptionView() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-border/40 pb-6">
         <div>
           <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-xs font-medium text-red-500 mb-2">
-            <ShieldCheck className="w-3.5 h-3.5" /> Superadmin Billing & Tier Engine
+            <ShieldCheck className="w-3.5 h-3.5" /> Superadmin Billing & Tier
+            Engine
           </div>
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
             Manajemen Paket & Langganan
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Konfigurasi tiering paket VPN, kuota bandwidth, batasan perangkat, dan kontrol status langganan global.
+            Konfigurasi tiering paket VPN, kuota bandwidth, batasan perangkat,
+            dan kontrol status langganan global.
           </p>
         </div>
 
@@ -168,12 +172,16 @@ export function AdminSubscriptionView() {
       {isAddPlanModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm">
           <div className="w-full max-w-lg bg-card border border-border/60 rounded-2xl p-6 shadow-xl space-y-5 animate-in fade-in zoom-in-95 duration-200">
-            <h3 className="text-lg font-bold text-foreground">Tambah Paket Layanan Baru</h3>
+            <h3 className="text-lg font-bold text-foreground">
+              Tambah Paket Layanan Baru
+            </h3>
 
             <form onSubmit={handleCreatePlanSubmit} className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-muted-foreground">Nama Paket</label>
+                  <label className="text-xs font-semibold text-muted-foreground">
+                    Nama Paket
+                  </label>
                   <input
                     type="text"
                     required
@@ -191,13 +199,17 @@ export function AdminSubscriptionView() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-muted-foreground">Slug URL</label>
+                  <label className="text-xs font-semibold text-muted-foreground">
+                    Slug URL
+                  </label>
                   <input
                     type="text"
                     required
                     placeholder="vip-turbo"
                     value={newPlan.slug}
-                    onChange={(e) => setNewPlan({ ...newPlan, slug: e.target.value })}
+                    onChange={(e) =>
+                      setNewPlan({ ...newPlan, slug: e.target.value })
+                    }
                     className="w-full px-3 py-2 text-sm rounded-lg border border-border/50 bg-background/50 focus:outline-none focus:ring-2 focus:ring-primary font-mono text-xs"
                   />
                 </div>
@@ -205,19 +217,25 @@ export function AdminSubscriptionView() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-muted-foreground">Harga (IDR)</label>
+                  <label className="text-xs font-semibold text-muted-foreground">
+                    Harga (IDR)
+                  </label>
                   <input
                     type="number"
                     required
                     min={0}
                     value={newPlan.price}
-                    onChange={(e) => setNewPlan({ ...newPlan, price: Number(e.target.value) })}
+                    onChange={(e) =>
+                      setNewPlan({ ...newPlan, price: Number(e.target.value) })
+                    }
                     className="w-full px-3 py-2 text-sm rounded-lg border border-border/50 bg-background/50 focus:outline-none focus:ring-2 focus:ring-primary"
                   />
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-muted-foreground">Billing Cycle</label>
+                  <label className="text-xs font-semibold text-muted-foreground">
+                    Billing Cycle
+                  </label>
                   <select
                     value={newPlan.billing_cycle}
                     onChange={(e) =>
@@ -238,25 +256,39 @@ export function AdminSubscriptionView() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-muted-foreground">Maksimal Perangkat</label>
+                  <label className="text-xs font-semibold text-muted-foreground">
+                    Maksimal Perangkat
+                  </label>
                   <input
                     type="number"
                     required
                     min={1}
                     value={newPlan.max_devices}
-                    onChange={(e) => setNewPlan({ ...newPlan, max_devices: Number(e.target.value) })}
+                    onChange={(e) =>
+                      setNewPlan({
+                        ...newPlan,
+                        max_devices: Number(e.target.value),
+                      })
+                    }
                     className="w-full px-3 py-2 text-sm rounded-lg border border-border/50 bg-background/50 focus:outline-none focus:ring-2 focus:ring-primary"
                   />
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-muted-foreground">Bandwidth (GB, 0 = Unlimited)</label>
+                  <label className="text-xs font-semibold text-muted-foreground">
+                    Bandwidth (GB, 0 = Unlimited)
+                  </label>
                   <input
                     type="number"
                     required
                     min={0}
                     value={newPlan.bandwidth_gb}
-                    onChange={(e) => setNewPlan({ ...newPlan, bandwidth_gb: Number(e.target.value) })}
+                    onChange={(e) =>
+                      setNewPlan({
+                        ...newPlan,
+                        bandwidth_gb: Number(e.target.value),
+                      })
+                    }
                     className="w-full px-3 py-2 text-sm rounded-lg border border-border/50 bg-background/50 focus:outline-none focus:ring-2 focus:ring-primary"
                   />
                 </div>

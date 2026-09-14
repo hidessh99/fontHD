@@ -10,17 +10,18 @@ import { FinanceSkeleton } from "@/modules/finance/components/shared/FinanceSkel
 
 export const metadata: Metadata = {
   title: "Pencairan Komisi Reseller | GoVPN",
-  description: "Kelola saldo komisi reseller dan ajukan pencairan ke rekening bank",
+  description:
+    "Kelola saldo komisi reseller dan ajukan pencairan ke rekening bank",
 };
 
 const SellerWithdrawalView = dynamic(
   () =>
     import("@/modules/finance/views/seller/SellerWithdrawalView").then(
-      (mod) => mod.SellerWithdrawalView
+      (mod) => mod.SellerWithdrawalView,
     ),
   {
     loading: () => <FinanceSkeleton />,
-  }
+  },
 );
 
 export default function SellerWithdrawalPage() {

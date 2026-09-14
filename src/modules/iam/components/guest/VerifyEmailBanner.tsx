@@ -49,7 +49,8 @@ export function VerifyEmailBanner({
             Verifikasi Alamat Email Anda
           </AlertTitle>
           <AlertDescription className="text-xs text-amber-300/80 mt-0.5">
-            Akun Anda belum diverifikasi. Harap periksa kotak masuk email <strong className="font-mono">{email}</strong>.
+            Akun Anda belum diverifikasi. Harap periksa kotak masuk email{" "}
+            <strong className="font-mono">{email}</strong>.
           </AlertDescription>
         </div>
 
@@ -62,11 +63,13 @@ export function VerifyEmailBanner({
         >
           {isSending ? (
             <>
-              <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" /> Mengirim...
+              <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />{" "}
+              Mengirim...
             </>
           ) : hasSent ? (
             <>
-              <CheckCircle2 className="mr-1.5 h-3.5 w-3.5 text-emerald-400" /> Terkirim
+              <CheckCircle2 className="mr-1.5 h-3.5 w-3.5 text-emerald-400" />{" "}
+              Terkirim
             </>
           ) : (
             <>

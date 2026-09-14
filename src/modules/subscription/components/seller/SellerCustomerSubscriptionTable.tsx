@@ -71,7 +71,9 @@ export function SellerCustomerSubscriptionTable({
               <td className="px-5 py-3.5 font-sans text-muted-foreground">
                 <div className="flex items-center gap-1.5 font-mono text-[11px]">
                   <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
-                  <span>{new Date(sub.end_date).toLocaleDateString("id-ID")}</span>
+                  <span>
+                    {new Date(sub.end_date).toLocaleDateString("id-ID")}
+                  </span>
                 </div>
               </td>
             </tr>

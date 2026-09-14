@@ -28,7 +28,10 @@ interface AuthState {
   logout: () => Promise<void>;
   loadProfile: () => Promise<void>;
   updateUserLocal: (updated: Partial<UserProfile>) => void;
-  updateProfile: (id: string | number, dto: UpdateProfileDto) => Promise<boolean>;
+  updateProfile: (
+    id: string | number,
+    dto: UpdateProfileDto,
+  ) => Promise<boolean>;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -46,7 +49,9 @@ export const useAuthStore = create<AuthState>()(
           const session: AuthSession = (res.payload || res.data) as AuthSession;
 
           if (!session || !session.token) {
-            throw new Error(String(res.message || "Gagal masuk: Kredensial tidak valid."));
+            throw new Error(
+              String(res.message || "Gagal masuk: Kredensial tidak valid."),
+            );
           }
 
           const token = session.token;
@@ -106,7 +111,9 @@ export const useAuthStore = create<AuthState>()(
         } catch (err: unknown) {
           set({ isLoading: false });
           const msg =
-            err instanceof Error ? err.message : "Gagal mendaftar. Silakan coba lagi.";
+            err instanceof Error
+              ? err.message
+              : "Gagal mendaftar. Silakan coba lagi.";
           toast.error(msg);
           return false;
         }
@@ -170,6 +177,6 @@ export const useAuthStore = create<AuthState>()(
         token: state.token,
         isAuthenticated: state.isAuthenticated,
       }),
-    }
-  )
+    },
+  ),
 );

@@ -26,7 +26,10 @@ export function ContentSkeleton() {
       {/* Grid skeleton */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {[1, 2, 3, 4, 5, 6].map((i) => (
-          <div key={i} className="rounded-2xl border border-border/40 bg-card/40 p-5 space-y-4">
+          <div
+            key={i}
+            className="rounded-2xl border border-border/40 bg-card/40 p-5 space-y-4"
+          >
             <Skeleton className="h-40 w-full rounded-xl" />
             <div className="space-y-2">
               <Skeleton className="h-4 w-20 rounded" />

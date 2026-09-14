@@ -85,9 +85,7 @@ export function useIamAdmin() {
     } catch {
       // Fallback
     }
-    setUsers((prev) =>
-      prev.map((u) => (u.id === userId ? { ...u, role } : u))
-    );
+    setUsers((prev) => prev.map((u) => (u.id === userId ? { ...u, role } : u)));
     return true;
   };
 
@@ -113,8 +111,8 @@ export function useIamAdmin() {
       prev.map((u) =>
         u.id === dto.user_id
           ? { ...u, balance: (u.balance || 0) + dto.amount }
-          : u
-      )
+          : u,
+      ),
     );
     return true;
   };
@@ -129,8 +127,8 @@ export function useIamAdmin() {
       prev.map((u) =>
         u.id === dto.user_id
           ? { ...u, balance: Math.max(0, (u.balance || 0) - dto.amount) }
-          : u
-      )
+          : u,
+      ),
     );
     return true;
   };
@@ -145,8 +143,8 @@ export function useIamAdmin() {
       prev.map((u) =>
         u.id === dto.user_id
           ? { ...u, income: (u.income || 0) + dto.amount }
-          : u
-      )
+          : u,
+      ),
     );
     return true;
   };
@@ -161,8 +159,8 @@ export function useIamAdmin() {
       prev.map((u) =>
         u.id === dto.user_id
           ? { ...u, income: Math.max(0, (u.income || 0) - dto.amount) }
-          : u
-      )
+          : u,
+      ),
     );
     return true;
   };
@@ -178,7 +176,8 @@ export function useIamAdmin() {
           id: 1,
           name: "Super Administrator",
           slug: "SUPERADMIN",
-          description: "Akses mutlak terhadap seluruh subsistem jaringan, ledger finansial, dan root K8s.",
+          description:
+            "Akses mutlak terhadap seluruh subsistem jaringan, ledger finansial, dan root K8s.",
           user_count: 2,
           is_system: true,
         },
@@ -186,7 +185,8 @@ export function useIamAdmin() {
           id: 2,
           name: "Administrator Server",
           slug: "ADMIN",
-          description: "Pengelolaan node server VPN global, DNS zones, dan pemantauan telemetri.",
+          description:
+            "Pengelolaan node server VPN global, DNS zones, dan pemantauan telemetri.",
           user_count: 5,
           is_system: true,
         },
@@ -194,7 +194,8 @@ export function useIamAdmin() {
           id: 3,
           name: "Reseller Mitra",
           slug: "SELLER",
-          description: "Pencetakan kuota massal VPN, komisi penjualan reseller, dan kelola sub-klien.",
+          description:
+            "Pencetakan kuota massal VPN, komisi penjualan reseller, dan kelola sub-klien.",
           user_count: 24,
           is_system: false,
         },
@@ -202,7 +203,8 @@ export function useIamAdmin() {
           id: 4,
           name: "Pelanggan Biasa",
           slug: "USER",
-          description: "Pengguna akhir yang membeli dan mengonsumsi konfigurasi protokol VPN.",
+          description:
+            "Pengguna akhir yang membeli dan mengonsumsi konfigurasi protokol VPN.",
           user_count: 1420,
           is_system: true,
         },

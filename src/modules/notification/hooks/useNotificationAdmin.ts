@@ -17,7 +17,8 @@ const MOCK_QUEUE: QueueItem[] = [
     channel: "IN_APP",
     recipient: "all_users",
     subject: "Pemeliharaan Node SG-01 Dijadwalkan",
-    message: "Node SG-01 akan menjalani pemeliharaan rutin pada pukul 02:00 - 03:00 WIB.",
+    message:
+      "Node SG-01 akan menjalani pemeliharaan rutin pada pukul 02:00 - 03:00 WIB.",
     status: "SENT",
     attempts: 1,
     max_attempts: 3,
@@ -29,7 +30,8 @@ const MOCK_QUEUE: QueueItem[] = [
     channel: "EMAIL",
     recipient: "finance@corporate.id",
     subject: "Invoice Tagihan Reseller Telah Diterbitkan",
-    message: "Tagihan komisi dan settlement reseller periode September 2026 telah siap.",
+    message:
+      "Tagihan komisi dan settlement reseller periode September 2026 telah siap.",
     status: "SENT",
     attempts: 1,
     max_attempts: 3,
@@ -70,9 +72,15 @@ export function useNotificationAdmin() {
     fetchQueue();
   }, [fetchQueue]);
 
-  const broadcastToAll = async (dto: BroadcastAllDto, idempotencyKey?: string) => {
+  const broadcastToAll = async (
+    dto: BroadcastAllDto,
+    idempotencyKey?: string,
+  ) => {
     try {
-      const res = await notificationAdminApi.broadcastToAll(dto, idempotencyKey);
+      const res = await notificationAdminApi.broadcastToAll(
+        dto,
+        idempotencyKey,
+      );
       fetchQueue();
       return res.payload || res.data;
     } catch {
@@ -92,9 +100,15 @@ export function useNotificationAdmin() {
     }
   };
 
-  const broadcastToUsers = async (dto: BroadcastUsersDto, idempotencyKey?: string) => {
+  const broadcastToUsers = async (
+    dto: BroadcastUsersDto,
+    idempotencyKey?: string,
+  ) => {
     try {
-      const res = await notificationAdminApi.broadcastToUsers(dto, idempotencyKey);
+      const res = await notificationAdminApi.broadcastToUsers(
+        dto,
+        idempotencyKey,
+      );
       fetchQueue();
       return res.payload || res.data;
     } catch {

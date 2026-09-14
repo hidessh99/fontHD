@@ -22,10 +22,15 @@ export const k8sAdminApi = {
   createServer: (data: AdminCreateServerDto): Promise<ApiResponse<K8sServer>> =>
     apiClient.post<K8sServer>("/api/kubernetes/servers", data),
 
-  updateServer: (id: string | number, data: AdminUpdateServerDto): Promise<ApiResponse<K8sServer>> =>
+  updateServer: (
+    id: string | number,
+    data: AdminUpdateServerDto,
+  ): Promise<ApiResponse<K8sServer>> =>
     apiClient.put<K8sServer>(`/api/kubernetes/servers/${id}`, data),
 
-  deleteServer: (id: string | number): Promise<ApiResponse<{ deleted: boolean }>> =>
+  deleteServer: (
+    id: string | number,
+  ): Promise<ApiResponse<{ deleted: boolean }>> =>
     apiClient.delete<{ deleted: boolean }>(`/api/kubernetes/servers/${id}`),
 
   // === RESOURCE SPECS / TIERS (4 Endpoints) ===
@@ -35,22 +40,34 @@ export const k8sAdminApi = {
   createSpec: (data: AdminCreateSpecDto): Promise<ApiResponse<K8sSpec>> =>
     apiClient.post<K8sSpec>("/api/kubernetes/specs", data),
 
-  updateSpec: (id: string | number, data: AdminUpdateSpecDto): Promise<ApiResponse<K8sSpec>> =>
+  updateSpec: (
+    id: string | number,
+    data: AdminUpdateSpecDto,
+  ): Promise<ApiResponse<K8sSpec>> =>
     apiClient.put<K8sSpec>(`/api/kubernetes/specs/${id}`, data),
 
-  deleteSpec: (id: string | number): Promise<ApiResponse<{ deleted: boolean }>> =>
+  deleteSpec: (
+    id: string | number,
+  ): Promise<ApiResponse<{ deleted: boolean }>> =>
     apiClient.delete<{ deleted: boolean }>(`/api/kubernetes/specs/${id}`),
 
   // === APP TEMPLATES (4 Endpoints) ===
   listTemplates: (): Promise<ApiResponse<K8sTemplate[]>> =>
     apiClient.get<K8sTemplate[]>("/api/kubernetes/templates"),
 
-  createTemplate: (data: AdminCreateTemplateDto): Promise<ApiResponse<K8sTemplate>> =>
+  createTemplate: (
+    data: AdminCreateTemplateDto,
+  ): Promise<ApiResponse<K8sTemplate>> =>
     apiClient.post<K8sTemplate>("/api/kubernetes/templates", data),
 
-  updateTemplate: (id: string | number, data: AdminUpdateTemplateDto): Promise<ApiResponse<K8sTemplate>> =>
+  updateTemplate: (
+    id: string | number,
+    data: AdminUpdateTemplateDto,
+  ): Promise<ApiResponse<K8sTemplate>> =>
     apiClient.put<K8sTemplate>(`/api/kubernetes/templates/${id}`, data),
 
-  deleteTemplate: (id: string | number): Promise<ApiResponse<{ deleted: boolean }>> =>
+  deleteTemplate: (
+    id: string | number,
+  ): Promise<ApiResponse<{ deleted: boolean }>> =>
     apiClient.delete<{ deleted: boolean }>(`/api/kubernetes/templates/${id}`),
 };

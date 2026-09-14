@@ -92,7 +92,9 @@ export function BillingInvoicesView() {
             disabled={loading}
             className="border-border/80 hover:bg-muted/30 text-foreground gap-2 h-9 text-xs rounded-full px-4"
           >
-            <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`} />
+            <RefreshCw
+              className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`}
+            />
             Segarkan
           </Button>
         </div>
@@ -100,7 +102,9 @@ export function BillingInvoicesView() {
         {/* Tab 1: Invoices */}
         <TabsContent value="invoices" className="mt-2 space-y-4">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-            <div className={selectedInvoice ? "lg:col-span-2" : "lg:col-span-3"}>
+            <div
+              className={selectedInvoice ? "lg:col-span-2" : "lg:col-span-3"}
+            >
               <InvoiceTable
                 invoices={invoices}
                 onSelectInvoice={(inv) => setSelectedInvoice(inv)}
@@ -148,7 +152,10 @@ export function BillingInvoicesView() {
               </thead>
               <tbody className="divide-y border-border/40 font-mono text-xs">
                 {billingHistory.map((item) => (
-                  <tr key={item.id} className="hover:bg-muted/20 transition-colors">
+                  <tr
+                    key={item.id}
+                    className="hover:bg-muted/20 transition-colors"
+                  >
                     <td className="px-5 py-3.5 text-muted-foreground">
                       {new Date(item.created_at).toLocaleString("id-ID", {
                         day: "2-digit",

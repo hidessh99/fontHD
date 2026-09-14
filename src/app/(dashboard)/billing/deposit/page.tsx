@@ -11,16 +11,17 @@ import { FinanceSkeleton } from "@/modules/finance/components/shared/FinanceSkel
 const DepositView = dynamic(
   () =>
     import("@/modules/finance/views/user/DepositView").then(
-      (mod) => mod.DepositView
+      (mod) => mod.DepositView,
     ),
   {
     loading: () => <FinanceSkeleton />,
-  }
+  },
 );
 
 export const metadata: Metadata = {
   title: "Deposit Saldo | GoVPN",
-  description: "Pengisian saldo akun GoVPN melalui QRIS instan dan Virtual Account",
+  description:
+    "Pengisian saldo akun GoVPN melalui QRIS instan dan Virtual Account",
 };
 
 export default function DepositPage() {

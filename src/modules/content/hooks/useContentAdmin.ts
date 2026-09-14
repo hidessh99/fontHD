@@ -18,9 +18,11 @@ import {
 const MOCK_ADMIN_POSTS: Post[] = [
   {
     id: 1,
-    title: "Panduan Lengkap Bypass DPI ISP Indonesia dengan Protokol V2Ray & Trojan",
+    title:
+      "Panduan Lengkap Bypass DPI ISP Indonesia dengan Protokol V2Ray & Trojan",
     slug: "panduan-lengkap-bypass-dpi-v2ray-trojan",
-    summary: "Pelajari bagaimana arsitektur enkripsi TLS dan gRPC GoVPN mampu menembus pemblokiran.",
+    summary:
+      "Pelajari bagaimana arsitektur enkripsi TLS dan gRPC GoVPN mampu menembus pemblokiran.",
     content: "Konten lengkap panduan...",
     status: "PUBLISHED",
     tags: ["TUTORIAL", "V2RAY", "DPI_BYPASS"],
@@ -126,7 +128,8 @@ export function useContentAdmin() {
         tags: dto.tags,
         featured_image: dto.featured_image,
         views_count: 0,
-        published_at: dto.status === "PUBLISHED" ? new Date().toISOString() : undefined,
+        published_at:
+          dto.status === "PUBLISHED" ? new Date().toISOString() : undefined,
         created_at: new Date().toISOString(),
       };
       setPosts((prev) => [mock, ...prev]);
@@ -143,9 +146,7 @@ export function useContentAdmin() {
         return updated;
       }
     } catch {
-      setPosts((prev) =>
-        prev.map((p) => (p.id === id ? { ...p, ...dto } : p))
-      );
+      setPosts((prev) => prev.map((p) => (p.id === id ? { ...p, ...dto } : p)));
     }
   };
 
@@ -164,9 +165,7 @@ export function useContentAdmin() {
     } catch {
       // Mock update
     }
-    setPosts((prev) =>
-      prev.map((p) => (p.id === id ? { ...p, status } : p))
-    );
+    setPosts((prev) => prev.map((p) => (p.id === id ? { ...p, status } : p)));
   };
 
   // Settings CRUD
@@ -202,7 +201,7 @@ export function useContentAdmin() {
       }
     } catch {
       setSettings((prev) =>
-        prev.map((s) => (s.id === id ? { ...s, ...dto } : s))
+        prev.map((s) => (s.id === id ? { ...s, ...dto } : s)),
       );
     }
   };

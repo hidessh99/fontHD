@@ -3,7 +3,8 @@
 // Synchronized with backendv2 Kubernetes Deployment & Cluster Architecture
 // ==============================================================================
 
-export type K8sAppStatus = "RUNNING" | "PENDING" | "STOPPED" | "FAILED" | "CRASH_LOOP";
+export type K8sAppStatus =
+  "RUNNING" | "PENDING" | "STOPPED" | "FAILED" | "CRASH_LOOP";
 
 export interface K8sEnvVar {
   key: string;

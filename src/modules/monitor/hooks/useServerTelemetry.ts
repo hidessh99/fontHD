@@ -115,7 +115,8 @@ export function useServerTelemetry() {
     // Adaptive Polling: 10s when active, 45s when tab backgrounded
     let timer: NodeJS.Timeout;
     const scheduleNext = () => {
-      const delay = typeof document !== "undefined" && document.hidden ? 45000 : 10000;
+      const delay =
+        typeof document !== "undefined" && document.hidden ? 45000 : 10000;
       timer = setTimeout(() => {
         fetchTelemetry(true).finally(scheduleNext);
       }, delay);
@@ -129,9 +130,11 @@ export function useServerTelemetry() {
   const filteredNodes = useMemo(() => {
     return telemetry.filter((node) => {
       const matchesCountry =
-        filterCountry === "ALL" || node.country.toLowerCase() === filterCountry.toLowerCase();
+        filterCountry === "ALL" ||
+        node.country.toLowerCase() === filterCountry.toLowerCase();
       const matchesStatus =
-        filterStatus === "ALL" || node.status.toLowerCase() === filterStatus.toLowerCase();
+        filterStatus === "ALL" ||
+        node.status.toLowerCase() === filterStatus.toLowerCase();
       const matchesSearch =
         searchQuery === "" ||
         node.server_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -145,10 +148,16 @@ export function useServerTelemetry() {
   const stats = useMemo(() => {
     const totalNodes = telemetry.length;
     const onlineNodes = telemetry.filter((n) => n.status === "ONLINE").length;
-    const totalUsers = telemetry.reduce((sum, n) => sum + (n.active_sessions || 0), 0);
+    const totalUsers = telemetry.reduce(
+      (sum, n) => sum + (n.active_sessions || 0),
+      0,
+    );
     const avgPing =
       totalNodes > 0
-        ? Math.round(telemetry.reduce((sum, n) => sum + (n.ping_ms || 0), 0) / totalNodes)
+        ? Math.round(
+            telemetry.reduce((sum, n) => sum + (n.ping_ms || 0), 0) /
+              totalNodes,
+          )
         : 0;
 
     return { totalNodes, onlineNodes, totalUsers, avgPing };

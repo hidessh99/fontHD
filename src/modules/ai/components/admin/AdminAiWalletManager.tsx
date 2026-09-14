@@ -73,17 +73,23 @@ export function AdminAiWalletManager({
             Audit Dompet AI Pengguna
           </h3>
           <p className="text-xs text-muted-foreground mt-0.5">
-            Daftar saldo dan konsumsi token AI per pengguna beserta opsi penyesuaian manual
+            Daftar saldo dan konsumsi token AI per pengguna beserta opsi
+            penyesuaian manual
           </p>
         </div>
 
         <Dialog open={openAdjust} onOpenChange={setOpenAdjust}>
-          <DialogTrigger render={
-            <Button size="sm" className="h-9 px-3.5 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs gap-1.5 shadow-md shadow-primary/20">
-              <Plus className="h-4 w-4" />
-              Sesuaikan Saldo
-            </Button>
-          } />
+          <DialogTrigger
+            render={
+              <Button
+                size="sm"
+                className="h-9 px-3.5 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs gap-1.5 shadow-md shadow-primary/20"
+              >
+                <Plus className="h-4 w-4" />
+                Sesuaikan Saldo
+              </Button>
+            }
+          />
           <DialogContent className="sm:max-w-md bg-card border-border text-foreground shadow-2xl rounded-2xl">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2 text-base font-bold">
@@ -93,7 +99,9 @@ export function AdminAiWalletManager({
             </DialogHeader>
             <form onSubmit={handleAdjust} className="space-y-3.5 pt-2">
               <div>
-                <Label className="text-xs text-muted-foreground">Target User ID</Label>
+                <Label className="text-xs text-muted-foreground">
+                  Target User ID
+                </Label>
                 <Input
                   placeholder="ID Pengguna (misal: 101)"
                   value={selectedUserId}
@@ -103,7 +111,9 @@ export function AdminAiWalletManager({
               </div>
 
               <div>
-                <Label className="text-xs text-muted-foreground">Tipe Penyesuaian</Label>
+                <Label className="text-xs text-muted-foreground">
+                  Tipe Penyesuaian
+                </Label>
                 <div className="grid grid-cols-2 gap-2 mt-1.5">
                   <button
                     type="button"
@@ -131,7 +141,9 @@ export function AdminAiWalletManager({
               </div>
 
               <div>
-                <Label className="text-xs text-muted-foreground">Nominal (IDR)</Label>
+                <Label className="text-xs text-muted-foreground">
+                  Nominal (IDR)
+                </Label>
                 <Input
                   type="number"
                   min={1000}
@@ -143,7 +155,9 @@ export function AdminAiWalletManager({
               </div>
 
               <div>
-                <Label className="text-xs text-muted-foreground">Alasan Penyesuaian</Label>
+                <Label className="text-xs text-muted-foreground">
+                  Alasan Penyesuaian
+                </Label>
                 <Input
                   placeholder="misal: Kompensasi downtime gateway"
                   value={reason}
@@ -191,7 +205,10 @@ export function AdminAiWalletManager({
             </thead>
             <tbody className="divide-y border-border/40 text-xs">
               {wallets.map((w) => (
-                <tr key={w.user_id} className="hover:bg-muted/20 transition-colors">
+                <tr
+                  key={w.user_id}
+                  className="hover:bg-muted/20 transition-colors"
+                >
                   <td className="px-5 py-3.5 font-sans">
                     <div className="flex items-center gap-1.5 text-foreground font-mono">
                       <User className="h-3.5 w-3.5 text-muted-foreground" />

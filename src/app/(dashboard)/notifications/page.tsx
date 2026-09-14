@@ -10,14 +10,15 @@ import { NotificationSkeleton } from "@/modules/notification/components/shared/N
 
 export const metadata: Metadata = {
   title: "Pusat Notifikasi | GoVPN Institutional",
-  description: "Pemberitahuan pembaruan server, invoice, dan status akun VPN Anda",
+  description:
+    "Pemberitahuan pembaruan server, invoice, dan status akun VPN Anda",
 };
 
 const DynamicNotificationsView = dynamic(
   () => import("@/modules/notification").then((mod) => mod.NotificationsView),
   {
     loading: () => <NotificationSkeleton />,
-  }
+  },
 );
 
 export default function NotificationsPage() {

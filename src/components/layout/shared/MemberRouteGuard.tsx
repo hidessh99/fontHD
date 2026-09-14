@@ -15,8 +15,7 @@ export function MemberRouteGuard({ children }: MemberRouteGuardProps) {
   const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
 
   useEffect(() => {
-    const token =
-      getCookie("hide-jwt") || getCookie("govpn_session_token");
+    const token = getCookie("hide-jwt") || getCookie("govpn_session_token");
 
     if (!token) {
       setIsAuthorized(false);

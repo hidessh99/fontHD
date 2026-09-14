@@ -10,14 +10,15 @@ import { MonitorSkeleton } from "@/modules/monitor/components/shared/MonitorSkel
 
 export const metadata: Metadata = {
   title: "Admin Server Fleet Telemetry | GoVPN Institutional",
-  description: "Kontrol pemantauan node server VPN, alerting threshold, dan sinkronisasi berkala",
+  description:
+    "Kontrol pemantauan node server VPN, alerting threshold, dan sinkronisasi berkala",
 };
 
 const DynamicAdminMonitorView = dynamic(
   () => import("@/modules/monitor").then((mod) => mod.AdminMonitorView),
   {
     loading: () => <MonitorSkeleton />,
-  }
+  },
 );
 
 export default function AdminMonitorPage() {

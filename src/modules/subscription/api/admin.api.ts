@@ -25,10 +25,15 @@ export const subscriptionAdminApi = {
   getPlan: (id: string | number): Promise<ApiResponse<Plan>> =>
     apiClient.get<Plan>(`/api/admin/plan/${id}`),
 
-  updatePlan: (id: string | number, data: AdminUpdatePlanDto): Promise<ApiResponse<Plan>> =>
+  updatePlan: (
+    id: string | number,
+    data: AdminUpdatePlanDto,
+  ): Promise<ApiResponse<Plan>> =>
     apiClient.put<Plan>(`/api/admin/plan/${id}`, data),
 
-  deletePlan: (id: string | number): Promise<ApiResponse<{ deleted: boolean }>> =>
+  deletePlan: (
+    id: string | number,
+  ): Promise<ApiResponse<{ deleted: boolean }>> =>
     apiClient.delete<{ deleted: boolean }>(`/api/admin/plan/${id}`),
 
   // === GLOBAL SUBSCRIPTIONS (6 Endpoints) ===
@@ -38,20 +43,28 @@ export const subscriptionAdminApi = {
   getSubscription: (id: string | number): Promise<ApiResponse<Subscription>> =>
     apiClient.get<Subscription>(`/api/admin/subscription/${id}`),
 
-  updateSubscription: (id: string | number, data: Partial<Subscription>): Promise<ApiResponse<Subscription>> =>
+  updateSubscription: (
+    id: string | number,
+    data: Partial<Subscription>,
+  ): Promise<ApiResponse<Subscription>> =>
     apiClient.put<Subscription>(`/api/admin/subscription/${id}`, data),
 
-  deleteSubscription: (id: string | number): Promise<ApiResponse<{ deleted: boolean }>> =>
+  deleteSubscription: (
+    id: string | number,
+  ): Promise<ApiResponse<{ deleted: boolean }>> =>
     apiClient.delete<{ deleted: boolean }>(`/api/admin/subscription/${id}`),
 
   changeSubscriptionPlan: (
     id: string | number,
-    data: AdminChangeSubscriptionPlanDto
+    data: AdminChangeSubscriptionPlanDto,
   ): Promise<ApiResponse<Subscription>> =>
-    apiClient.patch<Subscription>(`/api/admin/subscription/${id}/change-plan`, data),
+    apiClient.patch<Subscription>(
+      `/api/admin/subscription/${id}/change-plan`,
+      data,
+    ),
 
   updateSubscriptionStatus: (
-    data: AdminUpdateSubscriptionStatusDto
+    data: AdminUpdateSubscriptionStatusDto,
   ): Promise<ApiResponse<Subscription>> =>
     apiClient.patch<Subscription>("/api/admin/subscription/status", data),
 
@@ -62,9 +75,14 @@ export const subscriptionAdminApi = {
   getTenant: (id: string | number): Promise<ApiResponse<Tenant>> =>
     apiClient.get<Tenant>(`/api/admin/tenant/${id}`),
 
-  updateTenant: (id: string | number, data: AdminUpdateTenantDto): Promise<ApiResponse<Tenant>> =>
+  updateTenant: (
+    id: string | number,
+    data: AdminUpdateTenantDto,
+  ): Promise<ApiResponse<Tenant>> =>
     apiClient.put<Tenant>(`/api/admin/tenant/${id}`, data),
 
-  deleteTenant: (id: string | number): Promise<ApiResponse<{ deleted: boolean }>> =>
+  deleteTenant: (
+    id: string | number,
+  ): Promise<ApiResponse<{ deleted: boolean }>> =>
     apiClient.delete<{ deleted: boolean }>(`/api/admin/tenant/${id}`),
 };

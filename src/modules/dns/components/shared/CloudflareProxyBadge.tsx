@@ -13,13 +13,16 @@ interface CloudflareProxyBadgeProps {
   className?: string;
 }
 
-export function CloudflareProxyBadge({ proxied, className }: CloudflareProxyBadgeProps) {
+export function CloudflareProxyBadge({
+  proxied,
+  className,
+}: CloudflareProxyBadgeProps) {
   if (proxied) {
     return (
       <span
         className={cn(
           "inline-flex items-center gap-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 px-2.5 py-0.5 text-[10px] font-mono font-bold text-amber-400 shadow-sm",
-          className
+          className,
         )}
         title="Trafik dilindungi oleh Cloudflare CDN & WAF (Orange Cloud)"
       >
@@ -33,7 +36,7 @@ export function CloudflareProxyBadge({ proxied, className }: CloudflareProxyBadg
     <span
       className={cn(
         "inline-flex items-center gap-1.5 rounded-full bg-muted/40 border border-border px-2.5 py-0.5 text-[10px] font-mono font-medium text-muted-foreground",
-        className
+        className,
       )}
       title="Resolusi langsung ke IP origin server (Grey Cloud / DNS Only)"
     >

@@ -73,7 +73,10 @@ export function AdminHeader({
               </Button>
             }
           />
-          <SheetContent side="left" className="p-0 w-64 bg-sidebar border-rose-500/20">
+          <SheetContent
+            side="left"
+            className="p-0 w-64 bg-sidebar border-rose-500/20"
+          >
             <AdminSidebar onCloseMobile={() => setIsMobileOpen(false)} />
           </SheetContent>
         </Sheet>
@@ -82,7 +85,10 @@ export function AdminHeader({
         <Breadcrumb className="hidden sm:flex">
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/dashboard" className="text-xs font-mono text-rose-400 font-semibold">
+              <BreadcrumbLink
+                href="/admin/dashboard"
+                className="text-xs font-mono text-rose-400 font-semibold"
+              >
                 Superadmin
               </BreadcrumbLink>
             </BreadcrumbItem>
@@ -154,7 +160,10 @@ export function AdminHeader({
               </Button>
             }
           />
-          <DropdownMenuContent align="end" className="w-56 bg-card border-border">
+          <DropdownMenuContent
+            align="end"
+            className="w-56 bg-card border-border"
+          >
             <DropdownMenuLabel className="font-normal">
               <div className="flex flex-col space-y-1">
                 <p className="text-sm font-semibold leading-none">{userName}</p>
@@ -164,11 +173,25 @@ export function AdminHeader({
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem render={<Link href="/dashboard" className="flex items-center w-full cursor-pointer" />}>
+            <DropdownMenuItem
+              render={
+                <Link
+                  href="/dashboard"
+                  className="flex items-center w-full cursor-pointer"
+                />
+              }
+            >
               <ArrowLeft className="mr-2 size-4 text-muted-foreground" />
               <span>Kembali ke Member Console</span>
             </DropdownMenuItem>
-            <DropdownMenuItem render={<Link href="/seller/vpn" className="flex items-center w-full cursor-pointer" />}>
+            <DropdownMenuItem
+              render={
+                <Link
+                  href="/seller/vpn"
+                  className="flex items-center w-full cursor-pointer"
+                />
+              }
+            >
               <Terminal className="mr-2 size-4 text-muted-foreground" />
               <span>Buka Partner Portal</span>
             </DropdownMenuItem>
