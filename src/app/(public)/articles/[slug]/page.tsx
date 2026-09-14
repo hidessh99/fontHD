@@ -48,12 +48,83 @@ export async function generateMetadata({
   };
 }
 
+import { env } from "@/lib/config/env";
+
+const siteUrl = env.NEXT_PUBLIC_APP_URL || "https://hidessh.com";
+
 export default async function ArticleDetailPage({ params }: PageProps) {
   const { slug } = await params;
+  const formattedTitle = slug
+    .split("-")
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(" ");
+
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "TechArticle",
+        "@id": `${siteUrl}/articles/${slug}#article`,
+        isPartOf: {
+          "@type": "WebPage",
+          "@id": `${siteUrl}/articles/${slug}`,
+          url: `${siteUrl}/articles/${slug}`,
+          name: formattedTitle,
+        },
+        headline: `${formattedTitle} — Technical Guide & Documentation`,
+        description: `Complete technical walkthrough and configuration guide for ${formattedTitle}. Learn setup steps, performance optimizations, and anti-DPI security best practices.`,
+        mainEntityOfPage: `${siteUrl}/articles/${slug}`,
+        author: {
+          "@type": "Organization",
+          name: "GoVPN Security Research Team",
+          url: siteUrl,
+        },
+        publisher: {
+          "@type": "Organization",
+          name: "GoVPN Enterprise",
+          logo: {
+            "@type": "ImageObject",
+            url: `${siteUrl}/icon.svg`,
+          },
+        },
+        inLanguage: "en-US",
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${siteUrl}/articles/${slug}#breadcrumb`,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: `${siteUrl}`,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Articles",
+            item: `${siteUrl}/articles`,
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: formattedTitle,
+            item: `${siteUrl}/articles/${slug}`,
+          },
+        ],
+      },
+    ],
+  };
 
   return (
-    <Suspense fallback={<ContentSkeleton />}>
-      <DynamicArticleDetailView slug={slug} />
-    </Suspense>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <Suspense fallback={<ContentSkeleton />}>
+        <DynamicArticleDetailView slug={slug} />
+      </Suspense>
+    </>
   );
 }

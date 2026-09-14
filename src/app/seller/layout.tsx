@@ -1,8 +1,16 @@
+import type { Metadata } from "next";
 import {
   SellerRouteGuard,
   SellerSidebar,
   SellerHeader,
 } from "@/components/layout/seller";
+
+export const metadata: Metadata = {
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default function SellerLayout({
   children,

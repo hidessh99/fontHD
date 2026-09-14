@@ -1,8 +1,16 @@
+import type { Metadata } from "next";
 import {
   AdminRouteGuard,
   AdminSidebar,
   AdminHeader,
 } from "@/components/layout/admin";
+
+export const metadata: Metadata = {
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default function AdminLayout({
   children,

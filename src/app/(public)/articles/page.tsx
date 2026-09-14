@@ -41,6 +41,46 @@ export const metadata: Metadata = {
   },
 };
 
+import { env } from "@/lib/config/env";
+
+const siteUrl = env.NEXT_PUBLIC_APP_URL || "https://hidessh.com";
+
+const articlesSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "@id": `${siteUrl}/articles/#webpage`,
+      url: `${siteUrl}/articles`,
+      name: "VPN Guides, Tutorials & Protocol Documentation | GoVPN",
+      description:
+        "Technical guides on VMess, VLess Reality, Trojan, WireGuard, anti-DPI routing, and low-latency gaming tunnels.",
+      publisher: {
+        "@type": "Organization",
+        name: "GoVPN Enterprise",
+      },
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": `${siteUrl}/articles/#breadcrumb`,
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: `${siteUrl}`,
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Articles & Knowledge Base",
+          item: `${siteUrl}/articles`,
+        },
+      ],
+    },
+  ],
+};
+
 const DynamicArticlesView = dynamic(
   () => import("@/modules/content").then((mod) => mod.ArticlesView),
   {
@@ -50,8 +90,14 @@ const DynamicArticlesView = dynamic(
 
 export default function ArticlesPage() {
   return (
-    <Suspense fallback={<ContentSkeleton />}>
-      <DynamicArticlesView />
-    </Suspense>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articlesSchema) }}
+      />
+      <Suspense fallback={<ContentSkeleton />}>
+        <DynamicArticlesView />
+      </Suspense>
+    </>
   );
 }

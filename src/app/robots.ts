@@ -8,17 +8,30 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: "*",
-        allow: ["/", "/articles", "/articles/*"],
+        allow: [
+          "/",
+          "/articles",
+          "/articles/*",
+          "/icon.svg",
+          "/manifest.webmanifest",
+        ],
         disallow: [
           "/admin/*",
           "/seller/*",
           "/dashboard/*",
           "/vpn/*",
           "/billing/*",
+          "/ai/*",
+          "/dns/*",
+          "/kubernetes/*",
+          "/monitor/*",
+          "/notifications/*",
+          "/support/*",
           "/api/*",
         ],
       },
     ],
     sitemap: `${baseUrl}/sitemap.xml`,
+    host: baseUrl,
   };
 }

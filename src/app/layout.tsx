@@ -53,6 +53,9 @@ export const metadata: Metadata = {
     "DNS Cloudflare Manager",
     "Kubernetes Container Deploy",
     "AI Gateway API",
+    "Fastest VPN Asia Pacific",
+    "Singapore Low Ping VPN",
+    "Private Tunneling Protocol",
   ],
   authors: [{ name: "GoVPN Security Team", url: siteUrl }],
   creator: "GoVPN Institutional Infrastructure",
@@ -107,6 +110,11 @@ export const metadata: Metadata = {
     creator: "@GoVPN_Net",
     images: ["/icon.svg"],
   },
+  other: {
+    "msapplication-TileColor": "#09090b",
+    "apple-mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-status-bar-style": "black-translucent",
+  },
 };
 
 export default async function RootLayout({
@@ -125,34 +133,81 @@ export default async function RootLayout({
         "@id": `${siteUrl}/#organization`,
         name: "GoVPN Enterprise",
         url: siteUrl,
-        logo: `${siteUrl}/icon.svg`,
-        sameAs: ["https://t.me/hidessh"],
+        logo: {
+          "@type": "ImageObject",
+          "@id": `${siteUrl}/#logo`,
+          url: `${siteUrl}/icon.svg`,
+          caption: "GoVPN Enterprise Logo",
+        },
+        image: { "@id": `${siteUrl}/#logo` },
+        description:
+          "Enterprise multi-protocol cloud tunneling infrastructure, zero-logs VPN security, and AI Gateway services.",
+        sameAs: [
+          "https://t.me/hidessh",
+          "https://github.com/wahidari",
+          "https://twitter.com/GoVPN_Net",
+        ],
+        contactPoint: [
+          {
+            "@type": "ContactPoint",
+            contactType: "customer support",
+            email: "support@hidessh.com",
+            availableLanguage: ["English", "Indonesian"],
+          },
+        ],
       },
       {
         "@type": "WebSite",
         "@id": `${siteUrl}/#website`,
         url: siteUrl,
-        name: "GoVPN",
+        name: "GoVPN Enterprise",
         description:
-          "Enterprise multi-protocol cloud tunneling, anti-DPI security, and high-speed VPN infrastructure.",
+          "High-speed multi-protocol cloud tunneling, anti-DPI security, and zero-logs VPN infrastructure.",
         publisher: { "@id": `${siteUrl}/#organization` },
         inLanguage: "en-US",
+        potentialAction: {
+          "@type": "SearchAction",
+          target: {
+            "@type": "EntryPoint",
+            urlTemplate: `${siteUrl}/articles?q={search_term_string}`,
+          },
+          "query-input": "required name=search_term_string",
+        },
       },
       {
         "@type": "SoftwareApplication",
-        name: "GoVPN Institutional",
-        operatingSystem: "Windows, macOS, Linux, Android, iOS",
+        "@id": `${siteUrl}/#software`,
+        name: "GoVPN Enterprise Suite",
+        operatingSystem: "Windows, macOS, Linux, Android, iOS, OpenWrt",
         applicationCategory: "SecurityApplication",
+        applicationSubCategory: "VPN & Cloud Tunneling",
+        description:
+          "High-speed multi-protocol VPN tunneling suite supporting VLess Reality, VMess, Trojan, Shadowsocks, WireGuard, and SSH with zero logging.",
+        softwareVersion: "2.4.0",
         offers: {
           "@type": "Offer",
-          price: "0",
+          price: "0.00",
           priceCurrency: "USD",
+          availability: "https://schema.org/InStock",
         },
         aggregateRating: {
           "@type": "AggregateRating",
           ratingValue: "4.9",
           ratingCount: "15420",
+          bestRating: "5",
+          worstRating: "1",
         },
+        featureList: [
+          "VLess XTLS Reality Protocol with Zero-Hop Handshake",
+          "VMess Dynamic Multipath Routing with TLS Obfuscation",
+          "Trojan-GFW HTTPS Camouflage Port 443",
+          "WireGuard Native Linux Kernel Speed",
+          "Shadowsocks 2022 AEAD High Throughput",
+          "SSH Dropbear WebSocket Tunneling",
+          "Strict Zero-Logs Guarantee on Ephemeral RAM Nodes",
+          "Heuristic Anti-DPI Evasion & Anycast BGP Routing",
+          "Instant Automated Provisioning via QR Code & Deep Link",
+        ],
       },
     ],
   };

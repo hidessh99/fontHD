@@ -4,6 +4,7 @@
 // ==============================================================================
 
 import { getCookie, clearAllAuthStorage } from "@/lib/storage/cookies";
+import { env } from "@/lib/config/env";
 
 export interface GlobalResponse<T = unknown> {
   success: boolean;
@@ -115,11 +116,77 @@ class HttpClient {
     return null;
   }
 
+  private resolveServiceUrl(endpoint: string): string {
+    if (endpoint.startsWith("http://") || endpoint.startsWith("https://")) {
+      return endpoint;
+    }
+
+    const normalized = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
+
+    if (normalized.startsWith("/api/vpn")) {
+      return `${env.NEXT_PUBLIC_VPN_API_URL}${normalized}`;
+    }
+    if (
+      normalized.startsWith("/api/auth") ||
+      normalized.startsWith("/api/iam")
+    ) {
+      return `${env.NEXT_PUBLIC_IAM_API_URL}${normalized}`;
+    }
+    if (
+      normalized.startsWith("/api/billing") ||
+      normalized.startsWith("/api/finance")
+    ) {
+      return `${env.NEXT_PUBLIC_FINANCE_API_URL}${normalized}`;
+    }
+    if (normalized.startsWith("/api/dns")) {
+      return `${env.NEXT_PUBLIC_DNS_API_URL}${normalized}`;
+    }
+    if (normalized.startsWith("/api/ai")) {
+      return `${env.NEXT_PUBLIC_AI_API_URL}${normalized}`;
+    }
+    if (
+      normalized.startsWith("/api/kubernetes") ||
+      normalized.startsWith("/api/k8s")
+    ) {
+      return `${env.NEXT_PUBLIC_K8S_API_URL}${normalized}`;
+    }
+    if (normalized.startsWith("/api/monitor")) {
+      return `${env.NEXT_PUBLIC_MONITOR_API_URL}${normalized}`;
+    }
+    if (
+      normalized.startsWith("/api/notifications") ||
+      normalized.startsWith("/api/notification")
+    ) {
+      return `${env.NEXT_PUBLIC_NOTIFICATION_API_URL}${normalized}`;
+    }
+    if (
+      normalized.startsWith("/api/subscription") ||
+      normalized.startsWith("/api/plans")
+    ) {
+      return `${env.NEXT_PUBLIC_SUBSCRIPTION_API_URL}${normalized}`;
+    }
+    if (
+      normalized.startsWith("/api/support") ||
+      normalized.startsWith("/api/tickets")
+    ) {
+      return `${env.NEXT_PUBLIC_SUPPORT_API_URL}${normalized}`;
+    }
+    if (
+      normalized.startsWith("/api/posts") ||
+      normalized.startsWith("/api/settings")
+    ) {
+      return `${env.NEXT_PUBLIC_CONTENT_API_URL}${normalized}`;
+    }
+
+    return `${env.NEXT_PUBLIC_API_BASE_URL}${normalized}`;
+  }
+
   private buildUrl(
-    url: string,
+    endpoint: string,
     params?: Record<string, string | number | boolean | undefined>,
   ): string {
-    if (!params) return url;
+    const targetUrl = this.resolveServiceUrl(endpoint);
+    if (!params) return targetUrl;
     const searchParams = new URLSearchParams();
     Object.entries(params).forEach(([key, value]) => {
       if (value !== undefined && value !== null) {
@@ -127,7 +194,7 @@ class HttpClient {
       }
     });
     const queryString = searchParams.toString();
-    return queryString ? `${url}?${queryString}` : url;
+    return queryString ? `${targetUrl}?${queryString}` : targetUrl;
   }
 
   public async request<T = unknown>(
