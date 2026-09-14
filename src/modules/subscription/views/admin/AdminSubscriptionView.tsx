@@ -14,7 +14,7 @@ import { AdminSubscriptionTable } from "../../components/admin/AdminSubscription
 import type { AdminCreatePlanDto } from "../../types/admin.types";
 import type { BillingCycle } from "../../types/subscription.types";
 import { RefreshCw, Plus, ShieldCheck, Layers, CreditCard } from "lucide-react";
-import { toast } from "sonner";
+import { toast } from "@/components/ui/sonner";
 
 export function AdminSubscriptionView() {
   const {
@@ -210,7 +210,7 @@ export function AdminSubscriptionView() {
                     onChange={(e) =>
                       setNewPlan({ ...newPlan, slug: e.target.value })
                     }
-                    className="w-full px-3 py-2 text-sm rounded-lg border border-border/50 bg-background/50 focus:outline-none focus:ring-2 focus:ring-primary font-mono text-xs"
+                    className="w-full px-3 py-2 text-sm rounded-lg border border-border/50 bg-background/50 focus:outline-none focus:ring-2 focus:ring-primary font-mono "
                   />
                 </div>
               </div>
