@@ -47,10 +47,7 @@ declare module "sonner" {
       data?: ExternalToast,
     ) => string | number;
     message: (message: TitleT, data?: ExternalToast) => string | number;
-    promise: <T>(
-      promise: Promise<T> | (() => Promise<T>),
-      data?: any,
-    ) => any;
+    promise: <T>(promise: Promise<T> | (() => Promise<T>), data?: any) => any;
     dismiss: (id?: number | string) => string | number;
     loading: (message: TitleT, data?: ExternalToast) => string | number;
     getHistory: () => any[];
