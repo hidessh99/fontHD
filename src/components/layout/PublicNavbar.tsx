@@ -1,23 +1,63 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   Shield,
   Menu,
   X,
   ArrowRight,
-  Zap,
-  Server,
-  FileText,
-  Activity,
+  ChevronDown,
+  LayoutDashboard,
+  BookOpen,
+  Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ThemeToggle } from "./ThemeToggle";
+import { useAuthStore } from "@/modules/iam/store/auth.store";
 
 export function PublicNavbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [protocolDropdownOpen, setProtocolDropdownOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  const { isAuthenticated, token } = useAuthStore();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const hasAuth = mounted && (isAuthenticated || Boolean(token));
+
+  const protocols = [
+    {
+      name: "SSH Dropbear / WS",
+      desc: "Port 22, 442 & CDN",
+      href: "/#protocols",
+    },
+    {
+      name: "VMess (V2Ray)",
+      desc: "Multi-path CDN Routing",
+      href: "/#protocols",
+    },
+    {
+      name: "VLess XTLS Reality",
+      desc: "0-Hop Masking Direct",
+      href: "/#protocols",
+    },
+    {
+      name: "Trojan-GFW / Go",
+      desc: "HTTPS Port 443 Masking",
+      href: "/#protocols",
+    },
+    {
+      name: "Shadowsocks AEAD",
+      desc: "Low-latency Gaming",
+      href: "/#protocols",
+    },
+    { name: "WireGuard Fast", desc: "Kernel Space UDP", href: "/#protocols" },
+  ];
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-md">
@@ -32,68 +72,128 @@ export function PublicNavbar() {
           </span>
           <Badge
             variant="outline"
-            className="border-primary/30 text-primary font-mono text-xs hidden sm:inline"
+            className="border-primary/30 text-primary font-mono text-[10px] hidden sm:inline"
           >
             v2.0
           </Badge>
         </Link>
 
-        {/* Desktop Nav Links */}
-        <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
+        {/* Desktop Navigation Links */}
+        <nav className="hidden lg:flex items-center gap-6 text-sm font-medium">
+          {/* Protocol Dropdown */}
+          <div
+            className="relative"
+            onMouseEnter={() => setProtocolDropdownOpen(true)}
+            onMouseLeave={() => setProtocolDropdownOpen(false)}
+          >
+            <button
+              type="button"
+              className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors py-2 focus:outline-none cursor-pointer"
+            >
+              <span>Protokol VPN</span>
+              <ChevronDown
+                className={`size-3.5 transition-transform duration-200 ${
+                  protocolDropdownOpen ? "rotate-180 text-primary" : ""
+                }`}
+              />
+            </button>
+
+            {protocolDropdownOpen && (
+              <div className="absolute top-full left-0 w-64 rounded-2xl border border-border bg-popover p-2 shadow-2xl z-50 animate-in fade-in slide-in-from-top-1 duration-200">
+                {protocols.map((p) => (
+                  <Link
+                    key={p.name}
+                    href={p.href}
+                    onClick={() => setProtocolDropdownOpen(false)}
+                    className="flex flex-col p-2.5 rounded-xl hover:bg-accent transition-colors"
+                  >
+                    <span className="text-xs font-bold text-foreground">
+                      {p.name}
+                    </span>
+                    <span className="text-[11px] text-muted-foreground">
+                      {p.desc}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+
           <Link
-            href="/pricing"
+            href="/#features"
+            className="text-muted-foreground hover:text-foreground transition-colors"
+          >
+            Fitur Utama
+          </Link>
+
+          <Link
+            href="/subscription"
             className="text-muted-foreground hover:text-foreground transition-colors"
           >
             Paket Harga
           </Link>
+
           <Link
-            href="/servers"
+            href="/articles"
             className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1.5"
           >
-            <Activity className="size-3.5 text-emerald-400" />
-            <span>Server Nodes</span>
+            <BookOpen className="size-3.5" />
+            <span>Pusat Panduan</span>
           </Link>
+
           <Link
-            href="/tools"
-            className="text-muted-foreground hover:text-foreground transition-colors"
+            href="/seller"
+            className="text-amber-500/90 hover:text-amber-500 font-semibold flex items-center gap-1.5 transition-colors"
           >
-            Network Tools
-          </Link>
-          <Link
-            href="/docs"
-            className="text-muted-foreground hover:text-foreground transition-colors"
-          >
-            Dokumentasi
+            <Sparkles className="size-3.5" />
+            <span>Reseller Partner</span>
           </Link>
         </nav>
 
         {/* Right CTA */}
         <div className="flex items-center gap-2.5">
           <ThemeToggle />
-          <Button
-            variant="ghost"
-            size="sm"
-            asChild
-            className="hidden sm:inline-flex"
-          >
-            <Link href="/login">Masuk</Link>
-          </Button>
-          <Button
-            size="sm"
-            className="bg-primary hover:bg-primary-hover text-white shadow-md shadow-primary/20"
-            asChild
-          >
-            <Link href="/register">
-              Mulai <ArrowRight className="ml-1 size-3.5" />
-            </Link>
-          </Button>
+
+          {hasAuth ? (
+            <Button
+              size="sm"
+              className="bg-primary hover:bg-primary-hover text-white shadow-md shadow-primary/20 text-xs font-bold rounded-xl"
+              asChild
+            >
+              <Link href="/dashboard">
+                <LayoutDashboard className="mr-1.5 size-3.5" />
+                Console Dashboard
+              </Link>
+            </Button>
+          ) : (
+            <>
+              <Button
+                variant="ghost"
+                size="sm"
+                asChild
+                className="hidden sm:inline-flex text-xs font-semibold"
+              >
+                <Link href="/login">Masuk</Link>
+              </Button>
+              <Button
+                size="sm"
+                className="bg-primary hover:bg-primary-hover text-white shadow-md shadow-primary/20 text-xs font-bold rounded-xl"
+                asChild
+              >
+                <Link href="/register">
+                  Daftar VIP <ArrowRight className="ml-1 size-3.5" />
+                </Link>
+              </Button>
+            </>
+          )}
 
           {/* Mobile hamburger button */}
           <Button
             variant="ghost"
             size="icon"
-            className="md:hidden size-9"
+            className="lg:hidden size-9 rounded-xl"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle Navigation"
           >
             {mobileMenuOpen ? (
               <X className="size-4" />
@@ -106,42 +206,84 @@ export function PublicNavbar() {
 
       {/* Mobile Menu Dropdown */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-b border-border bg-card p-4 space-y-3">
-          <Link
-            href="/pricing"
-            onClick={() => setMobileMenuOpen(false)}
-            className="block text-sm font-medium text-foreground py-1"
-          >
-            Paket Harga
-          </Link>
-          <Link
-            href="/servers"
-            onClick={() => setMobileMenuOpen(false)}
-            className="block text-sm font-medium text-foreground py-1"
-          >
-            Server Nodes
-          </Link>
-          <Link
-            href="/tools"
-            onClick={() => setMobileMenuOpen(false)}
-            className="block text-sm font-medium text-foreground py-1"
-          >
-            Network Tools
-          </Link>
-          <Link
-            href="/docs"
-            onClick={() => setMobileMenuOpen(false)}
-            className="block text-sm font-medium text-foreground py-1"
-          >
-            Dokumentasi
-          </Link>
-          <div className="pt-2 border-t border-border flex items-center gap-2">
-            <Button variant="outline" size="sm" className="w-full" asChild>
-              <Link href="/login">Masuk</Link>
-            </Button>
-            <Button size="sm" className="w-full bg-primary text-white" asChild>
-              <Link href="/register">Daftar</Link>
-            </Button>
+        <div className="lg:hidden border-b border-border bg-card p-5 space-y-4 animate-in slide-in-from-top-2 duration-200">
+          <div className="space-y-2">
+            <div className="text-xs font-mono font-bold text-muted-foreground uppercase px-2">
+              Menu Navigasi
+            </div>
+            <Link
+              href="/#protocols"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block text-sm font-medium text-foreground px-2 py-1.5 rounded-lg hover:bg-accent"
+            >
+              Protokol VPN
+            </Link>
+            <Link
+              href="/#features"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block text-sm font-medium text-foreground px-2 py-1.5 rounded-lg hover:bg-accent"
+            >
+              Keunggulan Arsitektur
+            </Link>
+            <Link
+              href="/subscription"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block text-sm font-medium text-foreground px-2 py-1.5 rounded-lg hover:bg-accent"
+            >
+              Paket Harga
+            </Link>
+            <Link
+              href="/articles"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block text-sm font-medium text-foreground px-2 py-1.5 rounded-lg hover:bg-accent"
+            >
+              Pusat Panduan & Tutorial
+            </Link>
+            <Link
+              href="/seller"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block text-sm font-semibold text-amber-500 px-2 py-1.5 rounded-lg hover:bg-amber-500/10"
+            >
+              Portal Mitra Reseller
+            </Link>
+          </div>
+
+          <div className="pt-3 border-t border-border flex flex-col gap-2">
+            {hasAuth ? (
+              <Button
+                size="sm"
+                className="w-full bg-primary text-white"
+                asChild
+              >
+                <Link
+                  href="/dashboard"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <LayoutDashboard className="mr-2 size-4" />
+                  Masuk ke Console Dashboard
+                </Link>
+              </Button>
+            ) : (
+              <div className="grid grid-cols-2 gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="w-full"
+                  asChild
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <Link href="/login">Masuk</Link>
+                </Button>
+                <Button
+                  size="sm"
+                  className="w-full bg-primary text-white"
+                  asChild
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <Link href="/register">Daftar VIP</Link>
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       )}
