@@ -1,3 +1,9 @@
+// ==============================================================================
+// GoVPN DNS Create User Record Modal
+// Part of Pola C: components/user/CreateUserRecordModal.tsx
+// 100% Coinbase Institutional Design System (Host FQDN preview, Proxy toggle)
+// ==============================================================================
+
 "use client";
 
 import React, { useState } from "react";
@@ -11,23 +17,24 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { DnsDomain, DnsRecordType, CreateDnsRecordDto } from "../types/dns.types";
+import { DnsDomain, DnsRecordType } from "../../types/dns.types";
+import { CreateUserDnsRecordDto } from "../../types/user.types";
 import { Plus, Globe, Cloud, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
-interface CreateDnsRecordModalProps {
+interface CreateUserRecordModalProps {
   domains: DnsDomain[];
-  onAddRecord: (dto: CreateDnsRecordDto) => Promise<unknown>;
+  onAddRecord: (dto: CreateUserDnsRecordDto) => Promise<unknown>;
 }
 
-const RECORD_TYPES: DnsRecordType[] = ["A", "CNAME", "TXT", "AAAA"];
+const RECORD_TYPES: DnsRecordType[] = ["A", "AAAA", "CNAME", "TXT"];
 
-export function CreateDnsRecordModal({
+export function CreateUserRecordModal({
   domains,
   onAddRecord,
-}: CreateDnsRecordModalProps) {
+}: CreateUserRecordModalProps) {
   const [open, setOpen] = useState(false);
-  const [domainId, setDomainId] = useState<string>(domains[0]?.id || "");
+  const [domainId, setDomainId] = useState<string | number>(domains[0]?.id || "");
   const [type, setType] = useState<DnsRecordType>("A");
   const [name, setName] = useState("");
   const [content, setContent] = useState("");
@@ -36,7 +43,7 @@ export function CreateDnsRecordModal({
   const [comment, setComment] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Sync domainId when domains load
+  // Sync domainId when domains list updates
   React.useEffect(() => {
     if (!domainId && domains.length > 0) {
       setDomainId(domains[0].id);
@@ -45,6 +52,10 @@ export function CreateDnsRecordModal({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!domainId) {
+      toast.error("Silakan pilih domain zona terlebih dahulu");
+      return;
+    }
     if (!name.trim() || !content.trim()) {
       toast.error("Nama host dan target IP/domain wajib diisi");
       return;
@@ -70,21 +81,23 @@ export function CreateDnsRecordModal({
     }
   };
 
-  const selectedDomain = domains.find((d) => d.id === domainId);
+  const selectedDomain = domains.find((d) => String(d.id) === String(domainId));
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger render={
-        <Button className="bg-blue-600 hover:bg-blue-500 text-white gap-2 font-medium text-xs h-9">
+        <Button className="h-10 px-4 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs shadow-lg shadow-primary/20 gap-2 transition-all">
           <Plus className="h-4 w-4" />
           Tambah Record DNS
         </Button>
       } />
 
-      <DialogContent className="sm:max-w-md bg-zinc-950 border-zinc-800 text-zinc-100">
+      <DialogContent className="sm:max-w-md bg-card border-border text-foreground shadow-2xl rounded-2xl">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2 text-base font-bold">
-            <Globe className="h-5 w-5 text-blue-400" />
+          <DialogTitle className="flex items-center gap-2.5 text-base font-bold tracking-tight">
+            <div className="p-2 rounded-xl bg-primary/10 text-primary border border-primary/20">
+              <Globe className="h-5 w-5" />
+            </div>
             Tambah DNS Record Baru
           </DialogTitle>
         </DialogHeader>
@@ -92,11 +105,11 @@ export function CreateDnsRecordModal({
         <form onSubmit={handleSubmit} className="space-y-4 pt-2">
           {/* Domain Selection */}
           <div>
-            <Label className="text-xs text-zinc-400">Pilih Zona Domain</Label>
+            <Label className="text-xs text-muted-foreground font-medium">Pilih Zona Domain</Label>
             <select
               value={domainId}
               onChange={(e) => setDomainId(e.target.value)}
-              className="mt-1.5 w-full rounded-md border border-zinc-800 bg-zinc-900 px-3 py-2 text-xs font-mono text-zinc-200 outline-none focus:border-blue-500"
+              className="mt-1.5 w-full rounded-xl border border-border bg-muted/40 px-3.5 py-2.5 text-xs font-mono text-foreground outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
             >
               {domains.map((d) => (
                 <option key={d.id} value={d.id}>
@@ -106,19 +119,19 @@ export function CreateDnsRecordModal({
             </select>
           </div>
 
-          {/* Record Type */}
+          {/* Record Type Selection */}
           <div>
-            <Label className="text-xs text-zinc-400">Tipe Record</Label>
+            <Label className="text-xs text-muted-foreground font-medium">Tipe Record</Label>
             <div className="grid grid-cols-4 gap-2 mt-1.5">
               {RECORD_TYPES.map((t) => (
                 <button
                   key={t}
                   type="button"
                   onClick={() => setType(t)}
-                  className={`rounded-lg border py-2 text-xs font-mono font-bold transition-all ${
+                  className={`rounded-xl border py-2 text-xs font-mono font-bold transition-all ${
                     type === t
-                      ? "border-blue-500 bg-blue-600/20 text-blue-400 ring-1 ring-blue-500"
-                      : "border-zinc-800 bg-zinc-900/60 text-zinc-400 hover:text-zinc-200"
+                      ? "border-primary bg-primary/15 text-primary ring-1 ring-primary"
+                      : "border-border bg-muted/30 text-muted-foreground hover:text-foreground hover:bg-muted/50"
                   }`}
                 >
                   {t}
@@ -129,7 +142,7 @@ export function CreateDnsRecordModal({
 
           {/* Host / Subdomain */}
           <div>
-            <Label htmlFor="rec-name" className="text-xs text-zinc-400">
+            <Label htmlFor="rec-name" className="text-xs text-muted-foreground font-medium">
               Nama Subdomain
             </Label>
             <div className="flex items-center mt-1.5">
@@ -138,52 +151,57 @@ export function CreateDnsRecordModal({
                 placeholder="misal: sg1 atau vpn"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="rounded-r-none bg-zinc-900 border-zinc-800 text-zinc-100 font-mono text-xs"
+                className="rounded-r-none bg-muted/30 border-border text-foreground font-mono text-xs h-10"
               />
-              <span className="rounded-r-md border border-l-0 border-zinc-800 bg-zinc-800/80 px-3 py-2 text-xs font-mono text-zinc-400 whitespace-nowrap">
+              <span className="rounded-r-xl border border-l-0 border-border bg-muted/70 px-3 py-2 text-xs font-mono text-muted-foreground whitespace-nowrap h-10 flex items-center">
                 .{selectedDomain?.domain_name || "domain.id"}
               </span>
             </div>
+            {name && (
+              <p className="mt-1 text-[11px] text-muted-foreground font-mono">
+                FQDN: <span className="text-primary font-bold">{name}.{selectedDomain?.domain_name || "domain.id"}</span>
+              </p>
+            )}
           </div>
 
           {/* Target / Content */}
           <div>
-            <Label htmlFor="rec-content" className="text-xs text-zinc-400">
-              {type === "A" ? "Alamat IPv4 Server" : type === "CNAME" ? "Target Hostname" : "Nilai / Text"}
+            <Label htmlFor="rec-content" className="text-xs text-muted-foreground font-medium">
+              {type === "A" ? "Alamat IPv4 Server" : type === "AAAA" ? "Alamat IPv6 Server" : type === "CNAME" ? "Target Hostname" : "Nilai / Text"}
             </Label>
             <Input
               id="rec-content"
-              placeholder={type === "A" ? "103.147.12.88" : "sg1.govpn-network.id"}
+              placeholder={type === "A" ? "103.147.12.88" : type === "AAAA" ? "2001:db8::1" : "sg1.govpn-network.id"}
               value={content}
               onChange={(e) => setContent(e.target.value)}
-              className="mt-1.5 bg-zinc-900 border-zinc-800 text-zinc-100 font-mono text-xs"
+              className="mt-1.5 bg-muted/30 border-border text-foreground font-mono text-xs h-10"
             />
           </div>
 
           {/* Proxy toggle & TTL */}
           <div className="grid grid-cols-2 gap-3 pt-1">
-            <div className="rounded-lg border border-zinc-800 bg-zinc-900/60 p-3 flex flex-col justify-between">
-              <span className="text-xs text-zinc-400">Cloudflare CDN</span>
+            <div className="rounded-xl border border-border bg-muted/20 p-3 flex flex-col justify-between">
+              <span className="text-xs text-muted-foreground font-medium">Cloudflare CDN</span>
               <button
                 type="button"
                 onClick={() => setProxied(!proxied)}
-                className={`mt-2 inline-flex items-center justify-center gap-1.5 rounded-md px-2.5 py-1.5 text-xs font-medium transition-all ${
+                className={`mt-2 inline-flex items-center justify-center gap-1.5 rounded-lg px-2.5 py-2 text-xs font-medium transition-all ${
                   proxied
                     ? "bg-amber-500/20 text-amber-400 border border-amber-500/30 font-semibold"
-                    : "bg-zinc-800 text-zinc-400"
+                    : "bg-muted text-muted-foreground hover:text-foreground"
                 }`}
               >
-                <Cloud className={`h-3.5 w-3.5 ${proxied ? "fill-amber-400" : ""}`} />
+                <Cloud className={`h-3.5 w-3.5 ${proxied ? "fill-amber-400 text-amber-400" : ""}`} />
                 {proxied ? "Proxied (CDN)" : "DNS Only"}
               </button>
             </div>
 
-            <div className="rounded-lg border border-zinc-800 bg-zinc-900/60 p-3 flex flex-col justify-between">
-              <span className="text-xs text-zinc-400">TTL (Time to Live)</span>
+            <div className="rounded-xl border border-border bg-muted/20 p-3 flex flex-col justify-between">
+              <span className="text-xs text-muted-foreground font-medium">TTL (Time to Live)</span>
               <select
                 value={ttl}
                 onChange={(e) => setTtl(Number(e.target.value))}
-                className="mt-2 w-full rounded-md border border-zinc-800 bg-zinc-900 px-2.5 py-1.5 text-xs text-zinc-200 outline-none"
+                className="mt-2 w-full rounded-lg border border-border bg-card px-2.5 py-2 text-xs text-foreground outline-none focus:border-primary"
               >
                 <option value={1}>Auto</option>
                 <option value={60}>1 Menit</option>
@@ -195,21 +213,21 @@ export function CreateDnsRecordModal({
 
           {/* Comment */}
           <div>
-            <Label htmlFor="rec-comment" className="text-xs text-zinc-400">
+            <Label htmlFor="rec-comment" className="text-xs text-muted-foreground font-medium">
               Keterangan / Catatan (Opsional)
             </Label>
             <Input
               id="rec-comment"
-              placeholder="Catatan server VPN..."
+              placeholder="misal: Server Singapore 01"
               value={comment}
               onChange={(e) => setComment(e.target.value)}
-              className="mt-1.5 bg-zinc-900 border-zinc-800 text-zinc-100 text-xs"
+              className="mt-1.5 bg-muted/30 border-border text-foreground text-xs h-10"
             />
           </div>
 
           <Button
             type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-500 text-white gap-2 font-medium mt-2"
+            className="w-full h-11 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-xs gap-2 mt-3 shadow-lg shadow-primary/20"
             disabled={isSubmitting || !name || !content}
           >
             {isSubmitting ? (
