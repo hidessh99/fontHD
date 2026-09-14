@@ -2,9 +2,11 @@
 
 import React from "react";
 import Link from "next/link";
-import { Shield, MessageCircle, Send, Globe, CheckCircle2 } from "lucide-react";
+import { Shield, Send, CheckCircle2 } from "lucide-react";
+import { useI18n } from "@/lib/i18n/context";
 
 export function PublicFooter() {
+  const { t } = useI18n();
   const currentYear = new Date().getFullYear();
 
   return (
@@ -22,9 +24,7 @@ export function PublicFooter() {
               </span>
             </Link>
             <p className="max-w-sm text-xs leading-relaxed text-muted-foreground mb-4">
-              Infrastruktur tunneling multi-protokol enterprise (SSH, VMess,
-              VLess Reality, Trojan-Go, Shadowsocks 2022, WireGuard). Dirancang
-              untuk privasi mutlak, kecepatan murni, dan proteksi sensor ISP.
+              {t("landing.footer.description")}
             </p>
 
             {/* Operational System Badge */}
@@ -33,14 +33,14 @@ export function PublicFooter() {
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
               </span>
-              <span>Seluruh Sistem Beroperasi Normal (99.99% SLA)</span>
+              <span>{t("landing.footer.systemStatus")}</span>
             </div>
           </div>
 
           {/* Col 2: Protokol Tunneling */}
           <div>
             <h4 className="font-semibold text-foreground mb-3.5 uppercase tracking-wider text-[11px] font-mono">
-              Protokol VPN
+              {t("landing.footer.vpnProtocols")}
             </h4>
             <ul className="space-y-2.5">
               <li>
@@ -97,7 +97,7 @@ export function PublicFooter() {
           {/* Col 3: Ekosistem & Layanan */}
           <div>
             <h4 className="font-semibold text-foreground mb-3.5 uppercase tracking-wider text-[11px] font-mono">
-              Ekosistem
+              {t("landing.footer.ecosystem")}
             </h4>
             <ul className="space-y-2.5">
               <li>
@@ -105,7 +105,7 @@ export function PublicFooter() {
                   href="/subscription"
                   className="hover:text-foreground transition-colors"
                 >
-                  Paket Langganan VIP
+                  {t("landing.footer.vipPricing")}
                 </Link>
               </li>
               <li>
@@ -113,7 +113,7 @@ export function PublicFooter() {
                   href="/seller"
                   className="text-amber-500/90 hover:text-amber-500 transition-colors font-medium"
                 >
-                  Portal Mitra Reseller
+                  {t("landing.footer.partnerPortal")}
                 </Link>
               </li>
               <li>
@@ -121,7 +121,7 @@ export function PublicFooter() {
                   href="/articles"
                   className="hover:text-foreground transition-colors"
                 >
-                  Pusat Panduan & Setup
+                  {t("landing.footer.guideDocs")}
                 </Link>
               </li>
               <li>
@@ -129,7 +129,7 @@ export function PublicFooter() {
                   href="/support"
                   className="hover:text-foreground transition-colors"
                 >
-                  Bantuan & Tiket Prioritas
+                  {t("landing.footer.supportTicket")}
                 </Link>
               </li>
             </ul>
@@ -138,7 +138,7 @@ export function PublicFooter() {
           {/* Col 4: Legalitas & Komunitas */}
           <div>
             <h4 className="font-semibold text-foreground mb-3.5 uppercase tracking-wider text-[11px] font-mono">
-              Legal & Komunitas
+              {t("landing.footer.legalCommunity")}
             </h4>
             <ul className="space-y-2.5">
               <li>
@@ -161,7 +161,7 @@ export function PublicFooter() {
                   className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 hover:bg-blue-500/20 transition-colors font-semibold"
                 >
                   <Send className="size-3.5" />
-                  Channel Telegram
+                  {t("landing.footer.telegram")}
                 </a>
               </li>
             </ul>
@@ -171,13 +171,12 @@ export function PublicFooter() {
         {/* Bottom copyright & disclaimer */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 border-t border-border/40 text-[11px] text-muted-foreground font-mono">
           <div>
-            &copy; {currentYear} GoVPN Enterprise. Hak cipta dilindungi
-            undang-undang.
+            &copy; {currentYear} {t("landing.footer.rights")}
           </div>
           <div className="flex items-center gap-4">
             <span>Enkripsi AES-256-GCM & ChaCha20</span>
             <span>•</span>
-            <span className="text-emerald-500">Uptime 99.99%</span>
+            <span className="text-emerald-500">Uptime 99.99% SLA</span>
           </div>
         </div>
       </div>

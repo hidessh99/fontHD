@@ -2,13 +2,16 @@
 
 import React from "react";
 import { CheckCircle2, Shield, Lock, Zap } from "lucide-react";
+import { useI18n } from "@/lib/i18n/context";
 
 export function LandingTrustPayments() {
+  const { t } = useI18n();
+
   const trustItems = [
-    "Kebijakan Tanpa Pencatatan Jejak (Zero-Logs Policy Terverifikasi)",
-    "Server RAM-Disk Ephemeral — Data Terhapus Otomatis Saat Reboot",
-    "Jaminan Ketersediaan Jaringan 99.99% SLA Tanpa Kompromi",
-    "Aktivasi Instan Real-time dalam 3 Detik Tanpa Perlu Konfirmasi Manual",
+    t("landing.trust.item1"),
+    t("landing.trust.item2"),
+    t("landing.trust.item3"),
+    t("landing.trust.item4"),
   ];
 
   const paymentBadges = [
@@ -16,12 +19,12 @@ export function LandingTrustPayments() {
       name: "QRIS",
       type: "text",
       label: "QRIS",
-      desc: "Semua E-Wallet & Bank",
+      desc: "All E-Wallets & Banks",
     },
     { name: "BCA", type: "text", label: "BCA", desc: "Virtual Account" },
     { name: "Mandiri", type: "text", label: "MANDIRI", desc: "Livin' & VA" },
     { name: "GoPay", type: "text", label: "GoPay", desc: "Instant Scan" },
-    { name: "DANA", type: "text", label: "DANA", desc: "Dompet Digital" },
+    { name: "DANA", type: "text", label: "DANA", desc: "Digital Wallet" },
     { name: "OVO", type: "text", label: "OVO", desc: "Push Payment" },
     {
       name: "ShopeePay",
@@ -33,7 +36,7 @@ export function LandingTrustPayments() {
       name: "PayPal",
       type: "text",
       label: "PayPal",
-      desc: "USD & Kartu Kredit",
+      desc: "USD & Credit Cards",
     },
     { name: "Crypto", type: "text", label: "USDT", desc: "TRC20 & BEP20" },
   ];
@@ -49,17 +52,15 @@ export function LandingTrustPayments() {
           {/* Left Column: Trust Statements */}
           <div>
             <div className="inline-flex items-center gap-2 rounded-full bg-blue-500/15 border border-blue-500/30 px-3.5 py-1 text-xs font-bold text-blue-400 mb-4 uppercase tracking-wider font-mono">
-              <Shield className="h-3.5 w-3.5" /> Garansi Keamanan & Privasi
+              <Shield className="h-3.5 w-3.5" /> {t("landing.trust.badge")}
             </div>
 
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black mb-6 leading-tight tracking-tight">
-              Privasi Mutlak dengan Transaksi Finansial Aman
+              {t("landing.trust.title")}
             </h2>
 
-            <p className="text-slate-400 text-sm sm:text-base leading-relaxed mb-8">
-              Kami menjamin privasi digital Anda tanpa kompromi. Tidak ada log
-              riwayat penelusuran, tidak ada pelacakan IP, dan seluruh
-              pembayaran diproses melalui gerbang pembayaran terenkripsi resmi.
+            <p className="text-slate-400 text-sm sm:text-base leading-relaxed mb-8 font-normal">
+              {t("landing.trust.subtitle")}
             </p>
 
             <div className="space-y-4">
@@ -91,10 +92,10 @@ export function LandingTrustPayments() {
             <div className="flex flex-col gap-6">
               <div>
                 <div className="text-xs font-mono font-bold text-slate-400 uppercase tracking-widest mb-1">
-                  Supported Payment Gateways
+                  {t("landing.trust.gatewaysLabel")}
                 </div>
                 <h3 className="text-lg font-black text-white">
-                  Pembayaran Otomatis & Terverifikasi
+                  {t("landing.trust.gatewaysTitle")}
                 </h3>
               </div>
 
@@ -116,9 +117,7 @@ export function LandingTrustPayments() {
               </div>
 
               <p className="text-slate-400 text-xs leading-relaxed font-normal pt-2 border-t border-slate-800/80">
-                Didukung integrasi langsung QRIS Nasional, Bank Indonesia, serta
-                protokol Web3 cryptocurrency untuk fleksibilitas pembayaran
-                pengguna internasional.
+                {t("landing.trust.gatewaysDesc")}
               </p>
             </div>
           </div>

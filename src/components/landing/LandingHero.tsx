@@ -4,8 +4,11 @@ import React from "react";
 import Link from "next/link";
 import { ArrowRight, Shield, Zap, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/lib/i18n/context";
 
 export function LandingHero() {
+  const { t } = useI18n();
+
   return (
     <section className="relative overflow-hidden pt-12 pb-16 lg:pt-20 lg:pb-24">
       {/* Background Ornaments / Radial Ambient Auras */}
@@ -22,23 +25,21 @@ export function LandingHero() {
               <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
             </span>
             <span className="font-mono tracking-wide uppercase">
-              JARINGAN AKTIF • ULTRA-LOW LATENCY BGP
+              {t("landing.hero.badge")}
             </span>
           </div>
 
           {/* Main Headline */}
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black leading-[1.12] tracking-tight text-foreground mb-6">
-            Infrastruktur Cloud Tunneling <br className="hidden sm:inline" />
+            {t("landing.hero.titleLine1")} <br className="hidden sm:inline" />
             <span className="bg-gradient-to-r from-blue-600 via-indigo-500 to-cyan-500 bg-clip-text text-transparent">
-              Bebas Sensor & Berkecepatan Tinggi
+              {t("landing.hero.titleLine2")}
             </span>
           </h1>
 
           {/* Subtitle */}
           <p className="mb-8 max-w-2xl text-base sm:text-lg lg:text-xl leading-relaxed text-muted-foreground font-normal">
-            Layanan VPN & SSH tunneling generasi baru dengan enkripsi perbankan,
-            dukungan multi-protokol (V2Ray, VLess Reality, Trojan, Shadowsocks,
-            WireGuard), dan optimasi latensi gaming internasional.
+            {t("landing.hero.subtitle")}
           </p>
 
           {/* CTA Buttons */}
@@ -49,7 +50,7 @@ export function LandingHero() {
               asChild
             >
               <Link href="/register">
-                Mulai Sekarang — Gratis
+                {t("landing.hero.ctaPrimary")}
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
@@ -62,7 +63,7 @@ export function LandingHero() {
             >
               <Link href="#protocols">
                 <Zap className="mr-2 h-4 w-4 text-primary" />
-                Lihat Protokol & Server
+                {t("landing.hero.ctaSecondary")}
               </Link>
             </Button>
 
@@ -74,7 +75,7 @@ export function LandingHero() {
             >
               <Link href="/seller">
                 <Sparkles className="mr-2 h-4 w-4 text-amber-500" />
-                Portal Reseller
+                {t("landing.hero.ctaReseller")}
               </Link>
             </Button>
           </div>
@@ -83,17 +84,17 @@ export function LandingHero() {
           <div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-xs text-muted-foreground font-medium">
             <span className="flex items-center gap-1.5">
               <Shield className="h-3.5 w-3.5 text-emerald-500" />
-              100% No-Logs Policy
+              {t("landing.hero.noLogs")}
             </span>
             <span className="text-border">•</span>
             <span className="flex items-center gap-1.5">
               <Zap className="h-3.5 w-3.5 text-primary" />
-              Instant Provisioning 5s
+              {t("landing.hero.instant")}
             </span>
             <span className="text-border">•</span>
             <span className="flex items-center gap-1.5">
               <span className="h-2 w-2 rounded-full bg-emerald-500 inline-block" />
-              99.99% Uptime SLA
+              {t("landing.hero.uptime")}
             </span>
           </div>
         </div>

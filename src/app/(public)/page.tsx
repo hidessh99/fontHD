@@ -12,13 +12,13 @@ import {
 } from "@/components/landing";
 
 export const metadata: Metadata = {
-  title: "GoVPN — Infrastruktur Cloud Tunneling & VPN Enterprise",
+  title: "GoVPN — Next-Gen Cloud Tunneling & Enterprise VPN Infrastructure",
   description:
-    "Layanan VPN & SSH tunneling generasi baru dengan enkripsi perbankan, multi-protokol (V2Ray, VLess Reality, Trojan, Shadowsocks, WireGuard), dan latensi ultra-rendah.",
+    "Enterprise-grade VPN & SSH tunneling service with banking encryption, multi-protocols (V2Ray, VLess Reality, Trojan, Shadowsocks, WireGuard), and ultra-low gaming latency.",
   openGraph: {
-    title: "GoVPN — Infrastruktur Cloud Tunneling & VPN Enterprise",
+    title: "GoVPN — Next-Gen Cloud Tunneling & Enterprise VPN Infrastructure",
     description:
-      "Layanan VPN & SSH tunneling generasi baru dengan enkripsi perbankan, multi-protokol, dan latensi gaming ultra-rendah.",
+      "Enterprise-grade VPN & SSH tunneling service with banking encryption, multi-protocols, and ultra-low gaming latency.",
     type: "website",
   },
 };

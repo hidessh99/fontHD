@@ -15,7 +15,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ThemeToggle } from "./ThemeToggle";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 import { useAuthStore } from "@/modules/iam/store/auth.store";
+import { useI18n } from "@/lib/i18n/context";
 
 export function PublicNavbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -23,6 +25,7 @@ export function PublicNavbar() {
   const [mounted, setMounted] = useState(false);
 
   const { isAuthenticated, token } = useAuthStore();
+  const { t } = useI18n();
 
   useEffect(() => {
     setMounted(true);
@@ -90,7 +93,7 @@ export function PublicNavbar() {
               type="button"
               className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors py-2 focus:outline-none cursor-pointer"
             >
-              <span>Protokol VPN</span>
+              <span>{t("landing.nav.protocols")}</span>
               <ChevronDown
                 className={`size-3.5 transition-transform duration-200 ${
                   protocolDropdownOpen ? "rotate-180 text-primary" : ""
@@ -123,14 +126,14 @@ export function PublicNavbar() {
             href="/#features"
             className="text-muted-foreground hover:text-foreground transition-colors"
           >
-            Fitur Utama
+            {t("landing.nav.features")}
           </Link>
 
           <Link
             href="/subscription"
             className="text-muted-foreground hover:text-foreground transition-colors"
           >
-            Paket Harga
+            {t("landing.nav.pricing")}
           </Link>
 
           <Link
@@ -138,7 +141,7 @@ export function PublicNavbar() {
             className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1.5"
           >
             <BookOpen className="size-3.5" />
-            <span>Pusat Panduan</span>
+            <span>{t("landing.nav.guides")}</span>
           </Link>
 
           <Link
@@ -146,12 +149,13 @@ export function PublicNavbar() {
             className="text-amber-500/90 hover:text-amber-500 font-semibold flex items-center gap-1.5 transition-colors"
           >
             <Sparkles className="size-3.5" />
-            <span>Reseller Partner</span>
+            <span>{t("landing.nav.reseller")}</span>
           </Link>
         </nav>
 
         {/* Right CTA */}
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-2">
+          <LanguageSwitcher />
           <ThemeToggle />
 
           {hasAuth ? (
@@ -162,7 +166,7 @@ export function PublicNavbar() {
             >
               <Link href="/dashboard">
                 <LayoutDashboard className="mr-1.5 size-3.5" />
-                Console Dashboard
+                {t("landing.nav.dashboard")}
               </Link>
             </Button>
           ) : (
@@ -173,7 +177,7 @@ export function PublicNavbar() {
                 asChild
                 className="hidden sm:inline-flex text-xs font-semibold"
               >
-                <Link href="/login">Masuk</Link>
+                <Link href="/login">{t("landing.nav.login")}</Link>
               </Button>
               <Button
                 size="sm"
@@ -181,7 +185,8 @@ export function PublicNavbar() {
                 asChild
               >
                 <Link href="/register">
-                  Daftar VIP <ArrowRight className="ml-1 size-3.5" />
+                  {t("landing.nav.register")}{" "}
+                  <ArrowRight className="ml-1 size-3.5" />
                 </Link>
               </Button>
             </>
@@ -216,35 +221,35 @@ export function PublicNavbar() {
               onClick={() => setMobileMenuOpen(false)}
               className="block text-sm font-medium text-foreground px-2 py-1.5 rounded-lg hover:bg-accent"
             >
-              Protokol VPN
+              {t("landing.nav.protocols")}
             </Link>
             <Link
               href="/#features"
               onClick={() => setMobileMenuOpen(false)}
               className="block text-sm font-medium text-foreground px-2 py-1.5 rounded-lg hover:bg-accent"
             >
-              Keunggulan Arsitektur
+              {t("landing.nav.features")}
             </Link>
             <Link
               href="/subscription"
               onClick={() => setMobileMenuOpen(false)}
               className="block text-sm font-medium text-foreground px-2 py-1.5 rounded-lg hover:bg-accent"
             >
-              Paket Harga
+              {t("landing.nav.pricing")}
             </Link>
             <Link
               href="/articles"
               onClick={() => setMobileMenuOpen(false)}
               className="block text-sm font-medium text-foreground px-2 py-1.5 rounded-lg hover:bg-accent"
             >
-              Pusat Panduan & Tutorial
+              {t("landing.nav.guides")}
             </Link>
             <Link
               href="/seller"
               onClick={() => setMobileMenuOpen(false)}
               className="block text-sm font-semibold text-amber-500 px-2 py-1.5 rounded-lg hover:bg-amber-500/10"
             >
-              Portal Mitra Reseller
+              {t("landing.nav.reseller")}
             </Link>
           </div>
 
@@ -260,7 +265,7 @@ export function PublicNavbar() {
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   <LayoutDashboard className="mr-2 size-4" />
-                  Masuk ke Console Dashboard
+                  {t("landing.nav.dashboard")}
                 </Link>
               </Button>
             ) : (
@@ -272,7 +277,7 @@ export function PublicNavbar() {
                   asChild
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  <Link href="/login">Masuk</Link>
+                  <Link href="/login">{t("landing.nav.login")}</Link>
                 </Button>
                 <Button
                   size="sm"
@@ -280,7 +285,7 @@ export function PublicNavbar() {
                   asChild
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  <Link href="/register">Daftar VIP</Link>
+                  <Link href="/register">{t("landing.nav.register")}</Link>
                 </Button>
               </div>
             )}

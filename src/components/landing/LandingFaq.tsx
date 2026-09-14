@@ -2,30 +2,32 @@
 
 import React, { useState } from "react";
 import { ChevronDown, HelpCircle } from "lucide-react";
+import { useI18n } from "@/lib/i18n/context";
 
 export function LandingFaq() {
+  const { t } = useI18n();
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   const faqs = [
     {
-      q: "Apa perbedaan antara protokol SSH, VMess, VLess Reality, dan Trojan?",
-      a: "SSH Dropbear sangat ideal untuk tunneling TCP dengan payload custom dan port standar. VMess (V2Ray) menggunakan dynamic routing untuk memecah enkripsi paket di jaringan kompleks. VLess Reality adalah generasi terbaru tanpa kebutuhan domain sendiri dengan kecepatan native Linux. Sedangkan Trojan menyamarkan seluruh traffic menyerupai lalu lintas browsing web HTTPS standar port 443 sehingga hampir mustahil diblokir oleh firewall ISP.",
+      q: t("landing.faq.q1"),
+      a: t("landing.faq.a1"),
     },
     {
-      q: "Aplikasi klien apa saja yang direkomendasikan untuk menggunakan akun GoVPN?",
-      a: "Untuk Android kami merekomendasikan v2rayNG, Sing-box, NekoBox, atau HTTP Custom. Untuk iOS / iPhone Anda dapat menggunakan Shadowrocket, Sing-box, atau FoXray. Untuk Windows dan Mac tersedia v2rayN, Nekoray, Clash Verge Rev, dan aplikasi resmi WireGuard.",
+      q: t("landing.faq.q2"),
+      a: t("landing.faq.a2"),
     },
     {
-      q: "Apakah ada batasan kuota (FUP) atau batas kecepatan per akun?",
-      a: "Seluruh akun reguler dan VIP GoVPN berjalan di port uplink 10 Gbps tanpa FUP (Fair Usage Policy) tersembunyi. Kecepatan maksimal bergantung pada kualitas sinyal operator seluler atau ISP lokal yang Anda gunakan.",
+      q: t("landing.faq.q3"),
+      a: t("landing.faq.a3"),
     },
     {
-      q: "Bagaimana cara menjadi Mitra Reseller GoVPN dan apa keuntungannya?",
-      a: "Anda cukup mendaftar akun dan mengakses menu Portal Reseller. Mitra Reseller mendapatkan diskon kuota grosir hingga 30%, akses API pencetakan massal instan, white-label sub-akun, serta fasilitas penarikan komisi saldo otomatis ke rekening bank lokal atau e-wallet.",
+      q: t("landing.faq.q4"),
+      a: t("landing.faq.a4"),
     },
     {
-      q: "Apakah GoVPN mencatat log riwayat situs yang saya kunjungi?",
-      a: "Sama sekali TIDAK. Kami mematuhi standar Zero-Logs Policy yang ketat. Server kami beroperasi pada sistem operasi ephemeral berbasis RAM disk, di mana seluruh memori sementara terhapus secara otomatis dan tidak ada satupun jejak penjelajahan, DNS query, atau alamat IP asli yang disimpan ke media penyimpanan permanen.",
+      q: t("landing.faq.q5"),
+      a: t("landing.faq.a5"),
     },
   ];
 
@@ -41,14 +43,13 @@ export function LandingFaq() {
       <div className="container mx-auto px-4 sm:px-6 max-w-4xl">
         <div className="text-center mb-14">
           <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3.5 py-1 text-xs font-bold text-primary mb-3.5 uppercase tracking-wider font-mono">
-            <HelpCircle className="h-3.5 w-3.5" /> Tanya Jawab Populer
+            <HelpCircle className="h-3.5 w-3.5" /> {t("landing.faq.badge")}
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-foreground tracking-tight leading-tight">
-            Pertanyaan yang Sering Diajukan
+            {t("landing.faq.title")}
           </h2>
           <p className="text-sm sm:text-base text-muted-foreground mt-3 font-normal">
-            Temukan jawaban cepat atas pertanyaan seputar akun, protokol,
-            kompatibilitas aplikasi, dan ekosistem kemitraan.
+            {t("landing.faq.subtitle")}
           </p>
         </div>
 

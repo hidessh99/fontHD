@@ -1,0 +1,179 @@
+{
+  "hero": {
+    "badge": "ACTIVE NETWORK • ULTRA-LOW LATENCY BGP",
+    "titleLine1": "Next-Gen Cloud Tunneling",
+    "titleLine2": "Censorship-Free & High-Speed",
+    "subtitle": "Enterprise-grade VPN & SSH tunneling service with banking-level encryption, modern multi-protocols (V2Ray, VLess Reality, Trojan, Shadowsocks, WireGuard), and ultra-low international gaming latency.",
+    "ctaPrimary": "Start Free — Create Account",
+    "ctaSecondary": "View Protocols & Servers",
+    "ctaReseller": "Reseller Partner Portal",
+    "noLogs": "100% No-Logs Policy",
+    "instant": "Instant Provisioning 5s",
+    "uptime": "99.99% Uptime SLA"
+  },
+  "stats": {
+    "usersLabel": "Total Users",
+    "usersDesc": "Active Members & Resellers",
+    "serversLabel": "Global Server Nodes",
+    "serversDesc": "Singapore, US, Japan, ID",
+    "bandwidthLabel": "Uplink Bandwidth",
+    "bandwidthDesc": "Direct Anycast & Tier-1 ISP",
+    "uptimeLabel": "Uptime Guarantee",
+    "uptimeDesc": "High Availability SLA",
+    "liveTelemetry": "Live Network Telemetry",
+    "pingOptimal": "Ping Avg < 15ms • 0% Loss"
+  },
+  "protocols": {
+    "badge": "Multi-Protocol Suite",
+    "title": "Modern Tunneling Protocol Options",
+    "subtitle": "Choose the protocol tailored to your workflow: bypass aggressive ISP DPI, mask streaming traffic, or achieve ultra-low competitive gaming latency.",
+    "exploreAll": "Explore All Servers",
+    "createAccount": "Create {name} Account",
+    "ssh": {
+      "name": "SSH / Dropbear",
+      "tagline": "Secure Shell & WebSocket CDN",
+      "tier": "Free & VIP",
+      "f1": "WebSocket CDN Cloudflare Direct",
+      "f2": "Custom Payload & SNI Masking",
+      "f3": "Keep-Alive Anti-Disconnect",
+      "f4": "Ports 22, 442, 80, 443 Supported"
+    },
+    "vmess": {
+      "name": "VMess (V2Ray)",
+      "tagline": "Dynamic Multi-Path Routing",
+      "tier": "High-Speed CDN",
+      "f1": "Latest VMess AEAD Standard",
+      "f2": "High Speed WS & gRPC Transport",
+      "f3": "Bypass DPI & ISP Sensor Evasion",
+      "f4": "Compatible with v2rayNG & Clash"
+    },
+    "vless": {
+      "name": "VLess XTLS Reality",
+      "tagline": "Next-Gen 0-Hop TLS Masking",
+      "tier": "Top Performance",
+      "f1": "XTLS Vision & Reality Masking",
+      "f2": "No Domain Ownership Required",
+      "f3": "Native Linux Zero-Overhead Speed",
+      "f4": "Immune to AI Firewall Deep Inspection"
+    },
+    "trojan": {
+      "name": "Trojan-GFW / Go",
+      "tagline": "HTTPS Traffic Camouflage",
+      "tier": "Anti-Censor",
+      "f1": "Standard Web Port 443 Disguise",
+      "f2": "4K Ultra-HD Streaming Throughput",
+      "f3": "Multiplexing H2 Connection Support",
+      "f4": "Shadowrocket & Sing-box Ready"
+    },
+    "shadowsocks": {
+      "name": "Shadowsocks AEAD",
+      "tagline": "Lightweight High-Throughput",
+      "tier": "Low Latency",
+      "f1": "2022-blake3-aes-128-gcm Cipher",
+      "f2": "Ultra-Low Packet UDP Jitter",
+      "f3": "Optimized Mobile Battery Consumption",
+      "f4": "Android & iOS SIP008 Compliant"
+    },
+    "wireguard": {
+      "name": "WireGuard Fast Kernel",
+      "tagline": "Modern Linux Kernel UDP",
+      "tier": "Kernel Speed",
+      "f1": "Curve25519 Cryptographic Handshake",
+      "f2": "Seamless WiFi to 5G Network Roaming",
+      "f3": "Direct Kernel-Space Processing",
+      "f4": "Instant QR Code Configuration"
+    }
+  },
+  "features": {
+    "badge": "Architecture & Reliability",
+    "title": "Enterprise-Grade Technology Foundation",
+    "subtitle": "Engineered with distributed cloud architecture for uninterrupted throughput, military-grade cryptography, and bulletproof network resilience.",
+    "f1Title": "Anycast Global BGP Routing",
+    "f1Desc": "Your connection is automatically routed to the nearest edge datacenter with Tier-1 peering to ensure minimum latency and jitter.",
+    "f2Title": "Multi-Core Kernel Optimization",
+    "f2Desc": "Powered by cutting-edge Xray & Sing-box engines with full multi-threading and AES-NI hardware crypto offloading.",
+    "f3Title": "100% RAM-Only Ephemeral Logs",
+    "f3Desc": "Total privacy without compromise. Operates entirely in RAM disk without ever writing user IP or activity records to persistent disks.",
+    "f4Title": "Heuristic Auto-Failover",
+    "f4Desc": "Intelligent health monitors reroute traffic in milliseconds if an undersea cable break or server node degradation is detected.",
+    "f5Title": "Reseller API & Partner Ecosystem",
+    "f5Desc": "Wholesale REST API, up to 30% volume discounts, white-label sub-accounts, and instant bulk account minting for partners.",
+    "f6Title": "Anti-GFW & Heuristic Masking",
+    "f6Desc": "Smart packet fragmentation algorithms that defeat ISP Deep Packet Inspection (DPI) while preserving connection stability."
+  },
+  "whyUs": {
+    "badge": "Quality Standards",
+    "title": "Why Choose GoVPN as Your Tunneling Provider?",
+    "subtitle": "More than conventional VPNs, we deliver an all-in-one ecosystem for productivity, digital privacy, and reseller businesses.",
+    "r1Title": "Gigabit Throughput Without FUP",
+    "r1Desc": "Experience uncapped connection speeds. 4K streaming, video calls, and bulk downloads run at peak network throughput.",
+    "r2Title": "DNS & WebRTC Leak Protection",
+    "r2Desc": "Every tunnel session uses dedicated encrypted DoH/DoT resolvers completely immune to ISP DNS hijacking.",
+    "r3Title": "Comprehensive Cross-Platform Support",
+    "r3Desc": "Compatible with official and community apps on Android, iOS, Windows, macOS, Linux, and OpenWrt routers.",
+    "r4Title": "24/7 Automated Settlement",
+    "r4Desc": "Balance top-ups and plan purchases are activated within 3 seconds via QRIS, Virtual Accounts, and digital wallets.",
+    "r5Title": "Documentation & Setup Wizard",
+    "r5Desc": "Step-by-step visual tutorials for every protocol and client app, making onboarding smooth for beginners.",
+    "r6Title": "Priority Support & Active Community",
+    "r6Desc": "Our technical engineers are on standby to resolve connection issues via priority tickets and official Telegram channels."
+  },
+  "trust": {
+    "badge": "Security & Privacy Guarantee",
+    "title": "Absolute Privacy with Certified Financial Processing",
+    "subtitle": "We protect your digital sovereignty without compromise. Zero browsing history logs, no IP tracking, and all transactions processed via PCI-DSS compliant gateways.",
+    "item1": "Verified Zero-Logs Policy — Zero Historical Tracking",
+    "item2": "RAM-Disk Ephemeral Nodes — Memory Wiped on Reboot",
+    "item3": "99.99% Network Availability Guarantee with SLA Compensation",
+    "item4": "Automated Real-Time Activation Within 3 Seconds Without Manual Slips",
+    "gatewaysLabel": "Supported Payment Gateways",
+    "gatewaysTitle": "Automated & Verified Processing",
+    "gatewaysDesc": "Direct integration with QRIS, national bank virtual accounts, digital wallets, and Web3 cryptocurrency for seamless transactions."
+  },
+  "faq": {
+    "badge": "Popular FAQ",
+    "title": "Frequently Asked Questions",
+    "subtitle": "Find quick answers regarding protocols, client app compatibility, privacy policy, and partner programs.",
+    "q1": "What are the key differences between SSH, VMess, VLess Reality, and Trojan?",
+    "a1": "SSH Dropbear is ideal for TCP tunneling with custom payloads and standard ports. VMess (V2Ray) uses dynamic multi-path routing to bypass complex firewall filtering. VLess Reality is the next-generation protocol operating without personal domain requirements at native Linux kernel speed. Trojan camouflages entire traffic as standard HTTPS port 443 web browsing, making it nearly impossible for ISP firewalls to detect or throttle.",
+    "q2": "Which client applications are recommended for GoVPN accounts?",
+    "a2": "For Android, we recommend v2rayNG, Sing-box, NekoBox, or HTTP Custom. For iOS / iPhone, Shadowrocket, Sing-box, and FoXray work best. For Windows and Mac, v2rayN, Nekoray, Clash Verge Rev, and the official WireGuard client are fully supported.",
+    "q3": "Is there any bandwidth throttle (FUP) or speed cap per account?",
+    "a3": "No. All regular and VIP GoVPN accounts connect to dedicated 10 Gbps uplink ports with no hidden Fair Usage Policies (FUP). Maximum speed depends solely on your local ISP or cellular signal conditions.",
+    "q4": "How can I become a GoVPN Reseller Partner and what are the perks?",
+    "a4": "Simply sign up and head to the Reseller Partner Portal. Partners enjoy wholesale discounts up to 30%, instant REST API account minting, custom sub-tenants, and automated commission withdrawals directly to bank accounts or e-wallets.",
+    "q5": "Does GoVPN keep logs of the websites I visit?",
+    "a5": "Strictly NO. We adhere to a rigid Zero-Logs Policy. Our edge servers operate entirely within ephemeral RAM disk operating systems where volatile memory is regularly purged and no browsing history, DNS queries, or user IP addresses are ever stored on disk."
+  },
+  "cta": {
+    "badge": "Instant Unlimited Access",
+    "title": "Ready to Secure Your Entire Internet Journey?",
+    "subtitle": "Join over 150,000 satisfied users and experience uncapped tunneling speeds, anti-DPI protection, and guaranteed privacy starting today.",
+    "primaryBtn": "Create Free Account",
+    "secondaryBtn": "Go to Console Dashboard",
+    "note": "No Credit Card Required • Instant Automatic Activation"
+  },
+  "nav": {
+    "protocols": "VPN Protocols",
+    "features": "Core Features",
+    "pricing": "Pricing Plans",
+    "guides": "Guides & Docs",
+    "reseller": "Reseller Partner",
+    "login": "Sign In",
+    "register": "Join VIP",
+    "dashboard": "Console Dashboard"
+  },
+  "footer": {
+    "description": "Enterprise multi-protocol tunneling infrastructure (SSH, VMess, VLess Reality, Trojan-Go, Shadowsocks 2022, WireGuard). Engineered for pure speed, zero logging, and censorship evasion.",
+    "systemStatus": "All Systems Operational (99.99% SLA)",
+    "vpnProtocols": "VPN Protocols",
+    "ecosystem": "Ecosystem",
+    "legalCommunity": "Legal & Community",
+    "vipPricing": "VIP Subscriptions",
+    "partnerPortal": "Reseller Partner Portal",
+    "guideDocs": "Guides & Setup Wizard",
+    "supportTicket": "Priority Support & Tickets",
+    "telegram": "Telegram Channel",
+    "rights": "GoVPN Enterprise. All rights reserved."
+  }
+}

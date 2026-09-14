@@ -2,31 +2,34 @@
 
 import React from "react";
 import { Users, Server, Activity, ShieldCheck, Cpu } from "lucide-react";
+import { useI18n } from "@/lib/i18n/context";
 
 export function LandingStats() {
+  const { t } = useI18n();
+
   const stats = [
     {
-      label: "Total Pengguna",
+      label: t("landing.stats.usersLabel"),
       value: "150k+",
-      desc: "Member & Reseller Aktif",
+      desc: t("landing.stats.usersDesc"),
       icon: Users,
     },
     {
-      label: "Node Server Global",
+      label: t("landing.stats.serversLabel"),
       value: "250+",
-      desc: "Singapore, US, Japan, ID",
+      desc: t("landing.stats.serversDesc"),
       icon: Server,
     },
     {
-      label: "Bandwidth Uplink",
+      label: t("landing.stats.bandwidthLabel"),
       value: "10 Gbps",
-      desc: "Direct Anycast & Tier-1 ISP",
+      desc: t("landing.stats.bandwidthDesc"),
       icon: Activity,
     },
     {
-      label: "Jaminan Uptime",
+      label: t("landing.stats.uptimeLabel"),
       value: "99.99%",
-      desc: "High Availability SLA",
+      desc: t("landing.stats.uptimeDesc"),
       icon: ShieldCheck,
     },
   ];
@@ -68,12 +71,12 @@ export function LandingStats() {
           </div>
           <div>
             <div className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest">
-              Live Network Telemetry
+              {t("landing.stats.liveTelemetry")}
             </div>
             <div className="flex items-center gap-2">
               <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
               <span className="text-xs font-black text-emerald-400 font-mono">
-                Ping Avg &lt; 15ms • 0% Loss
+                {t("landing.stats.pingOptimal")}
               </span>
             </div>
           </div>
