@@ -2,7 +2,8 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useAuthStore } from "@/modules/iam/store/auth.store";
 import {
   Menu,
   Coins,
@@ -24,7 +25,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { SellerSidebar } from "./SellerSidebar";
-import { clearAllAuthStorage } from "@/lib/storage/cookies";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -44,11 +44,13 @@ export function SellerHeader({
   userName = "Partner Reseller",
 }: SellerHeaderProps) {
   const pathname = usePathname();
+  const router = useRouter();
+  const { logout } = useAuthStore();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
-  const handleLogout = () => {
-    clearAllAuthStorage();
-    window.location.href = "/login";
+  const handleLogout = async () => {
+    await logout();
+    router.replace("/login");
   };
 
   const pathSegments = pathname.split("/").filter(Boolean);
@@ -157,7 +159,7 @@ export function SellerHeader({
                 <div className="flex size-5 items-center justify-center rounded-lg bg-amber-500/15 text-amber-500">
                   <Building2 className="size-3" />
                 </div>
-                <span className="text-xs font-medium text-foreground max-w-[90px] truncate hidden md:inline">
+                <span className="text-xs font-medium text-foreground max-w-22.5 truncate hidden md:inline">
                   {userName}
                 </span>
                 <Badge

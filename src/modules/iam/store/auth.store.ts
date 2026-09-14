@@ -130,7 +130,6 @@ export const useAuthStore = create<AuthState>()(
             isAuthenticated: false,
             isLoading: false,
           });
-          window.location.href = "/login";
         }
       },
 

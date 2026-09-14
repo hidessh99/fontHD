@@ -2,7 +2,8 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useAuthStore } from "@/modules/iam/store/auth.store";
 import {
   Menu,
   ShieldAlert,
@@ -44,11 +45,13 @@ export function AdminHeader({
   userRole = "SUPERADMIN",
 }: AdminHeaderProps) {
   const pathname = usePathname();
+  const router = useRouter();
+  const { logout } = useAuthStore();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
-  const handleLogout = () => {
-    clearAllAuthStorage();
-    window.location.href = "/login";
+  const handleLogout = async () => {
+    await logout();
+    router.replace("/login");
   };
 
   const pathSegments = pathname.split("/").filter(Boolean);
@@ -146,7 +149,7 @@ export function AdminHeader({
                 <div className="flex size-5 items-center justify-center rounded-lg bg-rose-500/15 text-rose-400">
                   <ShieldAlert className="size-3" />
                 </div>
-                <span className="text-xs font-medium text-foreground max-w-[90px] truncate hidden md:inline">
+                <span className="text-xs font-medium text-foreground max-w-22.5 truncate hidden md:inline">
                   {userName}
                 </span>
                 <Badge

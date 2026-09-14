@@ -2,7 +2,8 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useAuthStore } from "@/modules/iam/store/auth.store";
 import {
   Menu,
   Wallet,
@@ -26,7 +27,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { DashboardSidebar } from "./DashboardSidebar";
-import { clearAllAuthStorage } from "@/lib/storage/cookies";
+
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -48,11 +49,13 @@ export function DashboardHeader({
   userRole = "USER",
 }: DashboardHeaderProps) {
   const pathname = usePathname();
+  const router = useRouter();
+  const { logout } = useAuthStore();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
-  const handleLogout = () => {
-    clearAllAuthStorage();
-    window.location.href = "/login";
+  const handleLogout = async () => {
+    await logout();
+    router.replace("/login");
   };
 
   const pathSegments = pathname.split("/").filter(Boolean);
@@ -179,7 +182,7 @@ export function DashboardHeader({
                 <div className="flex size-5 items-center justify-center rounded-lg bg-primary/10 text-primary">
                   <User className="size-3" />
                 </div>
-                <span className="text-xs font-medium text-foreground max-w-[80px] truncate hidden md:inline">
+                <span className="text-xs font-medium text-foreground max-w-20 truncate hidden md:inline">
                   {userName}
                 </span>
                 <Badge

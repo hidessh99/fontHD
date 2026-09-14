@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useAuthStore } from "@/modules/iam/store/auth.store";
 import {
   Shield,
   LayoutDashboard,
@@ -131,9 +132,12 @@ export function DashboardSidebar({
     setOpenGroups((prev) => ({ ...prev, [title]: !prev[title] }));
   };
 
-  const handleLogout = () => {
-    clearAllAuthStorage();
-    window.location.href = "/login";
+  const router = useRouter();
+  const { logout } = useAuthStore();
+
+  const handleLogout = async () => {
+    await logout();
+    router.replace("/login");
   };
 
   const isSeller =
