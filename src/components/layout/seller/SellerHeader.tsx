@@ -7,10 +7,10 @@ import {
   Menu,
   Coins,
   ArrowUpRight,
-  User,
+
   LogOut,
   Building2,
-  Shield,
+
   ArrowLeft,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";

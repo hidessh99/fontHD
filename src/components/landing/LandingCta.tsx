@@ -11,7 +11,7 @@ export function LandingCta() {
 
   return (
     <section className="container mx-auto px-4 sm:px-6 py-16 lg:py-24">
-      <div className="max-w-5xl mx-auto rounded-3xl bg-gradient-to-br from-blue-600 via-indigo-600 to-blue-700 p-8 sm:p-12 lg:p-16 text-center text-white relative overflow-hidden shadow-2xl shadow-blue-500/20">
+      <div className="max-w-5xl mx-auto rounded-3xl bg-linear-to-br from-blue-600 via-indigo-600 to-blue-700 p-8 sm:p-12 lg:p-16 text-center text-white relative overflow-hidden shadow-2xl shadow-blue-500/20">
         {/* Background glow orbs */}
         <div className="absolute top-0 right-0 h-96 w-96 bg-white/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
         <div className="absolute bottom-0 left-0 h-96 w-96 bg-black/25 rounded-full blur-3xl -ml-32 -mb-32 pointer-events-none" />

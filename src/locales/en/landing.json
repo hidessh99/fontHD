@@ -175,5 +175,17 @@
     "supportTicket": "Priority Support & Tickets",
     "telegram": "Telegram Channel",
     "rights": "GoVPN Enterprise. All rights reserved."
+  },
+  "errorPage": {
+    "title404": "Page Not Found",
+    "description404": "Oops! The page you are looking for has vanished, moved, or never existed.",
+    "title500": "Internal Server Error",
+    "description500": "Our server encountered a temporary technical glitch. Our team is already looking into it.",
+    "titleGeneric": "System Error Occurred",
+    "descriptionGeneric": "An unexpected error occurred. Please try reloading or check back shortly.",
+    "backHome": "Return to Home",
+    "backDashboard": "Go to Dashboard",
+    "retry": "Try Again",
+    "technicalDetails": "Technical Error Details"
   }
 }

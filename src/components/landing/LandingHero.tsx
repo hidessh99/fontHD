@@ -14,7 +14,7 @@ export function LandingHero() {
       {/* Background Ornaments / Radial Ambient Auras */}
       <div className="absolute -top-24 -left-24 h-96 w-96 rounded-full bg-blue-500/10 dark:bg-blue-600/15 blur-3xl pointer-events-none" />
       <div className="absolute top-1/3 -right-24 h-96 w-96 rounded-full bg-indigo-500/10 dark:bg-indigo-600/15 blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 h-64 w-[600px] bg-cyan-500/5 dark:bg-cyan-500/10 blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 h-64 w-150 bg-cyan-500/5 dark:bg-cyan-500/10 blur-3xl pointer-events-none" />
 
       <div className="container relative mx-auto px-4 sm:px-6">
         <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
@@ -32,7 +32,7 @@ export function LandingHero() {
           {/* Main Headline */}
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black leading-[1.12] tracking-tight text-foreground mb-6">
             {t("landing.hero.titleLine1")} <br className="hidden sm:inline" />
-            <span className="bg-gradient-to-r from-blue-600 via-indigo-500 to-cyan-500 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-blue-600 via-indigo-500 to-cyan-500 bg-clip-text text-transparent">
               {t("landing.hero.titleLine2")}
             </span>
           </h1>

@@ -8,10 +8,10 @@ import {
   ShieldAlert,
   Terminal,
   Activity,
-  User,
+
   LogOut,
   ArrowLeft,
-  Search,
+
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";

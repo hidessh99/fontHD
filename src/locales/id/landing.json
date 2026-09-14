@@ -175,5 +175,17 @@
     "supportTicket": "Bantuan & Tiket Prioritas",
     "telegram": "Channel Telegram",
     "rights": "GoVPN Enterprise. Hak cipta dilindungi undang-undang."
+  },
+  "errorPage": {
+    "title404": "Halaman Tidak Ditemukan",
+    "description404": "Oops! Halaman yang Anda cari telah hilang, dipindahkan, atau tidak pernah ada.",
+    "title500": "Kesalahan Server Internal",
+    "description500": "Server kami mengalami kendala teknis sementara. Tim kami sedang menanganinya.",
+    "titleGeneric": "Terjadi Kesalahan Sistem",
+    "descriptionGeneric": "Kesalahan yang tidak terduga telah terjadi. Silakan coba muat ulang beberapa saat lagi.",
+    "backHome": "Kembali ke Beranda",
+    "backDashboard": "Masuk ke Dashboard",
+    "retry": "Coba Lagi",
+    "technicalDetails": "Detail Kesalahan Teknis"
   }
 }
