@@ -66,15 +66,15 @@ export function PublicNavbar() {
       <div className="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6">
         {/* Brand Logo */}
         <Link href="/" className="flex items-center gap-3">
-          <div className="flex size-9 items-center justify-center rounded-xl bg-primary/10 border border-primary/30 text-primary">
+          <div className="flex size-9 items-center justify-center rounded-xl bg-blue-500/10 border border-blue-500/30 text-blue-700 dark:text-blue-400">
             <Shield className="size-5" />
           </div>
           <span className="text-xl font-black tracking-tight text-foreground">
-            Go<span className="text-primary">VPN</span>
+            Go<span className="text-blue-700 dark:text-blue-400">VPN</span>
           </span>
           <Badge
             variant="outline"
-            className="border-primary/30 text-primary font-mono text-[10px] hidden sm:inline"
+            className="border-blue-500/30 text-blue-700 dark:text-blue-400 font-mono text-[10px] hidden sm:inline"
           >
             v2.0
           </Badge>

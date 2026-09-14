@@ -216,7 +216,7 @@ export function LandingHero() {
                 href="/seller"
                 className="inline-flex items-center gap-1.5 text-xs font-semibold text-amber-700 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-300 transition-colors py-2 px-1 sm:ml-2"
               >
-                <Sparkles className="h-3.5 w-3.5 text-amber-600 dark:text-amber-400" />
+                <Sparkles className="h-3.5 w-3.5 text-amber-700 dark:text-amber-400" />
                 <span>Reseller Partner Portal & API &rarr;</span>
               </Link>
             </div>
@@ -224,15 +224,15 @@ export function LandingHero() {
             {/* Micro Trust Architecture Chips */}
             <div className="flex flex-wrap items-center gap-y-2 gap-x-6 pt-3 border-t border-border/40 text-xs text-muted-foreground font-medium w-full">
               <span className="flex items-center gap-1.5">
-                <Shield className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                <Shield className="h-4 w-4 text-emerald-700 dark:text-emerald-400" />
                 <span>{t("landing.hero.noLogs")}</span>
               </span>
               <span className="flex items-center gap-1.5">
-                <Zap className="h-4 w-4 text-primary" />
+                <Zap className="h-4 w-4 text-blue-700 dark:text-blue-400" />
                 <span>{t("landing.hero.instant")}</span>
               </span>
               <span className="flex items-center gap-1.5">
-                <Activity className="h-4 w-4 text-cyan-600 dark:text-cyan-400" />
+                <Activity className="h-4 w-4 text-cyan-700 dark:text-cyan-400" />
                 <span>{t("landing.hero.uptime")}</span>
               </span>
             </div>
@@ -362,13 +362,13 @@ export function LandingHero() {
                 <div className="relative rounded-xl bg-black/60 border border-border/50 p-3 font-mono text-[11px]">
                   <div className="flex items-center justify-between text-muted-foreground pb-1.5 mb-1 border-b border-white/5">
                     <span className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-slate-400">
-                      <Lock className="size-3 text-primary" />
+                      <Lock className="size-3 text-blue-400" />
                       Configuration String
                     </span>
                     <button
                       type="button"
                       onClick={handleCopyUri}
-                      className="flex items-center gap-1 text-[11px] text-primary hover:text-primary-hover font-semibold transition-colors cursor-pointer"
+                      className="flex items-center gap-1 text-[11px] text-blue-400 hover:text-blue-300 font-semibold transition-colors cursor-pointer"
                     >
                       {copied ? (
                         <>

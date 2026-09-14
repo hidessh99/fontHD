@@ -42,7 +42,7 @@ export function LandingFaq() {
     >
       <div className="container mx-auto px-4 sm:px-6 max-w-4xl">
         <div className="text-center mb-14">
-          <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3.5 py-1 text-xs font-bold text-primary mb-3.5 uppercase tracking-wider font-mono">
+          <div className="inline-flex items-center gap-2 rounded-full bg-blue-500/10 border border-blue-500/20 px-3.5 py-1 text-xs font-bold text-blue-700 dark:text-blue-400 mb-3.5 uppercase tracking-wider font-mono">
             <HelpCircle className="h-3.5 w-3.5" /> {t("landing.faq.badge")}
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-foreground tracking-tight leading-tight">

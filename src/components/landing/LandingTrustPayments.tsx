@@ -82,7 +82,7 @@ export function LandingTrustPayments() {
                 Compliant
               </span>
               <span className="flex items-center gap-1.5">
-                <Zap className="h-3.5 w-3.5 text-primary" /> Auto Settlement
+                <Zap className="h-3.5 w-3.5 text-blue-400" /> Auto Settlement
               </span>
             </div>
           </div>
@@ -109,7 +109,7 @@ export function LandingTrustPayments() {
                     <span className="text-sm font-black tracking-tight text-slate-200 group-hover:text-blue-400 transition-colors font-mono">
                       {badge.label}
                     </span>
-                    <span className="text-[10px] text-slate-500 truncate max-w-full font-sans">
+                    <span className="text-[10px] text-slate-400 truncate max-w-full font-sans">
                       {badge.desc}
                     </span>
                   </div>

@@ -16,11 +16,11 @@ export function PublicFooter() {
           {/* Col 1: Brand & Mission */}
           <div className="col-span-2">
             <Link href="/" className="flex items-center gap-2.5 mb-4">
-              <div className="flex size-8 items-center justify-center rounded-xl bg-primary/10 border border-primary/30 text-primary">
+              <div className="flex size-8 items-center justify-center rounded-xl bg-blue-500/10 border border-blue-500/30 text-blue-700 dark:text-blue-400">
                 <Shield className="size-4.5" />
               </div>
               <span className="text-lg font-black tracking-tight text-foreground">
-                Go<span className="text-primary">VPN</span>
+                Go<span className="text-blue-700 dark:text-blue-400">VPN</span>
               </span>
             </Link>
             <p className="max-w-sm text-xs leading-relaxed text-muted-foreground mb-4">
@@ -154,7 +154,7 @@ export function PublicFooter() {
                   href="/privacy"
                   className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1.5"
                 >
-                  <CheckCircle2 className="size-3 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                  <CheckCircle2 className="size-3 text-emerald-700 dark:text-emerald-400 shrink-0" />
                   <span>Zero-Logs & Privacy Policy</span>
                 </Link>
               </li>
@@ -163,7 +163,7 @@ export function PublicFooter() {
                   href="/terms"
                   className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1.5"
                 >
-                  <CheckCircle2 className="size-3 text-primary shrink-0" />
+                  <CheckCircle2 className="size-3 text-blue-700 dark:text-blue-400 shrink-0" />
                   <span>Terms of Service & SLA</span>
                 </Link>
               </li>
@@ -172,7 +172,7 @@ export function PublicFooter() {
                   href="/contact"
                   className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1.5"
                 >
-                  <CheckCircle2 className="size-3 text-blue-600 dark:text-blue-400 shrink-0" />
+                  <CheckCircle2 className="size-3 text-blue-700 dark:text-blue-400 shrink-0" />
                   <span>Bantuan & Dukungan Tiket</span>
                 </Link>
               </li>

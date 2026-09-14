@@ -148,7 +148,7 @@ export function LandingProtocols() {
         {/* Section Header */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10">
           <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 border border-primary/20 px-3.5 py-1 text-xs font-bold text-primary mb-3.5 uppercase tracking-wider font-mono">
+            <div className="inline-flex items-center gap-2 rounded-full bg-blue-500/10 border border-blue-500/20 px-3.5 py-1 text-xs font-bold text-blue-700 dark:text-blue-400 mb-3.5 uppercase tracking-wider font-mono">
               <Zap className="h-3.5 w-3.5" /> {t("landing.protocols.badge")}
             </div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-foreground tracking-tight leading-tight">
@@ -298,7 +298,7 @@ export function LandingProtocols() {
                           key={idx}
                           className="flex items-start gap-2.5 text-xs text-foreground/80 font-medium"
                         >
-                          <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+                          <CheckCircle2 className="h-3.5 w-3.5 text-emerald-700 dark:text-emerald-400 shrink-0 mt-0.5" />
                           <span>{feat}</span>
                         </li>
                       ))}

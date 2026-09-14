@@ -22,7 +22,7 @@ export function LandingStats() {
       subtext: "Tier-1 Datacenter Nodes",
       icon: Server,
       badge: "42 REGIONS",
-      badgeColor: "text-primary bg-primary/10 border-primary/20",
+      badgeColor: "text-blue-700 dark:text-blue-400 bg-blue-500/10 border-blue-500/20",
     },
     {
       label: t("landing.stats.bandwidthLabel"),
@@ -57,7 +57,7 @@ export function LandingStats() {
               >
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2 text-xs font-mono font-semibold text-muted-foreground uppercase tracking-wider">
-                    <Icon className="size-3.5 text-primary" />
+                    <Icon className="size-3.5 text-blue-700 dark:text-blue-400" />
                     <span>{m.label}</span>
                   </div>
                   <span

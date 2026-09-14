@@ -21,7 +21,7 @@ export function LandingFeatures() {
       <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-14">
-          <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 border border-primary/20 px-3.5 py-1 text-xs font-bold text-primary mb-3.5 uppercase tracking-wider font-mono">
+          <div className="inline-flex items-center gap-2 rounded-full bg-blue-500/10 border border-blue-500/20 px-3.5 py-1 text-xs font-bold text-blue-700 dark:text-blue-400 mb-3.5 uppercase tracking-wider font-mono">
             <Layers className="h-3.5 w-3.5" /> {t("landing.features.badge")}
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-foreground tracking-tight leading-tight">
@@ -65,7 +65,7 @@ export function LandingFeatures() {
             {/* Architecture Visual Diagram */}
             <div className="rounded-xl bg-black/40 border border-border/60 p-4 font-mono text-xs text-slate-300">
               <div className="text-[10px] uppercase tracking-wider text-muted-foreground mb-2 flex items-center gap-1.5">
-                <Server className="size-3 text-primary" />
+                <Server className="size-3 text-blue-400" />
                 <span>Volatile Memory Pipeline</span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
@@ -75,11 +75,11 @@ export function LandingFeatures() {
                 </div>
                 <div className="p-2.5 rounded-lg bg-surface-subtle/80 border border-border/40 text-center">
                   <div className="text-[10px] text-muted-foreground">Processing</div>
-                  <div className="text-xs font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">RAM-Only Buffer</div>
+                  <div className="text-xs font-bold text-emerald-700 dark:text-emerald-400 mt-0.5">RAM-Only Buffer</div>
                 </div>
                 <div className="p-2.5 rounded-lg bg-surface-subtle/80 border border-border/40 text-center">
                   <div className="text-[10px] text-muted-foreground">Storage</div>
-                  <div className="text-xs font-bold text-rose-600 dark:text-rose-400 mt-0.5">0 Bytes Disk Write</div>
+                  <div className="text-xs font-bold text-rose-700 dark:text-rose-400 mt-0.5">0 Bytes Disk Write</div>
                 </div>
               </div>
             </div>

@@ -63,7 +63,7 @@ export function LandingWhyUs() {
       <div className="container mx-auto px-4 sm:px-6 max-w-5xl">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 border border-primary/20 px-3.5 py-1 text-xs font-bold text-primary mb-3.5 uppercase tracking-wider font-mono">
+          <div className="inline-flex items-center gap-2 rounded-full bg-blue-500/10 border border-blue-500/20 px-3.5 py-1 text-xs font-bold text-blue-700 dark:text-blue-400 mb-3.5 uppercase tracking-wider font-mono">
             <CheckCircle className="h-3.5 w-3.5" /> {t("landing.whyUs.badge")}
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-foreground tracking-tight leading-tight">
@@ -86,9 +86,9 @@ export function LandingWhyUs() {
                   <th className="p-4 sm:p-5 text-muted-foreground w-3/8">
                     Traditional Commercial VPN
                   </th>
-                  <th className="p-4 sm:p-5 text-primary w-3/8 bg-primary/5 border-l border-border/40">
+                  <th className="p-4 sm:p-5 text-blue-700 dark:text-blue-400 w-3/8 bg-blue-500/5 border-l border-border/40">
                     <div className="flex items-center gap-2">
-                      <Zap className="size-4 text-primary" />
+                      <Zap className="size-4 text-blue-700 dark:text-blue-400" />
                       <span>GoVPN Cloud Infrastructure</span>
                     </div>
                   </th>
@@ -105,7 +105,7 @@ export function LandingWhyUs() {
                     </td>
                     <td className="p-4 sm:p-5 text-muted-foreground">
                       <div className="flex items-start gap-2">
-                        <X className="size-4 text-rose-700 dark:text-rose-500 shrink-0 mt-0.5" />
+                        <X className="size-4 text-rose-700 dark:text-rose-400 shrink-0 mt-0.5" />
                         <span>{row.legacy}</span>
                       </div>
                     </td>
@@ -125,28 +125,28 @@ export function LandingWhyUs() {
         {/* Platform Ecosystem Support Strip */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           <div className="p-4 rounded-xl bg-surface border border-border/60 flex items-center gap-3">
-            <Smartphone className="size-5 text-primary" />
+            <Smartphone className="size-5 text-blue-700 dark:text-blue-400" />
             <div>
               <div className="text-xs font-bold text-foreground">Android & iOS</div>
               <div className="text-[11px] text-muted-foreground">v2rayNG, Sing-box, Shadowrocket</div>
             </div>
           </div>
           <div className="p-4 rounded-xl bg-surface border border-border/60 flex items-center gap-3">
-            <Laptop className="size-5 text-primary" />
+            <Laptop className="size-5 text-blue-700 dark:text-blue-400" />
             <div>
               <div className="text-xs font-bold text-foreground">Windows & macOS</div>
               <div className="text-[11px] text-muted-foreground">v2rayN, Nekoray, WireGuard CLI</div>
             </div>
           </div>
           <div className="p-4 rounded-xl bg-surface border border-border/60 flex items-center gap-3">
-            <CreditCard className="size-5 text-primary" />
+            <CreditCard className="size-5 text-blue-700 dark:text-blue-400" />
             <div>
               <div className="text-xs font-bold text-foreground">Instant Settlement</div>
               <div className="text-[11px] text-muted-foreground">QRIS, Virtual Accounts, USDT</div>
             </div>
           </div>
           <div className="p-4 rounded-xl bg-surface border border-border/60 flex items-center gap-3">
-            <Headphones className="size-5 text-primary" />
+            <Headphones className="size-5 text-blue-700 dark:text-blue-400" />
             <div>
               <div className="text-xs font-bold text-foreground">24/7 Priority SLA</div>
               <div className="text-[11px] text-muted-foreground">Dedicated Telegram & Helpdesk</div>
