@@ -1,15 +1,23 @@
+// ==============================================================================
+// GoVPN VPN User Account Card Component
+// Part of Pola C: components/user/
+// Integrates Algorithm 3 (Optimistic Mutations: Pause, Resume, Renew)
+// ==============================================================================
+
 "use client";
 
 import React, { useState } from "react";
-import { Server, Calendar, Key, QrCode, RefreshCw, Trash2, Shield } from "lucide-react";
+import { Server, Calendar, QrCode, RefreshCw, Trash2, PauseCircle, PlayCircle } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ProtocolBadge } from "@/components/shared/ProtocolBadge";
 import { StatusBadge } from "@/components/shared/StatusBadge";
 import { CopyButton } from "@/components/shared/CopyButton";
 import { QrCodeModal } from "@/components/shared/QrCodeModal";
-import { VpnAccount } from "../types/vpn.types";
+import { VpnAccount } from "../../types/vpn.types";
 import { formatDateShort } from "@/lib/utils";
+import { useVpnUserStore } from "../../store/vpn-user.store";
+import { toast } from "sonner";
 
 interface VpnAccountCardProps {
   account: VpnAccount;
@@ -23,7 +31,38 @@ export function VpnAccountCard({
   onDelete,
 }: VpnAccountCardProps) {
   const [qrOpen, setQrOpen] = useState(false);
-  const configString = account.config_url || account.raw_config || `${account.protocol}://${account.username}@${account.server_host || "server"}:${account.port || 443}`;
+  const [isPending, setIsPending] = useState(false);
+
+  const optimisticPauseAccount = useVpnUserStore((s) => s.optimisticPauseAccount);
+  const optimisticResumeAccount = useVpnUserStore((s) => s.optimisticResumeAccount);
+
+  const configString =
+    account.config_url ||
+    account.raw_config ||
+    `${account.protocol}://${account.username}@${account.server_host || "vpn.hidessh.com"}:${account.port || 443}`;
+
+  const isPaused = account.status === "PAUSED";
+  const isPayas = account.tier === "payas";
+
+  const handleTogglePayas = async () => {
+    setIsPending(true);
+    if (isPaused) {
+      const result = await optimisticResumeAccount(account.id);
+      if (result.success) {
+        toast.success(`Akun ${account.username} aktif kembali!`);
+      } else {
+        toast.error(result.error || "Gagal mengaktifkan akun.");
+      }
+    } else {
+      const result = await optimisticPauseAccount(account.id);
+      if (result.success) {
+        toast.info(`Akun ${account.username} berhasil dijeda.`);
+      } else {
+        toast.error(result.error || "Gagal menjeda akun.");
+      }
+    }
+    setIsPending(false);
+  };
 
   return (
     <>
@@ -84,11 +123,29 @@ export function VpnAccountCard({
                 variant="outline"
                 size="sm"
                 onClick={() => setQrOpen(true)}
-                className="h-8 px-2.5 text-xs font-mono"
+                className="h-8 px-2.5 text-xs font-mono rounded-full"
                 title="Tampilkan QR Code"
               >
                 <QrCode className="size-3.5 text-primary" />
               </Button>
+
+              {/* PayAsYouGo Instant Pause/Resume Toggle */}
+              {isPayas && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  disabled={isPending}
+                  onClick={handleTogglePayas}
+                  className="h-8 px-2.5 text-xs font-mono rounded-full"
+                  title={isPaused ? "Lanjutkan Billing Akun" : "Jeda Akun Sementara"}
+                >
+                  {isPaused ? (
+                    <PlayCircle className="size-3.5 text-emerald-400" />
+                  ) : (
+                    <PauseCircle className="size-3.5 text-amber-400" />
+                  )}
+                </Button>
+              )}
             </div>
 
             <div className="flex items-center gap-1">
@@ -97,7 +154,7 @@ export function VpnAccountCard({
                   variant="ghost"
                   size="sm"
                   onClick={() => onRenew(account.id)}
-                  className="h-8 px-2 text-xs text-muted-foreground hover:text-foreground"
+                  className="h-8 px-2 text-xs text-muted-foreground hover:text-foreground rounded-full"
                   title="Perpanjang Akun"
                 >
                   <RefreshCw className="size-3.5" />
@@ -108,7 +165,7 @@ export function VpnAccountCard({
                   variant="ghost"
                   size="sm"
                   onClick={() => onDelete(account.id)}
-                  className="h-8 px-2 text-xs text-rose-400 hover:text-rose-300 hover:bg-rose-500/10"
+                  className="h-8 px-2 text-xs text-muted-foreground hover:text-destructive rounded-full"
                   title="Hapus Akun"
                 >
                   <Trash2 className="size-3.5" />
@@ -119,13 +176,12 @@ export function VpnAccountCard({
         </CardContent>
       </Card>
 
-      {/* QR Code Modal */}
       <QrCodeModal
         isOpen={qrOpen}
         onClose={() => setQrOpen(false)}
-        title={`QR Code ${account.protocol.toUpperCase()} - ${account.username}`}
         dataString={configString}
-        protocolName={account.protocol}
+        title={`Scan Konfigurasi ${account.protocol.toUpperCase()}`}
+        protocolName={account.protocol.toUpperCase()}
       />
     </>
   );

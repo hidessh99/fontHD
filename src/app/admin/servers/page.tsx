@@ -1,5 +1,5 @@
 // ==============================================================================
-// GoVPN App Router: /servers
+// GoVPN App Router: /admin/servers
 // Implements Algorithm 4: Dynamic Island Route Splitting on Thin Server Component
 // ==============================================================================
 
@@ -8,10 +8,10 @@ import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { VpnProtocolSkeleton } from "@/modules/vpn/components/shared/VpnProtocolSkeleton";
 
-const UserServersView = dynamic(
+const AdminServersView = dynamic(
   () =>
-    import("@/modules/vpn/views/user/UserServersView").then(
-      (mod) => mod.UserServersView
+    import("@/modules/vpn/views/admin/AdminServersView").then(
+      (mod) => mod.AdminServersView
     ),
   {
     loading: () => <VpnProtocolSkeleton />,
@@ -19,14 +19,14 @@ const UserServersView = dynamic(
 );
 
 export const metadata: Metadata = {
-  title: "Server Nodes & Telemetri | GoVPN",
-  description: "Status ketersediaan server node global dan latency ping real-time.",
+  title: "Superadmin Global Server Fleet | GoVPN",
+  description: "Kontrol penuh armada server VPN dan billing trigger engine.",
 };
 
-export default function ServersPage() {
+export default function AdminServersPage() {
   return (
     <Suspense fallback={<VpnProtocolSkeleton />}>
-      <UserServersView />
+      <AdminServersView />
     </Suspense>
   );
 }

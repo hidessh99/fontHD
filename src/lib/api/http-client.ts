@@ -430,6 +430,7 @@ class HttpClient {
 }
 
 export const httpClient = new HttpClient();
+export const apiClient = httpClient;
 
 export const apiGet = <T = unknown>(
   endpoint: string,

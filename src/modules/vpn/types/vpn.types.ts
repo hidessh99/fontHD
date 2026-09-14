@@ -1,6 +1,6 @@
 // ==============================================================================
-// GoVPN VPN Domain Types & Contracts
-// Synchronized with 11-vpn Postman Collection (96 Endpoints)
+// GoVPN VPN Domain Core Types & Entities
+// Synchronized with backendv2 96 VPN Endpoints
 // ==============================================================================
 
 export type VpnProtocol =
@@ -12,26 +12,38 @@ export type VpnProtocol =
   | "wireguard"
   | "openvpn";
 
-export interface VpnAccount {
+export type VpnAccountTier = "free" | "month" | "always" | "payas";
+
+export interface VpnCountry {
   id: number | string;
-  username: string;
-  password?: string;
-  uuid?: string;
-  protocol: VpnProtocol;
-  server_id: number;
-  server_name?: string;
-  server_host?: string;
-  server_country?: string;
-  server_country_code?: string;
-  port?: number;
-  tls_port?: number;
-  config_url?: string; // vmess://, vless://, trojan://, ss://
-  raw_config?: string; // OpenVPN .ovpn or WireGuard .conf
-  status: "ACTIVE" | "EXPIRED" | "SUSPENDED" | string;
-  expired_at: string;
-  bandwidth_used?: number;
-  bandwidth_limit?: number;
+  name: string;
+  code: string;
+  flag_url?: string;
+  total_servers?: number;
   created_at?: string;
+  updated_at?: string;
+}
+
+export interface VpnServerType {
+  id?: number;
+  key_name: string;
+  name: string;
+  description?: string;
+  is_active: boolean;
+  created_at?: string;
+}
+
+export interface VpnServerConnect {
+  id: number | string;
+  server_id: number;
+  name: string;
+  domain: string;
+  port: number;
+  protocol: VpnProtocol;
+  tls_enabled: boolean;
+  sni?: string;
+  path?: string;
+  network?: "tcp" | "ws" | "grpc" | "h2";
 }
 
 export interface ServerNode {
@@ -47,18 +59,37 @@ export interface ServerNode {
   is_online: boolean;
   current_users: number;
   max_users: number;
+  tier: VpnAccountTier;
   price_per_month?: number;
+  price_hourly?: number;
+  seller_id?: number | null;
+  server_type?: string;
+  created_at?: string;
+  updated_at?: string;
 }
 
-export interface CreateVpnAccountDto {
-  server_id: number;
-  protocol: string;
+export interface VpnAccount {
+  id: number | string;
   username: string;
-  password: string;
-  duration_days?: number;
-}
-
-export interface RenewVpnAccountDto {
-  account_id: number | string;
-  duration_days: number;
+  password?: string;
+  uuid?: string;
+  protocol: VpnProtocol;
+  tier: VpnAccountTier;
+  server_id: number;
+  server_name?: string;
+  server_host?: string;
+  server_country?: string;
+  server_country_code?: string;
+  port?: number;
+  tls_port?: number;
+  config_url?: string; // vmess://, vless://, trojan://, ss://
+  raw_config?: string; // OpenVPN .ovpn or WireGuard .conf
+  status: "ACTIVE" | "EXPIRED" | "SUSPENDED" | "PAUSED" | string;
+  expired_at: string;
+  uptime_seconds?: number;
+  bandwidth_used?: number;
+  bandwidth_limit?: number;
+  hourly_cost?: number;
+  created_at?: string;
+  last_checked_at?: string;
 }

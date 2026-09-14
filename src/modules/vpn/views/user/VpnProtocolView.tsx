@@ -1,3 +1,9 @@
+// ==============================================================================
+// GoVPN VPN Protocol View (Composite Page View for User App Router)
+// Part of Pola C: views/user/VpnProtocolView.tsx
+// 100% Coinbase Design System (56px Pill Buttons, Near-Black Canvas, Dark Cards)
+// ==============================================================================
+
 "use client";
 
 import React, { useState } from "react";
@@ -6,19 +12,22 @@ import { Button } from "@/components/ui/button";
 import { ProtocolBadge } from "@/components/shared/ProtocolBadge";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { Spinner } from "@/components/ui/spinner";
-import { VpnAccountCard } from "../components/VpnAccountCard";
-import { CreateVpnModal } from "../components/CreateVpnModal";
-import { useVpnAccounts } from "../hooks/useVpnAccounts";
+import { VpnAccountCard } from "../../components/user/VpnAccountCard";
+import { CreateVpnModal } from "../../components/user/CreateVpnModal";
+import { RenewAccountDialog } from "../../components/user/RenewAccountDialog";
+import { useVpnUser } from "../../hooks/useVpnUser";
+import { VpnProtocol } from "../../types/vpn.types";
 
 interface VpnProtocolViewProps {
   protocol: string;
 }
 
 export function VpnProtocolView({ protocol }: VpnProtocolViewProps) {
-  const normProto = protocol.toLowerCase();
-  const { accounts, isLoading, refresh, renewAccount, deleteAccount } =
-    useVpnAccounts(normProto);
+  const normProto = protocol.toLowerCase() as VpnProtocol;
+  const { accounts, isLoading, refresh, deleteAccount } = useVpnUser(normProto);
+
   const [createModalOpen, setCreateModalOpen] = useState(false);
+  const [renewModalAccount, setRenewModalAccount] = useState<number | string | null>(null);
 
   return (
     <div className="space-y-6">
@@ -42,7 +51,7 @@ export function VpnProtocolView({ protocol }: VpnProtocolViewProps) {
             size="sm"
             onClick={() => refresh()}
             disabled={isLoading}
-            className="text-xs font-mono h-9"
+            className="text-xs font-mono h-10 px-4 rounded-full"
           >
             <RefreshCw
               className={`mr-1.5 size-3.5 ${isLoading ? "animate-spin" : ""}`}
@@ -53,7 +62,7 @@ export function VpnProtocolView({ protocol }: VpnProtocolViewProps) {
           <Button
             size="sm"
             onClick={() => setCreateModalOpen(true)}
-            className="bg-primary hover:bg-primary-hover text-white text-xs font-semibold h-9 shadow-md shadow-primary/20"
+            className="bg-primary hover:bg-primary-hover text-white text-xs font-semibold h-10 px-5 rounded-full shadow-md shadow-primary/25"
           >
             <Plus className="mr-1.5 size-4" /> Buat Akun {normProto.toUpperCase()}
           </Button>
@@ -79,7 +88,7 @@ export function VpnProtocolView({ protocol }: VpnProtocolViewProps) {
             <Button
               size="sm"
               onClick={() => setCreateModalOpen(true)}
-              className="bg-primary hover:bg-primary-hover text-white text-xs"
+              className="bg-primary hover:bg-primary-hover text-white text-xs rounded-full min-h-10 px-6 shadow-md shadow-primary/25"
             >
               <Plus className="mr-1.5 size-3.5" /> Buat Akun Perdana
             </Button>
@@ -91,7 +100,7 @@ export function VpnProtocolView({ protocol }: VpnProtocolViewProps) {
             <VpnAccountCard
               key={acc.id}
               account={acc}
-              onRenew={(id) => renewAccount(id)}
+              onRenew={(id) => setRenewModalAccount(id)}
               onDelete={(id) => deleteAccount(id)}
             />
           ))}
@@ -104,6 +113,13 @@ export function VpnProtocolView({ protocol }: VpnProtocolViewProps) {
         onClose={() => setCreateModalOpen(false)}
         protocol={normProto}
         onSuccess={() => refresh()}
+      />
+
+      {/* Renew Account Modal */}
+      <RenewAccountDialog
+        accountId={renewModalAccount}
+        isOpen={Boolean(renewModalAccount)}
+        onClose={() => setRenewModalAccount(null)}
       />
     </div>
   );

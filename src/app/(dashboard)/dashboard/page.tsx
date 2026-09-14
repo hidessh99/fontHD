@@ -1,5 +1,22 @@
+// ==============================================================================
+// GoVPN App Router: /dashboard
+// Implements Algorithm 4: Dynamic Island Route Splitting on Thin Server Component
+// ==============================================================================
+
+import { Suspense } from "react";
 import type { Metadata } from "next";
-import { DashboardOverviewView } from "@/modules/vpn/views/DashboardOverviewView";
+import dynamic from "next/dynamic";
+import { VpnProtocolSkeleton } from "@/modules/vpn/components/shared/VpnProtocolSkeleton";
+
+const DashboardOverviewView = dynamic(
+  () =>
+    import("@/modules/vpn/views/user/DashboardOverviewView").then(
+      (mod) => mod.DashboardOverviewView
+    ),
+  {
+    loading: () => <VpnProtocolSkeleton />,
+  }
+);
 
 export const metadata: Metadata = {
   title: "Console Overview | GoVPN",
@@ -7,5 +24,9 @@ export const metadata: Metadata = {
 };
 
 export default function DashboardPage() {
-  return <DashboardOverviewView />;
+  return (
+    <Suspense fallback={<VpnProtocolSkeleton />}>
+      <DashboardOverviewView />
+    </Suspense>
+  );
 }

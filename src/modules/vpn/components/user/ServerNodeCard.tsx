@@ -1,12 +1,18 @@
+// ==============================================================================
+// GoVPN VPN Server Node Card Component
+// Part of Pola C: components/user/
+// 100% Coinbase Design System (Pill Buttons, JetBrains Mono, Dark Canvas)
+// ==============================================================================
+
 "use client";
 
 import React from "react";
-import { Server, Users, ArrowRight, Globe } from "lucide-react";
+import { Users, ArrowRight, Globe } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ServerPingBadge } from "@/components/shared/ServerPingBadge";
 import { ProtocolBadge } from "@/components/shared/ProtocolBadge";
-import { ServerNode } from "../types/vpn.types";
+import { ServerNode } from "../../types/vpn.types";
 
 interface ServerNodeCardProps {
   server: ServerNode;
@@ -21,9 +27,9 @@ export function ServerNodeCard({
 }: ServerNodeCardProps) {
   return (
     <Card
-      className={`border transition-all duration-200 ${
+      className={`border transition-all duration-200 rounded-2xl ${
         selected
-          ? "border-primary bg-primary/5 shadow-md shadow-primary/10"
+          ? "border-primary bg-primary/10 shadow-lg shadow-primary/20"
           : "border-border/80 bg-card/60 hover:border-primary/40 hover:bg-card"
       }`}
     >
@@ -67,7 +73,7 @@ export function ServerNodeCard({
           <Button
             size="sm"
             variant={selected ? "default" : "outline"}
-            className="w-full text-xs font-semibold"
+            className="w-full text-xs font-semibold rounded-full min-h-10"
             onClick={() => onSelect(server)}
           >
             {selected ? "Server Dipilih" : "Pilih Server Ini"}

@@ -2,199 +2,340 @@
 **Project:** GoVPN / HideSSH Web Client  
 **Target Path:** `G:\WEB2026\fontgovpn`  
 **Target Plan File:** `G:\WEB2026\fontgovpn\docs\plan\frontend_nextjs16_implementation_plan.md`  
-**API Specification Source:** `G:\WEB2026\postman-govpn` (388 Modern Endpoints / 12 Modul Teruji TDD)  
-**Architectural Baseline:** `G:\WEB2026\fontwahide\doc\frontend-architecture-guidelines.md`  
-**Design Reference:** `G:\WEB2026\fontend\docs\ENTERPRISE_PRODUCT_DESIGN_BRIEF.md`  
-**Design Specification:** `G:\WEB2026\fontgovpn\docs\design.md`  
-**Version:** 2.0 (Next.js 16 App Router, React 19, Bun 1.4, Tailwind CSS v4, Turbopack)  
+**API Specification Source:** `G:\WEB2026\backendv2\docs\api_routes_catalog.md` (388 Endpoints Teruji)  
+**Audit Reference:** `G:\WEB2026\fontgovpn\docs\audit_api_routes_discrepancy.md`  
+**Design Reference:** `G:\WEB2026\fontgovpn\docs\opendesign.md` (Coinbase High-Trust System)  
+**Design Specification:** `G:\WEB2026\fontgovpn\docs\design.md` & `docs/coding-standards.md`  
+**Version:** 3.1 (Role-Partitioned Pola C, 388 Route Matrix, Optimistic Queue & Dynamic Island Splitting)  
 
 ---
 
 ## 🎯 1. Tujuan & Ruang Lingkup Arsitektur
 
-1. **Penerapan Strategi Opsi C (Selective Enterprise Extraction):**
-   - Mengambil *core foundation engine* yang sudah teruji di `fontwahide` (Next.js 16, React 19, Bun 1.4, Tailwind CSS v4, Zustand 5, Zod 4, TanStack Virtual, Sonner).
-   - Mengambil seluruh 26 komponen primitif UI Shadcn/Base UI, Next.js 16 Edge proxy (`src/proxy.ts`), universal Go envelope REST HTTP client (`src/lib/api/http-client.ts`), dan cookie session manager (`src/lib/storage/cookies.ts`).
-   - **Membersihkan 100% dead code WhatsApp** dari `fontwahide` (tidak ada residu spintax, kampanye WA, template WA, atau phone validator).
-2. **Penyelarasan Penuh dengan Standar Desain `docs/opendesign.md` (Coinbase Institutional System):**
-   - **Warna Brand Primer:** Mengadopsi **Coinbase Blue (`#0052ff`)** sebagai aksen tunggal fungsional dengan transisi hover **Light Blue (`#578bfa`)**.
-   - **Kanvas & Permukaan Gelap:** Menggunakan **Near-Black (`#0a0b0d`)** sebagai background utama, **Dark Card (`#282b31`)**, dan border halus **`rgba(91, 97, 110, 0.2)`**.
-   - **Sistem Tombol Pill 56px:** Seluruh CTA dan tombol aksi utama **WAJIB berbentuk Pill dengan radius 56px (`rounded-full`)**, bebas dari sudut tajam (*sharp corners*).
-   - **Tipografi & Spacing:** Heading dengan line-height rapat (`1.00` tight), UI menggunakan sans modern, dan seluruh data teknis (IP, Port, UUID, Config URI, Saldo IDR) wajib menggunakan font **`JetBrains Mono`** (`font-mono`).
-3. **Penyelarasan 1:1 dengan 388 Endpoints di `postman-govpn`:**
-   - Membangun 12 domain modul bisnis menggunakan **Pola C: Role-Partitioned Module** (`types`, `api`, `hooks`, `components`, `views`) untuk memisahkan hak akses `USER`, `SELLER`, dan `ADMIN`.
-   - Menerapkan pola **Thin App Router** di `src/app/` tanpa business logic bloat.
+1. **Penerapan Pola C: Role-Partitioned Module Secara Fisik:**
+   - Seluruh modul di `src/modules/<domain>/` wajib memiliki struktur folder fisik terisolasi: `types/`, `api/`, `hooks/`, `components/` (`shared/`, `user/`, `seller/`, `admin/`), dan `views/` (`user/`, `seller/`, `admin/`).
+   - Mencegah *bundle size bloat* dan kebocoran DTO/privilege admin ke klien pengguna biasa (*tree-shaking friendly*).
+2. **Penyelarasan Penuh dengan Standar Desain Coinbase System (`opendesign.md`):**
+   - **Primary Brand:** Coinbase Blue (`#0052ff`) dengan hover Light Blue (`#578bfa`).
+   - **Dark Surface:** Near-Black (`#0a0b0d`), Dark Card (`#282b31`), dan border halus `rgba(91, 97, 110, 0.2)`.
+   - **56px Pill Button:** Seluruh CTA dan tombol aksi utama wajib berbentuk Pill dengan `rounded-full` ($r = 56\text{px}$).
+   - **Typography:** Sans modern untuk teks umum dan `JetBrains Mono` (`font-mono`) untuk seluruh data teknis (IP, Port, UUID, Config URI, Saldo IDR).
+3. **Penyelarasan 100% dengan 388 Endpoints di `backendv2`:**
+   - **346 Frontend Actionable Endpoints:** 30 Guest/Public, 121 User, 25 Seller, 170 Admin.
+   - **42 Backend Tasks:** 40 Cronjob tasks + 2 Webhooks.
 4. **Proteksi Edge & Tanpa FOUC (0ms Zero Flash):**
    - Validasi sesi berbasis cookie `hide-jwt` pada runtime Edge Next.js 16 (`src/proxy.ts`) sebelum HTML dirender.
+5. **Kepatuhan Modern Web Guidance & Rekayasa Performa:**
+   - Menggunakan dynamic viewport units (`min-h-dvh`), container queries (`@container`), target sentuh mobile $\ge 44\text{px}$, stabilitas layout shift ($\text{CLS} = 0$).
 
 ---
 
-## 🗺️ 2. Pemetaan Modul Domain 1:1 (`postman-govpn` ⟷ `fontgovpn`)
+## 🗺️ 2. Pemetaan Modul Domain 1:1 (`backendv2` ⟷ `fontgovpn`)
 
-Seluruh 388 modern endpoint dari 12 folder koleksi `postman-govpn` dipetakan secara terstruktur:
+Sensus matematis 388 endpoints terpetakan secara presisi ke 12 modul domain:
 
-| No | Modul Postman | Jumlah Endpoint | Lokasi Modul UI (`fontgovpn`) | Cakupan Fitur Utama |
-| :-: | :--- | :-: | :--- | :--- |
-| **00** | `00-health` | 4 | `src/modules/monitor/` | Liveness, readiness, system health diagnostics |
-| **01** | `01-ai` | 36 | `src/modules/ai/` | AI Gateway, token wallets, provider models, chat |
-| **02** | `02-content` | 18 | `src/modules/content/` | CMS blog, knowledge base, maintenance notice, FAQ |
-| **03** | `03-dns` | 19 | `src/modules/dns/` | Cloudflare DNS zones, A/CNAME records, auto-pointing |
-| **04** | `04-finance` | 58 | `src/modules/finance/` | Invoices, deposit saldo, QRIS Midtrans/Tripay, voucher |
-| **05** | `05-iam` | 51 | `src/modules/iam/` | Auth (login, register, 2FA), profiles, RBAC, API keys |
-| **06** | `06-kubernetes` | 22 | `src/modules/kubernetes/` | K8s container deploy, pod logs, app restart/renew |
-| **07** | `07-monitor` | 9 | `src/modules/monitor/` | Server ping telemetry, node uptime, live server stats |
-| **08** | `08-notification` | 10 | `src/modules/notification/` | Telegram webhook alerts, email notices, web push |
-| **09** | `09-subscription` | 43 | `src/modules/subscription/` | VPN plans, reseller volume tiers, user quotas |
-| **10** | `10-support` | 22 | `src/modules/support/` | Support tickets, CS live assistance, problem reports |
-| **11** | `11-vpn` | 96 | `src/modules/vpn/` | SSH, VMess, VLess, Trojan, Shadowsocks, WireGuard |
-| **12** | `12-cronjob` | 40 | `src/modules/cronjob/` | Superadmin cron runner, task history, log executions |
-| **TOTAL** | **12 Modul** | **388** | **12 Modul Terisolasi** | **100% Endpoint Terpetakan** |
-
----
-
-## 🏗️ 3. Tahapan Eksekusi Rinci (Phased Implementation Plan)
-
-### Fase 1: Inisialisasi Pondasi & Ekstraksi Engine dari `fontwahide`
-- [ ] **1.1 Setup Root Konfigurasi:**
-  - Salin `package.json` dari `fontwahide` ke `fontgovpn` dan sesuaikan metadata (`"name": "fontgovpn"`).
-  - Salin `bun.lock`, `tsconfig.json`, `next.config.ts`, `postcss.config.mjs`, `eslint.config.mjs`.
-  - Jalankan `bun install` untuk mereproduksi dependency tree secara deterministik.
-- [ ] **1.2 Konfigurasi Design Tokens Tailwind v4:**
-  - Buat `src/app/globals.css` dengan token warna resmi GoVPN:
-    - Primary: `#2563eb` (Cobalt Blue), hover `#1d4ed8`, glow `rgba(37, 99, 235, 0.2)`.
-    - Dark Canvas: `#09090b` (Background), `#141417` (Cards), `#18181b` (Surface).
-    - Font Family: `Inter` untuk `--font-sans`, `JetBrains Mono` untuk `--font-mono`.
-- [ ] **1.3 Instalasi & Download Lengkap Seluruh Komponen Shadcn UI (`src/components/ui/`):**
-  - Buat dan konfigurasi `components.json` resmi di root proyek (`style: "base-nova"`, `rsc: true`, `tailwind: globals.css`).
-  - Ekstrak 26 komponen primitif yang sudah disempurnakan dari `fontwahide/src/components/ui/`.
-  - **Download & lengkapi 100% seluruh katalog komponen Shadcn UI** ke `src/components/ui/` sehingga tidak ada komponen yang kurang saat proses pengerjaan:
-    - **Layout & Navigation:** `sidebar.tsx`, `navigation-menu.tsx`, `breadcrumb.tsx`, `menubar.tsx`, `pagination.tsx`, `tabs.tsx`, `separator.tsx`, `scroll-area.tsx`, `resizable.tsx`.
-    - **Forms & Inputs:** `form.tsx`, `input.tsx`, `textarea.tsx`, `select.tsx`, `checkbox.tsx`, `radio-group.tsx`, `switch.tsx`, `slider.tsx`, `toggle.tsx`, `toggle-group.tsx`, `label.tsx`, `input-otp.tsx` (wajib untuk 2FA akun), `calendar.tsx`.
-    - **Overlays & Modals:** `dialog.tsx`, `alert-dialog.tsx`, `sheet.tsx` (wajib untuk mobile nav & slide-over drawer), `drawer.tsx`, `command.tsx` (wajib untuk global search Cmd+K server/akun), `popover.tsx`, `hover-card.tsx`, `context-menu.tsx`, `dropdown-menu.tsx`, `tooltip.tsx`.
-    - **Data Display & Status:** `table.tsx`, `data-table-column-header.tsx`, `card.tsx`, `accordion.tsx`, `collapsible.tsx`, `avatar.tsx` (avatar user & bendera server), `badge.tsx`, `progress.tsx`, `skeleton.tsx`, `spinner.tsx`, `empty.tsx`, `chart.tsx`.
-    - **Feedback & Toasts:** `alert.tsx`, `sonner.tsx`.
-  - Pastikan seluruh dependencies pembantu terpasang (`@radix-ui/*` / `@base-ui/react`, `cmdk`, `input-otp`, `embla-carousel-react`, `recharts`).
-- [ ] **1.4 Setup Edge Security & Core Libs:**
-  - Buat `src/proxy.ts` (Next.js 16 Edge runtime guard) dengan verifikasi cookie `hide-jwt` dan proteksi rute `/dashboard/*`, `/vpn/*`, `/billing/*`, `/admin/*`.
-  - Buat `src/lib/storage/cookies.ts` untuk manipulasi cookie `hide-jwt` (Strict SameSite, instant purge 1970).
-  - Buat `src/lib/api/http-client.ts` yang mendukung Universal Go Envelope decoding, in-flight deduplication, auto-retry, dan idempotency key.
-  - Buat `src/lib/utils.ts` (`cn()` helper).
-  - Buat `src/app/providers.tsx` (`ThemeProvider` dari `next-themes`, `Toaster` dari `sonner`).
+| No | Modul Domain | Total Rute | 🌐 Guest | 👥 User | 💼 Seller | 🛡️ Admin | ⚡ Cron | 💳 Webhook | Lokasi Modul UI (`fontgovpn`) |
+| :-: | :--- | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :--- |
+| **01** | **VPN** | `96` | 14 | 36 | 12 | 21 | 13 | 0 | `src/modules/vpn/` |
+| **02** | **Finance** | `58` | 0 | 14 | 2 | 32 | 9 | 1 | `src/modules/finance/` |
+| **03** | **IAM** | `51` | 9 | 18 | 0 | 20 | 3 | 1 | `src/modules/iam/` |
+| **04** | **Subscription** | `43` | 0 | 6 | 11 | 23 | 3 | 0 | `src/modules/subscription/` |
+| **05** | **AI** | `36` | 0 | 21 | 0 | 14 | 1 | 0 | `src/modules/ai/` |
+| **06** | **Support** | `22` | 0 | 9 | 0 | 12 | 1 | 0 | `src/modules/support/` |
+| **07** | **Kubernetes** | `22` | 0 | 6 | 0 | 12 | 4 | 0 | `src/modules/kubernetes/` |
+| **08** | **DNS** | `19` | 0 | 5 | 0 | 13 | 1 | 0 | `src/modules/dns/` |
+| **09** | **Content** | `18` | 3 | 4 | 0 | 11 | 0 | 0 | `src/modules/content/` |
+| **10** | **Notification** | `10` | 0 | 0 | 0 | 7 | 3 | 0 | `src/modules/notification/` |
+| **11** | **Monitor** | `9` | 0 | 2 | 0 | 5 | 2 | 0 | `src/modules/monitor/` |
+| **12** | **System Health** | `4` | 4 | 0 | 0 | 0 | 0 | 0 | `src/modules/monitor/` (Shared) |
+| | **TOTAL** | **`388`** | **`30`** | **`121`** | **`25`** | **`170`** | **`40`** | **`2`** | **12 Modul Terisolasi** |
 
 ---
 
-### Fase 2: Layout Shell & Komponen Spesifik Domain VPN
-- [ ] **2.1 Shell Navigasi Enterprise (`src/components/layout/`):**
-  - `DashboardSidebar.tsx`: Navigasi modular responsif (Overview, VPN Protocols, Servers, Billing, DNS, AI, K8s, Support, Settings).
-  - `DashboardHeader.tsx`: Breadcrumbs dinamis, indikator saldo wallet user, notifikasi bell, dark mode toggle, user dropdown.
-  - `AdminSidebar.tsx`: Navigasi khusus Superadmin (Server CRUD, User Management, Finance Ledger, Cronjobs).
-  - `PublicNavbar.tsx` & `PublicFooter.tsx`: Layout halaman publik (Landing hero, server status publik, pricing).
-- [ ] **2.2 Komponen Spesial Domain VPN (`src/components/shared/`):**
-  - `CopyButton.tsx`: Tombol 1-klik salin konfigurasi VPN dengan animasi checklist hijau dan toast Sonner.
-  - `QrCodeModal.tsx`: Modal popup render QR Code untuk URI `vmess://`, `vless://`, `trojan://` agar mudah discan via smartphone (v2rayNG, Clash, Shadowrocket).
-  - `ServerPingBadge.tsx`: Visual badge latensi server (Hijau `<100ms`, Kuning `100-250ms`, Merah `>250ms`).
-  - `ProtocolBadge.tsx`: Badge visual protokol (SSH biru, VMess ungu, VLess cyan, Trojan merah, WireGuard oranye).
-  - `EmptyState.tsx`: State visual kosong berstandar enterprise.
+## ⚡ 3. Algoritma Mutakhir Terintegrasi (Production-Grade & Anti-Bug)
+
+Untuk menjamin performa ultra-cepat tanpa risiko *race conditions*, *hydration error*, atau *state clobbering*, sistem mengimplementasikan dua algoritma inti berikut:
+
+### 3.1 Algoritma 3: Optimistic Mutation dengan Snapshot Rollback & Versioned Idempotency Queue
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User as Pengguna (UI)
+    participant Store as State Store (Zustand)
+    participant Client as HTTP Client (Axios/Fetch)
+    participant API as Go Echo Backend
+
+    User->>Store: Klik "Pause PayAsYouGo"
+    Store->>Store: 1. Generate TxID (UUIDv4) & Catat CurrentVersion
+    Store->>Store: 2. Simpan Deep Snapshot state saat ini (Status = ACTIVE)
+    Store->>User: 3. Instant UI Update -> Status = PAUSED (0ms Latency)
+    Store->>Client: 4. Dispatch Request (Header: X-Idempotency-Key = TxID)
+    Client->>API: PATCH /api/vpn/accounts/payas/:id/pause
+    alt Sukses (200 OK)
+        API-->>Client: Response Data Terupdate
+        Client-->>Store: Konfirmasi Berhasil
+        Store->>Store: Commit Snapshot (Hapus dari Rollback Registry)
+        Store-->>User: Toast Sukses (Sonner)
+    else Gagal (402 Insufficient Balance / 500 Network)
+        API-->>Client: Error 4xx / 5xx
+        Client-->>Store: Trigger Rollback(TxID)
+        Store->>Store: 5. Cek Version Lock: Apakah ada TxID lebih baru?
+        alt Tidak Ada Konflik (TxID Cocok)
+            Store->>Store: Pulihkan State dari Snapshot (Status = ACTIVE)
+            Store-->>User: Toast Merah + Tombol "Coba Lagi" (Re-dispatch TxID)
+        else Ada Mutasi Baru (Race Condition Terdeteksi)
+            Store->>Store: Abaikan Rollback (Mencegah State Clobbering)
+        end
+    end
+```
+
+#### Pencegahan Potensi Bug (Anti-Bug Safeguards):
+1. **Pencegahan Race Condition (*State Clobbering*):** Jika user mengklik "Pause" lalu "Resume" secara cepat berturut-turut, respon error dari request pertama dilarang menimpa state dari request kedua. Solusinya, setiap item memiliki `lastTxId: string` dan `version: number`. Rollback hanya dieksekusi jika `failingTxId === item.lastTxId`.
+2. **Garansi Idempoten Jaringan:** Menggunakan header `X-Idempotency-Key: <UUIDv4>` yang dikenali oleh middleware Go backend (`idempotencyMiddleware`), memastikan permintaan yang terulang karena retry jaringan tidak membuat duplikasi billing atau aksi ganda.
+3. **Penyimpanan Snapshot Terisolasi (*Immutability*):** Snapshot disimpan menggunakan *structured clone* (bukan *shallow reference*), sehingga perubahan mutasi berikutnya tidak merusak data cadangan pemulihan.
 
 ---
 
-### Fase 3: Implementasi Modul Prioritas Tinggi (Pola C: Role-Partitioned Module)
+### 3.2 Algoritma 4: Dynamic Island Route Splitting pada Thin App Router
 
-Setiap modul di bawah ini menerapkan struktur **Pola C** dengan pembagian: `api/` (`user.api.ts`, `seller.api.ts`, `admin.api.ts`), `components/` (`shared/`, `user/`, `seller/`, `admin/`), `hooks/`, `types/`, dan `views/` (`user/`, `seller/`, `admin/`).
+Pada Next.js 16 App Router (React 19), seluruh halaman pada `src/app/` adalah **Thin Server Component Wrappers** yang tidak memuat logika bisnis langsung. Untuk mencegah bocornya bundle besar (seperti modul admin atau virtualized table) ke pengguna mobile, sistem menerapkan **Dynamic Island Splitting** dengan batasan streaming yang aman:
 
-#### Modul 1: IAM (Identity & Access Management) — `src/modules/iam/`
-- [x] `types/`: `iam.types.ts`, `user.types.ts`, `admin.types.ts`.
-- [x] `api/`: `iam.api.ts` (Login, Register, Profile, Admin User Management).
-- [x] `hooks/`: `useAuth.ts` (Zustand session store, cookie sync `hide-jwt`, role-based access).
-- [x] `components/`: `LoginForm.tsx`, `RegisterForm.tsx`, Profile Settings.
-- [x] `views/`: `LoginView.tsx`, `RegisterView.tsx`.
-- [x] `src/app/(auth)/`: Halaman tipis login, register, forgot-password.
+```tsx
+// Contoh: src/app/(dashboard)/vpn/[protocol]/page.tsx
+import { Suspense } from "react";
+import dynamic from "next/dynamic";
+import { VpnProtocolSkeleton } from "@/modules/vpn/components/shared/VpnProtocolSkeleton";
 
-#### Modul 2: VPN (Core Tunneling Engine) — `src/modules/vpn/` (Pola C)
-- [x] `types/`: `vpn.types.ts` (Core Entity), `user.types.ts`, `seller.types.ts`, `admin.types.ts`.
-- [x] `api/`: `user.api.ts`, `seller.api.ts`, `admin.api.ts`, `index.ts`.
-- [x] `hooks/`: `useVpnAccounts.ts`, `useVpnServers.ts`, `useSellerVpn.ts`.
-- [x] `components/`:
-  - `shared/`: `ProtocolBadge.tsx`, `ServerPingBadge.tsx`, `CopyCredentialsButton.tsx`, `QrCodeModal.tsx`.
-  - `user/`: `VpnAccountCard.tsx`, `ServerNodeCard.tsx`, `CreateVpnModal.tsx`.
+// 1. Dynamic import di tingkat View Komposit
+// Isolasi chunk: Kode view dan sub-komponen terpisah secara fisik dalam file .js terpisah
+const VpnProtocolView = dynamic(
+  () => import("@/modules/vpn/views/user/VpnProtocolView").then((mod) => mod.VpnProtocolView),
+  {
+    // Menggunakan skeleton berdimensi identik untuk garansi CLS = 0
+    loading: () => <VpnProtocolSkeleton />,
+  }
+);
+
+interface PageProps {
+  params: Promise<{ protocol: string }>;
+}
+
+export default async function Page({ params }: PageProps) {
+  const { protocol } = await params;
+
+  return (
+    // 2. React 19 Streaming Boundary: SSR langsung merender Skeleton tanpa blocking TTFB
+    <Suspense fallback={<VpnProtocolSkeleton />}>
+      <VpnProtocolView protocol={protocol} />
+    </Suspense>
+  );
+}
+```
+
+#### Pencegahan Potensi Bug (Anti-Bug Safeguards):
+1. **Bebas dari Hydration Error (*No Hydration Mismatch*):** Di Next.js App Router, penggunaan opsi `{ ssr: false }` pada Server Component adalah ilegal dan memicu build error fatal. Oleh karena itu, Dynamic Import pada Thin Router **selalu mempertahankan SSR**, sementara komponen interaktif di dalamnya menggunakan direktif `"use client";`.
+2. **Dimensi Skeleton Identik ($\text{CLS} = 0$):** `VpnProtocolSkeleton` dirancang memiliki padding, margin, dan grid layout yang presisi 1:1 dengan `VpnProtocolView` aslinya. Hal ini mencegah lonjakan layout visual (*Cumulative Layout Shift*) saat hydration selesai di smartphone.
+3. **Isolasi Chunk RBAC:** File view admin (`AdminServersView.tsx`) di-load secara dinamis hanya jika rute `/admin/*` diakses. Klien pengguna reguler tidak akan pernah mengunduh chunk JS milik superadmin.
+
+---
+
+## 🏗️ 4. Tahapan Eksekusi Rinci (Phased Implementation Plan)
+
+### Fase 1: Fondasi Proyek, Desain Sistem & Shadcn UI (✅ SELESAI)
+- [x] **1.1 Setup Root & Dependencies:**
+  - Next.js 16 App Router, React 19, Bun 1.4+, Tailwind CSS v4.
+  - `@tanstack/react-virtual`, `lucide-react`, `sonner`, `next-themes`, `zod`, `zustand`.
+- [x] **1.2 Standardisasi Desain Token Coinbase (`globals.css`):**
+  - Primary `#0052ff`, hover `#578bfa`, background `#0a0b0d`, card `#282b31`, border `rgba(91,97,110,0.2)`.
+  - Tombol Pill 56px (`rounded-full`) di `src/components/ui/button.tsx`.
+- [x] **1.3 Suite Komponen Primitif Shadcn UI (`src/components/ui/`):**
+  - Terpasang 26+ komponen inti berbasis `@base-ui/react` (Button, Card, Dialog, Input, Table, Tabs, Sheet, Sonner, Dropdown, dll).
+- [x] **1.4 Edge Security & Core HTTP Utilities:**
+  - `src/proxy.ts` (Next.js 16 Edge runtime guard dengan validasi cookie `hide-jwt`).
+  - `src/lib/storage/cookies.ts` (Cookie reader/writer).
+  - `src/lib/api/http-client.ts` (Universal Go envelope client, auto retry, deduplication).
+- [x] **1.5 Layout Shell Navigasi:**
+  - `DashboardSidebar.tsx`, `DashboardHeader.tsx`, `AdminSidebar.tsx`, `PublicNavbar.tsx`, `PublicFooter.tsx`.
+
+---
+
+### Fase 2: Restrukturisasi Fisik Modul Prioritas Tinggi ke Pola C & Algoritma Baru (🚀 SEDANG BERJALAN)
+
+Setiap modul di bawah ini menjalani **migrasi fisik dari struktur flat ke Pola C murni**, dilengkapi dengan store mutasi optimis dan dynamic island wrapper:
+
+#### 2.1 Modul VPN (`src/modules/vpn/`) — *96 Endpoints*
+- [ ] **types/**:
+  - `vpn.types.ts`: Core protocol entities (`VpnAccount`, `ServerNode`, `ProtocolConfig`).
+  - `user.types.ts`: DTO `CreateAccountInput`, `RenewInput`, `PayasPauseInput`.
+  - `seller.types.ts`: DTO `SellerServerInput`, `ResellerQuota`, `SubTenantAccount`.
+  - `admin.types.ts`: DTO `AdminServerCrudInput`, `PortConfigInput`, `TriggerBillingInput`.
+  - `index.ts`: Barrel export.
+- [ ] **api/**:
+  - `guest.api.ts`: 14 rute free accounts & public countries/server-types.
+  - `user.api.ts`: 36 rute accounts (always, month, payas) & servers available.
+  - `seller.api.ts`: 12 rute reseller servers CRUD (always, month, payas).
+  - `admin.api.ts`: 21 rute superadmin servers CRUD, server connects, payas billing trigger.
+  - `index.ts`: `export const vpnApi = { guest, user, seller, admin }`.
+- [ ] **store/** (Menerapkan Algoritma 3 - Mutasi Optimis & Rollback):
+  - `vpn-user.store.ts`: Zustand store dengan versioned rollback registry untuk aksi jeda/resume payas, perpanjang masa aktif, dan salin kredensial.
+- [ ] **hooks/**:
+  - `useVpnGuest.ts`: Fetching free servers & countries.
+  - `useVpnUser.ts`: Integrasi store optimis dengan `vpnApi.user`.
+  - `useVpnSeller.ts`: Reseller server fleet management & bulk minting.
+  - `useVpnAdmin.ts`: Server node CRUD & telemetry.
+  - `index.ts`: Barrel export.
+- [ ] **components/**:
+  - `shared/`: `ProtocolBadge.tsx`, `ServerPingBadge.tsx`, `VpnCredentialsBox.tsx`, `QrCodeModal.tsx`, `CopyCredentialsButton.tsx`, `VpnProtocolSkeleton.tsx`.
+  - `user/`: `VpnAccountCard.tsx`, `ServerNodeCard.tsx`, `CreateVpnModal.tsx`, `RenewAccountDialog.tsx`.
   - `seller/`: `BulkAccountMintModal.tsx`, `SellerQuotaProgress.tsx`, `SubTenantVpnTable.tsx`.
-  - `admin/`: `ServerNodeFormModal.tsx`, `NodePortConfigSheet.tsx`.
-- [x] `views/`: `user/VpnProtocolView.tsx`, `user/ServersView.tsx`, `seller/SellerVpnOverviewView.tsx`, `admin/AdminServersView.tsx`.
-- [x] `src/app/(dashboard)/vpn/[protocol]/page.tsx`: Thin router rendering `VpnProtocolView`.
-- [x] `src/app/(dashboard)/seller/vpn/page.tsx`: Thin router rendering `SellerVpnOverviewView`.
+  - `admin/`: `ServerNodeFormModal.tsx`, `NodePortConfigSheet.tsx`, `GlobalVpnAccountsTable.tsx`.
+- [ ] **views/**:
+  - `user/`: `VpnProtocolView.tsx`, `UserServersView.tsx`.
+  - `seller/`: `SellerVpnOverviewView.tsx`.
+  - `admin/`: `AdminServersView.tsx`.
+- [ ] **app router binding (Menerapkan Algoritma 4 - Dynamic Island Splitting)**:
+  - `src/app/(dashboard)/vpn/[protocol]/page.tsx` ➔ Dynamic island wrapper ke `VpnProtocolView` dengan skeleton.
+  - `src/app/(dashboard)/seller/vpn/page.tsx` ➔ Dynamic island wrapper ke `SellerVpnOverviewView`.
+  - `src/app/admin/servers/page.tsx` ➔ Dynamic island wrapper ke `AdminServersView`.
 
-#### Modul 3: Finance & Billing — `src/modules/finance/` (Pola C)
-- [x] `types/`: `finance.types.ts` (`Invoice`, `BillingRecord`, `WalletBalance`, `Withdrawal`).
-- [x] `api/`: `finance.api.ts` (User Invoices, Seller Withdrawal, Admin Ledger Audit).
-- [x] `hooks/`: `useBilling.ts` (Auto-poll 3 detik QRIS, topup, voucher validation).
-- [x] `components/`: `InvoiceTable.tsx`, `QrisPaymentCard.tsx`, `TopupModal.tsx`, `BalanceWidget.tsx`.
-- [x] `views/`: `BillingInvoicesView.tsx`, `DepositView.tsx`.
-- [x] `src/app/(dashboard)/billing/`: Thin router halaman invoice dan deposit QRIS.
+#### 2.2 Modul Finance (`src/modules/finance/`) — *58 Endpoints*
+- [ ] **types/**: `finance.types.ts`, `user.types.ts`, `seller.types.ts`, `admin.types.ts`, `index.ts`.
+- [ ] **api/**:
+  - `user.api.ts`: 14 rute invoices, billing history, deposit QRIS, report, voucher validate, withdrawal.
+  - `seller.api.ts`: 2 rute seller withdrawal (`POST /api/seller/withdrawal`, `GET /api/seller/withdrawal/:id`).
+  - `admin.api.ts`: 32 rute admin billing CRUD, pending income approval/cleanup, voucher CRUD.
+  - `index.ts`: `export const financeApi = { user, seller, admin }`.
+- [ ] **hooks/**: 
+  - `useFinanceUser.ts`: Dilengkapi **Adaptive Polling dengan Page Visibility API** untuk pengecekan QRIS lunas.
+  - `useFinanceSeller.ts`: Mutasi optimis pengajuan withdrawal saldo komisi reseller.
+  - `useFinanceAdmin.ts`: Audit ledger approval.
+- [ ] **components/**:
+  - `shared/`: `BalanceWidget.tsx`, `TransactionStatusBadge.tsx`, `VoucherInput.tsx`, `InvoiceSkeleton.tsx`.
+  - `user/`: `InvoiceTable.tsx`, `QrisPaymentCard.tsx`, `TopupModal.tsx`, `UserWithdrawalModal.tsx`.
+  - `seller/`: `SellerCommissionCard.tsx`, `SellerWithdrawalModal.tsx`, `SellerPayoutHistory.tsx`.
+  - `admin/`: `AdminBillingTable.tsx`, `AdminVoucherManager.tsx`, `PendingIncomeApprovalModal.tsx`.
+- [ ] **views/**:
+  - `user/`: `BillingInvoicesView.tsx`, `DepositView.tsx`.
+  - `seller/`: `SellerWithdrawalView.tsx`.
+  - `admin/`: `AdminFinanceLedgerView.tsx`.
+- [ ] **app router binding (Dynamic Island Splitting)**:
+  - `src/app/(dashboard)/billing/invoices/page.tsx` ➔ `BillingInvoicesView`.
+  - `src/app/(dashboard)/billing/deposit/page.tsx` ➔ `DepositView`.
+  - `src/app/(dashboard)/seller/withdrawal/page.tsx` ➔ `SellerWithdrawalView`.
+  - `src/app/admin/finance/page.tsx` ➔ `AdminFinanceLedgerView`.
 
-#### Modul 4: Server Monitoring & Telemetri — `src/modules/monitor/`
-- [x] `types/`: `monitor.types.ts` (`ServerTelemetry`, `PingMetric`, `SystemHealth`).
-- [x] `api/`: `monitor.api.ts` (`/api/monitor`, `/health`).
-- [x] `hooks/`: `useServerTelemetry.ts` (Live 10s telemetry polling, CPU/RAM/IO load).
-- [x] `components/`: `ServerHealthGrid.tsx`, `LatencyChart.tsx`.
-- [x] `views/`: `ServersMonitorView.tsx`.
-- [x] `src/app/(dashboard)/monitor/page.tsx`: Thin router status telemetri server.
+#### 2.3 Modul IAM (`src/modules/iam/`) — *51 Endpoints*
+- [ ] **types/**: `iam.types.ts`, `guest.types.ts`, `user.types.ts`, `admin.types.ts`, `index.ts`.
+- [ ] **api/**:
+  - `guest.api.ts`: 9 rute auth (login, register, forgot-pass, verify-email, Google OAuth).
+  - `user.api.ts`: 18 rute user profile, change-password, session revocation, user address CRUD.
+  - `admin.api.ts`: 20 rute admin user management, balance adjustment, ban/unban, role permissions.
+  - `index.ts`: `export const iamApi = { guest, user, admin }`.
+- [ ] **hooks/**: `useAuthGuest.ts`, `useAuthUser.ts`, `useIamAdmin.ts`.
+- [ ] **components/**:
+  - `shared/`: `UserAvatar.tsx`, `RoleBadge.tsx`.
+  - `guest/`: `LoginForm.tsx`, `RegisterForm.tsx`, `ForgotPasswordForm.tsx`, `VerifyEmailCard.tsx`.
+  - `user/`: `ProfileSettingsCard.tsx`, `ChangePasswordModal.tsx`, `ActiveSessionsList.tsx`, `AddressManagerCard.tsx`.
+  - `admin/`: `AdminUserTable.tsx`, `BalanceAdjustmentModal.tsx`, `UserDetailSheet.tsx`.
+- [ ] **views/**:
+  - `guest/`: `LoginView.tsx`, `RegisterView.tsx`.
+  - `user/`: `UserSettingsView.tsx`.
+  - `admin/`: `AdminUsersView.tsx`.
+
+#### 2.4 Modul DNS (`src/modules/dns/`) — *19 Endpoints*
+- [ ] **types/**: `dns.types.ts`, `user.types.ts`, `admin.types.ts`, `index.ts`.
+- [ ] **api/**:
+  - `user.api.ts`: 5 rute user DNS domains & records CRUD.
+  - `admin.api.ts`: 13 rute Cloudflare root zones, sync DNS, purge cache.
+  - `index.ts`: `export const dnsApi = { user, admin }`.
+- [ ] **hooks/**: `useDnsUser.ts` (Optimistic record toggle proxy), `useDnsAdmin.ts`.
+- [ ] **components/**:
+  - `shared/`: `DnsTypeBadge.tsx`, `ProxyStatusBadge.tsx`.
+  - `user/`: `DnsRecordTable.tsx`, `CreateDnsRecordModal.tsx`.
+  - `admin/`: `CloudflareZoneTable.tsx`, `SyncDnsModal.tsx`.
+- [ ] **views/**: `user/DnsManagerView.tsx`, `admin/AdminDnsZonesView.tsx`.
+
+#### 2.5 Modul Monitor & System Health (`src/modules/monitor/`) — *13 Endpoints*
+- [ ] **types/**: `monitor.types.ts`, `user.types.ts`, `admin.types.ts`, `index.ts`.
+- [ ] **api/**:
+  - `shared.api.ts`: 4 health probe rute (`/health`, `/health/liveness`, `/health/readiness`, `/health/ready`).
+  - `user.api.ts`: 2 rute latency telemetri publik.
+  - `admin.api.ts`: 5 rute telemetri detail VPS (CPU, RAM, load, active threads).
+  - `index.ts`: `export const monitorApi = { shared, user, admin }`.
+- [ ] **hooks/**: `useTelemetryUser.ts` (Adaptive polling), `useTelemetryAdmin.ts`.
+- [ ] **components/**:
+  - `shared/`: `ServerHealthGrid.tsx`, `LatencyChart.tsx`.
+  - `admin/`: `NodeHardwareSpecsCard.tsx`, `DaemonProcessList.tsx`.
+- [ ] **views/**: `user/ServersMonitorView.tsx`, `admin/AdminClusterHealthView.tsx`.
 
 ---
 
-### Fase 4: Implementasi Modul Lanjutan & Ekosistem Pendukung (Pola C)
-- [x] **Modul DNS (`src/modules/dns/`):** Cloudflare zones, CRUD DNS records (`A`, `CNAME`, `TXT`), auto-pointing host VPN, proxy toggle.
-- [ ] **Modul AI Gateway (`src/modules/ai/`):** Model catalog, token wallet, chat completions playground, API keys management.
-- [ ] **Modul Kubernetes (`src/modules/kubernetes/`):** Deploy container template micro-apps, view live pod logs, restart/renew pods.
-- [ ] **Modul Subscription (`src/modules/subscription/`):** Matriks harga paket VPN, alokasi kuota reseller, checkout upgrade paket.
-- [ ] **Modul Support (`src/modules/support/`):** Tiket bantuan CS, live thread replies, upload file lampiran.
-- [ ] **Modul Content (`src/modules/content/`):** Panduan setup VPN per OS (Windows, Android, iOS, Linux, OpenWrt).
-- [ ] **Modul Notification (`src/modules/notification/`):** Konfigurasi webhook Telegram bot untuk notifikasi akun hampir habis (<3 hari).
-- [ ] **Modul Cronjob & Admin (`src/modules/cronjob/` & `src/modules/admin/`):** Portal superadmin untuk monitor 40 tugas cron otomatis dan eksekusi manual via header `X-Cron-Key`.
+### Fase 3: Pembangunan Modul Baru (Zero-to-One dengan Pola C & Dynamic Islands)
+
+#### 3.1 Modul Subscription (`src/modules/subscription/`) — *43 Endpoints*
+- [ ] `types/`: `subscription.types.ts`, `user.types.ts`, `seller.types.ts`, `admin.types.ts`.
+- [ ] `api/`: `user.api.ts` (6 rute), `seller.api.ts` (11 rute), `admin.api.ts` (23 rute).
+- [ ] `views/`: `user/SubscriptionPlansView.tsx`, `seller/SellerQuotasView.tsx`, `admin/AdminPlansView.tsx`.
+
+#### 3.2 Modul AI Gateway (`src/modules/ai/`) — *36 Endpoints*
+- [ ] `types/`: `ai.types.ts`, `user.types.ts`, `admin.types.ts`.
+- [ ] `api/`: `user.api.ts` (21 rute chat/keys/wallet), `admin.api.ts` (14 rute model/provider CRUD).
+- [ ] `views/`: `user/AiPlaygroundView.tsx`, `user/AiApiKeysView.tsx`, `admin/AdminAiProvidersView.tsx`.
+
+#### 3.3 Modul Support Desk (`src/modules/support/`) — *22 Endpoints*
+- [ ] `types/`: `support.types.ts`, `user.types.ts`, `admin.types.ts`.
+- [ ] `api/`: `user.api.ts` (9 rute tiket), `admin.api.ts` (12 rute CS desk).
+- [ ] `views/`: `user/SupportTicketsView.tsx`, `admin/AdminSupportDeskView.tsx`.
+
+#### 3.4 Modul Kubernetes Micro-Apps (`src/modules/kubernetes/`) — *22 Endpoints*
+- [ ] `types/`: `kubernetes.types.ts`, `user.types.ts`, `admin.types.ts`.
+- [ ] `api/`: `user.api.ts` (6 rute pod apps), `admin.api.ts` (12 rute k8s cluster).
+- [ ] `views/`: `user/K8sDeploymentsView.tsx`, `admin/AdminK8sClusterView.tsx`.
+
+#### 3.5 Modul Content CMS (`src/modules/content/`) — *18 Endpoints*
+- [ ] `types/`: `content.types.ts`, `guest.types.ts`, `admin.types.ts`.
+- [ ] `api/`: `guest.api.ts` (3 rute), `user.api.ts` (4 rute), `admin.api.ts` (11 rute).
+- [ ] `views/`: `guest/DocumentationView.tsx`, `admin/AdminContentCmsView.tsx`.
+
+#### 3.6 Modul Notification (`src/modules/notification/`) — *10 Endpoints*
+- [ ] `types/`: `notification.types.ts`, `admin.types.ts`.
+- [ ] `api/`: `admin.api.ts` (7 rute broadcast Telegram/Email/Push).
+- [ ] `views/`: `admin/AdminNotificationView.tsx`.
+
+#### 3.7 Modul Cronjob Dashboard (`src/modules/cronjob/`) — *40 Endpoints*
+- [ ] `types/`: `cronjob.types.ts`.
+- [ ] `api/`: `admin.api.ts` (40 rute trigger manual via header `X-Cron-Key`).
+- [ ] `views/`: `admin/AdminCronTasksView.tsx`.
 
 ---
 
-### Fase 5: Optimasi Performa, Virtualisasi & Rekayasa Responsif Mobile-Desktop (Modern Web Guidance)
+### Fase 4: Optimasi Performa, Mobile Responsiveness & Static Verification
 
-Berdasarkan pedoman resmi `modern-web-guidance`, seluruh halaman dan komponen wajib memenuhi standar responsif mobile-desktop anti-slop berikut:
-
-- [ ] **5.1 Dynamic Viewport Units (`dvh` & `dvw`):**
-  - Menggantikan seluruh penggunaan `100vh` atau `100vw` yang memicu horizontal scrollbar atau lonjakan tampilan saat browser bar ponsel muncul/hilang. Gunakan `min-h-dvh` dan `w-full` / `max-w-full`.
-- [ ] **5.2 Container Queries (`@container`) untuk Komponen Modular:**
-  - Menerapkan `container-type: inline-size` pada wrapper kartu VPN, node server, dan widget finansial agar komponen dapat secara mandiri berganti dari tampilan stacked (mobile/sidebar) ke side-by-side (desktop) berdasarkan lebar kontainer elemennya sendiri, bukan hanya lebar layar global.
-- [ ] **5.3 Ergonomi Sentuh Ponsel (Mobile Touch Targets $\ge 44\text{px}$):**
-  - Memastikan seluruh tombol aksi, input form, icon button, dan switch di perangkat mobile memiliki area sentuh minimal $44\times 44\text{px}$ (`min-h-11`, `min-w-11` atau `p-3`) untuk mencegah salah sentuh (*misclicks*).
-- [ ] **5.4 Adaptive Overlay: Dialog Desktop vs Drawer/Bottom Sheet Mobile:**
-  - Menggunakan dialog mengambang di layar desktop ($\ge 768\text{px}$), namun bertransisi otomatis menjadi swipeable bottom sheet (`Drawer` via Vaul / `Sheet`) di layar smartphone ($< 768\text{px}$) agar jempol pengguna mudah menjangkau tombol konfirmasi.
-- [ ] **5.5 Stabilitas Scroll & Eliminasi Layout Shift (CLS = 0):**
-  - Menerapkan `scrollbar-gutter: stable` pada daftar data dan kontainer tabel agar kemunculan scrollbar tidak menyebabkan geseran layout (*layout shift*).
-  - Menerapkan `overscroll-behavior: contain` pada modal, drawer, dan tabel agar scroll pada elemen melayang tidak merambat ke halaman induk.
-- [ ] **5.6 Virtualisasi Tabel Skala Besar (`@tanstack/react-virtual`):**
-  - Terapkan virtual scrolling pada tabel riwayat akun VPN dan log koneksi server untuk memastikan render stabil pada 60 FPS tanpa memory leak di smartphone maupun PC.
-- [ ] **5.7 Internasionalisasi (i18n):**
-  - Pastikan seluruh string UI terdaftar simetris pada `src/locales/id/` (Bahasa Indonesia) dan `src/locales/en/` (English).
-- [ ] **5.8 Static Quality & Anti-Slop Audit:**
-  - Eksekusi pengecekan TypeScript: `bun x tsc --noEmit` untuk memastikan 100% type-safety tanpa compile errors.
-  - Verifikasi seluruh rute di `src/proxy.ts` bebas dari celah kebocoran rute privat.
+- [ ] **4.1 Dynamic Viewport Units (`dvh` & `dvw`):**
+  - Menggantikan seluruh `100vh` dengan `min-h-dvh` untuk mencegah pergeseran browser bar smartphone.
+- [ ] **4.2 Container Queries (`@container`):**
+  - Menerapkan `@container` pada `VpnAccountCard`, `ServerNodeCard`, dan widget saldo agar bertransisi mulus dari stacked ke grid.
+- [ ] **4.3 Mobile Touch Targets $\ge 44\text{px}$:**
+  - Area sentuh tombol, input, switch, dan dropdown minimal $44\times 44\text{px}$.
+- [ ] **4.4 Adaptive Overlays:**
+  - Floating dialog di desktop ($\ge 768\text{px}$), swipeable bottom sheet di mobile ($< 768\text{px}$).
+- [ ] **4.5 TanStack Virtual Scrolling:**
+  - Virtualisasi daftar akun dan server untuk performa stabil 60 FPS.
+- [ ] **4.6 Static Verification & Anti-Slop:**
+  - Eksekusi wajib `bun x tsc --noEmit` untuk menjamin 0 compilation error.
+  - Sinkronisasi cabang Git `dev-main` dan `main` pada remote `https://github.com/hidessh99/fontHD.git`.
 
 ---
 
-## ⚠️ 4. Aturan Wajib & Larangan Keras AI (AI Hard Rules)
+## ⚠️ 5. Aturan Wajib & Larangan Keras AI (AI Hard Rules)
 
-1. **DILARANG KERAS menjalankan `bun run build` atau `next build`** di terminal selama sesi coding! Verifikasi wajib menggunakan static check (`bun x tsc --noEmit`) atau scratch audit script.
-2. **Wajib `"use client";`** pada baris pertama di setiap komponen yang menggunakan React hooks (`useState`, `useEffect`, `useRouter`, event handler).
-3. **Dilarang memakai `overflow-hidden`** pada pembungkus Card yang memuat dropdown / selector protokol VPN (gunakan `overflow-visible relative z-20`).
-4. **Wajib font `JetBrains Mono`** (`font-mono`) untuk seluruh data teknis: IP Address, Port, UUID, Config URI, dan Keys.
-5. **Dilarang meng-hardcode teks UI** langsung di JSX (selalu gunakan `t("namespace.key")`).
-6. **Wajib Tombol Pill 56px (`rounded-full`) untuk CTA Utama:** Sesuai `opendesign.md`, seluruh tombol aksi utama (Buat Akun, Bayar QRIS, Simpan) wajib berbentuk Pill halus tanpa sudut tajam (*56px radius minimum*).
-7. **Wajib Token Semantik Coinbase System (`#0052ff`):** Seluruh styling warna wajib melalui CSS variables (`bg-primary`, `bg-card`, `border-border`, `text-muted-foreground`) tanpa hardcoded hex sembarangan di JSX.
-8. **Wajib Pola C (Role Partitioning):** Setiap modul memisahkan hak akses `user/`, `seller/`, `admin/` dengan fondasi atomik di `shared/`.
-
----
-
-## 🏁 5. Kriteria Keberhasilan (Definition of Done)
-
-1. [x] Dokumen arsitektur resmi [`G:\WEB2026\fontgovpn\docs\design.md`](file:///G:/WEB2026/fontgovpn/docs/design.md) telah disahkan.
-2. [x] Dokumen rencana implementasi [`G:\WEB2026\fontgovpn\docs\plan\frontend_nextjs16_implementation_plan.md`](file:///G:/WEB2026/fontgovpn/docs/plan/frontend_nextjs16_implementation_plan.md) telah terdokumentasi rapi di folder target.
-3. [ ] Repositori `fontgovpn` memiliki struktur project yang bersih tanpa dead code WhatsApp.
-4. [ ] Seluruh DTO form dan query terhubung dengan 388 endpoints di `postman-govpn`.
-5. [ ] Server Next.js 16 berjalan lancar dengan Turbopack (`bun run dev`) di Windows environment.
+1. **DILARANG KERAS menjalankan `bun run build` atau `next build`** di terminal selama sesi coding! Verifikasi wajib menggunakan static check (`bun x tsc --noEmit`).
+2. **Wajib `"use client";`** pada baris pertama di setiap komponen yang menggunakan React hooks.
+3. **Dilarang memakai `overflow-hidden`** pada pembungkus Card yang memuat dropdown/selector protokol VPN.
+4. **Wajib font `JetBrains Mono`** (`font-mono`) untuk seluruh data teknis (IP, Port, UUID, Config URI).
+5. **Dilarang meng-hardcode warna hex sembarangan** (gunakan variabel semantic CSS Coinbase).
+6. **Wajib Tombol Pill 56px (`rounded-full`) untuk CTA Utama.**
+7. **Wajib Pola C Fisik:** Tidak boleh lagi membuat file API flat seperti `vpn.api.ts` tunggal; wajib memisahkan ke subfolder/file `user.api.ts`, `seller.api.ts`, `admin.api.ts`.
+8. **Garansi Anti-Bug Mutasi Optimis:** Setiap mutasi optimis wajib memiliki `TxID` (UUIDv4) dan *version guard* agar tidak terjadi *state clobbering* atau *race condition*.
+9. **Garansi Anti-Hydration Mismatch:** Dynamic Import pada thin router dilarang memakai `ssr: false` di Server Components; wajib menggunakan Streaming Suspense dengan Skeleton yang cocok dimensi 1:1.
