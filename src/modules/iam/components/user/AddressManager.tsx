@@ -182,7 +182,7 @@ export function AddressManager({
                 />
               </div>
 
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                 <div>
                   <Label className="text-xs font-medium text-muted-foreground">
                     Kota
@@ -217,6 +217,18 @@ export function AddressManager({
                     placeholder="12345"
                     required
                     className="mt-1 font-mono text-xs rounded-xl min-h-10"
+                  />
+                </div>
+                <div>
+                  <Label className="text-xs font-medium text-muted-foreground">
+                    Negara
+                  </Label>
+                  <Input
+                    value={country}
+                    onChange={(e) => setCountry(e.target.value)}
+                    placeholder="Indonesia"
+                    required
+                    className="mt-1 text-xs rounded-xl min-h-10"
                   />
                 </div>
               </div>

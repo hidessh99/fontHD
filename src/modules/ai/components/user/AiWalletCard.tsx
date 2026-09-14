@@ -19,14 +19,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-  Wallet,
-  Plus,
-  ArrowUpRight,
-  Zap,
-  Loader2,
-  Sparkles,
-} from "lucide-react";
+import { Wallet, Plus, Zap, Loader2, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 
 interface AiWalletCardProps {

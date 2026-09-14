@@ -103,7 +103,7 @@ export function useContentPublic(initialSlug?: string) {
     fetchData();
   }, [fetchData]);
 
-  const fetchPostBySlug = async (slug: string) => {
+  const fetchPostBySlug = useCallback(async (slug: string) => {
     try {
       const res = await contentPublicApi.getPostBySlug(slug);
       const post = res.payload || res.data;
@@ -116,7 +116,7 @@ export function useContentPublic(initialSlug?: string) {
       setSelectedPost(mock);
       return mock;
     }
-  };
+  }, []);
 
   return {
     posts,

@@ -12,7 +12,7 @@ import { SupportSkeleton } from "../../components/shared/SupportSkeleton";
 import { AdminTicketTable } from "../../components/admin/AdminTicketTable";
 import { AdminTicketDetailModal } from "../../components/admin/AdminTicketDetailModal";
 import { Ticket } from "../../types/support.types";
-import { RefreshCw, ShieldAlert, Sparkles, Trash2 } from "lucide-react";
+import { RefreshCw, ShieldAlert, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 export function AdminSupportView() {

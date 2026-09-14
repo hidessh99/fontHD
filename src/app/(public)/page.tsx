@@ -14,12 +14,35 @@ import {
 export const metadata: Metadata = {
   title: "GoVPN — Next-Gen Cloud Tunneling & Enterprise VPN Infrastructure",
   description:
-    "Enterprise-grade VPN & SSH tunneling service with banking encryption, multi-protocols (V2Ray, VLess Reality, Trojan, Shadowsocks, WireGuard), and ultra-low gaming latency.",
+    "Deploy high-speed tunneling across 6 protocols (SSH, VMess, VLess Reality, Trojan, Shadowsocks, WireGuard). 100% zero-logs guarantee, Cloudflare BGP Anycast routing, and instant automated provisioning.",
+  keywords: [
+    "High Speed VPN",
+    "VLess Reality Tunnel",
+    "V2Ray VMess Server",
+    "Trojan-Go VPN",
+    "Shadowsocks 2022",
+    "WireGuard VPN Config",
+    "SSH WebSocket CDN",
+    "Gaming VPN Low Latency",
+    "Anti-DPI Bypass",
+    "Cloudflare DNS Manager",
+  ],
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     title: "GoVPN — Next-Gen Cloud Tunneling & Enterprise VPN Infrastructure",
     description:
-      "Enterprise-grade VPN & SSH tunneling service with banking encryption, multi-protocols, and ultra-low gaming latency.",
+      "Enterprise-grade VPN & SSH tunneling service with banking-level encryption, multi-protocol suite, and ultra-low gaming latency.",
+    url: "/",
+    siteName: "GoVPN",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "GoVPN — Next-Gen Cloud Tunneling & Enterprise VPN",
+    description:
+      "Deploy high-speed tunneling across 6 protocols with 100% zero-logs guarantee and ultra-low gaming latency.",
   },
 };
 

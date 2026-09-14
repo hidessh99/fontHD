@@ -16,14 +16,7 @@ import { RoleBadge } from "../shared/RoleBadge";
 import { AdminBalanceAdjustModal } from "./AdminBalanceAdjustModal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Search,
-  ShieldAlert,
-  RefreshCw,
-  Trash2,
-  Calendar,
-  Mail,
-} from "lucide-react";
+import { Search, RefreshCw, Trash2, Calendar, Mail } from "lucide-react";
 import { toast } from "sonner";
 
 interface AdminUserTableProps {

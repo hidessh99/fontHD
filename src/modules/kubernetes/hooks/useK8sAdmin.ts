@@ -11,11 +11,8 @@ import { k8sAdminApi } from "../api/admin.api";
 import type { K8sServer, K8sSpec, K8sTemplate } from "../types/k8s.types";
 import type {
   AdminCreateServerDto,
-  AdminUpdateServerDto,
   AdminCreateSpecDto,
-  AdminUpdateSpecDto,
   AdminCreateTemplateDto,
-  AdminUpdateTemplateDto,
 } from "../types/admin.types";
 
 const MOCK_ADMIN_SERVERS: K8sServer[] = [

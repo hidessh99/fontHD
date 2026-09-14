@@ -12,13 +12,7 @@ import QRCode from "qrcode";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CopyButton } from "@/components/shared/CopyButton";
-import {
-  CheckCircle2,
-  Clock,
-  RefreshCw,
-  ShieldCheck,
-  AlertCircle,
-} from "lucide-react";
+import { CheckCircle2, Clock, RefreshCw, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
 import { startAdaptivePoller } from "@/lib/utils/adaptive-poller";
 import { financeUserApi } from "../../api/user.api";
@@ -190,6 +184,12 @@ export function QrisPaymentCard({
             <span>
               Sisa Waktu Bayar: <strong>{formattedTime}</strong>
             </span>
+            {isPollingActive && (
+              <span
+                className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse ml-1"
+                title="Mendeteksi pembayaran real-time"
+              />
+            )}
           </div>
         )}
 

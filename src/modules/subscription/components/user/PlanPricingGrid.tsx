@@ -8,9 +8,9 @@
 
 import React from "react";
 import { Plan } from "../../types/subscription.types";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Check, ShieldCheck, Zap, Sparkles } from "lucide-react";
+import { Check, Sparkles } from "lucide-react";
 
 interface PlanPricingGridProps {
   plans: Plan[];

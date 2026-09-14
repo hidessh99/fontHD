@@ -102,9 +102,18 @@ export function LoginForm({ onLogin, onForgotPassword }: LoginFormProps) {
               >
                 Kata Sandi
               </Label>
-              {onForgotPassword && (
-                <ForgotPasswordModal onSubmitForgot={onForgotPassword} />
-              )}
+              <div className="flex items-center gap-2.5">
+                <button
+                  type="button"
+                  onClick={() => setShow2Fa((prev) => !prev)}
+                  className="text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {show2Fa ? "Sembunyikan 2FA" : "+ 2FA"}
+                </button>
+                {onForgotPassword && (
+                  <ForgotPasswordModal onSubmitForgot={onForgotPassword} />
+                )}
+              </div>
             </div>
             <div className="relative mt-1.5">
               <Lock className="absolute left-3.5 top-3.5 h-4 w-4 text-muted-foreground" />

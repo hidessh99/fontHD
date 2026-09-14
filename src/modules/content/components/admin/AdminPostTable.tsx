@@ -11,17 +11,7 @@ import { Post, PostStatus } from "../../types/content.types";
 import { PostStatusBadge } from "../shared/PostStatusBadge";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/shared/EmptyState";
-import {
-  FileText,
-  Search,
-  Edit,
-  Trash2,
-  CheckCircle,
-  Eye,
-  Clock,
-  ExternalLink,
-} from "lucide-react";
-import Link from "next/link";
+import { FileText, Search, Edit, Trash2 } from "lucide-react";
 
 interface AdminPostTableProps {
   posts: Post[];

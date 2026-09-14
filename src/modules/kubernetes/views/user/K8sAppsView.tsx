@@ -16,14 +16,7 @@ import { K8sEnvEditorModal } from "../../components/user/K8sEnvEditorModal";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import {
-  Rocket,
-  Server,
-  Cpu,
-  HardDrive,
-  Search,
-  RefreshCw,
-} from "lucide-react";
+import { Rocket, Cpu, HardDrive, Search, RefreshCw } from "lucide-react";
 import { EmptyState } from "@/components/shared/EmptyState";
 
 export function K8sAppsView() {

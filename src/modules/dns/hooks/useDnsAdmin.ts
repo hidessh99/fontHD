@@ -15,7 +15,6 @@ import type {
   AdminCreateDnsDomainDto,
   AdminCreateDnsRecordDto,
 } from "../types/admin.types";
-import { toast } from "sonner";
 
 const MOCK_ADMIN_ACCOUNTS: DnsAccount[] = [
   {

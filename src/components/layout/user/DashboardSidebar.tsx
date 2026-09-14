@@ -25,7 +25,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
-import { clearAllAuthStorage, getCookie } from "@/lib/storage/cookies";
+import { getCookie } from "@/lib/storage/cookies";
 
 interface NavItem {
   title: string;

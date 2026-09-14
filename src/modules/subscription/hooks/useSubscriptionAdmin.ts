@@ -11,13 +11,9 @@ import { subscriptionAdminApi } from "../api/admin.api";
 import type {
   Plan,
   Subscription,
-  Tenant,
   SubscriptionStatus,
 } from "../types/subscription.types";
-import type {
-  AdminCreatePlanDto,
-  AdminUpdatePlanDto,
-} from "../types/admin.types";
+import type { AdminCreatePlanDto } from "../types/admin.types";
 
 const MOCK_ADMIN_PLANS: Plan[] = [
   {

@@ -10,7 +10,7 @@ import React from "react";
 import { useNotificationUser } from "../../hooks/useNotificationUser";
 import { NotificationSkeleton } from "../../components/shared/NotificationSkeleton";
 import { NotificationFeed } from "../../components/user/NotificationFeed";
-import { RefreshCw, Bell, Sparkles } from "lucide-react";
+import { RefreshCw, Bell } from "lucide-react";
 import { toast } from "sonner";
 
 export function NotificationsView() {

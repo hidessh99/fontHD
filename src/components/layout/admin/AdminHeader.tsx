@@ -25,7 +25,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { AdminSidebar } from "./AdminSidebar";
-import { clearAllAuthStorage } from "@/lib/storage/cookies";
 import {
   Breadcrumb,
   BreadcrumbItem,

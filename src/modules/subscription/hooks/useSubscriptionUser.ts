@@ -13,7 +13,6 @@ import type {
   CreateSubscriptionDto,
   UpgradeSubscriptionDto,
 } from "../types/user.types";
-import { toast } from "sonner";
 
 const MOCK_PLANS: Plan[] = [
   {

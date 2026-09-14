@@ -17,8 +17,13 @@ const LoginView = dynamic(
 );
 
 export const metadata: Metadata = {
-  title: "Masuk ke Akun | GoVPN",
-  description: "Masuk ke platform tunneling dan infrastruktur cloud GoVPN.",
+  title: "Sign In to Your Account | GoVPN Enterprise",
+  description:
+    "Log in to your GoVPN console to manage active tunneling protocols, cloud servers, billing invoices, and security credentials.",
+  robots: {
+    index: false,
+    follow: true,
+  },
 };
 
 export default function LoginPage() {

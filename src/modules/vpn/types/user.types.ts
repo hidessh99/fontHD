@@ -2,7 +2,7 @@
 // GoVPN VPN User Role DTOs & Contracts (36 Endpoints)
 // ==============================================================================
 
-import { VpnAccount, VpnProtocol } from "./vpn.types";
+import { VpnProtocol } from "./vpn.types";
 
 export interface CreateVpnAccountDto {
   server_id: number;

@@ -150,22 +150,27 @@ export function RegisterForm({ onRegister }: RegisterFormProps) {
 
             {/* Strength Indicators */}
             {password.length > 0 && (
-              <div className="flex items-center gap-3 mt-2 text-[10px] font-mono text-muted-foreground">
-                <span
-                  className={`flex items-center gap-1 ${hasMinLength ? "text-emerald-400" : ""}`}
-                >
-                  <Check className="h-3 w-3" /> Min 8 Char
-                </span>
-                <span
-                  className={`flex items-center gap-1 ${hasNumber ? "text-emerald-400" : ""}`}
-                >
-                  <Check className="h-3 w-3" /> Angka
-                </span>
-                <span
-                  className={`flex items-center gap-1 ${hasSpecial ? "text-emerald-400" : ""}`}
-                >
-                  <Check className="h-3 w-3" /> Simbol
-                </span>
+              <div className="flex items-center justify-between mt-2 text-[10px] font-mono text-muted-foreground">
+                <div className="flex items-center gap-3">
+                  <span
+                    className={`flex items-center gap-1 ${hasMinLength ? "text-emerald-400" : ""}`}
+                  >
+                    <Check className="h-3 w-3" /> Min 8 Char
+                  </span>
+                  <span
+                    className={`flex items-center gap-1 ${hasNumber ? "text-emerald-400" : ""}`}
+                  >
+                    <Check className="h-3 w-3" /> Angka
+                  </span>
+                  <span
+                    className={`flex items-center gap-1 ${hasSpecial ? "text-emerald-400" : ""}`}
+                  >
+                    <Check className="h-3 w-3" /> Simbol
+                  </span>
+                </div>
+                {isStrong && (
+                  <span className="text-emerald-400 font-semibold">Kuat</span>
+                )}
               </div>
             )}
           </div>

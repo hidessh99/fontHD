@@ -6,7 +6,7 @@
 import React from "react";
 import { Badge } from "@/components/ui/badge";
 import { NodeStatus } from "../../types/monitor.types";
-import { CheckCircle2, AlertTriangle, XCircle, Wrench } from "lucide-react";
+import { AlertTriangle, XCircle, Wrench } from "lucide-react";
 
 interface NodeStatusBadgeProps {
   status: NodeStatus | string;

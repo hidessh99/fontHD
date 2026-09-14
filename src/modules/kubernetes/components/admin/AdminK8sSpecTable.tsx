@@ -19,7 +19,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Layers, Plus, Trash2, Loader2, Coins } from "lucide-react";
+import { Layers, Plus, Trash2, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { EmptyState } from "@/components/shared/EmptyState";
 
@@ -199,7 +199,14 @@ export function AdminK8sSpecTable({
         </Dialog>
       </div>
 
-      {specs.length === 0 ? (
+      {loading ? (
+        <div className="w-full h-64 flex flex-col items-center justify-center gap-3 rounded-2xl border border-border/80 bg-card/40">
+          <Loader2 className="h-7 w-7 animate-spin text-primary" />
+          <p className="text-xs text-muted-foreground font-medium">
+            Memuat daftar spesifikasi Kubernetes...
+          </p>
+        </div>
+      ) : specs.length === 0 ? (
         <EmptyState
           icon={Layers}
           title="Belum Ada Paket Spec"

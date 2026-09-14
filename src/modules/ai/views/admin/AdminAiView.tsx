@@ -20,7 +20,6 @@ import {
   Activity,
   RefreshCw,
   Sparkles,
-  Coins,
 } from "lucide-react";
 
 export function AdminAiView() {

@@ -15,8 +15,8 @@ import { UserSessionManager } from "../../components/user/UserSessionManager";
 import { AddressManager } from "../../components/user/AddressManager";
 import { VerifyEmailBanner } from "../../components/guest/VerifyEmailBanner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent } from "@/components/ui/card";
-import { User, ShieldCheck, Laptop, MapPin, KeyRound } from "lucide-react";
+import { Card } from "@/components/ui/card";
+import { ShieldCheck, Laptop, MapPin, KeyRound } from "lucide-react";
 
 export function UserProfileSettingsView() {
   const {

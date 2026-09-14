@@ -11,22 +11,9 @@ import { Ticket, TicketReply, TicketStatus } from "../../types/support.types";
 import { AdminCreateReplyDto } from "../../types/admin.types";
 import { TicketStatusBadge } from "../shared/TicketStatusBadge";
 import { TicketPriorityBadge } from "../shared/TicketPriorityBadge";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import {
-  Send,
-  Loader2,
-  Trash2,
-  Lock,
-  User,
-  ShieldCheck,
-  CheckCircle2,
-} from "lucide-react";
+import { Send, Loader2, Trash2, Lock, User, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
 
 interface AdminTicketDetailModalProps {
@@ -82,7 +69,7 @@ export function AdminTicketDetailModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[650px] max-h-[85vh] flex flex-col bg-card border-border/60 p-0 overflow-hidden">
+      <DialogContent className="sm:max-w-162.5 max-h-[85vh] flex flex-col bg-card border-border/60 p-0 overflow-hidden">
         {/* Header */}
         <div className="p-5 border-b border-border/40 bg-muted/20 space-y-2">
           <div className="flex items-center justify-between">
@@ -124,7 +111,7 @@ export function AdminTicketDetailModal({
         </div>
 
         {/* Conversation Thread */}
-        <div className="flex-1 p-5 overflow-y-auto space-y-4 max-h-[380px]">
+        <div className="flex-1 p-5 overflow-y-auto space-y-4 max-h-95">
           {/* Main User Ticket Post */}
           <div className="p-3.5 rounded-xl bg-accent/30 border border-border/40 space-y-1.5">
             <div className="flex items-center justify-between text-xs">

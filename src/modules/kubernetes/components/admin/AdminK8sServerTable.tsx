@@ -221,7 +221,14 @@ export function AdminK8sServerTable({
         </Dialog>
       </div>
 
-      {servers.length === 0 ? (
+      {loading ? (
+        <div className="w-full h-64 flex flex-col items-center justify-center gap-3 rounded-2xl border border-border/80 bg-card/40">
+          <Loader2 className="h-7 w-7 animate-spin text-primary" />
+          <p className="text-xs text-muted-foreground font-medium">
+            Memuat daftar server Kubernetes...
+          </p>
+        </div>
+      ) : servers.length === 0 ? (
         <EmptyState
           icon={Server}
           title="Belum Ada Worker Node"

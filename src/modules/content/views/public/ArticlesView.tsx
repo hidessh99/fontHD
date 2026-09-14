@@ -10,7 +10,7 @@ import React, { useState } from "react";
 import { useContentPublic } from "../../hooks/useContentPublic";
 import { ContentSkeleton } from "../../components/shared/ContentSkeleton";
 import { PostCard } from "../../components/shared/PostCard";
-import { BookOpen, Search, Sparkles, RefreshCw } from "lucide-react";
+import { BookOpen, Search, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 
 export function ArticlesView() {

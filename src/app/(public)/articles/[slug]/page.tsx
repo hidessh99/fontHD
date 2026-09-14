@@ -29,8 +29,22 @@ export async function generateMetadata({
     .join(" ");
 
   return {
-    title: `${formattedTitle} | GoVPN Institutional Knowledge Base`,
-    description: `Baca panduan teknis dan tutorial lengkap mengenai ${formattedTitle}`,
+    title: `${formattedTitle} — Technical Guide & Documentation | GoVPN`,
+    description: `Complete technical walkthrough and configuration guide for ${formattedTitle}. Learn setup steps, performance optimizations, and anti-DPI security best practices.`,
+    alternates: {
+      canonical: `/articles/${slug}`,
+    },
+    openGraph: {
+      title: `${formattedTitle} | GoVPN Knowledge Base`,
+      description: `Step-by-step tutorial on ${formattedTitle} on GoVPN high-speed tunneling cloud infrastructure.`,
+      url: `/articles/${slug}`,
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${formattedTitle} | GoVPN Guides`,
+      description: `Read the full documentation for ${formattedTitle} on GoVPN Knowledge Base.`,
+    },
   };
 }
 

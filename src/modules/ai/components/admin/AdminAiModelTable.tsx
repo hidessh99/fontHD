@@ -20,14 +20,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-  Cpu,
-  Plus,
-  Trash2,
-  Loader2,
-  CheckCircle2,
-  XCircle,
-} from "lucide-react";
+import { Cpu, Plus, Trash2, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { EmptyState } from "@/components/shared/EmptyState";
 
@@ -54,7 +47,7 @@ export function AdminAiModelTable({
   );
   const [contextWindow, setContextWindow] = useState(128000);
   const [inputPrice, setInputPrice] = useState(15);
-  const [outputPrice, setOutputPrice] = useState(60);
+  const [outputPrice] = useState(60);
   const [submitting, setSubmitting] = useState(false);
   const [deletingId, setDeletingId] = useState<string | number | null>(null);
 
@@ -221,7 +214,14 @@ export function AdminAiModelTable({
         </Dialog>
       </div>
 
-      {models.length === 0 ? (
+      {loading ? (
+        <div className="w-full h-64 flex flex-col items-center justify-center gap-3 rounded-2xl border border-border/80 bg-card/40">
+          <Loader2 className="h-7 w-7 animate-spin text-primary" />
+          <p className="text-xs text-muted-foreground font-medium">
+            Memuat daftar model AI...
+          </p>
+        </div>
+      ) : models.length === 0 ? (
         <EmptyState
           icon={Cpu}
           title="Belum Ada Model Terdaftar"

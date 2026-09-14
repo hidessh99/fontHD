@@ -7,7 +7,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Ticket, TicketStatus } from "../../types/support.types";
+import { Ticket } from "../../types/support.types";
 import { TicketStatusBadge } from "../shared/TicketStatusBadge";
 import { TicketPriorityBadge } from "../shared/TicketPriorityBadge";
 import { Button } from "@/components/ui/button";

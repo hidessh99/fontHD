@@ -17,7 +17,6 @@ import {
 } from "../types/finance.types";
 import {
   AdminCreateBillingDto,
-  AdminCreateInvoiceDto,
   AdminCreateVoucherDto,
   AdminUpdateInvoiceStatusDto,
   AdminUpdateWithdrawalStatusDto,

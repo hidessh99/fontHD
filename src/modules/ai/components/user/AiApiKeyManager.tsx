@@ -21,15 +21,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { EmptyState } from "@/components/shared/EmptyState";
-import {
-  Key,
-  Plus,
-  Trash2,
-  Loader2,
-  ShieldCheck,
-  Check,
-  Clock,
-} from "lucide-react";
+import { Key, Plus, Trash2, Loader2, Clock } from "lucide-react";
 import { toast } from "sonner";
 
 interface AiApiKeyManagerProps {
@@ -201,7 +193,14 @@ export function AiApiKeyManager({
         </Dialog>
       </div>
 
-      {apiKeys.length === 0 ? (
+      {loading ? (
+        <div className="w-full h-64 flex flex-col items-center justify-center gap-3 rounded-2xl border border-border/80 bg-card/40">
+          <Loader2 className="h-7 w-7 animate-spin text-primary" />
+          <p className="text-xs text-muted-foreground font-medium">
+            Memuat daftar API Key...
+          </p>
+        </div>
+      ) : apiKeys.length === 0 ? (
         <EmptyState
           icon={Key}
           title="Belum Ada API Key"

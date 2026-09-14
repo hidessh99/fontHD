@@ -2,8 +2,6 @@
 // GoVPN VPN Seller / Reseller Role DTOs & Contracts (12 Endpoints)
 // ==============================================================================
 
-import { ServerNode } from "./vpn.types";
-
 export interface CreateSellerServerDto {
   name: string;
   country: string;

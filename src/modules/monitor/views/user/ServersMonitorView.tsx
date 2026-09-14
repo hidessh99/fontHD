@@ -157,6 +157,40 @@ export function ServersMonitorView() {
               </button>
             ))}
           </div>
+
+          {/* Status filter buttons */}
+          <div className="hidden lg:flex items-center gap-1.5">
+            <button
+              onClick={() => setFilterStatus("ALL")}
+              className={`rounded-xl px-3 py-1.5 text-xs font-semibold transition-all ${
+                filterStatus === "ALL"
+                  ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
+                  : "bg-muted/40 border border-border text-muted-foreground hover:text-foreground hover:bg-muted"
+              }`}
+            >
+              Semua Status
+            </button>
+            <button
+              onClick={() => setFilterStatus("ONLINE")}
+              className={`rounded-xl px-3 py-1.5 text-xs font-medium transition-all ${
+                filterStatus === "ONLINE"
+                  ? "bg-emerald-600 text-white shadow-md shadow-emerald-600/20"
+                  : "bg-muted/40 border border-border text-muted-foreground hover:text-foreground hover:bg-muted"
+              }`}
+            >
+              Online
+            </button>
+            <button
+              onClick={() => setFilterStatus("OFFLINE")}
+              className={`rounded-xl px-3 py-1.5 text-xs font-medium transition-all ${
+                filterStatus === "OFFLINE"
+                  ? "bg-rose-600 text-white shadow-md shadow-rose-600/20"
+                  : "bg-muted/40 border border-border text-muted-foreground hover:text-foreground hover:bg-muted"
+              }`}
+            >
+              Offline
+            </button>
+          </div>
         </div>
 
         <div className="flex items-center gap-2 self-end md:self-auto">

@@ -9,7 +9,6 @@
 import React from "react";
 import { SystemHealthResponse } from "../../types/monitor.types";
 import {
-  CheckCircle2,
   AlertTriangle,
   Database,
   Server,

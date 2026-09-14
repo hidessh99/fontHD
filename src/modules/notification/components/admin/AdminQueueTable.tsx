@@ -7,16 +7,12 @@
 "use client";
 
 import React, { useState } from "react";
-import {
-  QueueItem,
-  NotificationChannel,
-  QueueStatus,
-} from "../../types/notification.types";
+import { QueueItem } from "../../types/notification.types";
 import { QueueStatusBadge } from "../shared/QueueStatusBadge";
 import { ChannelBadge } from "../shared/ChannelBadge";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/shared/EmptyState";
-import { Bell, Trash2, Search, RefreshCw, Layers } from "lucide-react";
+import { Trash2, Search, Layers } from "lucide-react";
 
 interface AdminQueueTableProps {
   queue: QueueItem[];

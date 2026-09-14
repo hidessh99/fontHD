@@ -18,13 +18,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CopyButton } from "@/components/shared/CopyButton";
-import {
-  ShieldCheck,
-  Smartphone,
-  Key,
-  CheckCircle2,
-  Loader2,
-} from "lucide-react";
+import { ShieldCheck, Smartphone, CheckCircle2, Loader2 } from "lucide-react";
 import QRCode from "qrcode";
 import { toast } from "sonner";
 

@@ -11,11 +11,7 @@ import { useAuthStore } from "../store/auth.store";
 import { iamUserApi } from "../api/user.api";
 import { iamGuestApi } from "../api/guest.api";
 import { UserDeviceSession, UserAddress } from "../types/iam.types";
-import {
-  UpdateProfileDto,
-  ChangePasswordRequest,
-  UserAddressDto,
-} from "../types/user.types";
+import { ChangePasswordRequest, UserAddressDto } from "../types/user.types";
 
 export function useIamUser() {
   const { user, loadProfile, updateProfile } = useAuthStore();

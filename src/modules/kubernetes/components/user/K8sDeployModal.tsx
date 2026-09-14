@@ -19,7 +19,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Plus, Rocket, Layers, Cpu, HardDrive, Loader2 } from "lucide-react";
+import { Plus, Rocket, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 interface K8sDeployModalProps {

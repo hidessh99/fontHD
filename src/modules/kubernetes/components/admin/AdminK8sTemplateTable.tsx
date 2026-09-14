@@ -20,7 +20,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Rocket, Plus, Trash2, Loader2, Globe } from "lucide-react";
+import { Rocket, Plus, Trash2, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { EmptyState } from "@/components/shared/EmptyState";
 
@@ -212,7 +212,14 @@ export function AdminK8sTemplateTable({
         </Dialog>
       </div>
 
-      {templates.length === 0 ? (
+      {loading ? (
+        <div className="w-full h-64 flex flex-col items-center justify-center gap-3 rounded-2xl border border-border/80 bg-card/40">
+          <Loader2 className="h-7 w-7 animate-spin text-primary" />
+          <p className="text-xs text-muted-foreground font-medium">
+            Memuat daftar template Kubernetes...
+          </p>
+        </div>
+      ) : templates.length === 0 ? (
         <EmptyState
           icon={Rocket}
           title="Belum Ada Template"

@@ -12,7 +12,7 @@ import { DnsTypeBadge } from "../shared/DnsTypeBadge";
 import { CloudflareProxyBadge } from "../shared/CloudflareProxyBadge";
 import { CopyButton } from "@/components/shared/CopyButton";
 import { Button } from "@/components/ui/button";
-import { Trash2, Globe, Clock, ArrowRight } from "lucide-react";
+import { Trash2, Globe, Clock } from "lucide-react";
 import { EmptyState } from "@/components/shared/EmptyState";
 
 interface UserDnsRecordTableProps {

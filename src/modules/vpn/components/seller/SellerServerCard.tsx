@@ -7,7 +7,7 @@
 "use client";
 
 import React from "react";
-import { Server, Globe, Trash2, Edit3 } from "lucide-react";
+import { Globe, Trash2, Edit3 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ServerPingBadge } from "@/components/shared/ServerPingBadge";

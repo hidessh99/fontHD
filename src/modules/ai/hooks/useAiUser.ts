@@ -10,13 +10,11 @@ import { useState, useEffect, useCallback } from "react";
 import { aiUserApi } from "../api/user.api";
 import type {
   AiModel,
-  AiProvider,
   AiApiKey,
   AiWallet,
   AiUsageSummary,
 } from "../types/ai.types";
-import type { CreateApiKeyDto, TopupAiWalletDto } from "../types/user.types";
-import { toast } from "sonner";
+import type { CreateApiKeyDto } from "../types/user.types";
 
 const MOCK_MODELS: AiModel[] = [
   {
@@ -91,19 +89,24 @@ export function useAiUser() {
   const fetchData = useCallback(async () => {
     setLoading(true);
     try {
-      const [modelsRes, keysRes, walletRes] = await Promise.all([
+      const [modelsRes, keysRes, walletRes, usageRes] = await Promise.all([
         aiUserApi.listActiveModels().catch(() => aiUserApi.listModels()),
         aiUserApi.listApiKeys(),
         aiUserApi.getWallet(),
+        aiUserApi
+          .getUsageSummary()
+          .catch(() => ({ payload: null, data: null })),
       ]);
 
       const mList = modelsRes.payload || modelsRes.data || [];
       const kList = keysRes.payload || keysRes.data || [];
       const wData = walletRes.payload || walletRes.data;
+      const uData = usageRes.payload || usageRes.data;
 
       setModels(mList.length > 0 ? mList : MOCK_MODELS);
       setApiKeys(kList.length > 0 ? kList : MOCK_KEYS);
       setWallet(wData || MOCK_WALLET);
+      if (uData) setUsage(uData);
     } catch {
       setModels(MOCK_MODELS);
       setApiKeys(MOCK_KEYS);

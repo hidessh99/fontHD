@@ -19,9 +19,13 @@ const RegisterView = dynamic(
 );
 
 export const metadata: Metadata = {
-  title: "Daftar Akun Baru | GoVPN",
+  title: "Create an Enterprise Account | GoVPN Cloud",
   description:
-    "Daftar akun GoVPN untuk mendapatkan akses VPN berkecepatan tinggi.",
+    "Register for a free GoVPN account to deploy multi-protocol tunneling nodes, manage DNS zones, and access high-speed private VPN servers.",
+  robots: {
+    index: false,
+    follow: true,
+  },
 };
 
 export default function RegisterPage() {

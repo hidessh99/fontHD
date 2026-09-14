@@ -18,13 +18,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { UserWithdrawalRequestDto } from "../../types/user.types";
-import {
-  ArrowUpRight,
-  Building2,
-  CreditCard,
-  Loader2,
-  User,
-} from "lucide-react";
+import { ArrowUpRight, CreditCard, Loader2, User } from "lucide-react";
 import { toast } from "sonner";
 
 interface UserWithdrawalModalProps {

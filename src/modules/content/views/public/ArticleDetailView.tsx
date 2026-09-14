@@ -9,7 +9,7 @@
 import React, { useEffect } from "react";
 import { useContentPublic } from "../../hooks/useContentPublic";
 import { ContentSkeleton } from "../../components/shared/ContentSkeleton";
-import { ArrowLeft, Clock, Eye, User, BookOpen, Share2 } from "lucide-react";
+import { ArrowLeft, Clock, Eye, User, Share2 } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 
@@ -24,7 +24,7 @@ export function ArticleDetailView({ slug }: ArticleDetailViewProps) {
     if (slug) {
       fetchPostBySlug(slug);
     }
-  }, [slug]);
+  }, [slug, fetchPostBySlug]);
 
   if (loading || !selectedPost) {
     return <ContentSkeleton />;

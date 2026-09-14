@@ -10,7 +10,6 @@ import {
   AdminUpdatePlanDto,
   AdminChangeSubscriptionPlanDto,
   AdminUpdateSubscriptionStatusDto,
-  AdminCreateTenantDto,
   AdminUpdateTenantDto,
 } from "../types/admin.types";
 

@@ -11,7 +11,6 @@ import { aiAdminApi } from "../api/admin.api";
 import type { AiModel, AiProvider, AiWallet } from "../types/ai.types";
 import type {
   AdminCreateModelDto,
-  AdminUpdateModelDto,
   AdminCreateProviderDto,
   AdminWalletAdjustDto,
   AdminAiStats,

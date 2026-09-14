@@ -9,7 +9,7 @@
 import React from "react";
 import { Subscription } from "../../types/subscription.types";
 import { SubscriptionStatusBadge } from "../shared/SubscriptionStatusBadge";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
   ShieldCheck,

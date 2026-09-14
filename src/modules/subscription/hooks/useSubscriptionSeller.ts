@@ -15,7 +15,6 @@ import type {
 } from "../types/subscription.types";
 import type {
   SellerCreateSubscriptionDto,
-  SellerCreateTenantDto,
   SellerUpdateTenantDto,
 } from "../types/seller.types";
 

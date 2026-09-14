@@ -21,7 +21,6 @@ import {
   Cpu,
   HardDrive,
   Globe,
-  Loader2,
 } from "lucide-react";
 import { toast } from "sonner";
 

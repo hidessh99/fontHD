@@ -4,7 +4,7 @@
 // ==============================================================================
 
 import { apiClient, ApiResponse } from "@/lib/api/http-client";
-import { ServerTelemetry, MonitorTarget } from "../types/monitor.types";
+import { MonitorTarget } from "../types/monitor.types";
 import {
   AdminCreateMonitorDto,
   AdminUpdateMonitorDto,

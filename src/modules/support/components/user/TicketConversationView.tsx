@@ -15,7 +15,6 @@ import {
   Send,
   Loader2,
   CheckCircle2,
-  Clock,
   User,
   ShieldCheck,
   ArrowLeft,

@@ -11,7 +11,7 @@ import { Ticket } from "../../types/support.types";
 import { TicketStatusBadge } from "../shared/TicketStatusBadge";
 import { TicketPriorityBadge } from "../shared/TicketPriorityBadge";
 import { EmptyState } from "@/components/shared/EmptyState";
-import { MessageSquare, ChevronRight, Clock, LifeBuoy } from "lucide-react";
+import { ChevronRight, Clock, LifeBuoy } from "lucide-react";
 
 interface UserTicketListProps {
   tickets: Ticket[];

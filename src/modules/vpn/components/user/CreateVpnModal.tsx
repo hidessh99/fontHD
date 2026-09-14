@@ -19,7 +19,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ProtocolBadge } from "@/components/shared/ProtocolBadge";
-import { ServerNode, VpnAccount, VpnProtocol } from "../../types/vpn.types";
+import { VpnAccount, VpnProtocol } from "../../types/vpn.types";
 import { vpnUserApi } from "../../api/user.api";
 import { toast } from "sonner";
 import { useVpnUserStore } from "../../store/vpn-user.store";

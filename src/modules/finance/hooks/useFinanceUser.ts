@@ -87,6 +87,10 @@ export function useFinanceUser() {
       setBillingHistory(list);
       if (list.length > 0) {
         setBalance(list[0].balance_after || 35000);
+        const spent = list
+          .filter((r) => r.type === "PURCHASE")
+          .reduce((acc, curr) => acc + (curr.amount || 0), 0);
+        setTotalSpent(spent || 15000);
       }
     } catch {
       setBillingHistory([
@@ -160,7 +164,7 @@ export function useFinanceUser() {
     return () => {
       stop();
     };
-  }, [activeInvoice?.id, activeInvoice?.status, fetchInvoices, fetchBilling]);
+  }, [activeInvoice, fetchInvoices, fetchBilling]);
 
   // 4. Create Topup with Idempotency Key
   const createTopup = async (dto: CreateTopupDto): Promise<Invoice | null> => {

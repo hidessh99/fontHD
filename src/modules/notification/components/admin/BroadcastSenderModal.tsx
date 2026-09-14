@@ -17,7 +17,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Megaphone, Send, Loader2, Users, UserCheck } from "lucide-react";
 import { toast } from "sonner";
 

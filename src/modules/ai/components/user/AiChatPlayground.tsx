@@ -8,10 +8,9 @@
 
 import React, { useState } from "react";
 import { AiModel, ChatMessage } from "../../types/ai.types";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ModelBadge } from "../shared/ModelBadge";
 import { Send, Bot, User, Sparkles, Loader2, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
 

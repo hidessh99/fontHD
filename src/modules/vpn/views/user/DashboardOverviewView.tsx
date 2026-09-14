@@ -8,25 +8,9 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import {
-  Zap,
-  Server,
-  Wallet,
-  Activity,
-  ArrowRight,
-  Plus,
-  Shield,
-  Layers,
-} from "lucide-react";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from "@/components/ui/card";
+import { Zap, Server, Wallet, Activity, ArrowRight, Plus } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { ProtocolBadge } from "@/components/shared/ProtocolBadge";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { VpnAccountCard } from "../../components/user/VpnAccountCard";
