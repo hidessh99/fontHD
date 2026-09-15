@@ -18,7 +18,7 @@ export function DataTableRowSkeleton<TData>({
         <TableRow key={`skeleton-row-${rowIndex}`} className="hover:bg-transparent">
           {columns.map((col, colIndex) => (
             <TableCell key={`skeleton-cell-${rowIndex}-${col.id || colIndex}`} className="px-5 py-4">
-              <Skeleton className="h-4 w-full max-w-[140px] rounded-md" />
+              <Skeleton className="h-4 w-full max-w-35 rounded-md" />
             </TableCell>
           ))}
         </TableRow>

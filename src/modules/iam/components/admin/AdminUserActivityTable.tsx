@@ -147,7 +147,7 @@ export function AdminUserActivityTable({
         id: "metadata",
         header: "Metadata",
         cell: (item) => (
-          <span className="text-muted-foreground font-sans text-xs max-w-[250px] truncate block">
+          <span className="text-muted-foreground font-sans text-xs max-w-62.5 truncate block">
             {item.metadata || "-"}
           </span>
         ),

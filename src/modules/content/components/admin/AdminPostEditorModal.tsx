@@ -130,7 +130,7 @@ export function AdminPostEditorModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[700px] max-h-[90vh] flex flex-col bg-card border-border/60 p-0 overflow-hidden">
+      <DialogContent className="sm:max-w-175 max-h-[90vh] flex flex-col bg-card border-border/60 p-0 overflow-hidden">
         <DialogHeader className="p-5 border-b border-border/40 bg-muted/20">
           <div className="flex items-center gap-2 text-primary mb-1">
             <FileText className="w-5 h-5" />

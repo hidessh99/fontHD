@@ -61,7 +61,7 @@ export function DataTableToolbar<TData>({
       {/* Left controls: Search Input & Category Filters */}
       <div className="flex flex-1 flex-wrap items-center gap-2.5 max-w-2xl">
         {hasSearch && (
-          <div className="w-full sm:w-auto sm:min-w-[280px] max-w-md">
+          <div className="w-full sm:w-auto sm:min-w-70 max-w-md">
             <SearchInput
               value={draftSearch}
               onChange={setDraftSearch}

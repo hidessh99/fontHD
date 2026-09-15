@@ -77,7 +77,7 @@ export function CreateTicketModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[560px] bg-card border-border/60">
+      <DialogContent className="sm:max-w-140 bg-card border-border/60">
         <DialogHeader>
           <div className="flex items-center gap-2 text-primary mb-1">
             <LifeBuoy className="w-5 h-5" />

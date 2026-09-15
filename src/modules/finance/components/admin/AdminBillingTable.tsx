@@ -157,7 +157,7 @@ export function AdminBillingTable({
         id: "description",
         header: "Keterangan",
         cell: (item) => (
-          <span className="font-sans text-muted-foreground max-w-[220px] truncate block">
+          <span className="font-sans text-muted-foreground max-w-55 truncate block">
             {item.description}
           </span>
         ),

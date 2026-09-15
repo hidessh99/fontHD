@@ -96,7 +96,7 @@ export function AiChatPlayground({
   };
 
   return (
-    <Card className="border-border/80 bg-card/60 backdrop-blur-sm rounded-2xl shadow-sm overflow-hidden flex flex-col h-[560px]">
+    <Card className="border-border/80 bg-card/60 backdrop-blur-sm rounded-2xl shadow-sm overflow-hidden flex flex-col h-140">
       {/* Header with Model Selector */}
       <div className="p-4 border-b border-border/80 bg-muted/20 flex items-center justify-between gap-3">
         <div className="flex items-center gap-2.5">
