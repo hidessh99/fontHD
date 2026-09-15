@@ -7,6 +7,7 @@
 "use client";
 
 import React from "react";
+import { useI18n } from "@/lib/i18n";
 import { useMonitorAdmin } from "../../hooks/useMonitorAdmin";
 import { useSystemHealth } from "../../hooks/useSystemHealth";
 import { AdminMonitorTable } from "../../components/admin/AdminMonitorTable";
@@ -16,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Activity, ShieldCheck, RefreshCw, Layers } from "lucide-react";
 
 export function AdminMonitorView() {
+  const { t } = useI18n();
   const {
     monitors,
     loading,
@@ -42,10 +44,10 @@ export function AdminMonitorView() {
           <CardContent className="p-0 flex items-center justify-between">
             <div>
               <span className="text-xs text-muted-foreground font-medium">
-                Total Target Telemetri
+                {t("monitor.totalTargets")}
               </span>
               <div className="font-mono text-2xl font-bold text-foreground mt-1">
-                {monitors.length} Node
+                {monitors.length} {t("monitor.nodesUnit")}
               </div>
             </div>
             <div className="p-2.5 rounded-xl bg-primary/10 text-primary border border-primary/20">
@@ -58,7 +60,7 @@ export function AdminMonitorView() {
           <CardContent className="p-0 flex items-center justify-between">
             <div>
               <span className="text-xs text-muted-foreground font-medium">
-                Node Sehat (Online)
+                {t("monitor.healthyNodes")}
               </span>
               <div className="font-mono text-2xl font-bold text-emerald-400 mt-1">
                 {onlineCount} / {monitors.length}
@@ -74,10 +76,10 @@ export function AdminMonitorView() {
           <CardContent className="p-0 flex items-center justify-between">
             <div>
               <span className="text-xs text-muted-foreground font-medium">
-                Probe Aktif
+                {t("monitor.activeProbes")}
               </span>
               <div className="font-mono text-2xl font-bold text-primary mt-1">
-                {activeProbesCount} Probe
+                {activeProbesCount} {t("monitor.probesUnit")}
               </div>
             </div>
             <div className="p-2.5 rounded-xl bg-primary/10 text-primary border border-primary/20">
@@ -91,11 +93,10 @@ export function AdminMonitorView() {
       <div className="flex items-center justify-between border-b border-border pb-4">
         <div>
           <h2 className="text-base font-bold text-foreground">
-            Armada Pemantau Server & Log Telemetri
+            {t("monitor.fleetTitle")}
           </h2>
           <p className="text-xs text-muted-foreground mt-0.5">
-            Konfigurasi target health probe periodik dan batas ambang notifikasi
-            latensi
+            {t("monitor.fleetSubtitle")}
           </p>
         </div>
 
@@ -109,7 +110,7 @@ export function AdminMonitorView() {
           <RefreshCw
             className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`}
           />
-          Segarkan
+          {t("monitor.refreshBtn")}
         </Button>
       </div>
 

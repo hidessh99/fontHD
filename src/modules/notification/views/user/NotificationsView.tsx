@@ -7,6 +7,7 @@
 "use client";
 
 import React from "react";
+import { useI18n } from "@/lib/i18n";
 import { useNotificationUser } from "../../hooks/useNotificationUser";
 import { NotificationSkeleton } from "../../components/shared/NotificationSkeleton";
 import { NotificationFeed } from "../../components/user/NotificationFeed";
@@ -15,6 +16,7 @@ import { RefreshCw, Bell } from "lucide-react";
 import { toast } from "sonner";
 
 export function NotificationsView() {
+  const { t } = useI18n();
   const { notifications, loading, markAsRead, markAllAsRead, refresh } =
     useNotificationUser();
 
@@ -28,14 +30,13 @@ export function NotificationsView() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-border/40 pb-6">
         <div>
           <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-medium text-primary mb-2">
-            <Bell className="w-3.5 h-3.5" /> Pusat Pemberitahuan
+            <Bell className="w-3.5 h-3.5" /> {t("notification.hubBadge")}
           </div>
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
-            Notifikasi & Pengumuman
+            {t("notification.userTitle")}
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Riwayat pembaruan status server, notifikasi billing paket, dan
-            respon tiket helpdesk.
+            {t("notification.userSubtitle")}
           </p>
         </div>
 
@@ -44,12 +45,12 @@ export function NotificationsView() {
           size="sm"
           onClick={() => {
             refresh();
-            toast.info("Notifikasi diperbarui");
+            toast.info(t("notification.notificationsRefreshed"));
           }}
           className="gap-2 self-start sm:self-auto"
         >
           <RefreshCw className="w-4 h-4" />
-          <span>Segarkan</span>
+          <span>{t("notification.refreshBtn")}</span>
         </Button>
       </div>
 
@@ -58,11 +59,11 @@ export function NotificationsView() {
         notifications={notifications}
         onMarkAsRead={async (id) => {
           await markAsRead(id);
-          toast.success("Ditandai sudah dibaca");
+          toast.success(t("notification.markedAsRead"));
         }}
         onMarkAllAsRead={async () => {
           await markAllAsRead();
-          toast.success("Semua notifikasi ditandai sudah dibaca");
+          toast.success(t("notification.allMarkedAsRead"));
         }}
       />
     </div>

@@ -7,6 +7,7 @@
 "use client";
 
 import React from "react";
+import { useI18n } from "@/lib/i18n";
 import { ServerTelemetry } from "../../types/monitor.types";
 import { Card } from "@/components/ui/card";
 import { NodeStatusBadge } from "../shared/NodeStatusBadge";
@@ -27,18 +28,20 @@ interface ServerHealthGridProps {
 }
 
 export function ServerHealthGrid({ nodes }: ServerHealthGridProps) {
+  const { t, locale } = useI18n();
+
   const formatUptime = (seconds: number) => {
     const days = Math.floor(seconds / 86400);
     const hours = Math.floor((seconds % 86400) / 3600);
-    return `${days}h ${hours}j`;
+    return `${days}d ${hours}h`;
   };
 
   if (nodes.length === 0) {
     return (
       <EmptyState
         icon={Server}
-        title="Tidak Ada Node Ditemukan"
-        description="Tidak ada server yang cocok dengan kriteria filter negara atau pencarian saat ini."
+        title={t("monitor.noNodesFound")}
+        description={t("monitor.noNodesFilterDesc")}
       />
     );
   }
@@ -98,7 +101,7 @@ export function ServerHealthGrid({ nodes }: ServerHealthGridProps) {
                 <div className="space-y-1">
                   <div className="flex justify-between text-xs">
                     <span className="flex items-center gap-1.5 text-muted-foreground">
-                      <Cpu className="h-3.5 w-3.5 text-primary" /> Beban CPU
+                      <Cpu className="h-3.5 w-3.5 text-primary" /> {t("monitor.cpuLoad")}
                     </span>
                     <span className="font-mono font-bold text-foreground">
                       {node.cpu_percent}%
@@ -117,7 +120,7 @@ export function ServerHealthGrid({ nodes }: ServerHealthGridProps) {
                   <div className="flex justify-between text-xs">
                     <span className="flex items-center gap-1.5 text-muted-foreground">
                       <HardDrive className="h-3.5 w-3.5 text-indigo-400" />{" "}
-                      Pemakaian RAM
+                      {t("monitor.ramUsage")}
                     </span>
                     <span className="font-mono font-bold text-foreground">
                       {node.ram_percent}%
@@ -135,8 +138,7 @@ export function ServerHealthGrid({ nodes }: ServerHealthGridProps) {
                 <div className="grid grid-cols-2 gap-2.5 pt-2 border-t border-border/60">
                   <div className="rounded-xl bg-muted/30 p-2.5 text-xs border border-border/40">
                     <span className="text-[11px] text-muted-foreground flex items-center gap-1 font-medium">
-                      <Activity className="h-3 w-3 text-primary" /> Bandwidth
-                      I/O
+                      <Activity className="h-3 w-3 text-primary" /> {t("monitor.bandwidthIO")}
                     </span>
                     <div className="flex items-center gap-2 mt-1.5 font-mono font-semibold text-foreground text-[11px]">
                       <span className="flex items-center text-emerald-400">
@@ -152,8 +154,7 @@ export function ServerHealthGrid({ nodes }: ServerHealthGridProps) {
 
                   <div className="rounded-xl bg-muted/30 p-2.5 text-xs border border-border/40">
                     <span className="text-[11px] text-muted-foreground flex items-center gap-1 font-medium">
-                      <Users className="h-3 w-3 text-indigo-400" /> Sesi
-                      Terhubung
+                      <Users className="h-3 w-3 text-indigo-400" /> {t("monitor.connectedSessions")}
                     </span>
                     <div className="mt-1.5 font-mono font-bold text-foreground text-xs">
                       {node.active_sessions}{" "}
@@ -170,10 +171,10 @@ export function ServerHealthGrid({ nodes }: ServerHealthGridProps) {
             <div className="px-4 py-2.5 bg-muted/20 border-t border-border/60 flex items-center justify-between text-[11px] text-muted-foreground font-mono">
               <span className="flex items-center gap-1">
                 <Clock className="h-3 w-3 text-muted-foreground" />
-                Uptime: {formatUptime(node.uptime_seconds)}
+                {t("monitor.uptime", { time: formatUptime(node.uptime_seconds) })}
               </span>
               <span className="text-muted-foreground">
-                {new Date(node.last_heartbeat).toLocaleTimeString("id-ID")}
+                {new Date(node.last_heartbeat).toLocaleTimeString(locale === "id" ? "id-ID" : "en-US")}
               </span>
             </div>
           </Card>

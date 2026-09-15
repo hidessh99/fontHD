@@ -7,6 +7,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useI18n } from "@/lib/i18n";
 import { AdminCreateMonitorDto } from "../../types/admin.types";
 import {
   Dialog,
@@ -27,6 +28,7 @@ interface CreateMonitorModalProps {
 }
 
 export function CreateMonitorModal({ onCreate }: CreateMonitorModalProps) {
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [host, setHost] = useState("");
@@ -41,7 +43,7 @@ export function CreateMonitorModal({ onCreate }: CreateMonitorModalProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim() || !host.trim()) {
-      toast.error("Nama target dan alamat host wajib diisi");
+      toast.error(t("monitor.targetValidation"));
       return;
     }
 
@@ -59,7 +61,7 @@ export function CreateMonitorModal({ onCreate }: CreateMonitorModalProps) {
       setName("");
       setHost("");
       setPort(undefined);
-      toast.success("Target monitor berhasil ditambahkan");
+      toast.success(t("monitor.targetAdded"));
     } finally {
       setSubmitting(false);
     }
@@ -71,7 +73,7 @@ export function CreateMonitorModal({ onCreate }: CreateMonitorModalProps) {
         render={
           <Button className="h-10 px-4 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs shadow-lg shadow-primary/20 gap-2 transition-all">
             <Plus className="h-4 w-4" />
-            Tambah Target Monitor
+            {t("monitor.addMonitorBtn")}
           </Button>
         }
       />
@@ -82,17 +84,17 @@ export function CreateMonitorModal({ onCreate }: CreateMonitorModalProps) {
             <div className="p-2 rounded-xl bg-primary/10 text-primary border border-primary/20">
               <Activity className="h-5 w-5" />
             </div>
-            Tambah Target Telemetri Baru
+            {t("monitor.modalTitle")}
           </DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4 pt-2">
           <div>
             <Label className="text-xs text-muted-foreground font-medium">
-              Nama Server / Target
+              {t("monitor.serverNameLabel")}
             </Label>
             <Input
-              placeholder="misal: SG-Edge-01 (Equinix)"
+              placeholder={t("monitor.serverNamePlaceholder")}
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="mt-1.5 bg-muted/30 border-border text-foreground text-xs h-10"
@@ -102,7 +104,7 @@ export function CreateMonitorModal({ onCreate }: CreateMonitorModalProps) {
           <div className="grid grid-cols-3 gap-2.5">
             <div className="col-span-2">
               <Label className="text-xs text-muted-foreground font-medium">
-                Host / IP Target
+                {t("monitor.hostLabel")}
               </Label>
               <Input
                 placeholder="103.147.12.88 / domain.id"
@@ -113,7 +115,7 @@ export function CreateMonitorModal({ onCreate }: CreateMonitorModalProps) {
             </div>
             <div>
               <Label className="text-xs text-muted-foreground font-medium">
-                Port
+                {t("monitor.portLabel")}
               </Label>
               <Input
                 type="number"
@@ -129,7 +131,7 @@ export function CreateMonitorModal({ onCreate }: CreateMonitorModalProps) {
 
           <div>
             <Label className="text-xs text-muted-foreground font-medium">
-              Protokol Health Check
+              {t("monitor.protocolLabel")}
             </Label>
             <div className="grid grid-cols-4 gap-2 mt-1.5">
               {(["ICMP", "TCP", "HTTP", "GRPC"] as const).map((p) => (
@@ -152,23 +154,23 @@ export function CreateMonitorModal({ onCreate }: CreateMonitorModalProps) {
           <div className="grid grid-cols-2 gap-3">
             <div>
               <Label className="text-xs text-muted-foreground font-medium">
-                Interval Ping (Detik)
+                {t("monitor.intervalLabel")}
               </Label>
               <NativeSelect
                 value={interval}
                 onChange={(e) => setInterval(Number(e.target.value))}
                 className="mt-1.5 text-xs"
               >
-                <option value={10}>10 Detik</option>
-                <option value={30}>30 Detik</option>
-                <option value={60}>1 Menit</option>
-                <option value={300}>5 Menit</option>
+                <option value={10}>{t("monitor.sec10")}</option>
+                <option value={30}>{t("monitor.sec30")}</option>
+                <option value={60}>{t("monitor.min1")}</option>
+                <option value={300}>{t("monitor.min5")}</option>
               </NativeSelect>
             </div>
 
             <div>
               <Label className="text-xs text-muted-foreground font-medium">
-                Ambang Peringatan (ms)
+                {t("monitor.thresholdInputLabel")}
               </Label>
               <Input
                 type="number"
@@ -188,10 +190,10 @@ export function CreateMonitorModal({ onCreate }: CreateMonitorModalProps) {
             {submitting ? (
               <>
                 <Loader2 className="h-4 w-4 animate-spin" />
-                Menyimpan Target...
+                {t("monitor.savingTarget")}
               </>
             ) : (
-              "Simpan Target Telemetri"
+              t("monitor.saveTarget")
             )}
           </Button>
         </form>

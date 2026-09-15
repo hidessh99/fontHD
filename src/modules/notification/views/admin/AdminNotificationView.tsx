@@ -7,6 +7,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useI18n } from "@/lib/i18n";
 import { useNotificationAdmin } from "../../hooks/useNotificationAdmin";
 import { NotificationSkeleton } from "../../components/shared/NotificationSkeleton";
 import { AdminQueueTable } from "../../components/admin/AdminQueueTable";
@@ -23,6 +24,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
 export function AdminNotificationView() {
+  const { t } = useI18n();
   const {
     queue,
     loading,
@@ -49,15 +51,13 @@ export function AdminNotificationView() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-border/40 pb-6">
         <div>
           <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-xs font-medium text-blue-500 mb-2">
-            <Megaphone className="w-3.5 h-3.5" /> Notification & Broadcast
-            Dispatcher
+            <Megaphone className="w-3.5 h-3.5" /> {t("notification.dispatcherBadge")}
           </div>
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
-            Antrean Notifikasi & Siaran
+            {t("notification.adminTitle")}
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Kirimkan broadcast multi-channel (In-App, Email, Telegram, WhatsApp)
-            dan pantau antrean asinkron worker.
+            {t("notification.adminSubtitle")}
           </p>
         </div>
 
@@ -67,12 +67,12 @@ export function AdminNotificationView() {
             size="sm"
             onClick={() => {
               refresh();
-              toast.info("Antrean diperbarui");
+              toast.info(t("notification.queueRefreshed"));
             }}
             className="gap-2"
           >
             <RefreshCw className="w-4 h-4" />
-            <span>Segarkan</span>
+            <span>{t("notification.refreshBtn")}</span>
           </Button>
           <Button
             size="sm"
@@ -80,7 +80,7 @@ export function AdminNotificationView() {
             className="gap-2"
           >
             <Send className="w-4 h-4" />
-            <span>Kirim Siaran Baru</span>
+            <span>{t("notification.sendBroadcastBtn")}</span>
           </Button>
         </div>
       </div>
@@ -89,7 +89,7 @@ export function AdminNotificationView() {
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <div className="p-4 rounded-xl border border-border/50 bg-card/60 space-y-1">
           <div className="text-xs text-muted-foreground flex items-center gap-1.5">
-            <Clock className="w-3.5 h-3.5" /> Total Antrean
+            <Clock className="w-3.5 h-3.5" /> {t("notification.totalQueue")}
           </div>
           <div className="text-2xl font-bold font-mono text-foreground">
             {queue.length}
@@ -98,8 +98,7 @@ export function AdminNotificationView() {
 
         <div className="p-4 rounded-xl border border-border/50 bg-card/60 space-y-1">
           <div className="text-xs text-muted-foreground flex items-center gap-1.5">
-            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> Terkirim
-            Sukses
+            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> {t("notification.sentSuccess")}
           </div>
           <div className="text-2xl font-bold font-mono text-emerald-500">
             {sentCount}
@@ -108,7 +107,7 @@ export function AdminNotificationView() {
 
         <div className="p-4 rounded-xl border border-border/50 bg-card/60 space-y-1">
           <div className="text-xs text-muted-foreground flex items-center gap-1.5">
-            <Clock className="w-3.5 h-3.5 text-amber-500" /> Menunggu Eksekusi
+            <Clock className="w-3.5 h-3.5 text-amber-500" /> {t("notification.pendingExecution")}
           </div>
           <div className="text-2xl font-bold font-mono text-amber-500">
             {pendingCount}
@@ -117,7 +116,7 @@ export function AdminNotificationView() {
 
         <div className="p-4 rounded-xl border border-border/50 bg-card/60 space-y-1">
           <div className="text-xs text-muted-foreground flex items-center gap-1.5">
-            <AlertTriangle className="w-3.5 h-3.5 text-red-500" /> Gagal Dikirim
+            <AlertTriangle className="w-3.5 h-3.5 text-red-500" /> {t("notification.failedSending")}
           </div>
           <div className="text-2xl font-bold font-mono text-red-500">
             {failedCount}
@@ -129,10 +128,10 @@ export function AdminNotificationView() {
       <section className="space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-base font-semibold text-foreground">
-            Daftar Antrean Pesan Worker
+            {t("notification.workerQueueList")}
           </h2>
           <span className="text-xs text-muted-foreground">
-            Diproses otomatis via Cronjob Worker
+            {t("notification.cronjobDesc")}
           </span>
         </div>
 
@@ -140,7 +139,7 @@ export function AdminNotificationView() {
           queue={queue}
           onDeleteQueueItem={async (id) => {
             await deleteQueueItem(id);
-            toast.success("Item dihapus dari antrean");
+            toast.success(t("notification.itemDeleted"));
           }}
         />
       </section>

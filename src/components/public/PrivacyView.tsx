@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { useI18n } from "@/lib/i18n/context";
+import { useI18n } from "@/lib/i18n";
 import { CopyButton } from "@/components/shared/CopyButton";
 import {
   ShieldCheck,
@@ -21,45 +21,43 @@ import {
 } from "lucide-react";
 
 export function PrivacyView() {
-  const { t, locale } = useI18n();
+  const { t } = useI18n();
   const [activeSection, setActiveSection] = useState<string>("section-1");
-
-  const isId = locale === "id";
 
   const sections = [
     {
       id: "section-1",
-      title: isId ? "Landasan Hukum UU PDP & GDPR" : "Legal Framework (UU PDP & GDPR)",
+      title: t("legal.privacySec1Nav"),
       num: 1,
     },
     {
       id: "section-2",
-      title: isId ? "Arsitektur Ephemeral RAM-Only" : "Ephemeral RAM-Only Architecture",
+      title: t("legal.privacySec2Nav"),
       num: 2,
     },
     {
       id: "section-3",
-      title: isId ? "Data Minimal yang Diproses" : "Minimal Data Collected & Purpose",
+      title: t("legal.privacySec3Nav"),
       num: 3,
     },
     {
       id: "section-4",
-      title: isId ? "Standar Enkripsi & Kriptografi" : "Cryptographic Ciphers & Standards",
+      title: t("legal.privacySec4Nav"),
       num: 4,
     },
     {
       id: "section-5",
-      title: isId ? "Hak Subjek Data (UU PDP)" : "Data Subject Rights (GDPR & PDP)",
+      title: t("legal.privacySec5Nav"),
       num: 5,
     },
     {
       id: "section-6",
-      title: isId ? "Cookie & Keamanan Turnstile" : "Cookies & Cloudflare Turnstile",
+      title: t("legal.privacySec6Nav"),
       num: 6,
     },
     {
       id: "section-7",
-      title: isId ? "Kontak Petugas DPO & Kepatuhan" : "DPO & Compliance Officer Contact",
+      title: t("legal.privacySec7Nav"),
       num: 7,
     },
   ];
@@ -94,7 +92,7 @@ export function PrivacyView() {
           <span>•</span>
           <span className="text-emerald-400 font-medium flex items-center gap-1">
             <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            Zero-Logs Audited Guarantee
+            {t("legal.zeroLogsGuarantee")}
           </span>
         </div>
       </div>
@@ -111,13 +109,13 @@ export function PrivacyView() {
                 {t("legal.companyInfoTitle")}
               </h2>
               <p className="text-xs text-muted-foreground">
-                Hide Group / Hide Digital Security — Data Controller & Infrastructure Operator
+                {t("legal.companySub")}
               </p>
             </div>
           </div>
           <div className="flex items-center gap-2 text-xs font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full w-fit">
             <ShieldCheck className="size-3.5" />
-            <span>UU PDP No. 27/2022 & GDPR Compliant</span>
+            <span>{t("legal.complianceBadge")}</span>
           </div>
         </div>
 
@@ -128,10 +126,10 @@ export function PrivacyView() {
               <span>{t("legal.operatorLabel")}</span>
             </div>
             <div className="font-mono text-foreground font-medium">
-              Hide Group / Hide Digital Security
+              {t("legal.companyName")}
             </div>
             <div className="text-[11px] text-muted-foreground">
-              Autonomous Cloud Network Controller
+              {t("legal.operatorDesc")}
             </div>
           </div>
 
@@ -150,7 +148,7 @@ export function PrivacyView() {
               <CopyButton text="support@hidessh.com" size="sm" className="h-6 px-2 text-[10px]" />
             </div>
             <div className="text-[11px] text-muted-foreground">
-              DPO Desk: dmaskurniawan56@gmail.com
+              {t("legal.dpoDesk")}
             </div>
           </div>
 
@@ -164,7 +162,7 @@ export function PrivacyView() {
               <CopyButton text="0877111301818" size="sm" className="h-6 px-2 text-[10px]" />
             </div>
             <div className="text-[11px] text-muted-foreground">
-              Direct Inquiries & DPO Verification
+              {t("legal.phoneDesc")}
             </div>
           </div>
         </div>
@@ -173,13 +171,13 @@ export function PrivacyView() {
           <div className="flex items-start sm:items-center gap-2">
             <MapPin className="size-4 text-emerald-400 shrink-0 mt-0.5 sm:mt-0" />
             <span>
-              Jl. Kampung Baris No.391, Karangturi, Kec. Semarang Tim., Kota Semarang, Jawa Tengah 50124
+              {t("legal.companyAddress")}
             </span>
           </div>
           <div className="flex items-center gap-2 shrink-0">
             <CopyButton
               text="Jl. Kampung Baris No.391, Karangturi, Kec. Semarang Tim., Kota Semarang, Jawa Tengah 50124"
-              label={isId ? "Salin Alamat" : "Copy Address"}
+              label={t("legal.copyAddress")}
               size="sm"
               className="h-7 text-xs"
             />
@@ -230,15 +228,13 @@ export function PrivacyView() {
 
             <div className="mt-6 pt-5 border-t border-border/50 space-y-3">
               <div className="text-xs text-muted-foreground leading-relaxed">
-                {isId
-                  ? "Ingin mengajukan hak penghapusan akun permanen (right to be forgotten)?"
-                  : "Need to exercise your right to erasure (right to be forgotten)?"}
+                {t("legal.privacyErasePrompt")}
               </div>
               <Link
                 href="/contact"
                 className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-400 hover:underline"
               >
-                <span>{isId ? "Kirim Tiket Penghapusan Data" : "Submit Data Deletion Request"}</span>
+                <span>{t("legal.privacyEraseCta")}</span>
                 <ArrowRight className="size-3" />
               </Link>
             </div>
@@ -257,15 +253,11 @@ export function PrivacyView() {
                 01
               </span>
               <h2 className="text-lg sm:text-xl font-black text-foreground">
-                {isId
-                  ? "Landasan Hukum & Kepatuhan Regulasi (UU PDP & GDPR)"
-                  : "Legal Foundation & Regulatory Compliance (UU PDP & GDPR)"}
+                {t("legal.privacySec1Title")}
               </h2>
             </div>
             <p>
-              {isId
-                ? "Kebijakan Privasi ini disusun atas dasar kepatuhan mutlak terhadap Undang-Undang Republik Indonesia Nomor 27 Tahun 2022 tentang Pelindungan Data Pribadi (UU PDP) serta mengadopsi standar perlindungan internasional General Data Protection Regulation (GDPR - Regulation EU 2016/679). Hide Group bertindak sebagai Pengendali Data (Data Controller) yang bertanggung jawab penuh dalam menjaga hak-hak privasi setiap pengguna."
-                : "This Privacy Policy is established in strict adherence to the Republic of Indonesia Law No. 27 of 2022 on Personal Data Protection (UU PDP) and integrates international gold standards including the General Data Protection Regulation (GDPR - Regulation EU 2016/679). Hide Group operates as the Data Controller, legally accountable for safeguarding user privacy entitlements."}
+              {t("legal.privacySec1Body")}
             </p>
           </section>
 
@@ -279,43 +271,31 @@ export function PrivacyView() {
                 02
               </span>
               <h2 className="text-lg sm:text-xl font-black text-foreground">
-                {isId
-                  ? "Arsitektur Ephemeral RAM-Only & Jaminan Strict Zero-Logs"
-                  : "Ephemeral RAM-Only Architecture & Strict Zero-Logs Guarantee"}
+                {t("legal.privacySec2Title")}
               </h2>
             </div>
             <p>
-              {isId
-                ? "Tidak seperti penyedia VPN konvensional yang menyimpan riwayat koneksi ke dalam hard disk fisik atau NVMe SSD, seluruh edge server GoVPN beroperasi di atas sistem operasi RAM-only (tmpfs). Artinya:"
-                : "Unlike legacy VPN providers that store connection traces to physical NVMe SSDs, all GoVPN edge nodes run exclusively on volatile RAM-only (tmpfs) operating systems. Concretely:"}
+              {t("legal.privacySec2Body")}
             </p>
             <div className="p-4 sm:p-5 rounded-xl bg-emerald-500/5 border border-emerald-500/20 text-xs space-y-3">
               <div className="flex items-center gap-2 text-foreground font-bold">
                 <HardDrive className="size-4 text-emerald-400 shrink-0" />
                 <span>
-                  {isId
-                    ? "Jaminan Teknis Tanpa Jejak Penyimpanan (Zero-Disk Activity):"
-                    : "Zero-Disk Storage Engineering Guarantee:"}
+                  {t("legal.privacySec2BoxTitle")}
                 </span>
               </div>
               <ul className="list-disc pl-5 space-y-2 text-muted-foreground">
                 <li>
-                  <strong>{isId ? "Tidak Ada Log DNS:" : "Zero DNS Query Logging:"}</strong>{" "}
-                  {isId
-                    ? "Seluruh resolusi domain diproses melalui resolver lokal non-caching 1.1.1.1 / 8.8.8.8 di RAM dan langsung dimusnahkan."
-                    : "Domain queries are resolved via local in-memory non-caching resolvers and purged instantly."}
+                  <strong>{t("legal.privacySec2Point1Title")}</strong>{" "}
+                  {t("legal.privacySec2Point1Desc")}
                 </li>
                 <li>
-                  <strong>{isId ? "Tidak Ada Riwayat Web:" : "Zero Browsing History / IP Logging:"}</strong>{" "}
-                  {isId
-                    ? "Kami tidak pernah merekam alamat IP asal pengguna, situs tujuan yang dikunjungi, atau payload konten lalu lintas data Anda."
-                    : "We never record source IP addresses, destination websites, connection durations, or data payloads."}
+                  <strong>{t("legal.privacySec2Point2Title")}</strong>{" "}
+                  {t("legal.privacySec2Point2Desc")}
                 </li>
                 <li>
-                  <strong>{isId ? "Penghapusan Memori Otomatis:" : "Automated Volatile Purge on Reboot:"}</strong>{" "}
-                  {isId
-                    ? "Setiap server melakukan siklus restart terjadwal; setiap buffer sementara di memori RAM terhapus secara fisik dan permanen saat tegangan daya diputus."
-                    : "Edge nodes perform scheduled memory cycles; any ephemeral volatile buffer is physically and irrevocably eradicated upon reboot."}
+                  <strong>{t("legal.privacySec2Point3Title")}</strong>{" "}
+                  {t("legal.privacySec2Point3Desc")}
                 </li>
               </ul>
             </div>
@@ -331,34 +311,24 @@ export function PrivacyView() {
                 03
               </span>
               <h2 className="text-lg sm:text-xl font-black text-foreground">
-                {isId
-                  ? "Data Minimal yang Diproses & Tujuan Operasional"
-                  : "Minimal Data Collected & Operational Purposes"}
+                {t("legal.privacySec3Title")}
               </h2>
             </div>
             <p>
-              {isId
-                ? "Untuk mengoperasikan platform penagihan, otentikasi akun, dan mencegah penyalahgunaan multi-device, GoVPN hanya memproses metadata minimal berikut:"
-                : "To facilitate billing, account authentication, and manage device concurrency, GoVPN processes only the following strictly minimal metadata:"}
+              {t("legal.privacySec3Body")}
             </p>
             <ul className="list-disc pl-5 space-y-2">
               <li>
-                <strong>{isId ? "Kredensial Akun:" : "Account Credentials:"}</strong>{" "}
-                {isId
-                  ? "Alamat email aktif, nama akun pengguna (username), dan kata sandi yang di-hash dengan algoritma bcrypt / argon2id. Kami tidak pernah menyimpan kata sandi dalam bentuk plaintext."
-                  : "Active email, username, and one-way cryptographic password hashes (bcrypt/argon2id). Plaintext passwords are never stored."}
+                <strong>{t("legal.privacySec3Point1Title")}</strong>{" "}
+                {t("legal.privacySec3Point1Desc")}
               </li>
               <li>
-                <strong>{isId ? "Data Transaksi Tagihan:" : "Billing & Invoice Records:"}</strong>{" "}
-                {isId
-                  ? "Nomor invoice, tanggal transaksi, metode pembayaran (QRIS/VA/USDT), dan masa aktif paket akun yang diperlukan untuk pembukuan fiskal."
-                  : "Invoice identifiers, transaction dates, selected payment rails, and subscription expiration timestamps required for tax and financial auditing."}
+                <strong>{t("legal.privacySec3Point2Title")}</strong>{" "}
+                {t("legal.privacySec3Point2Desc")}
               </li>
               <li>
-                <strong>{isId ? "Penghitung Sesi Volatile (In-Memory Counter):" : "Ephemeral Session Counters:"}</strong>{" "}
-                {isId
-                  ? "Status jumlah perangkat yang sedang tersambung secara bersamaan (misal: 1 dari 2 kuota) yang disimpan sementara di memori Redis volatile dan dihapus seketika saat koneksi ditutup."
-                  : "An active connection counter in Redis volatile memory to enforce package device limits, cleared the instant the tunnel socket disconnects."}
+                <strong>{t("legal.privacySec3Point3Title")}</strong>{" "}
+                {t("legal.privacySec3Point3Desc")}
               </li>
             </ul>
           </section>
@@ -373,38 +343,30 @@ export function PrivacyView() {
                 04
               </span>
               <h2 className="text-lg sm:text-xl font-black text-foreground">
-                {isId
-                  ? "Standar Enkripsi & Keamanan Transport"
-                  : "Cryptographic Ciphers & Transport Security Standards"}
+                {t("legal.privacySec4Title")}
               </h2>
             </div>
             <p>
-              {isId
-                ? "Seluruh paket data yang melewati terowongan GoVPN diproteksi dengan cipher enkripsi standar militer dan perbankan:"
-                : "All packets traversing GoVPN tunnels are secured with defense-grade cryptographic primitives:"}
+              {t("legal.privacySec4Body")}
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
               <div className="p-4 rounded-xl border border-border/60 bg-surface-subtle space-y-1.5">
                 <div className="flex items-center gap-2 text-foreground font-bold text-xs">
                   <Lock className="size-4 text-emerald-400" />
-                  <span>AES-256-GCM & ChaCha20</span>
+                  <span>{t("legal.privacySec4Item1Title")}</span>
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  {isId
-                    ? "Enkripsi simetris AEAD dengan integritas autentikasi tinggi, dioptimalkan untuk instruksi CPU AES-NI dan perangkat seluler ARM."
-                    : "Authenticated AEAD encryption optimized for both desktop AES-NI hardware instructions and mobile ARM Neon chips."}
+                  {t("legal.privacySec4Item1Desc")}
                 </p>
               </div>
 
               <div className="p-4 rounded-xl border border-border/60 bg-surface-subtle space-y-1.5">
                 <div className="flex items-center gap-2 text-foreground font-bold text-xs">
                   <KeyRound className="size-4 text-emerald-400" />
-                  <span>Curve25519 & XTLS Reality</span>
+                  <span>{t("legal.privacySec4Item2Title")}</span>
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  {isId
-                    ? "Pertukaran kunci Diffie-Hellman Elliptic Curve 256-bit dengan proteksi forward secrecy tanpa risiko kebocoran sertifikat domain publik."
-                    : "Elliptic-curve key exchanges delivering perfect forward secrecy and eliminating public domain certificate inspection leaks."}
+                  {t("legal.privacySec4Item2Desc")}
                 </p>
               </div>
             </div>
@@ -420,34 +382,24 @@ export function PrivacyView() {
                 05
               </span>
               <h2 className="text-lg sm:text-xl font-black text-foreground">
-                {isId
-                  ? "Hak Subjek Data Anda (*Data Subject Rights*)"
-                  : "Your Rights as a Data Subject (UU PDP & GDPR)"}
+                {t("legal.privacySec5Title")}
               </h2>
             </div>
             <p>
-              {isId
-                ? "Sesuai Pasal 5 hingga Pasal 13 UU PDP dan Pasal 15 hingga Pasal 20 GDPR, Anda memiliki hak-hak hukum penuh sebagai pemilik data pribadi:"
-                : "Under Articles 5 to 13 of UU PDP and Articles 15 to 20 of GDPR, you hold inviolable statutory rights over your personal data:"}
+              {t("legal.privacySec5Body")}
             </p>
             <ul className="list-disc pl-5 space-y-2">
               <li>
-                <strong>{isId ? "Hak Akses & Portabilitas:" : "Right of Access & Data Portability:"}</strong>{" "}
-                {isId
-                  ? "Hak untuk memperoleh salinan data profil dan riwayat transaksi akun Anda dalam format terstruktur."
-                  : "Right to inspect and download your profile data and transaction ledger in machine-readable JSON/CSV format."}
+                <strong>{t("legal.privacySec5Point1Title")}</strong>{" "}
+                {t("legal.privacySec5Point1Desc")}
               </li>
               <li>
-                <strong>{isId ? "Hak Koreksi Data:" : "Right to Rectification:"}</strong>{" "}
-                {isId
-                  ? "Hak untuk memperbarui alamat email atau preferensi keamanan langsung melalui dasbor GoVPN."
-                  : "Right to update incorrect billing emails or security preferences directly in your dashboard."}
+                <strong>{t("legal.privacySec5Point2Title")}</strong>{" "}
+                {t("legal.privacySec5Point2Desc")}
               </li>
               <li>
-                <strong>{isId ? "Hak Penghapusan Permanen (Right to be Forgotten):" : "Right to Erasure (Right to be Forgotten):"}</strong>{" "}
-                {isId
-                  ? "Hak untuk meminta penghapusan total seluruh data akun Anda dari database utama kami kapan saja."
-                  : "Right to demand complete and irreversible deletion of your account entity from our primary databases."}
+                <strong>{t("legal.privacySec5Point3Title")}</strong>{" "}
+                {t("legal.privacySec5Point3Desc")}
               </li>
             </ul>
           </section>
@@ -462,20 +414,14 @@ export function PrivacyView() {
                 06
               </span>
               <h2 className="text-lg sm:text-xl font-black text-foreground">
-                {isId
-                  ? "Kebijakan Cookie & Proteksi Cloudflare Turnstile"
-                  : "Cookie Policy & Cloudflare Turnstile Verification"}
+                {t("legal.privacySec6Title")}
               </h2>
             </div>
             <p>
-              {isId
-                ? "GoVPN tidak menggunakan cookie pelacak pihak ketiga untuk keperluan periklanan profiling. Kami hanya menggunakan cookie fungsional penting (seperti preferensi tema 'theme' dan bahasa 'govpn_locale') serta token sesi otentikasi HttpOnly Secure untuk menjaga keamanan login Anda."
-                : "GoVPN does not employ tracking cookies for ad profiling. We strictly utilize essential functional cookies (e.g., UI theme preferences, 'govpn_locale' language selector) and HttpOnly Secure auth cookies to safeguard active sessions."}
+              {t("legal.privacySec6Body1")}
             </p>
             <p>
-              {isId
-                ? "Untuk melindungi platform dari serangan botnet dan brute-force login, kami menerapkan Cloudflare Turnstile yang memvalidasi manusia tanpa mengumpulkan informasi pribadi atau riwayat penjelajahan Anda."
-                : "To shield the network against distributed bot attacks, we implement Cloudflare Turnstile, verifying human sessions without scraping personal telemetry."}
+              {t("legal.privacySec6Body2")}
             </p>
           </section>
 
@@ -489,16 +435,16 @@ export function PrivacyView() {
                 07
               </span>
               <h2 className="text-lg sm:text-xl font-black text-foreground">
-                {t("legal.contactDpoTitle")}
+                {t("legal.privacySec7Title")}
               </h2>
             </div>
-            <p>{t("legal.contactDpoDesc")}</p>
+            <p>{t("legal.privacySec7Desc")}</p>
             <div className="p-5 rounded-xl bg-surface-subtle border border-border/60 text-xs space-y-2">
               <div>
-                <strong>Data Protection Officer (DPO Desk):</strong> Hide Group / Hide Digital Security
+                <strong>{t("legal.privacySec7DpoOfficer")}</strong> Hide Group / Hide Digital Security
               </div>
               <div>
-                <strong>Official Email:</strong>{" "}
+                <strong>{t("legal.privacySec7Email")}</strong>{" "}
                 <a href="mailto:support@hidessh.com" className="text-emerald-400 font-mono hover:underline">
                   support@hidessh.com
                 </a>{" "}
@@ -508,10 +454,10 @@ export function PrivacyView() {
                 </a>
               </div>
               <div>
-                <strong>Direct Hotline:</strong> 0877111301818
+                <strong>{t("legal.privacySec7Hotline")}</strong> 0877111301818
               </div>
               <div>
-                <strong>Operational Address:</strong> Jl. Kampung Baris No.391, Karangturi, Kec. Semarang Tim., Kota Semarang, Jawa Tengah 50124
+                <strong>{t("legal.privacySec7Address")}</strong> Jl. Kampung Baris No.391, Karangturi, Kec. Semarang Tim., Kota Semarang, Jawa Tengah 50124
               </div>
             </div>
           </section>

@@ -7,6 +7,7 @@
 "use client";
 
 import React from "react";
+import { useI18n } from "@/lib/i18n";
 import { SystemHealthResponse } from "../../types/monitor.types";
 import {
   AlertTriangle,
@@ -25,6 +26,7 @@ export function SystemHealthBanner({
   health,
   loading,
 }: SystemHealthBannerProps) {
+  const { t } = useI18n();
   if (loading || !health) return null;
 
   const isAllHealthy =
@@ -53,11 +55,11 @@ export function SystemHealthBanner({
           <div>
             <h4 className="text-xs font-bold text-foreground">
               {isAllHealthy
-                ? "Seluruh Layanan Inti Operasional & Sehat"
-                : "Peringatan Degradasi Sebagian Layanan Inti"}
+                ? t("monitor.allServicesHealthy")
+                : t("monitor.servicesDegradedWarning")}
             </h4>
             <p className="text-[11px] text-muted-foreground">
-              Sistem backend v2 diverifikasi melalui Kubernetes readiness probe
+              {t("monitor.k8sReadinessDesc")}
             </p>
           </div>
         </div>

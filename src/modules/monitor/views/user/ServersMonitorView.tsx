@@ -7,6 +7,7 @@
 "use client";
 
 import React from "react";
+import { useI18n } from "@/lib/i18n";
 import { useServerTelemetry } from "../../hooks/useServerTelemetry";
 import { useSystemHealth } from "../../hooks/useSystemHealth";
 import { ServerHealthGrid } from "../../components/user/ServerHealthGrid";
@@ -25,6 +26,7 @@ import {
 } from "lucide-react";
 
 export function ServersMonitorView() {
+  const { t, locale } = useI18n();
   const {
     telemetry,
     allTelemetry,
@@ -54,7 +56,7 @@ export function ServersMonitorView() {
           <CardContent className="p-0 flex items-center justify-between">
             <div>
               <span className="text-xs text-muted-foreground font-medium">
-                Total Node Server
+                {t("monitor.totalServerNodes")}
               </span>
               <div className="font-mono text-2xl font-bold text-foreground mt-1">
                 {stats.totalNodes}
@@ -70,7 +72,7 @@ export function ServersMonitorView() {
           <CardContent className="p-0 flex items-center justify-between">
             <div>
               <span className="text-xs text-muted-foreground font-medium">
-                Status Sehat (Online)
+                {t("monitor.healthyStatus")}
               </span>
               <div className="font-mono text-2xl font-bold text-emerald-400 mt-1">
                 {stats.onlineNodes} / {stats.totalNodes}
@@ -86,10 +88,10 @@ export function ServersMonitorView() {
           <CardContent className="p-0 flex items-center justify-between">
             <div>
               <span className="text-xs text-muted-foreground font-medium">
-                Pengguna Terhubung
+                {t("monitor.connectedUsers")}
               </span>
               <div className="font-mono text-2xl font-bold text-indigo-400 mt-1">
-                {stats.totalUsers.toLocaleString()}
+                {stats.totalUsers.toLocaleString(locale === "id" ? "id-ID" : "en-US")}
               </div>
             </div>
             <div className="p-2.5 rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
@@ -102,7 +104,7 @@ export function ServersMonitorView() {
           <CardContent className="p-0 flex items-center justify-between">
             <div>
               <span className="text-xs text-muted-foreground font-medium">
-                Rata-rata Latensi
+                {t("monitor.averageLatency")}
               </span>
               <div className="font-mono text-2xl font-bold text-amber-400 mt-1">
                 {stats.avgPing} ms
@@ -124,7 +126,7 @@ export function ServersMonitorView() {
           <div className="relative flex-1 max-w-sm">
             <Search className="absolute left-3.5 top-3 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Cari server, IP, atau negara..."
+              placeholder={t("monitor.searchServerPlaceholder")}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-10 bg-card/60 border-border text-foreground text-xs h-10 rounded-xl"
@@ -141,7 +143,7 @@ export function ServersMonitorView() {
                   : "bg-muted/40 border border-border text-muted-foreground hover:text-foreground hover:bg-muted"
               }`}
             >
-              Semua
+              {t("monitor.all")}
             </button>
             {countries.map((c) => (
               <button
@@ -168,7 +170,7 @@ export function ServersMonitorView() {
                   : "bg-muted/40 border border-border text-muted-foreground hover:text-foreground hover:bg-muted"
               }`}
             >
-              Semua Status
+              {t("monitor.allStatuses")}
             </button>
             <button
               onClick={() => setFilterStatus("ONLINE")}
@@ -178,7 +180,7 @@ export function ServersMonitorView() {
                   : "bg-muted/40 border border-border text-muted-foreground hover:text-foreground hover:bg-muted"
               }`}
             >
-              Online
+              {t("monitor.online")}
             </button>
             <button
               onClick={() => setFilterStatus("OFFLINE")}
@@ -188,7 +190,7 @@ export function ServersMonitorView() {
                   : "bg-muted/40 border border-border text-muted-foreground hover:text-foreground hover:bg-muted"
               }`}
             >
-              Offline
+              {t("monitor.offline")}
             </button>
           </div>
         </div>
@@ -204,7 +206,7 @@ export function ServersMonitorView() {
             <RefreshCw
               className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`}
             />
-            Segarkan Telemetri
+            {t("monitor.refreshTelemetry")}
           </Button>
         </div>
       </div>

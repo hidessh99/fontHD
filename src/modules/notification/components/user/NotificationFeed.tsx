@@ -7,6 +7,7 @@
 "use client";
 
 import React from "react";
+import { useI18n } from "@/lib/i18n";
 import { NotificationItem } from "../../types/notification.types";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/shared/EmptyState";
@@ -33,14 +34,15 @@ export function NotificationFeed({
   onMarkAllAsRead,
   onMarkAsRead,
 }: NotificationFeedProps) {
+  const { t, locale } = useI18n();
   const unreadCount = notifications.filter((n) => !n.is_read).length;
 
   if (notifications.length === 0) {
     return (
       <EmptyState
         icon={Bell}
-        title="Tidak Ada Notifikasi"
-        description="Semua informasi pemeliharaan server, langganan, dan pengumuman akan muncul di sini."
+        title={t("notification.noNotificationsTitle")}
+        description={t("notification.noNotificationsDesc")}
       />
     );
   }
@@ -66,10 +68,10 @@ export function NotificationFeed({
         <div className="text-xs text-muted-foreground">
           {unreadCount > 0 ? (
             <span className="font-semibold text-primary">
-              {unreadCount} pemberitahuan belum dibaca
+              {t("notification.unreadCount", { count: unreadCount })}
             </span>
           ) : (
-            <span>Semua pemberitahuan telah dibaca</span>
+            <span>{t("notification.allRead")}</span>
           )}
         </div>
 
@@ -81,7 +83,7 @@ export function NotificationFeed({
             className="text-xs gap-1.5 text-muted-foreground hover:text-foreground h-8"
           >
             <CheckCheck className="w-3.5 h-3.5" />
-            <span>Tandai Semua Dibaca</span>
+            <span>{t("notification.markAllRead")}</span>
           </Button>
         )}
       </div>
@@ -111,7 +113,7 @@ export function NotificationFeed({
                   <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground shrink-0">
                     <Clock className="w-3 h-3" />
                     <span>
-                      {new Date(item.created_at).toLocaleDateString("id-ID", {
+                      {new Date(item.created_at).toLocaleDateString(locale === "id" ? "id-ID" : "en-US", {
                         day: "numeric",
                         month: "short",
                         hour: "2-digit",
@@ -132,7 +134,7 @@ export function NotificationFeed({
                       className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline"
                       onClick={(e) => e.stopPropagation()}
                     >
-                      <span>Lihat Detail</span>
+                      <span>{t("notification.viewDetails")}</span>
                       <ArrowUpRight className="w-3 h-3" />
                     </Link>
                   </div>

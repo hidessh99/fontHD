@@ -7,6 +7,7 @@
 "use client";
 
 import React, { useMemo } from "react";
+import { useI18n } from "@/lib/i18n";
 import { QueueItem } from "../../types/notification.types";
 import { QueueStatusBadge } from "../shared/QueueStatusBadge";
 import { ChannelBadge } from "../shared/ChannelBadge";
@@ -23,22 +24,24 @@ export function AdminQueueTable({
   queue,
   onDeleteQueueItem,
 }: AdminQueueTableProps) {
+  const { t, locale } = useI18n();
+
   const columns: ColumnDef<QueueItem>[] = useMemo(
     () => [
       {
         id: "channel",
-        header: "Saluran",
+        header: t("notification.colChannel"),
         cell: (item) => <ChannelBadge channel={item.channel} />,
       },
       {
         id: "recipient",
-        header: "Penerima",
+        header: t("notification.colRecipient"),
         className: "font-mono font-medium text-foreground",
         cell: (item) => item.recipient,
       },
       {
         id: "message",
-        header: "Pesan / Subjek",
+        header: t("notification.colSubjectMessage"),
         className: "max-w-sm",
         cell: (item) => (
           <div>
@@ -60,21 +63,21 @@ export function AdminQueueTable({
       },
       {
         id: "status",
-        header: "Status",
+        header: t("notification.colStatus"),
         cell: (item) => <QueueStatusBadge status={item.status} />,
       },
       {
         id: "attempts",
-        header: "Percobaan",
+        header: t("notification.colAttempts"),
         className: "font-mono",
         cell: (item) => `${item.attempts} / ${item.max_attempts || 3}`,
       },
       {
         id: "created_at",
-        header: "Dibuat",
+        header: t("notification.colCreatedAt"),
         className: "text-muted-foreground whitespace-nowrap",
         cell: (item) =>
-          new Date(item.created_at).toLocaleDateString("id-ID", {
+          new Date(item.created_at).toLocaleDateString(locale === "id" ? "id-ID" : "en-US", {
             day: "numeric",
             month: "short",
             hour: "2-digit",
@@ -83,7 +86,7 @@ export function AdminQueueTable({
       },
       {
         id: "actions",
-        header: "Aksi",
+        header: t("common.actions"),
         align: "right",
         cell: (item) => (
           <Button
@@ -91,24 +94,24 @@ export function AdminQueueTable({
             variant="ghost"
             className="h-8 w-8 p-0 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded-full"
             onClick={() => onDeleteQueueItem(item.id)}
-            title="Hapus dari antrean"
+            title={t("notification.deleteFromQueue")}
           >
             <Trash2 className="w-3.5 h-3.5" />
           </Button>
         ),
       },
     ],
-    [onDeleteQueueItem],
+    [onDeleteQueueItem, t, locale],
   );
 
   const filters: DataTableFilterConfig<QueueItem>[] = useMemo(
     () => [
       {
         id: "channel",
-        label: "Saluran",
+        label: t("notification.colChannel"),
         defaultValue: "ALL",
         options: [
-          { label: "Semua Saluran", value: "ALL" },
+          { label: t("notification.allChannels"), value: "ALL" },
           { label: "Email", value: "EMAIL" },
           { label: "Telegram", value: "TELEGRAM" },
           { label: "WhatsApp", value: "WHATSAPP" },
@@ -119,20 +122,20 @@ export function AdminQueueTable({
       },
       {
         id: "status",
-        label: "Status",
+        label: t("notification.colStatus"),
         defaultValue: "ALL",
         options: [
-          { label: "Semua Status", value: "ALL" },
-          { label: "Menunggu", value: "PENDING" },
-          { label: "Memproses", value: "PROCESSING" },
-          { label: "Terkirim", value: "SENT" },
-          { label: "Gagal", value: "FAILED" },
-          { label: "Dibatalkan", value: "CANCELLED" },
+          { label: t("notification.allStatuses"), value: "ALL" },
+          { label: t("notification.statusPending"), value: "PENDING" },
+          { label: t("notification.statusProcessing"), value: "PROCESSING" },
+          { label: t("notification.statusSent"), value: "SENT" },
+          { label: t("notification.statusFailed"), value: "FAILED" },
+          { label: t("notification.statusCancelled"), value: "CANCELLED" },
         ],
         filterFn: (item, val) => item.status?.toUpperCase() === val.toUpperCase(),
       },
     ],
-    [],
+    [t],
   );
 
   return (
@@ -141,16 +144,16 @@ export function AdminQueueTable({
       columns={columns}
       keyExtractor={(item) => item.id}
       searchable={true}
-      searchPlaceholder="Cari penerima, subjek, pesan..."
-      searchButtonText="Cari"
+      searchPlaceholder={t("notification.searchQueuePlaceholder")}
+      searchButtonText={t("common.search")}
       searchAccessor={(item) => [item.recipient, item.subject, item.message]}
       filters={filters}
       paginated={true}
       pageSize={10}
-      entityName="antrean pesan"
+      entityName={t("notification.queueEntityName")}
       emptyIcon={Layers}
-      emptyTitle="Antrean Kosong"
-      emptyDescription="Tidak ada item dalam antrean pesan pengiriman saat ini."
+      emptyTitle={t("notification.noQueueTitle")}
+      emptyDescription={t("notification.noQueueDesc")}
     />
   );
 }

@@ -7,6 +7,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
+import { useI18n } from "@/lib/i18n";
 import { MonitorTarget } from "../../types/monitor.types";
 import { AdminCreateMonitorDto } from "../../types/admin.types";
 import { NodeStatusBadge } from "../shared/NodeStatusBadge";
@@ -42,17 +43,18 @@ export function AdminMonitorTable({
   onCheckUptime,
   loading = false,
 }: AdminMonitorTableProps) {
+  const { t, locale } = useI18n();
   const [deletingId, setDeletingId] = useState<string | number | null>(null);
   const [syncing, setSyncing] = useState(false);
   const [checking, setChecking] = useState(false);
 
   const handleDelete = async (id: string | number) => {
-    if (!confirm("Hapus target monitor ini? Riwayat telemetri akan dihapus."))
+    if (!confirm(t("monitor.confirmDeleteTarget")))
       return;
     setDeletingId(id);
     try {
       await onDeleteMonitor(id);
-      toast.success("Target monitor berhasil dihapus");
+      toast.success(t("monitor.targetDeleted"));
     } finally {
       setDeletingId(null);
     }
@@ -64,10 +66,10 @@ export function AdminMonitorTable({
     try {
       const res = await onSyncServers();
       toast.success(
-        `Sinkronisasi Sukses: ${res?.synced_count ?? 0} node VPN disinkronkan ke monitor`,
+        t("monitor.syncSuccess", { count: res?.synced_count ?? 0 }),
       );
     } catch {
-      toast.error("Gagal menjalankan sinkronisasi server");
+      toast.error(t("monitor.syncFailed"));
     } finally {
       setSyncing(false);
     }
@@ -79,10 +81,10 @@ export function AdminMonitorTable({
     try {
       const res = await onCheckUptime();
       toast.success(
-        `Pengecekan Uptime Sukses: ${res?.checked_count ?? 0} node diperiksa`,
+        t("monitor.checkSuccess", { count: res?.checked_count ?? 0 }),
       );
     } catch {
-      toast.error("Gagal menjalankan pengecekan uptime");
+      toast.error(t("monitor.checkFailed"));
     } finally {
       setChecking(false);
     }
@@ -92,12 +94,12 @@ export function AdminMonitorTable({
     () => [
       {
         id: "status",
-        header: "Status",
+        header: t("monitor.colStatus"),
         cell: (target) => <NodeStatusBadge status={target.status} />,
       },
       {
         id: "name",
-        header: "Nama Target",
+        header: t("monitor.colTargetName"),
         className: "font-sans",
         cell: (target) => (
           <div className="flex items-center gap-2">
@@ -115,7 +117,7 @@ export function AdminMonitorTable({
       },
       {
         id: "host_port",
-        header: "Host & Port",
+        header: t("monitor.colHostPort"),
         cell: (target) => (
           <span className="text-foreground font-semibold bg-surface border border-border/60 px-2 py-0.5 rounded text-[11px] font-mono">
             {target.host}
@@ -125,7 +127,7 @@ export function AdminMonitorTable({
       },
       {
         id: "protocol",
-        header: "Protokol",
+        header: t("monitor.colProtocol"),
         cell: (target) => (
           <Badge
             variant="outline"
@@ -137,15 +139,15 @@ export function AdminMonitorTable({
       },
       {
         id: "interval",
-        header: "Interval / Ambang",
+        header: t("monitor.colIntervalThreshold"),
         cell: (target) => (
           <div className="flex flex-col text-[11px] font-sans">
             <span className="text-foreground font-mono">
-              Setiap {target.interval_seconds} detik
+              {t("monitor.everySeconds", { sec: target.interval_seconds })}
             </span>
             {target.alert_threshold_ms && (
               <span className="text-amber-400 font-mono text-[10px]">
-                Ambang: {target.alert_threshold_ms}ms
+                {t("monitor.thresholdLabel", { ms: target.alert_threshold_ms })}
               </span>
             )}
           </div>
@@ -153,24 +155,24 @@ export function AdminMonitorTable({
       },
       {
         id: "last_check_at",
-        header: "Pemeriksaan Terakhir",
+        header: t("monitor.colLastCheck"),
         cell: (target) =>
           target.last_check_at ? (
             <div className="flex items-center gap-1 font-mono text-[11px] text-muted-foreground">
               <Clock className="h-3 w-3 shrink-0" />
               <span>
-                {new Date(target.last_check_at).toLocaleTimeString("id-ID")}
+                {new Date(target.last_check_at).toLocaleTimeString(locale === "id" ? "id-ID" : "en-US")}
               </span>
             </div>
           ) : (
             <span className="text-[11px] text-muted-foreground">
-              Belum diperiksa
+              {t("monitor.neverChecked")}
             </span>
           ),
       },
       {
         id: "actions",
-        header: "Aksi",
+        header: t("common.actions"),
         align: "right",
         cell: (target) => (
           <Button
@@ -179,7 +181,7 @@ export function AdminMonitorTable({
             disabled={deletingId === target.id}
             onClick={() => handleDelete(target.id)}
             className="h-8 w-8 p-0 text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 rounded-full"
-            title="Hapus Monitor"
+            title={t("common.delete")}
           >
             {deletingId === target.id ? (
               <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -191,17 +193,17 @@ export function AdminMonitorTable({
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [deletingId],
+    [deletingId, t, locale],
   );
 
   const filters: DataTableFilterConfig<MonitorTarget>[] = useMemo(
     () => [
       {
         id: "status",
-        label: "Status",
+        label: t("monitor.colStatus"),
         defaultValue: "ALL",
         options: [
-          { label: "Semua Status", value: "ALL" },
+          { label: t("monitor.allStatuses"), value: "ALL" },
           { label: "ONLINE / UP", value: "ONLINE" },
           { label: "OFFLINE / DOWN", value: "OFFLINE" },
           { label: "DEGRADED", value: "DEGRADED" },
@@ -209,7 +211,7 @@ export function AdminMonitorTable({
         filterFn: (target, val) => target.status?.toUpperCase() === val.toUpperCase(),
       },
     ],
-    [],
+    [t],
   );
 
   const actions = (
@@ -227,7 +229,7 @@ export function AdminMonitorTable({
           ) : (
             <RefreshCw className="h-3.5 w-3.5 text-primary" />
           )}
-          Sinkronkan Armada
+          {t("monitor.syncFleet")}
         </Button>
       )}
 
@@ -244,7 +246,7 @@ export function AdminMonitorTable({
           ) : (
             <Sparkles className="h-3.5 w-3.5 text-amber-400" />
           )}
-          Check Uptime
+          {t("monitor.checkUptimeBtn")}
         </Button>
       )}
 
@@ -257,10 +259,10 @@ export function AdminMonitorTable({
       <div>
         <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
           <Activity className="h-4 w-4 text-primary" />
-          Target Telemetri & Health Checks
+          {t("monitor.targetsTitle")}
         </h3>
         <p className="text-xs text-muted-foreground mt-0.5">
-          Daftar target node VPN yang dipantau latensi dan status ketersediaannya secara real-time
+          {t("monitor.targetsSubtitle")}
         </p>
       </div>
 
@@ -270,17 +272,17 @@ export function AdminMonitorTable({
         keyExtractor={(target) => target.id}
         isLoading={loading}
         searchable={true}
-        searchPlaceholder="Cari target, host, port, protokol..."
-        searchButtonText="Cari"
+        searchPlaceholder={t("monitor.searchTargetPlaceholder")}
+        searchButtonText={t("common.search")}
         searchAccessor={(target) => [target.name, target.host, target.port, target.protocol]}
         filters={filters}
         paginated={true}
         pageSize={10}
-        entityName="target monitor"
+        entityName={t("monitor.targetEntityName")}
         actions={actions}
         emptyIcon={Activity}
-        emptyTitle="Belum Ada Target Monitor"
-        emptyDescription="Tambahkan target server pertama Anda atau klik 'Sinkronkan Armada' untuk mengimpor dari data server VPN."
+        emptyTitle={t("monitor.noTargetsTitle")}
+        emptyDescription={t("monitor.noTargetsDesc")}
       />
     </div>
   );

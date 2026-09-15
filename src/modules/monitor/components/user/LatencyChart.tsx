@@ -7,6 +7,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useI18n } from "@/lib/i18n";
 import { ServerTelemetry } from "../../types/monitor.types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Zap, ArrowUpDown } from "lucide-react";
@@ -17,6 +18,7 @@ interface LatencyChartProps {
 }
 
 export function LatencyChart({ nodes }: LatencyChartProps) {
+  const { t } = useI18n();
   const [ascending, setAscending] = useState(true);
 
   if (nodes.length === 0) return null;
@@ -34,7 +36,7 @@ export function LatencyChart({ nodes }: LatencyChartProps) {
           <div className="p-1.5 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20">
             <Zap className="h-3.5 w-3.5" />
           </div>
-          Komparasi Latensi Ping Node Global (Round-Trip Time)
+          {t("monitor.chartTitle")}
         </CardTitle>
 
         <Button
@@ -44,7 +46,7 @@ export function LatencyChart({ nodes }: LatencyChartProps) {
           className="h-8 px-2.5 text-[11px] font-mono text-muted-foreground hover:text-foreground gap-1.5 rounded-lg"
         >
           <ArrowUpDown className="h-3 w-3" />
-          {ascending ? "Terendah -> Tertinggi" : "Tertinggi -> Terendah"}
+          {ascending ? t("monitor.sortLowToHigh") : t("monitor.sortHighToLow")}
         </Button>
       </CardHeader>
 
