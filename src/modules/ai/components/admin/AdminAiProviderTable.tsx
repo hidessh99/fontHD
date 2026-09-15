@@ -2,6 +2,7 @@
 // GoVPN Admin AI Provider Table Component
 // Part of Pola C: components/admin/AdminAiProviderTable.tsx
 // 100% Coinbase Institutional Design System + Standardized Enterprise DataTable
+// Fully Localized with useI18n (EN/ID)
 // ==============================================================================
 
 "use client";
@@ -23,6 +24,7 @@ import {
 import { DataTable, ColumnDef } from "@/components/shared/data-table";
 import { Server, Plus, Trash2, Key, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n/context";
 
 interface AdminAiProviderTableProps {
   providers: AiProvider[];
@@ -37,6 +39,7 @@ export function AdminAiProviderTable({
   onDeleteProvider,
   loading = false,
 }: AdminAiProviderTableProps) {
+  const { t } = useI18n();
   const [openCreate, setOpenCreate] = useState(false);
   const [name, setName] = useState("");
   const [baseUrl, setBaseUrl] = useState("");
@@ -47,7 +50,7 @@ export function AdminAiProviderTable({
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim() || !apiKey.trim()) {
-      toast.error("Nama provider dan API Key wajib diisi");
+      toast.error(t("dns.nameAndContentRequired"));
       return;
     }
 
@@ -63,24 +66,20 @@ export function AdminAiProviderTable({
       setName("");
       setBaseUrl("");
       setApiKey("");
-      toast.success("Provider AI baru berhasil ditambahkan");
+      toast.success(t("ai.providerAdded"));
     } finally {
       setSubmitting(false);
     }
   };
 
   const handleDelete = async (id: string | number) => {
-    if (
-      !confirm(
-        "Hapus provider AI ini? Model yang terkait tidak akan dapat melayani permintaan.",
-      )
-    ) {
+    if (!confirm(t("ai.deleteProviderConfirm"))) {
       return;
     }
     setDeletingId(id);
     try {
       await onDeleteProvider(id);
-      toast.success("Provider AI berhasil dihapus");
+      toast.success(t("ai.providerDeleted"));
     } finally {
       setDeletingId(null);
     }
@@ -90,13 +89,13 @@ export function AdminAiProviderTable({
     () => [
       {
         id: "name",
-        header: "Nama Provider",
+        header: t("ai.providerNameLabel"),
         className: "font-sans font-bold text-foreground",
         cell: (p) => p.name,
       },
       {
         id: "base_url",
-        header: "Base URL",
+        header: t("ai.baseUrlLabel"),
         cell: (p) => (
           <span className="text-muted-foreground text-[11px] font-mono">
             {p.base_url || "Default Upstream"}
@@ -105,7 +104,7 @@ export function AdminAiProviderTable({
       },
       {
         id: "api_key",
-        header: "API Key Masked",
+        header: t("ai.secretApiKeyLabel"),
         cell: (p) => (
           <div className="flex items-center gap-1 text-[11px] text-muted-foreground font-mono">
             <Key className="h-3 w-3 text-amber-400 shrink-0" />
@@ -115,7 +114,7 @@ export function AdminAiProviderTable({
       },
       {
         id: "model_count",
-        header: "Model Terhubung",
+        header: t("ai.connectedProviders"),
         align: "center",
         cell: (p) => (
           <Badge
@@ -128,7 +127,7 @@ export function AdminAiProviderTable({
       },
       {
         id: "actions",
-        header: "Aksi",
+        header: t("common.actions"),
         align: "right",
         cell: (p) => (
           <Button
@@ -137,7 +136,7 @@ export function AdminAiProviderTable({
             disabled={deletingId === p.id}
             onClick={() => handleDelete(p.id)}
             className="h-8 w-8 p-0 text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 rounded-full"
-            title="Hapus Provider"
+            title={t("ai.providerDeleted")}
           >
             {deletingId === p.id ? (
               <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -149,7 +148,7 @@ export function AdminAiProviderTable({
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [deletingId],
+    [deletingId, t],
   );
 
   const actions = (
@@ -161,7 +160,7 @@ export function AdminAiProviderTable({
             className="h-9 px-3.5 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs gap-1.5 shadow-md shadow-primary/20"
           >
             <Plus className="h-4 w-4" />
-            Tambah Provider
+            {t("ai.addProvider")}
           </Button>
         }
       />
@@ -169,14 +168,14 @@ export function AdminAiProviderTable({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-base font-bold">
             <Server className="h-5 w-5 text-primary" />
-            Hubungkan Provider AI Baru
+            {t("ai.newProviderModalTitle")}
           </DialogTitle>
         </DialogHeader>
         <form onSubmit={handleCreate} className="space-y-3.5 pt-2">
           <div>
-            <Label className="text-xs text-muted-foreground">Nama Provider</Label>
+            <Label className="text-xs text-muted-foreground">{t("ai.providerNameLabel")}</Label>
             <Input
-              placeholder="misal: DeepSeek Platform / OpenAI Direct"
+              placeholder="e.g. DeepSeek Platform / OpenAI Direct"
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="mt-1.5 bg-muted/30 border-border text-foreground text-xs h-10"
@@ -184,7 +183,7 @@ export function AdminAiProviderTable({
           </div>
 
           <div>
-            <Label className="text-xs text-muted-foreground">Base URL (Opsional)</Label>
+            <Label className="text-xs text-muted-foreground">{t("ai.baseUrlLabel")}</Label>
             <Input
               placeholder="https://api.deepseek.com/v1"
               value={baseUrl}
@@ -194,7 +193,7 @@ export function AdminAiProviderTable({
           </div>
 
           <div>
-            <Label className="text-xs text-muted-foreground">Secret API Key</Label>
+            <Label className="text-xs text-muted-foreground">{t("ai.secretApiKeyLabel")}</Label>
             <Input
               type="password"
               placeholder="sk-••••••••••••••••"
@@ -211,10 +210,10 @@ export function AdminAiProviderTable({
           >
             {submitting ? (
               <>
-                <Loader2 className="h-4 w-4 animate-spin" /> Menghubungkan...
+                <Loader2 className="h-4 w-4 animate-spin" /> {t("ai.connectingProvider")}
               </>
             ) : (
-              "Simpan Provider AI"
+              t("ai.saveProvider")
             )}
           </Button>
         </form>
@@ -227,10 +226,10 @@ export function AdminAiProviderTable({
       <div>
         <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
           <Server className="h-4 w-4 text-primary" />
-          Provider AI Gateway (Upstream)
+          {t("ai.upstreamProvidersTitle")}
         </h3>
         <p className="text-xs text-muted-foreground mt-0.5">
-          Koneksi upstream ke OpenAI, Anthropic, DeepSeek, Groq, dan OpenRouter
+          {t("ai.upstreamProvidersSubtitle")}
         </p>
       </div>
 
@@ -240,16 +239,16 @@ export function AdminAiProviderTable({
         keyExtractor={(p) => p.id}
         isLoading={loading}
         searchable={true}
-        searchPlaceholder="Cari nama provider, base URL..."
-        searchButtonText="Cari"
+        searchPlaceholder={t("ai.searchModelsPlaceholder")}
+        searchButtonText={t("common.search")}
         searchAccessor={(p) => [p.name, p.base_url]}
         paginated={true}
         pageSize={10}
         entityName="provider AI"
         actions={actions}
         emptyIcon={Server}
-        emptyTitle="Belum Ada Provider"
-        emptyDescription="Tambahkan provider AI pertama Anda untuk mulai mengarahkan inferensi model."
+        emptyTitle={t("ai.noProvidersTitle")}
+        emptyDescription={t("ai.noProvidersDesc")}
       />
     </div>
   );

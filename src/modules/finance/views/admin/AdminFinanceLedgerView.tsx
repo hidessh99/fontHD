@@ -2,6 +2,7 @@
 // GoVPN Finance Superadmin Ledger & Operations View
 // Part of Pola C: views/admin/AdminFinanceLedgerView.tsx
 // 100% Coinbase Institutional Design System (Tabs, Ledger, Vouchers, Payout Approvals)
+// Fully Localized with useI18n (EN/ID)
 // ==============================================================================
 
 "use client";
@@ -23,8 +24,10 @@ import {
   Landmark,
   Calendar,
 } from "lucide-react";
+import { useI18n } from "@/lib/i18n/context";
 
 export function AdminFinanceLedgerView() {
+  const { t, locale } = useI18n();
   const {
     billingRecords,
     incomePendingList,
@@ -69,11 +72,10 @@ export function AdminFinanceLedgerView() {
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-foreground flex items-center gap-2.5">
             <ShieldCheck className="h-6 w-6 text-primary" />
-            Audit Ledger &amp; Keuangan Global
+            {t("finance.globalFinanceAudit")}
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Pusat kendali transaksi keuangan, mutasi balance user, approval
-            pencairan, dan diskon kupon.
+            {t("finance.globalFinanceAuditSubtitle")}
           </p>
         </div>
 
@@ -95,21 +97,21 @@ export function AdminFinanceLedgerView() {
             className="gap-2 text-xs font-mono font-medium data-state-active:bg-background data-state-active:text-foreground"
           >
             <History className="h-3.5 w-3.5" />
-            Ledger &amp; Mutasi ({billingRecords.length})
+            {t("finance.ledgerAndMutationsTab")} ({billingRecords.length})
           </TabsTrigger>
           <TabsTrigger
             value="vouchers"
             className="gap-2 text-xs font-mono font-medium data-state-active:bg-background data-state-active:text-foreground"
           >
             <Tag className="h-3.5 w-3.5" />
-            Voucher Promo ({vouchers.length})
+            {t("finance.promoVouchersTab")} ({vouchers.length})
           </TabsTrigger>
           <TabsTrigger
             value="withdrawals"
             className="gap-2 text-xs font-mono font-medium data-state-active:bg-background data-state-active:text-foreground"
           >
             <Landmark className="h-3.5 w-3.5" />
-            Antrian Penarikan ({withdrawals.length})
+            {t("finance.withdrawalQueueTab")} ({withdrawals.length})
           </TabsTrigger>
         </TabsList>
 
@@ -139,13 +141,13 @@ export function AdminFinanceLedgerView() {
             <table className="w-full text-left text-sm text-muted-foreground font-mono">
               <thead className="border-b border-border/80 bg-muted/30 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 <tr>
-                  <th className="px-5 py-4">Waktu</th>
+                  <th className="px-5 py-4">{t("finance.createdAt")}</th>
                   <th className="px-5 py-4">User ID</th>
-                  <th className="px-5 py-4">Bank &amp; Rekening</th>
-                  <th className="px-5 py-4">Atas Nama</th>
-                  <th className="px-5 py-4">Nominal</th>
-                  <th className="px-5 py-4">Status</th>
-                  <th className="px-5 py-4 text-right">Aksi Persetujuan</th>
+                  <th className="px-5 py-4">{t("finance.destinationBank")} &amp; {t("finance.accountNumber")}</th>
+                  <th className="px-5 py-4">{t("finance.accountHolder")}</th>
+                  <th className="px-5 py-4">{t("finance.amount")}</th>
+                  <th className="px-5 py-4">{t("common.status")}</th>
+                  <th className="px-5 py-4 text-right">{t("common.actions")}</th>
                 </tr>
               </thead>
               <tbody className="divide-y border-border/40 text-xs">
@@ -155,7 +157,7 @@ export function AdminFinanceLedgerView() {
                       colSpan={7}
                       className="px-5 py-8 text-center text-muted-foreground font-sans"
                     >
-                      Tidak ada permohonan penarikan dana pending.
+                      {t("finance.noWithdrawalHistoryDesc")}
                     </td>
                   </tr>
                 ) : (
@@ -167,7 +169,7 @@ export function AdminFinanceLedgerView() {
                       <td className="px-5 py-3.5 text-muted-foreground whitespace-nowrap">
                         <div className="flex items-center gap-1">
                           <Calendar className="h-3 w-3 text-muted-foreground" />
-                          {new Date(w.created_at).toLocaleDateString("id-ID")}
+                          {new Date(w.created_at).toLocaleDateString(locale === "id" ? "id-ID" : "en-US")}
                         </div>
                       </td>
                       <td className="px-5 py-3.5 font-bold text-foreground">
@@ -204,7 +206,7 @@ export function AdminFinanceLedgerView() {
                               }
                               className="bg-emerald-600 hover:bg-emerald-500 text-white rounded-full text-xs font-semibold px-3.5 h-8 gap-1 shadow-sm"
                             >
-                              <CheckCircle2 className="h-3.5 w-3.5" /> Setujui
+                              <CheckCircle2 className="h-3.5 w-3.5" /> {t("finance.approve")}
                             </Button>
                             <Button
                               size="sm"
@@ -216,12 +218,12 @@ export function AdminFinanceLedgerView() {
                               }
                               className="border-rose-500/30 text-rose-400 hover:bg-rose-500/10 rounded-full text-xs font-semibold px-3 h-8 gap-1"
                             >
-                              <XCircle className="h-3.5 w-3.5" /> Tolak
+                              <XCircle className="h-3.5 w-3.5" /> {t("finance.reject")}
                             </Button>
                           </div>
                         ) : (
                           <span className="text-xs text-muted-foreground font-mono">
-                            Selesai
+                            {t("finance.finished")}
                           </span>
                         )}
                       </td>

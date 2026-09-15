@@ -37,6 +37,7 @@ export function AdminSubscriptionView() {
     updateSubscriptionStatus,
     refresh,
   } = useSubscriptionAdmin();
+  const { t } = useI18n();
 
   const [activeTab, setActiveTab] = useState<"plans" | "subscriptions">(
     "plans",
@@ -63,7 +64,7 @@ export function AdminSubscriptionView() {
   const handleCreatePlanSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newPlan.name || !newPlan.slug) {
-      toast.error("Nama paket dan slug wajib diisi");
+      toast.error(t("common.error") || "Nama paket dan slug wajib diisi");
       return;
     }
 
@@ -93,11 +94,10 @@ export function AdminSubscriptionView() {
             Engine
           </div>
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
-            Manajemen Paket & Langganan
+            {t("subscription.adminBillingTitle")}
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Konfigurasi tiering paket VPN, kuota bandwidth, batasan perangkat,
-            dan kontrol status langganan global.
+            {t("subscription.adminBillingSubtitle")}
           </p>
         </div>
 
@@ -107,12 +107,12 @@ export function AdminSubscriptionView() {
             size="sm"
             onClick={() => {
               refresh();
-              toast.info("Data diperbarui");
+              toast.info(t("common.refreshing") || "Data diperbarui");
             }}
             className="gap-2"
           >
             <RefreshCw className="w-4 h-4" />
-            <span>Segarkan</span>
+            <span>{t("common.refresh")}</span>
           </Button>
           <Button
             size="sm"
@@ -120,7 +120,7 @@ export function AdminSubscriptionView() {
             className="gap-2"
           >
             <Plus className="w-4 h-4" />
-            <span>Buat Paket Baru</span>
+            <span>{t("subscription.createPlan")}</span>
           </Button>
         </div>
       </div>
@@ -134,11 +134,11 @@ export function AdminSubscriptionView() {
         <TabsList variant="line" className="border-b border-border/40 w-full justify-start gap-2 h-auto pb-0">
           <TabsTrigger value="plans" className="gap-2 py-2.5">
             <Layers className="w-4 h-4" />
-            <span>Paket Layanan ({plans.length})</span>
+            <span>{t("subscription.servicePlansTab", { count: plans.length })}</span>
           </TabsTrigger>
           <TabsTrigger value="subscriptions" className="gap-2 py-2.5">
             <CreditCard className="w-4 h-4" />
-            <span>Langganan Pengguna ({subscriptions.length})</span>
+            <span>{t("subscription.userSubsTab", { count: subscriptions.length })}</span>
           </TabsTrigger>
         </TabsList>
       </Tabs>
@@ -151,7 +151,7 @@ export function AdminSubscriptionView() {
             onCreatePlan={createPlan}
             onDeletePlan={async (id) => {
               await deletePlan(id);
-              toast.success("Paket dihapus");
+              toast.success(t("common.success") || "Paket dihapus");
             }}
           />
         </section>
@@ -177,7 +177,7 @@ export function AdminSubscriptionView() {
         <DialogContent className="sm:max-w-lg bg-card border-border/60">
           <DialogHeader>
             <DialogTitle className="text-lg font-bold">
-              Tambah Paket Layanan Baru
+              {t("subscription.createPlan")}
             </DialogTitle>
           </DialogHeader>
 
@@ -185,7 +185,7 @@ export function AdminSubscriptionView() {
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1.5">
                 <label className="text-xs font-semibold text-muted-foreground">
-                  Nama Paket
+                  {t("subscription.planName")}
                 </label>
                 <Input
                   type="text"
@@ -222,7 +222,7 @@ export function AdminSubscriptionView() {
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1.5">
                 <label className="text-xs font-semibold text-muted-foreground">
-                  Harga (IDR)
+                  {t("subscription.planPrice")}
                 </label>
                 <Input
                   type="number"
@@ -237,7 +237,7 @@ export function AdminSubscriptionView() {
 
               <div className="space-y-1.5">
                 <label className="text-xs font-semibold text-muted-foreground">
-                  Billing Cycle
+                  {t("subscription.billingPeriod")}
                 </label>
                 <NativeSelect
                   value={newPlan.billing_cycle}
@@ -248,10 +248,10 @@ export function AdminSubscriptionView() {
                     })
                   }
                 >
-                  <option value="MONTHLY">Bulanan (Monthly)</option>
-                  <option value="QUARTERLY">Triwulan (Quarterly)</option>
-                  <option value="SEMI_ANNUAL">Semester (Semi-Annual)</option>
-                  <option value="ANNUAL">Tahunan (Annual)</option>
+                  <option value="MONTHLY">{t("subscription.monthly")}</option>
+                  <option value="QUARTERLY">{t("subscription.quarterly")}</option>
+                  <option value="SEMI_ANNUAL">{t("subscription.semiAnnual")}</option>
+                  <option value="ANNUAL">{t("subscription.yearly")}</option>
                 </NativeSelect>
               </div>
             </div>
@@ -259,7 +259,7 @@ export function AdminSubscriptionView() {
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1.5">
                 <label className="text-xs font-semibold text-muted-foreground">
-                  Maksimal Perangkat
+                  {t("subscription.simultaneousDevices")}
                 </label>
                 <Input
                   type="number"
@@ -277,7 +277,7 @@ export function AdminSubscriptionView() {
 
               <div className="space-y-1.5">
                 <label className="text-xs font-semibold text-muted-foreground">
-                  Bandwidth (GB, 0 = Unlimited)
+                  {t("subscription.bandwidthLimit")}
                 </label>
                 <Input
                   type="number"
@@ -300,10 +300,10 @@ export function AdminSubscriptionView() {
                 variant="outline"
                 onClick={() => setIsAddPlanModalOpen(false)}
               >
-                Batal
+                {t("common.cancel")}
               </Button>
               <Button type="submit">
-                Simpan Paket
+                {t("common.save")}
               </Button>
             </div>
           </form>

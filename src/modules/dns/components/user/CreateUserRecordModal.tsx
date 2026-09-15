@@ -2,6 +2,7 @@
 // GoVPN DNS Create User Record Modal
 // Part of Pola C: components/user/CreateUserRecordModal.tsx
 // 100% Coinbase Institutional Design System (Host FQDN preview, Proxy toggle)
+// Fully Localized with useI18n (EN/ID)
 // ==============================================================================
 
 "use client";
@@ -22,6 +23,7 @@ import { DnsDomain, DnsRecordType } from "../../types/dns.types";
 import { CreateUserDnsRecordDto } from "../../types/user.types";
 import { Plus, Globe, Cloud, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n/context";
 
 interface CreateUserRecordModalProps {
   domains: DnsDomain[];
@@ -34,6 +36,7 @@ export function CreateUserRecordModal({
   domains,
   onAddRecord,
 }: CreateUserRecordModalProps) {
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
   const [domainId, setDomainId] = useState<string | number>(
     domains[0]?.id || "",
@@ -56,11 +59,11 @@ export function CreateUserRecordModal({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!domainId) {
-      toast.error("Silakan pilih domain zona terlebih dahulu");
+      toast.error(t("dns.selectZoneFirst"));
       return;
     }
     if (!name.trim() || !content.trim()) {
-      toast.error("Nama host dan target IP/domain wajib diisi");
+      toast.error(t("dns.nameAndContentRequired"));
       return;
     }
 
@@ -92,7 +95,7 @@ export function CreateUserRecordModal({
         render={
           <Button className="h-10 px-4 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs shadow-lg shadow-primary/20 gap-2 transition-all">
             <Plus className="h-4 w-4" />
-            Tambah Record DNS
+            {t("dns.addRecord")}
           </Button>
         }
       />
@@ -103,7 +106,7 @@ export function CreateUserRecordModal({
             <div className="p-2 rounded-xl bg-primary/10 text-primary border border-primary/20">
               <Globe className="h-5 w-5" />
             </div>
-            Tambah DNS Record Baru
+            {t("dns.modalTitle")}
           </DialogTitle>
         </DialogHeader>
 
@@ -111,7 +114,7 @@ export function CreateUserRecordModal({
           {/* Domain Selection */}
           <div>
             <Label className="text-xs text-muted-foreground font-medium">
-              Pilih Zona Domain
+              {t("dns.selectCfAccount")}
             </Label>
             <NativeSelect
               value={domainId}
@@ -129,7 +132,7 @@ export function CreateUserRecordModal({
           {/* Record Type Selection */}
           <div>
             <Label className="text-xs text-muted-foreground font-medium">
-              Tipe Record
+              {t("dns.recordType")}
             </Label>
             <div className="grid grid-cols-4 gap-2 mt-1.5">
               {RECORD_TYPES.map((t) => (
@@ -155,12 +158,12 @@ export function CreateUserRecordModal({
               htmlFor="rec-name"
               className="text-xs text-muted-foreground font-medium"
             >
-              Nama Subdomain
+              {t("dns.subdomainLabel")}
             </Label>
             <div className="flex items-center mt-1.5">
               <Input
                 id="rec-name"
-                placeholder="misal: sg1 atau vpn"
+                placeholder="sg1 / vpn"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 className="rounded-r-none bg-muted/30 border-border text-foreground font-mono text-xs h-10"
@@ -186,12 +189,12 @@ export function CreateUserRecordModal({
               className="text-xs text-muted-foreground font-medium"
             >
               {type === "A"
-                ? "Alamat IPv4 Server"
+                ? t("dns.targetIpv4")
                 : type === "AAAA"
-                  ? "Alamat IPv6 Server"
+                  ? t("dns.targetIpv6")
                   : type === "CNAME"
-                    ? "Target Hostname"
-                    : "Nilai / Text"}
+                    ? t("dns.targetHostname")
+                    : t("dns.targetValue")}
             </Label>
             <Input
               id="rec-content"
@@ -212,7 +215,7 @@ export function CreateUserRecordModal({
           <div className="grid grid-cols-2 gap-3 pt-1">
             <div className="rounded-xl border border-border bg-muted/20 p-3 flex flex-col justify-between">
               <span className="text-xs text-muted-foreground font-medium">
-                Cloudflare CDN
+                {t("dns.cfCdn")}
               </span>
               <button
                 type="button"
@@ -226,23 +229,23 @@ export function CreateUserRecordModal({
                 <Cloud
                   className={`h-3.5 w-3.5 ${proxied ? "fill-amber-400 text-amber-400" : ""}`}
                 />
-                {proxied ? "Proxied (CDN)" : "DNS Only"}
+                {proxied ? t("dns.proxied") : t("dns.dnsOnly")}
               </button>
             </div>
 
             <div className="rounded-xl border border-border bg-muted/20 p-3 flex flex-col justify-between">
               <span className="text-xs text-muted-foreground font-medium">
-                TTL (Time to Live)
+                {t("dns.ttl")}
               </span>
               <NativeSelect
                 value={ttl}
                 onChange={(e) => setTtl(Number(e.target.value))}
                 className="mt-2 text-xs"
               >
-                <option value={1}>Auto</option>
-                <option value={60}>1 Menit</option>
-                <option value={300}>5 Menit</option>
-                <option value={3600}>1 Jam</option>
+                <option value={1}>{t("dns.autoTtl")}</option>
+                <option value={60}>1 Min</option>
+                <option value={300}>5 Min</option>
+                <option value={3600}>1 Hour</option>
               </NativeSelect>
             </div>
           </div>
@@ -253,11 +256,11 @@ export function CreateUserRecordModal({
               htmlFor="rec-comment"
               className="text-xs text-muted-foreground font-medium"
             >
-              Keterangan / Catatan (Opsional)
+              {t("dns.commentLabel")}
             </Label>
             <Input
               id="rec-comment"
-              placeholder="misal: Server Singapore 01"
+              placeholder="e.g. Singapore Server 01"
               value={comment}
               onChange={(e) => setComment(e.target.value)}
               className="mt-1.5 bg-muted/30 border-border text-foreground text-xs h-10"
@@ -272,10 +275,10 @@ export function CreateUserRecordModal({
             {isSubmitting ? (
               <>
                 <Loader2 className="h-4 w-4 animate-spin" />
-                Menyimpan Record...
+                {t("dns.savingRecord")}
               </>
             ) : (
-              "Simpan Record DNS"
+              t("dns.saveRecord")
             )}
           </Button>
         </form>

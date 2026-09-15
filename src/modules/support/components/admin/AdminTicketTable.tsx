@@ -21,6 +21,7 @@ import {
   User,
   ExternalLink,
 } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 
 interface AdminTicketTableProps {
   tickets: Ticket[];
@@ -39,11 +40,13 @@ export function AdminTicketTable({
   onClose,
   onDelete,
 }: AdminTicketTableProps) {
+  const { t, locale } = useI18n();
+
   const columns: ColumnDef<Ticket>[] = useMemo(
     () => [
       {
         id: "ticket_number",
-        header: "Tiket",
+        header: t("support.ticket"),
         cell: (ticket) => (
           <button
             type="button"
@@ -56,7 +59,7 @@ export function AdminTicketTable({
       },
       {
         id: "user",
-        header: "Pengguna / Dept",
+        header: t("support.userOrDept"),
         cell: (ticket) => (
           <div className="flex flex-col font-sans">
             <div className="flex items-center gap-1.5 font-medium text-foreground">
@@ -68,14 +71,14 @@ export function AdminTicketTable({
               </span>
             </div>
             <span className="text-[10px] text-muted-foreground">
-              {ticket.department || "General"}
+              {ticket.department || t("support.general")}
             </span>
           </div>
         ),
       },
       {
         id: "subject",
-        header: "Subjek",
+        header: t("support.subject"),
         className: "font-sans font-medium text-foreground max-w-xs",
         cell: (ticket) => (
           <span className="line-clamp-1">{ticket.subject}</span>
@@ -83,28 +86,31 @@ export function AdminTicketTable({
       },
       {
         id: "priority",
-        header: "Prioritas",
+        header: t("support.priority"),
         cell: (ticket) => <TicketPriorityBadge priority={ticket.priority} />,
       },
       {
         id: "status",
-        header: "Status",
+        header: t("support.status"),
         cell: (ticket) => <TicketStatusBadge status={ticket.status} />,
       },
       {
         id: "created_at",
-        header: "Tanggal",
+        header: t("support.date"),
         className: "font-sans text-muted-foreground whitespace-nowrap",
         cell: (ticket) =>
-          new Date(ticket.created_at).toLocaleDateString("id-ID", {
-            day: "numeric",
-            month: "short",
-            year: "numeric",
-          }),
+          new Date(ticket.created_at).toLocaleDateString(
+            locale === "id" ? "id-ID" : "en-US",
+            {
+              day: "numeric",
+              month: "short",
+              year: "numeric",
+            }
+          ),
       },
       {
         id: "actions",
-        header: "Aksi Operasional",
+        header: t("support.operationalActions"),
         align: "right",
         cell: (ticket) => (
           <div className="inline-flex items-center gap-1">
@@ -113,10 +119,10 @@ export function AdminTicketTable({
               variant="ghost"
               className="h-7 px-2 text-primary hover:text-primary hover:bg-primary/10 text-[11px] rounded-lg"
               onClick={() => onSelectTicket(ticket)}
-              title="Buka Detail Tiket"
+              title={t("support.detail")}
             >
               <ExternalLink className="w-3.5 h-3.5 mr-1" />
-              <span>Detail</span>
+              <span>{t("support.detail")}</span>
             </Button>
 
             {ticket.status === "OPEN" && (
@@ -125,10 +131,10 @@ export function AdminTicketTable({
                 variant="ghost"
                 className="h-7 px-2 text-amber-500 hover:text-amber-600 hover:bg-amber-500/10 text-[11px] rounded-lg"
                 onClick={() => onSetInProgress(ticket.id)}
-                title="Tandai Sedang Dikerjakan"
+                title={t("support.process")}
               >
                 <PlayCircle className="w-3.5 h-3.5 mr-1" />
-                <span>Proses</span>
+                <span>{t("support.process")}</span>
               </Button>
             )}
 
@@ -138,10 +144,10 @@ export function AdminTicketTable({
                 variant="ghost"
                 className="h-7 px-2 text-emerald-500 hover:text-emerald-600 hover:bg-emerald-500/10 text-[11px] rounded-lg"
                 onClick={() => onResolve(ticket.id)}
-                title="Selesaikan Tiket"
+                title={t("support.resolve")}
               >
                 <CheckCircle2 className="w-3.5 h-3.5 mr-1" />
-                <span>Selesai</span>
+                <span>{t("support.resolve")}</span>
               </Button>
             )}
 
@@ -151,10 +157,10 @@ export function AdminTicketTable({
                 variant="ghost"
                 className="h-7 px-2 text-muted-foreground hover:text-foreground hover:bg-muted/50 text-[11px] rounded-lg"
                 onClick={() => onClose(ticket.id)}
-                title="Tutup Tiket"
+                title={t("support.close")}
               >
                 <XCircle className="w-3.5 h-3.5 mr-1" />
-                <span>Tutup</span>
+                <span>{t("support.close")}</span>
               </Button>
             )}
 
@@ -163,7 +169,7 @@ export function AdminTicketTable({
               variant="ghost"
               className="h-7 w-7 p-0 text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 rounded-full"
               onClick={() => onDelete(ticket.id)}
-              title="Hapus Tiket"
+              title={t("support.deleteTicket")}
             >
               <Trash2 className="w-3.5 h-3.5" />
             </Button>
@@ -171,26 +177,26 @@ export function AdminTicketTable({
         ),
       },
     ],
-    [onClose, onDelete, onResolve, onSelectTicket, onSetInProgress],
+    [locale, onClose, onDelete, onResolve, onSelectTicket, onSetInProgress, t],
   );
 
   const filters: DataTableFilterConfig<Ticket>[] = useMemo(
     () => [
       {
         id: "status",
-        label: "Status",
+        label: t("support.status"),
         defaultValue: "ALL",
         options: [
-          { label: "Semua Status", value: "ALL" },
+          { label: t("support.allStatus"), value: "ALL" },
           { label: "OPEN", value: "OPEN" },
           { label: "IN PROGRESS", value: "IN_PROGRESS" },
           { label: "RESOLVED", value: "RESOLVED" },
           { label: "CLOSED", value: "CLOSED" },
         ],
-        filterFn: (t, val) => t.status?.toUpperCase() === val.toUpperCase(),
+        filterFn: (tItem, val) => tItem.status?.toUpperCase() === val.toUpperCase(),
       },
     ],
-    [],
+    [t],
   );
 
   return (
@@ -199,8 +205,8 @@ export function AdminTicketTable({
       columns={columns}
       keyExtractor={(ticket) => ticket.id}
       searchable={true}
-      searchPlaceholder="Cari nomor tiket, subjek, email..."
-      searchButtonText="Cari"
+      searchPlaceholder={t("support.searchPlaceholder")}
+      searchButtonText={t("common.search", "Search")}
       searchAccessor={(ticket) => [
         ticket.ticket_number,
         ticket.id,
@@ -212,10 +218,10 @@ export function AdminTicketTable({
       filters={filters}
       paginated={true}
       pageSize={10}
-      entityName="tiket bantuan"
+      entityName={t("support.entityName")}
       emptyIcon={LifeBuoy}
-      emptyTitle="Tidak Ada Tiket"
-      emptyDescription="Tidak ditemukan tiket bantuan yang sesuai dengan filter pencarian."
+      emptyTitle={t("support.noAdminTickets")}
+      emptyDescription={t("support.noAdminTicketsDesc")}
     />
   );
 }

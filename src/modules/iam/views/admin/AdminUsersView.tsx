@@ -11,8 +11,10 @@ import { useIamAdmin } from "../../hooks/useIamAdmin";
 import { AdminUserTable } from "../../components/admin/AdminUserTable";
 import { AdminUserActivityTable } from "../../components/admin/AdminUserActivityTable";
 import { Users, UserCheck, Store, ShieldAlert } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 
 export function AdminUsersView() {
+  const { t } = useI18n();
   const {
     users,
     activities,
@@ -43,11 +45,10 @@ export function AdminUsersView() {
       <div>
         <h1 className="text-2xl font-bold tracking-tight text-foreground flex items-center gap-2.5">
           <Users className="h-6 w-6 text-primary" />
-          Manajemen Pengguna &amp; Audit Akses
+          {t("iam.adminUsersTitle")}
         </h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Pusat kendali akun pengguna, mutasi saldo/komisi admin, penetapan
-          peran hierarkis, dan audit trail.
+          {t("iam.adminUsersSubtitle")}
         </p>
       </div>
 
@@ -56,7 +57,7 @@ export function AdminUsersView() {
         <div className="rounded-2xl border border-border/80 bg-card/60 p-5 space-y-1">
           <div className="flex items-center justify-between">
             <span className="text-xs text-muted-foreground font-mono uppercase">
-              Total Pengguna
+              {t("iam.totalUsers")}
             </span>
             <Users className="h-4 w-4 text-primary" />
           </div>
@@ -68,7 +69,7 @@ export function AdminUsersView() {
         <div className="rounded-2xl border border-border/80 bg-card/60 p-5 space-y-1">
           <div className="flex items-center justify-between">
             <span className="text-xs text-muted-foreground font-mono uppercase">
-              Pengguna Aktif
+              {t("iam.activeUsers")}
             </span>
             <UserCheck className="h-4 w-4 text-emerald-400" />
           </div>
@@ -81,7 +82,7 @@ export function AdminUsersView() {
         <div className="rounded-2xl border border-border/80 bg-card/60 p-5 space-y-1">
           <div className="flex items-center justify-between">
             <span className="text-xs text-muted-foreground font-mono uppercase">
-              Mitra Reseller
+              {t("iam.resellerPartners")}
             </span>
             <Store className="h-4 w-4 text-blue-400" />
           </div>
@@ -95,7 +96,7 @@ export function AdminUsersView() {
         <div className="rounded-2xl border border-border/80 bg-card/60 p-5 space-y-1">
           <div className="flex items-center justify-between">
             <span className="text-xs text-muted-foreground font-mono uppercase">
-              Administrator
+              {t("iam.administrators")}
             </span>
             <ShieldAlert className="h-4 w-4 text-purple-400" />
           </div>

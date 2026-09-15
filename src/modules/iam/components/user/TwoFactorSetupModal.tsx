@@ -21,6 +21,7 @@ import { CopyButton } from "@/components/shared/CopyButton";
 import { ShieldCheck, Smartphone, CheckCircle2, Loader2 } from "lucide-react";
 import QRCode from "qrcode";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n";
 
 interface TwoFactorSetupModalProps {
   isEnabled?: boolean;
@@ -35,6 +36,7 @@ export function TwoFactorSetupModal({
   onDisable2Fa,
   triggerButton,
 }: TwoFactorSetupModalProps) {
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState<"qr" | "verify" | "backup">("qr");
   const [code, setCode] = useState("");
@@ -74,14 +76,14 @@ export function TwoFactorSetupModal({
       if (isEnabled && onDisable2Fa) {
         const ok = await onDisable2Fa(code);
         if (ok) {
-          toast.success("Autentikasi Dua Faktor (2FA) berhasil dinonaktifkan.");
+          toast.success(t("iam.twoFactorDisabled"));
           setOpen(false);
         }
       } else if (onEnable2Fa) {
         const ok = await onEnable2Fa(code);
         if (ok) {
           setStep("backup");
-          toast.success("2FA Berhasil Diaktifkan!");
+          toast.success(t("iam.twoFactorEnabledSuccess"));
         }
       } else {
         setStep("backup");
@@ -107,7 +109,7 @@ export function TwoFactorSetupModal({
               }`}
             >
               <ShieldCheck className="h-4 w-4" />
-              {isEnabled ? "2FA Aktif (Kelola)" : "Aktifkan 2FA"}
+              {isEnabled ? t("iam.twoFactorManage") : t("iam.enableTwoFactor")}
             </Button>
           )
         }
@@ -117,7 +119,7 @@ export function TwoFactorSetupModal({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-lg font-bold">
             <ShieldCheck className="h-5 w-5 text-primary" />
-            Autentikasi Dua Faktor (2FA TOTP)
+            {t("iam.twoFactorModalTitle")}
           </DialogTitle>
         </DialogHeader>
 
@@ -128,11 +130,10 @@ export function TwoFactorSetupModal({
               <CheckCircle2 className="h-6 w-6 text-emerald-400 shrink-0" />
               <div className="text-xs">
                 <span className="font-bold text-foreground block">
-                  Akun Anda Dilindungi 2FA
+                  {t("iam.twoFactorProtected")}
                 </span>
                 <span className="text-muted-foreground">
-                  Setiap kali login memerlukan kode 6-digit dari aplikasi
-                  authenticator.
+                  {t("iam.twoFactorProtectedDesc")}
                 </span>
               </div>
             </div>
@@ -142,7 +143,7 @@ export function TwoFactorSetupModal({
                 htmlFor="disable-2fa-code"
                 className="text-xs font-medium text-muted-foreground"
               >
-                Masukkan Kode 6-Digit Authenticator untuk Menonaktifkan
+                {t("iam.disableTwoFactorPrompt")}
               </Label>
               <Input
                 id="disable-2fa-code"
@@ -161,7 +162,7 @@ export function TwoFactorSetupModal({
                 onClick={() => setOpen(false)}
                 className="text-xs rounded-full min-h-10 px-5"
               >
-                Batal
+                {t("common.cancel", "Cancel")}
               </Button>
               <Button
                 type="submit"
@@ -171,7 +172,7 @@ export function TwoFactorSetupModal({
                 {isSubmitting ? (
                   <Loader2 className="h-4 w-4 animate-spin" />
                 ) : (
-                  "Nonaktifkan 2FA"
+                  t("iam.disableTwoFactorBtn")
                 )}
               </Button>
             </div>
@@ -181,12 +182,10 @@ export function TwoFactorSetupModal({
           <div className="space-y-4 pt-2">
             <div className="rounded-xl border border-border/60 bg-surface/50 p-4 space-y-2">
               <span className="text-xs font-bold text-foreground block">
-                Simpan Kode Cadangan Pemulihan (Backup Codes)
+                {t("iam.backupCodesTitle")}
               </span>
               <p className="text-xs text-muted-foreground">
-                Gunakan kode ini untuk masuk ke akun jika Anda kehilangan akses
-                ke aplikasi authenticator. Setiap kode hanya dapat dipakai satu
-                kali.
+                {t("iam.backupCodesDesc")}
               </p>
               <div className="grid grid-cols-2 gap-2 pt-2 font-mono text-xs font-bold text-primary">
                 {backupCodes.map((c) => (
@@ -203,7 +202,7 @@ export function TwoFactorSetupModal({
             <div className="flex items-center justify-between pt-2 border-t border-border/50">
               <CopyButton
                 text={backupCodes.join("\n")}
-                label="Salin Semua Kode"
+                label={t("iam.copyAllCodes")}
                 className="rounded-full text-xs font-semibold"
               />
               <Button
@@ -214,7 +213,7 @@ export function TwoFactorSetupModal({
                 }}
                 className="bg-primary hover:bg-primary-hover text-white text-xs font-semibold rounded-full min-h-10 px-6"
               >
-                Selesai
+                {t("iam.done")}
               </Button>
             </div>
           </div>
@@ -236,10 +235,10 @@ export function TwoFactorSetupModal({
 
             <div className="space-y-1 text-center">
               <span className="text-xs font-medium text-muted-foreground block">
-                Pindai QR di atas menggunakan Google Authenticator atau Authy
+                {t("iam.scanQrPrompt")}
               </span>
               <div className="flex items-center justify-center gap-2 pt-1 font-mono text-xs">
-                <span className="text-muted-foreground">Kunci Manual:</span>
+                <span className="text-muted-foreground">{t("iam.manualKey")}</span>
                 <span className="font-bold text-primary">{secretKey}</span>
                 <CopyButton text={secretKey} label="" className="h-6 w-6 p-0" />
               </div>
@@ -250,7 +249,7 @@ export function TwoFactorSetupModal({
                 htmlFor="verify-2fa-code"
                 className="text-xs font-medium text-muted-foreground"
               >
-                Masukkan Kode 6-Digit Verifikasi
+                {t("iam.verifyTwoFactorCode")}
               </Label>
               <Input
                 id="verify-2fa-code"
@@ -269,7 +268,7 @@ export function TwoFactorSetupModal({
                 onClick={() => setOpen(false)}
                 className="text-xs rounded-full min-h-10 px-5"
               >
-                Batal
+                {t("common.cancel", "Cancel")}
               </Button>
               <Button
                 type="submit"
@@ -279,7 +278,7 @@ export function TwoFactorSetupModal({
                 {isSubmitting ? (
                   <Loader2 className="h-4 w-4 animate-spin" />
                 ) : (
-                  "Verifikasi & Aktifkan"
+                  t("iam.verifyAndEnable")
                 )}
               </Button>
             </div>

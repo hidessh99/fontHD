@@ -18,8 +18,10 @@ import { RefreshCw, FileText, Sliders, Plus, Newspaper } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n";
 
 export function AdminContentView() {
+  const { t } = useI18n();
   const {
     posts,
     settings,
@@ -58,14 +60,13 @@ export function AdminContentView() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-border/40 pb-6">
         <div>
           <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-medium text-primary mb-2">
-            <Newspaper className="w-3.5 h-3.5" /> CMS & Master Settings Engine
+            <Newspaper className="w-3.5 h-3.5" /> {t("content.adminBadge")}
           </div>
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
-            Manajemen Konten & Konfigurasi Sistem
+            {t("content.adminTitle")}
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Publikasikan panduan teknis, kelola metadata artikel, dan sesuaikan
-            parameter operasional sistem.
+            {t("content.adminSubtitle")}
           </p>
         </div>
 
@@ -75,12 +76,12 @@ export function AdminContentView() {
             size="sm"
             onClick={() => {
               refresh();
-              toast.info("Data diperbarui");
+              toast.info(t("common.dataRefreshed", "Data refreshed"));
             }}
             className="gap-2"
           >
             <RefreshCw className="w-4 h-4" />
-            <span>Segarkan</span>
+            <span>{t("common.refresh")}</span>
           </Button>
 
           {activeTab === "posts" && (
@@ -90,7 +91,7 @@ export function AdminContentView() {
               className="gap-2"
             >
               <Plus className="w-4 h-4" />
-              <span>Tulis Artikel Baru</span>
+              <span>{t("content.writeNewPost")}</span>
             </Button>
           )}
         </div>
@@ -104,11 +105,11 @@ export function AdminContentView() {
         <TabsList variant="line" className="w-full justify-start border-b border-border/40">
           <TabsTrigger value="posts" className="gap-2">
             <FileText className="w-4 h-4" />
-            <span>Artikel & Tutorial ({posts.length})</span>
+            <span>{t("content.articlesAndTutorials", { count: posts.length })}</span>
           </TabsTrigger>
           <TabsTrigger value="settings" className="gap-2">
             <Sliders className="w-4 h-4" />
-            <span>Parameter Sistem ({settings.length})</span>
+            <span>{t("content.systemParameters", { count: settings.length })}</span>
           </TabsTrigger>
         </TabsList>
       </Tabs>
@@ -121,11 +122,11 @@ export function AdminContentView() {
             onEditPost={handleOpenEditPost}
             onDeletePost={async (id) => {
               await deletePost(id);
-              toast.success("Artikel berhasil dihapus");
+              toast.success(t("content.postDeleted"));
             }}
             onUpdateStatus={async (id, status) => {
               await updatePostStatus(id, status);
-              toast.success(`Status artikel diubah ke ${status}`);
+              toast.success(t("content.postStatusUpdated", { status }));
             }}
           />
         </section>
@@ -137,7 +138,7 @@ export function AdminContentView() {
             onUpdateSetting={updateSetting}
             onDeleteSetting={async (id) => {
               await deleteSetting(id);
-              toast.success("Parameter sistem dihapus");
+              toast.success(t("content.settingDeleted"));
             }}
           />
         </section>

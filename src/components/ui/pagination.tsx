@@ -1,6 +1,7 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/lib/i18n/context";
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -116,13 +117,15 @@ function PaginationLink({
 
 function PaginationPrevious({
   className,
-  text = "Sebelumnya",
+  text,
   disabled,
   ...props
 }: PaginationLinkProps & { text?: string }) {
+  const { t } = useI18n();
+  const label = text || t("common.pagination.previous") || "Previous";
   return (
     <PaginationLink
-      aria-label="Halaman Sebelumnya"
+      aria-label={label}
       size="sm"
       disabled={disabled}
       className={cn(
@@ -132,20 +135,22 @@ function PaginationPrevious({
       {...props}
     >
       <ChevronLeftIcon className="size-3.5" />
-      <span className="hidden sm:inline">{text}</span>
+      <span className="hidden sm:inline">{label}</span>
     </PaginationLink>
   );
 }
 
 function PaginationNext({
   className,
-  text = "Berikutnya",
+  text,
   disabled,
   ...props
 }: PaginationLinkProps & { text?: string }) {
+  const { t } = useI18n();
+  const label = text || t("common.pagination.next") || "Next";
   return (
     <PaginationLink
-      aria-label="Halaman Berikutnya"
+      aria-label={label}
       size="sm"
       disabled={disabled}
       className={cn(
@@ -154,7 +159,7 @@ function PaginationNext({
       )}
       {...props}
     >
-      <span className="hidden sm:inline">{text}</span>
+      <span className="hidden sm:inline">{label}</span>
       <ChevronRightIcon className="size-3.5" />
     </PaginationLink>
   );
@@ -168,14 +173,11 @@ function PaginationEllipsis({
     <span
       aria-hidden
       data-slot="pagination-ellipsis"
-      className={cn(
-        "text-foreground-muted flex size-8 items-center justify-center select-none",
-        className,
-      )}
+      className={cn("flex size-9 items-center justify-center", className)}
       {...props}
     >
       <MoreHorizontalIcon className="size-4" />
-      <span className="sr-only">Halaman lainnya</span>
+      <span className="sr-only">More pages</span>
     </span>
   );
 }
@@ -199,8 +201,8 @@ export interface DataTablePaginationProps {
 
 /**
  * Standard Full-Featured Table Pagination Footer matching /campaigns reference:
- * - Left: "Menampilkan X - Y dari Z {entityName}" & "Baris per halaman: [ 10 / 20 / 50 / 100 ]"
- * - Right: Always-visible pill controls: [ < Sebelumnya ] [ Halaman X dari Y ] [ Berikutnya > ]
+ * - Left: "Showing X - Y of Z {entityName}" & "Rows per page: [ 10 / 20 / 50 / 100 ]"
+ * - Right: Always-visible pill controls: [ < Previous ] [ Page X of Y ] [ Next > ]
  */
 export function DataTablePagination({
   page,
@@ -213,11 +215,15 @@ export function DataTablePagination({
   onPageSizeChange,
   pageSizeOptions = [10, 20, 50, 100],
   entityName = "data",
-  prevText = "Sebelumnya",
-  nextText = "Berikutnya",
+  prevText,
+  nextText,
   className,
 }: DataTablePaginationProps) {
+  const { t } = useI18n();
   const safeTotalPages = Math.max(1, totalPages);
+  const effectivePrevText = prevText || t("common.pagination.previous") || "Previous";
+  const effectiveNextText = nextText || t("common.pagination.next") || "Next";
+
   const handlePrev = () => {
     if (page > 1) {
       if (onPrevPage) onPrevPage();
@@ -247,12 +253,15 @@ export function DataTablePagination({
         className="border-border hover:border-foreground-muted h-8.5 cursor-pointer gap-1 rounded-full px-3.5 text-xs font-bold transition disabled:pointer-events-none disabled:opacity-40"
       >
         <ChevronLeftIcon className="size-3.5" />
-        <span className="hidden sm:inline">{prevText}</span>
+        <span className="hidden sm:inline">{effectivePrevText}</span>
       </Button>
 
       <div className="bg-surface border-border text-foreground flex h-8.5 items-center rounded-full border px-3.5 text-xs font-bold select-none">
         <span>
-          Halaman {page} dari {safeTotalPages}
+          {t("common.pagination.pageOf", {
+            page,
+            totalPages: safeTotalPages,
+          }) || `Page ${page} of ${safeTotalPages}`}
         </span>
       </div>
 
@@ -264,7 +273,7 @@ export function DataTablePagination({
         onClick={handleNext}
         className="border-border hover:border-foreground-muted h-8.5 cursor-pointer gap-1 rounded-full px-3.5 text-xs font-bold transition disabled:pointer-events-none disabled:opacity-40"
       >
-        <span className="hidden sm:inline">{nextText}</span>
+        <span className="hidden sm:inline">{effectiveNextText}</span>
         <ChevronRightIcon className="size-3.5" />
       </Button>
     </div>
@@ -289,14 +298,14 @@ export function DataTablePagination({
       <div className="text-foreground-secondary flex flex-wrap items-center gap-3 text-xs font-semibold">
         <span>
           {total > 0
-            ? `Menampilkan ${startItem} - ${endItem} dari ${total} ${entityName}`
+            ? `${t("common.table.showing") || "Showing"} ${startItem} - ${endItem} ${t("common.table.of") || "of"} ${total} ${entityName}`
             : `0 ${entityName}`}
         </span>
 
         {onPageSizeChange && (
           <div className="border-border flex items-center gap-1.5 border-l pl-3">
             <span className="text-foreground-muted text-[11px]">
-              Baris per halaman:
+              {t("common.pagination.rowsPerPage") || "Rows per page"}:
             </span>
             <select
               value={pageSize}

@@ -23,11 +23,14 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
+import { useI18n } from "@/lib/i18n/context";
 
 interface AdminNavGroup {
-  groupTitle: string;
+  groupKey: string;
+  defaultTitle: string;
   items: Array<{
-    title: string;
+    titleKey: string;
+    defaultTitle: string;
     href: string;
     icon: React.ComponentType<{ className?: string }>;
     badge?: string;
@@ -36,23 +39,37 @@ interface AdminNavGroup {
 
 const adminNavGroups: AdminNavGroup[] = [
   {
-    groupTitle: "Core Infrastructure",
+    groupKey: "nav.admin.groupInfrastructure",
+    defaultTitle: "Core Infrastructure",
     items: [
       {
-        title: "Dashboard Overview",
+        titleKey: "nav.admin.dashboard",
+        defaultTitle: "Dashboard Overview",
         href: "/admin/dashboard",
         icon: LayoutDashboard,
       },
       {
-        title: "Server Node Fleet",
+        titleKey: "nav.admin.servers",
+        defaultTitle: "Server Node Fleet",
         href: "/admin/servers",
         icon: Server,
         badge: "Fleet",
       },
-      { title: "Kubernetes Apps", href: "/admin/kubernetes", icon: Box },
-      { title: "System Health", href: "/admin/monitor", icon: Activity },
       {
-        title: "Cronjob Scheduler",
+        titleKey: "nav.admin.kubernetes",
+        defaultTitle: "Kubernetes Apps",
+        href: "/admin/kubernetes",
+        icon: Box,
+      },
+      {
+        titleKey: "nav.admin.monitor",
+        defaultTitle: "System Health",
+        href: "/admin/monitor",
+        icon: Activity,
+      },
+      {
+        titleKey: "nav.admin.cron",
+        defaultTitle: "Cronjob Scheduler",
         href: "/admin/cron",
         icon: Clock,
         badge: "40 Tasks",
@@ -60,26 +77,69 @@ const adminNavGroups: AdminNavGroup[] = [
     ],
   },
   {
-    groupTitle: "Security & Network",
+    groupKey: "nav.admin.groupSystem",
+    defaultTitle: "Security & Network",
     items: [
-      { title: "Pengguna & IAM", href: "/admin/users", icon: Users },
-      { title: "DNS Cloudflare", href: "/admin/dns", icon: Globe },
-      { title: "AI Gateway Engine", href: "/admin/ai", icon: Bot },
+      {
+        titleKey: "nav.admin.users",
+        defaultTitle: "Users & IAM",
+        href: "/admin/users",
+        icon: Users,
+      },
+      {
+        titleKey: "nav.admin.dns",
+        defaultTitle: "DNS Cloudflare",
+        href: "/admin/dns",
+        icon: Globe,
+      },
+      {
+        titleKey: "nav.admin.ai",
+        defaultTitle: "AI Gateway Engine",
+        href: "/admin/ai",
+        icon: Bot,
+      },
     ],
   },
   {
-    groupTitle: "Finance & Commercial",
+    groupKey: "nav.admin.groupCommerce",
+    defaultTitle: "Finance & Commercial",
     items: [
-      { title: "Ledger Finansial", href: "/admin/finance", icon: CreditCard },
-      { title: "Paket & Langganan", href: "/admin/subscription", icon: Layers },
-      { title: "Helpdesk & Tiket", href: "/admin/support", icon: HelpCircle },
+      {
+        titleKey: "nav.admin.finance",
+        defaultTitle: "Financial Ledger",
+        href: "/admin/finance",
+        icon: CreditCard,
+      },
+      {
+        titleKey: "nav.admin.subscriptions",
+        defaultTitle: "Plans & Subscriptions",
+        href: "/admin/subscription",
+        icon: Layers,
+      },
+      {
+        titleKey: "nav.admin.support",
+        defaultTitle: "Helpdesk & Tickets",
+        href: "/admin/support",
+        icon: HelpCircle,
+      },
     ],
   },
   {
-    groupTitle: "Communications & CMS",
+    groupKey: "nav.admin.groupServices",
+    defaultTitle: "Communications & CMS",
     items: [
-      { title: "Antrean Siaran", href: "/admin/notifications", icon: Bell },
-      { title: "CMS & Setting Sistem", href: "/admin/content", icon: Settings },
+      {
+        titleKey: "nav.admin.notifications",
+        defaultTitle: "Broadcast Queue",
+        href: "/admin/notifications",
+        icon: Bell,
+      },
+      {
+        titleKey: "nav.admin.content",
+        defaultTitle: "CMS & System Settings",
+        href: "/admin/content",
+        icon: Settings,
+      },
     ],
   },
 ];
@@ -91,6 +151,7 @@ interface AdminSidebarProps {
 
 export function AdminSidebar({ className, onCloseMobile }: AdminSidebarProps) {
   const pathname = usePathname();
+  const { t } = useI18n();
 
   return (
     <aside
@@ -125,9 +186,9 @@ export function AdminSidebar({ className, onCloseMobile }: AdminSidebarProps) {
       {/* Navigation List */}
       <nav className="flex-1 space-y-4 overflow-y-auto px-3 py-3">
         {adminNavGroups.map((group) => (
-          <div key={group.groupTitle} className="space-y-1">
+          <div key={group.groupKey} className="space-y-1">
             <div className="px-3 pb-1 text-[10px] font-mono uppercase tracking-wider text-muted-foreground">
-              {group.groupTitle}
+              {t(group.groupKey) || group.defaultTitle}
             </div>
             {group.items.map((item) => {
               const isActive =
@@ -156,7 +217,7 @@ export function AdminSidebar({ className, onCloseMobile }: AdminSidebarProps) {
                         isActive ? "text-white" : "text-muted-foreground",
                       )}
                     />
-                    <span>{item.title}</span>
+                    <span>{t(item.titleKey) || item.defaultTitle}</span>
                   </div>
                   {item.badge && (
                     <Badge
@@ -185,14 +246,14 @@ export function AdminSidebar({ className, onCloseMobile }: AdminSidebarProps) {
           className="flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-xs font-medium text-amber-400 hover:bg-amber-500/10 transition-colors"
         >
           <Building2 className="size-3.5" />
-          <span>Buka Partner Portal</span>
+          <span>{t("nav.admin.backToSeller") || "Back to Reseller Portal"}</span>
         </Link>
         <Link
           href="/dashboard"
           className="flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-xs font-medium text-muted-foreground hover:bg-sidebar-accent hover:text-foreground transition-colors"
         >
           <ArrowLeft className="size-3.5" />
-          <span>Kembali ke Member Console</span>
+          <span>{t("nav.admin.backToUser") || "Back to Member Area"}</span>
         </Link>
       </div>
     </aside>

@@ -2,6 +2,7 @@
 // GoVPN AI Chat Playground Component
 // Part of Pola C: components/user/AiChatPlayground.tsx
 // 100% Coinbase Institutional Design System (Multi-Turn Chat, Model Selector)
+// Fully Localized with useI18n (EN/ID)
 // ==============================================================================
 
 "use client";
@@ -14,6 +15,7 @@ import { Input } from "@/components/ui/input";
 import { NativeSelect } from "@/components/ui/native-select";
 import { Send, Bot, User, Sparkles, Loader2, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n/context";
 
 interface AiChatPlaygroundProps {
   models: AiModel[];
@@ -27,6 +29,7 @@ export function AiChatPlayground({
   models,
   onSendMessage,
 }: AiChatPlaygroundProps) {
+  const { t, locale } = useI18n();
   const [selectedModel, setSelectedModel] = useState<string>(
     models[0]?.model_id || "gpt-4o-mini",
   );
@@ -35,8 +38,7 @@ export function AiChatPlayground({
     {
       id: "msg-welcome",
       role: "assistant",
-      content:
-        "Halo! Saya adalah GoVPN AI Assistant yang terhubung langsung ke unified AI Gateway. Anda dapat menguji inferensi model, menanyakan konfigurasi VPN, atau menguji respons API di sini.",
+      content: t("ai.welcomeChatMessage"),
       created_at: new Date().toISOString(),
     },
   ]);
@@ -73,12 +75,12 @@ export function AiChatPlayground({
         role: "assistant",
         content:
           response ||
-          "Respons diterima dari model gateway. Anda dapat menggunakan endpoint `/api/ai/v1/chat/completions` dengan API key Anda.",
+          "Response received from model gateway. You can use `/api/ai/v1/chat/completions` with your API key.",
         created_at: new Date().toISOString(),
       };
       setMessages((prev) => [...prev, assistantMessage]);
     } catch {
-      toast.error("Gagal mengirim pesan ke model AI");
+      toast.error(t("ai.sendFailed"));
     } finally {
       setSending(false);
     }
@@ -89,7 +91,7 @@ export function AiChatPlayground({
       {
         id: "msg-welcome",
         role: "assistant",
-        content: "Percakapan telah direset. Silakan ajukan pertanyaan baru.",
+        content: t("ai.welcomeResetMessage"),
         created_at: new Date().toISOString(),
       },
     ]);
@@ -105,10 +107,10 @@ export function AiChatPlayground({
           </div>
           <div>
             <h4 className="font-bold text-xs text-foreground">
-              Playground Inferensi AI
+              {t("ai.playgroundTitle")}
             </h4>
             <p className="text-[11px] text-muted-foreground">
-              Uji coba interaktif langsung ke model
+              {t("ai.interactiveTestSubtitle")}
             </p>
           </div>
         </div>
@@ -133,7 +135,7 @@ export function AiChatPlayground({
             size="sm"
             onClick={handleReset}
             className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground rounded-lg"
-            title="Reset percakapan"
+            title={t("ai.resetChat")}
           >
             <RotateCcw className="h-3.5 w-3.5" />
           </Button>
@@ -172,7 +174,7 @@ export function AiChatPlayground({
             >
               <p className="whitespace-pre-wrap">{msg.content}</p>
               <span className="text-[10px] opacity-60 mt-1 block font-mono">
-                {new Date(msg.created_at).toLocaleTimeString("id-ID", {
+                {new Date(msg.created_at).toLocaleTimeString(locale === "id" ? "id-ID" : "en-US", {
                   hour: "2-digit",
                   minute: "2-digit",
                 })}
@@ -188,7 +190,7 @@ export function AiChatPlayground({
             </div>
             <div className="rounded-2xl rounded-tl-none bg-muted/40 border border-border px-4 py-3 flex items-center gap-2 text-xs text-muted-foreground">
               <Loader2 className="h-3.5 w-3.5 animate-spin text-primary" />
-              <span>Menghubungi AI Gateway...</span>
+              <span>{t("ai.connectingToGateway")}</span>
             </div>
           </div>
         )}
@@ -200,7 +202,7 @@ export function AiChatPlayground({
         className="p-3 border-t border-border/80 bg-muted/20 flex gap-2"
       >
         <Input
-          placeholder={`Tulis prompt untuk ${selectedModel}...`}
+          placeholder={t("ai.typePrompt", { model: selectedModel })}
           value={input}
           onChange={(e) => setInput(e.target.value)}
           disabled={sending}
@@ -212,7 +214,7 @@ export function AiChatPlayground({
           className="h-10 px-4 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs gap-1.5 shadow-md shadow-primary/20"
         >
           <Send className="h-3.5 w-3.5" />
-          Kirim
+          {t("ai.send")}
         </Button>
       </form>
     </Card>

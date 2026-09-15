@@ -16,7 +16,8 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ThemeToggle } from "../shared";
+import { ThemeToggle, LanguageSwitcher } from "../shared";
+import { useI18n } from "@/lib/i18n/context";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -51,6 +52,7 @@ export function DashboardHeader({
   const pathname = usePathname();
   const router = useRouter();
   const { logout } = useAuthStore();
+  const { t } = useI18n();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   const handleLogout = async () => {
@@ -74,7 +76,7 @@ export function DashboardHeader({
                 className="size-9 md:hidden border-border"
               >
                 <Menu className="size-4 text-foreground" />
-                <span className="sr-only">Buka Menu</span>
+                <span className="sr-only">Toggle Menu</span>
               </Button>
             }
           />
@@ -124,7 +126,7 @@ export function DashboardHeader({
           <div className="flex items-center gap-1.5 text-primary">
             <Wallet className="size-3.5" />
             <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground hidden sm:inline">
-              Saldo
+              {t("common.balance") || "Balance"}
             </span>
           </div>
           <span className="font-mono text-xs font-bold text-foreground">
@@ -134,13 +136,12 @@ export function DashboardHeader({
             size="icon"
             variant="ghost"
             className="size-6 text-primary hover:bg-primary/10 rounded-lg ml-0.5"
-            asChild
-            title="Top Up Saldo"
-          >
-            <Link href="/billing/deposit">
-              <PlusCircle className="size-3.5" />
-            </Link>
-          </Button>
+            render={
+              <Link href="/billing/deposit" title={t("finance.topupNow") || "Top Up Balance"}>
+                <PlusCircle className="size-3.5" />
+              </Link>
+            }
+          />
         </div>
 
         {/* Quick Search Helper */}
@@ -150,11 +151,14 @@ export function DashboardHeader({
           className="hidden md:flex items-center gap-2 border-border/80 bg-background/50 text-xs font-mono text-muted-foreground px-2.5 h-8"
         >
           <Search className="size-3.5" />
-          <span>Cari...</span>
+          <span>{t("common.search") || "Search..."}</span>
           <kbd className="rounded border border-border px-1 text-[10px] text-muted-foreground">
             ⌘K
           </kbd>
         </Button>
+
+        {/* Language Switcher */}
+        <LanguageSwitcher />
 
         {/* Theme Toggle */}
         <ThemeToggle />
@@ -164,12 +168,12 @@ export function DashboardHeader({
           variant="ghost"
           size="icon"
           className="size-8 text-muted-foreground hover:text-foreground"
-          asChild
-        >
-          <Link href="/notifications" title="Notifikasi">
-            <Bell className="size-4" />
-          </Link>
-        </Button>
+          render={
+            <Link href="/notifications" title={t("notification.title") || "Notifications"}>
+              <Bell className="size-4" />
+            </Link>
+          }
+        />
 
         {/* User Profile Dropdown */}
         <DropdownMenu>
@@ -216,7 +220,7 @@ export function DashboardHeader({
               }
             >
               <Shield className="mr-2 size-4 text-muted-foreground" />
-              <span>Pengaturan Profil</span>
+              <span>{t("iam.profileTitle") || "Profile Settings"}</span>
             </DropdownMenuItem>
             <DropdownMenuItem
               render={
@@ -227,7 +231,7 @@ export function DashboardHeader({
               }
             >
               <Wallet className="mr-2 size-4 text-muted-foreground" />
-              <span>Riwayat Transaksi</span>
+              <span>{t("finance.invoicesTitle") || "Invoices"}</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
@@ -235,7 +239,7 @@ export function DashboardHeader({
               className="text-rose-400 focus:text-rose-400 cursor-pointer"
             >
               <LogOut className="mr-2 size-4" />
-              <span>Keluar</span>
+              <span>{t("common.logout") || "Logout"}</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

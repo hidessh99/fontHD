@@ -29,12 +29,14 @@ import {
   Check,
 } from "lucide-react";
 import Link from "next/link";
+import { useI18n } from "@/lib/i18n";
 
 interface RegisterFormProps {
   onRegister: (data: RegisterRequest) => Promise<boolean>;
 }
 
 export function RegisterForm({ onRegister }: RegisterFormProps) {
+  const { t } = useI18n();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -71,11 +73,10 @@ export function RegisterForm({ onRegister }: RegisterFormProps) {
           <UserPlus className="h-6 w-6" />
         </div>
         <CardTitle className="text-2xl font-bold tracking-tight text-foreground">
-          Buat Akun GoVPN
+          {t("iam.registerTitle")}
         </CardTitle>
         <CardDescription className="text-xs text-muted-foreground">
-          Dapatkan akses instan ke jaringan server VPN berkecepatan tinggi di
-          30+ negara.
+          {t("iam.registerDesc")}
         </CardDescription>
       </CardHeader>
 
@@ -87,14 +88,14 @@ export function RegisterForm({ onRegister }: RegisterFormProps) {
               htmlFor="reg-username"
               className="text-xs font-medium text-muted-foreground"
             >
-              Username
+              {t("iam.username")}
             </Label>
             <div className="relative mt-1.5">
               <User className="absolute left-3.5 top-3.5 h-4 w-4 text-muted-foreground" />
               <Input
                 id="reg-username"
                 type="text"
-                placeholder="misal: ahmad_vpn"
+                placeholder={t("iam.usernamePlaceholder")}
                 value={username}
                 onChange={(e) =>
                   setUsername(e.target.value.toLowerCase().replace(/\s/g, ""))
@@ -111,7 +112,7 @@ export function RegisterForm({ onRegister }: RegisterFormProps) {
               htmlFor="reg-email"
               className="text-xs font-medium text-muted-foreground"
             >
-              Alamat Email Aktif
+              {t("iam.activeEmail")}
             </Label>
             <div className="relative mt-1.5">
               <Mail className="absolute left-3.5 top-3.5 h-4 w-4 text-muted-foreground" />
@@ -133,7 +134,7 @@ export function RegisterForm({ onRegister }: RegisterFormProps) {
               htmlFor="reg-pw"
               className="text-xs font-medium text-muted-foreground"
             >
-              Kata Sandi (Min. 8 Karakter)
+              {t("iam.passwordMin8")}
             </Label>
             <div className="relative mt-1.5">
               <Lock className="absolute left-3.5 top-3.5 h-4 w-4 text-muted-foreground" />
@@ -155,21 +156,21 @@ export function RegisterForm({ onRegister }: RegisterFormProps) {
                   <span
                     className={`flex items-center gap-1 ${hasMinLength ? "text-emerald-400" : ""}`}
                   >
-                    <Check className="h-3 w-3" /> Min 8 Char
+                    <Check className="h-3 w-3" /> {t("iam.min8Char")}
                   </span>
                   <span
                     className={`flex items-center gap-1 ${hasNumber ? "text-emerald-400" : ""}`}
                   >
-                    <Check className="h-3 w-3" /> Angka
+                    <Check className="h-3 w-3" /> {t("iam.numberReq")}
                   </span>
                   <span
                     className={`flex items-center gap-1 ${hasSpecial ? "text-emerald-400" : ""}`}
                   >
-                    <Check className="h-3 w-3" /> Simbol
+                    <Check className="h-3 w-3" /> {t("iam.symbolReq")}
                   </span>
                 </div>
                 {isStrong && (
-                  <span className="text-emerald-400 font-semibold">Kuat</span>
+                  <span className="text-emerald-400 font-semibold">{t("iam.strongPassword")}</span>
                 )}
               </div>
             )}
@@ -181,14 +182,14 @@ export function RegisterForm({ onRegister }: RegisterFormProps) {
               htmlFor="reg-ref"
               className="text-xs font-medium text-muted-foreground"
             >
-              Kode Referral Reseller (Opsional)
+              {t("iam.referralCode")}
             </Label>
             <div className="relative mt-1.5">
               <Gift className="absolute left-3.5 top-3.5 h-4 w-4 text-muted-foreground" />
               <Input
                 id="reg-ref"
                 type="text"
-                placeholder="KODE REFERRAL"
+                placeholder={t("iam.referralPlaceholder")}
                 value={referralCode}
                 onChange={(e) => setReferralCode(e.target.value.toUpperCase())}
                 className="pl-10 font-mono text-xs uppercase rounded-2xl min-h-12 border-border/70 bg-background/50"
@@ -205,12 +206,11 @@ export function RegisterForm({ onRegister }: RegisterFormProps) {
           >
             {isSubmitting ? (
               <>
-                <Loader2 className="h-4 w-4 animate-spin" /> Mendaftarkan
-                Akun...
+                <Loader2 className="h-4 w-4 animate-spin" /> {t("iam.registering")}
               </>
             ) : (
               <>
-                Daftar Akun Baru
+                {t("iam.registerButton")}
                 <ArrowRight className="h-4 w-4" />
               </>
             )}
@@ -218,12 +218,12 @@ export function RegisterForm({ onRegister }: RegisterFormProps) {
         </form>
 
         <p className="text-center text-xs text-muted-foreground pt-2">
-          Sudah memiliki akun?{" "}
+          {t("iam.alreadyHaveAccount")}{" "}
           <Link
             href="/login"
             className="text-primary hover:underline font-semibold font-mono"
           >
-            Masuk Sekarang
+            {t("iam.loginNow")}
           </Link>
         </p>
       </CardContent>

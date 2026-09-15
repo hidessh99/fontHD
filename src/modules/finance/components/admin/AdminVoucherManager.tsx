@@ -2,6 +2,7 @@
 // GoVPN Finance Admin Voucher Manager Component
 // Part of Pola C: components/admin/AdminVoucherManager.tsx
 // 100% Coinbase Institutional Design System (Voucher Inventory & Creation)
+// Fully Localized with useI18n (EN/ID)
 // ==============================================================================
 
 "use client";
@@ -21,6 +22,7 @@ import {
 } from "@/components/ui/dialog";
 import { PlusCircle, Tag, Trash2, Calendar, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n/context";
 
 interface AdminVoucherManagerProps {
   vouchers: Voucher[];
@@ -33,6 +35,7 @@ export function AdminVoucherManager({
   onCreateVoucher,
   onDeleteVoucher,
 }: AdminVoucherManagerProps) {
+  const { t, locale } = useI18n();
   const [open, setOpen] = useState(false);
   const [code, setCode] = useState("");
   const [discountAmount, setDiscountAmount] = useState("");
@@ -70,7 +73,7 @@ export function AdminVoucherManager({
         expired_at: new Date(expiredAt).toISOString(),
         is_active: true,
       });
-      toast.success("Voucher promo berhasil dibuat!");
+      toast.success(t("finance.voucherCreated"));
       setOpen(false);
       setCode("");
       setDiscountAmount("");
@@ -88,9 +91,9 @@ export function AdminVoucherManager({
     setDeletingId(id);
     try {
       await onDeleteVoucher(id);
-      toast.success("Voucher berhasil dihapus!");
+      toast.success(t("common.deleteSuccess"));
     } catch {
-      toast.error("Gagal menghapus voucher");
+      toast.error(t("common.error"));
     } finally {
       setDeletingId(null);
     }
@@ -102,11 +105,10 @@ export function AdminVoucherManager({
         <div>
           <h3 className="text-sm font-bold font-mono text-foreground flex items-center gap-2">
             <Tag className="h-4 w-4 text-primary" />
-            Manajemen Kupon &amp; Voucher Diskon
+            {t("finance.vouchersManagement")}
           </h3>
           <p className="text-xs text-muted-foreground">
-            Atur kuota dan potongan harga transaksi saldo maupun pembelian paket
-            VPN.
+            {t("finance.vouchersManagementSubtitle")}
           </p>
         </div>
 
@@ -115,7 +117,7 @@ export function AdminVoucherManager({
             render={
               <Button className="bg-primary hover:bg-primary-hover text-white gap-2 font-semibold text-xs rounded-full min-h-9 px-5 shadow-sm">
                 <PlusCircle className="h-4 w-4" />
-                Buat Voucher
+                {t("finance.createVoucher")}
               </Button>
             }
           />
@@ -123,7 +125,7 @@ export function AdminVoucherManager({
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2 text-lg font-bold">
                 <Tag className="h-5 w-5 text-primary" />
-                Buat Kupon Promo Baru
+                {t("finance.createNewVoucherModalTitle")}
               </DialogTitle>
             </DialogHeader>
 
@@ -133,11 +135,11 @@ export function AdminVoucherManager({
                   htmlFor="v-code"
                   className="text-xs font-medium text-muted-foreground"
                 >
-                  Kode Kupon (Uppercase)
+                  {t("finance.couponCode")}
                 </Label>
                 <Input
                   id="v-code"
-                  placeholder="MISAL: DISKON50"
+                  placeholder="DISKON50"
                   value={code}
                   onChange={(e) => setCode(e.target.value.toUpperCase())}
                   className="mt-1.5 font-mono text-xs uppercase rounded-xl min-h-10"
@@ -150,7 +152,7 @@ export function AdminVoucherManager({
                     htmlFor="v-disc"
                     className="text-xs font-medium text-muted-foreground"
                   >
-                    Potongan Harga (IDR)
+                    {t("finance.discountAmount")}
                   </Label>
                   <Input
                     id="v-disc"
@@ -166,7 +168,7 @@ export function AdminVoucherManager({
                     htmlFor="v-quota"
                     className="text-xs font-medium text-muted-foreground"
                   >
-                    Batas Kuota Pemakaian
+                    {t("finance.usageQuota")}
                   </Label>
                   <Input
                     id="v-quota"
@@ -184,7 +186,7 @@ export function AdminVoucherManager({
                   htmlFor="v-exp"
                   className="text-xs font-medium text-muted-foreground"
                 >
-                  Tanggal Kedaluwarsa
+                  {t("finance.expiryDate")}
                 </Label>
                 <Input
                   id="v-exp"
@@ -202,7 +204,7 @@ export function AdminVoucherManager({
                   onClick={() => setOpen(false)}
                   className="text-xs rounded-full min-h-10 px-5"
                 >
-                  Batal
+                  {t("finance.cancel")}
                 </Button>
                 <Button
                   type="submit"
@@ -212,10 +214,10 @@ export function AdminVoucherManager({
                   {isSubmitting ? (
                     <>
                       <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />{" "}
-                      Menyimpan...
+                      {t("finance.savingVoucher")}
                     </>
                   ) : (
-                    "Buat Kupon"
+                    t("finance.saveVoucher")
                   )}
                 </Button>
               </div>
@@ -229,12 +231,12 @@ export function AdminVoucherManager({
         <table className="w-full text-left text-sm text-muted-foreground">
           <thead className="border-b border-border/80 bg-muted/30 text-xs font-semibold uppercase tracking-wider text-muted-foreground font-mono">
             <tr>
-              <th className="px-5 py-4">Kode Kupon</th>
-              <th className="px-5 py-4">Nilai Diskon</th>
-              <th className="px-5 py-4">Penggunaan / Kuota</th>
-              <th className="px-5 py-4">Kedaluwarsa</th>
-              <th className="px-5 py-4">Status</th>
-              <th className="px-5 py-4 text-right">Aksi</th>
+              <th className="px-5 py-4">{t("finance.couponCode")}</th>
+              <th className="px-5 py-4">{t("finance.discountAmount")}</th>
+              <th className="px-5 py-4">{t("finance.usagePerQuota")}</th>
+              <th className="px-5 py-4">{t("finance.dueDate")}</th>
+              <th className="px-5 py-4">{t("common.status")}</th>
+              <th className="px-5 py-4 text-right">{t("common.actions")}</th>
             </tr>
           </thead>
           <tbody className="divide-y border-border/40 font-mono text-xs">
@@ -244,7 +246,7 @@ export function AdminVoucherManager({
                   colSpan={6}
                   className="px-5 py-8 text-center text-muted-foreground font-sans"
                 >
-                  Belum ada voucher yang dibuat.
+                  {t("finance.noVouchersYet")}
                 </td>
               </tr>
             ) : (
@@ -264,7 +266,7 @@ export function AdminVoucherManager({
                   <td className="px-5 py-3.5 text-muted-foreground">
                     <div className="flex items-center gap-1">
                       <Calendar className="h-3 w-3 text-muted-foreground" />
-                      {new Date(v.expired_at).toLocaleDateString("id-ID")}
+                      {new Date(v.expired_at).toLocaleDateString(locale === "id" ? "id-ID" : "en-US")}
                     </div>
                   </td>
                   <td className="px-5 py-3.5">
@@ -275,7 +277,7 @@ export function AdminVoucherManager({
                           : "bg-muted/40 text-muted-foreground border border-border"
                       }`}
                     >
-                      {v.is_active ? "AKTIF" : "NONAKTIF"}
+                      {v.is_active ? "ACTIVE" : "INACTIVE"}
                     </span>
                   </td>
                   <td className="px-5 py-3.5 text-right">

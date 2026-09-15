@@ -26,6 +26,7 @@ import { toast } from "sonner";
 export function SellerSubscriptionView() {
   const { stats, subscriptions, loading, createCustomerSubscription, refresh } =
     useSubscriptionSeller();
+  const { t } = useI18n();
   const [isProvisionModalOpen, setIsProvisionModalOpen] = useState(false);
   const [customerUserId, setCustomerUserId] = useState("");
   const [planId, setPlanId] = useState("plan-pro");
@@ -38,7 +39,7 @@ export function SellerSubscriptionView() {
   const handleCreateCustomerSub = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!customerUserId) {
-      toast.error("User ID pelanggan wajib diisi");
+      toast.error(t("common.error") || "User ID pelanggan wajib diisi");
       return;
     }
 
@@ -55,7 +56,7 @@ export function SellerSubscriptionView() {
       setIsProvisionModalOpen(false);
       setCustomerUserId("");
     } catch {
-      toast.error("Gagal memprovisi langganan pelanggan");
+      toast.error(t("common.error") || "Gagal memprovisi langganan pelanggan");
     } finally {
       setSubmitting(false);
     }
@@ -70,11 +71,10 @@ export function SellerSubscriptionView() {
             <Building2 className="w-3.5 h-3.5" /> Portal Reseller & Partner
           </div>
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
-            Kelola Langganan Pelanggan
+            {t("subscription.sellerPortalTitle")}
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Pantau pertumbuhan basis pengguna, komisi reseller, dan provisi
-            paket white-label tenant Anda.
+            {t("subscription.sellerPortalSubtitle")}
           </p>
         </div>
 
@@ -84,12 +84,12 @@ export function SellerSubscriptionView() {
             size="sm"
             onClick={() => {
               refresh();
-              toast.info("Data reseller dimuat ulang");
+              toast.info(t("common.refreshing") || "Data reseller dimuat ulang");
             }}
             className="gap-2"
           >
             <RefreshCw className="w-4 h-4" />
-            <span>Segarkan</span>
+            <span>{t("common.refresh")}</span>
           </Button>
           <Button
             size="sm"
@@ -97,7 +97,7 @@ export function SellerSubscriptionView() {
             className="gap-2"
           >
             <UserPlus className="w-4 h-4" />
-            <span>Provisi Langganan Baru</span>
+            <span>{t("subscription.provisionCustomerTitle")}</span>
           </Button>
         </div>
       </div>
@@ -109,10 +109,10 @@ export function SellerSubscriptionView() {
       <section className="space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-base font-semibold text-foreground">
-            Daftar Langganan Pelanggan
+            {t("subscription.customerSubsList")}
           </h2>
           <span className="text-xs text-muted-foreground">
-            Total {subscriptions.length} Akun Terdaftar
+            {t("subscription.totalRegisteredAccounts", { count: subscriptions.length })}
           </span>
         </div>
 
@@ -127,18 +127,17 @@ export function SellerSubscriptionView() {
         <DialogContent className="sm:max-w-md bg-card border-border/60">
           <DialogHeader>
             <DialogTitle className="text-lg font-bold">
-              Provisi Langganan Pelanggan
+              {t("subscription.provisionCustomerTitle")}
             </DialogTitle>
             <p className="text-xs text-muted-foreground">
-              Tentukan ID pelanggan dan paket layanan yang akan diaktifkan
-              secara instan di bawah tenant Anda.
+              {t("subscription.provisionCustomerDesc")}
             </p>
           </DialogHeader>
 
           <form onSubmit={handleCreateCustomerSub} className="space-y-4 pt-2">
             <div className="space-y-1.5">
               <label className="text-xs font-semibold text-muted-foreground">
-                Customer User ID
+                {t("subscription.customerUserId")}
               </label>
               <Input
                 type="number"
@@ -152,7 +151,7 @@ export function SellerSubscriptionView() {
 
             <div className="space-y-1.5">
               <label className="text-xs font-semibold text-muted-foreground">
-                Pilihan Paket
+                {t("subscription.planChoice")}
               </label>
               <NativeSelect
                 value={planId}
@@ -176,13 +175,13 @@ export function SellerSubscriptionView() {
                 variant="outline"
                 onClick={() => setIsProvisionModalOpen(false)}
               >
-                Batal
+                {t("common.cancel")}
               </Button>
               <Button
                 type="submit"
                 disabled={submitting}
               >
-                {submitting ? "Memproses..." : "Aktifkan Paket"}
+                {submitting ? t("common.loading") : t("subscription.activatePlan")}
               </Button>
             </div>
           </form>

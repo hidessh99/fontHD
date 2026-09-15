@@ -10,6 +10,7 @@ import React from "react";
 import { Post } from "../../types/content.types";
 import { Clock, Eye, ArrowRight, BookOpen } from "lucide-react";
 import Link from "next/link";
+import { useI18n } from "@/lib/i18n";
 
 interface PostCardProps {
   post: Post;
@@ -38,6 +39,8 @@ function getCleanExcerpt(
 }
 
 export function PostCard({ post }: PostCardProps) {
+  const { t, locale } = useI18n();
+
   return (
     <article className="group rounded-2xl border border-border/50 bg-card/60 hover:bg-card hover:border-primary/40 hover:shadow-lg transition-all overflow-hidden flex flex-col justify-between">
       {/* Thumbnail or Fallback Header */}
@@ -87,7 +90,7 @@ export function PostCard({ post }: PostCardProps) {
           <span className="flex items-center gap-1 text-[11px]">
             <Clock className="w-3 h-3" />
             {new Date(post.published_at || post.created_at).toLocaleDateString(
-              "id-ID",
+              locale === "id" ? "id-ID" : "en-US",
               {
                 day: "numeric",
                 month: "short",
@@ -107,7 +110,7 @@ export function PostCard({ post }: PostCardProps) {
           href={`/articles/${post.slug}`}
           className="inline-flex items-center gap-1 font-semibold text-blue-700 dark:text-blue-400 group-hover:translate-x-0.5 transition-all text-xs"
         >
-          <span>Baca</span>
+          <span>{t("content.read")}</span>
           <ArrowRight className="w-3.5 h-3.5" />
         </Link>
       </div>

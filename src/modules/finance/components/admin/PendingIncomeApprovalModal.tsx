@@ -2,6 +2,7 @@
 // GoVPN Finance Admin Pending Income Approval Modal / Manager Component
 // Part of Pola C: components/admin/PendingIncomeApprovalModal.tsx
 // 100% Coinbase Institutional Design System (Batch Approvals, Settle Pending)
+// Fully Localized with useI18n (EN/ID)
 // ==============================================================================
 
 "use client";
@@ -26,6 +27,7 @@ import {
   Calendar,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n/context";
 
 interface PendingIncomeApprovalModalProps {
   pendingList: IncomePending[];
@@ -46,6 +48,7 @@ export function PendingIncomeApprovalModal({
   onUpdateStatus,
   triggerButton,
 }: PendingIncomeApprovalModalProps) {
+  const { t, locale } = useI18n();
   const [open, setOpen] = useState(false);
   const [busyAction, setBusyAction] = useState<string | null>(null);
 
@@ -115,7 +118,7 @@ export function PendingIncomeApprovalModal({
               className="border-border/80 hover:bg-muted/30 text-foreground gap-2 font-semibold text-xs rounded-full min-h-9 px-4"
             >
               <Clock className="h-4 w-4 text-amber-400" />
-              Kelola Pending Income ({pendingList.length})
+              {t("finance.managePendingIncome")} ({pendingList.length})
             </Button>
           )
         }
@@ -125,7 +128,7 @@ export function PendingIncomeApprovalModal({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-lg font-bold">
             <DollarSign className="h-5 w-5 text-emerald-400" />
-            Penyelesaian Pending Income &amp; Settlement
+            {t("finance.pendingIncomeTitle")}
           </DialogTitle>
         </DialogHeader>
 
@@ -133,7 +136,7 @@ export function PendingIncomeApprovalModal({
           {/* Action Toolbar */}
           <div className="rounded-2xl border border-border/80 bg-surface/50 p-4 space-y-3">
             <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider font-mono">
-              Batch Settlement Actions
+              {t("finance.batchSettlementActions")}
             </span>
             <div className="flex flex-wrap items-center gap-2">
               {onTriggerAlways && (
@@ -147,7 +150,7 @@ export function PendingIncomeApprovalModal({
                   <Play
                     className={`h-3.5 w-3.5 ${busyAction === "always" ? "animate-spin" : ""}`}
                   />
-                  Process Always
+                  {t("finance.processAlways")}
                 </Button>
               )}
 
@@ -164,7 +167,7 @@ export function PendingIncomeApprovalModal({
                   <Play
                     className={`h-3.5 w-3.5 ${busyAction === "monthly" ? "animate-spin" : ""}`}
                   />
-                  Process Monthly
+                  {t("finance.processMonthly")}
                 </Button>
               )}
 
@@ -179,7 +182,7 @@ export function PendingIncomeApprovalModal({
                   <Play
                     className={`h-3.5 w-3.5 ${busyAction === "payas" ? "animate-spin" : ""}`}
                   />
-                  Process PayAs
+                  {t("finance.processPayas")}
                 </Button>
               )}
 
@@ -194,7 +197,7 @@ export function PendingIncomeApprovalModal({
                   <Trash2
                     className={`h-3.5 w-3.5 ${busyAction === "cleanup" ? "animate-spin" : ""}`}
                   />
-                  Bersihkan Stale Records
+                  {t("finance.cleanStaleRecords")}
                 </Button>
               )}
             </div>
@@ -205,12 +208,12 @@ export function PendingIncomeApprovalModal({
             <table className="w-full text-left text-sm text-muted-foreground">
               <thead className="border-b border-border/80 bg-muted/30 text-xs font-semibold uppercase tracking-wider text-muted-foreground font-mono">
                 <tr>
-                  <th className="px-4 py-3">Waktu</th>
+                  <th className="px-4 py-3">{t("finance.createdAt")}</th>
                   <th className="px-4 py-3">User ID</th>
-                  <th className="px-4 py-3">Sumber</th>
-                  <th className="px-4 py-3">Nominal</th>
-                  <th className="px-4 py-3">Status</th>
-                  <th className="px-4 py-3 text-right">Aksi</th>
+                  <th className="px-4 py-3">Source</th>
+                  <th className="px-4 py-3">{t("finance.amount")}</th>
+                  <th className="px-4 py-3">{t("common.status")}</th>
+                  <th className="px-4 py-3 text-right">{t("common.actions")}</th>
                 </tr>
               </thead>
               <tbody className="divide-y border-border/40 font-mono text-xs">
@@ -220,7 +223,7 @@ export function PendingIncomeApprovalModal({
                       colSpan={6}
                       className="px-4 py-6 text-center text-muted-foreground font-sans"
                     >
-                      Tidak ada antrian pending income saat ini.
+                      {t("finance.noPendingIncome")}
                     </td>
                   </tr>
                 ) : (
@@ -233,7 +236,7 @@ export function PendingIncomeApprovalModal({
                         <div className="flex items-center gap-1">
                           <Calendar className="h-3 w-3 text-muted-foreground" />
                           {new Date(item.created_at).toLocaleDateString(
-                            "id-ID",
+                            locale === "id" ? "id-ID" : "en-US",
                           )}
                         </div>
                       </td>
@@ -266,7 +269,7 @@ export function PendingIncomeApprovalModal({
                             ) : (
                               <CheckCircle2 className="h-3 w-3" />
                             )}
-                            Selesaikan
+                            {t("finance.settle")}
                           </Button>
                         )}
                       </td>

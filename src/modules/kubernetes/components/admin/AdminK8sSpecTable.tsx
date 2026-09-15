@@ -7,6 +7,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
+import { useI18n } from "@/locales/client";
 import { K8sSpec } from "../../types/k8s.types";
 import { AdminCreateSpecDto } from "../../types/admin.types";
 import { Button } from "@/components/ui/button";
@@ -36,6 +37,7 @@ export function AdminK8sSpecTable({
   onDeleteSpec,
   loading = false,
 }: AdminK8sSpecTableProps) {
+  const { t, locale } = useI18n();
   const [openCreate, setOpenCreate] = useState(false);
   const [name, setName] = useState("");
   const [cpu, setCpu] = useState(1);
@@ -48,7 +50,7 @@ export function AdminK8sSpecTable({
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim()) {
-      toast.error("Nama paket spec wajib diisi");
+      toast.error(t("kubernetes.specNameRequired"));
       return;
     }
 
@@ -64,18 +66,18 @@ export function AdminK8sSpecTable({
       });
       setOpenCreate(false);
       setName("");
-      toast.success("Paket resource spec berhasil ditambahkan");
+      toast.success(t("kubernetes.specAdded"));
     } finally {
       setSubmitting(false);
     }
   };
 
   const handleDelete = async (id: string | number) => {
-    if (!confirm("Hapus paket resource spec ini?")) return;
+    if (!confirm(t("kubernetes.confirmDeleteSpec"))) return;
     setDeletingId(id);
     try {
       await onDeleteSpec(id);
-      toast.success("Paket resource spec berhasil dihapus");
+      toast.success(t("kubernetes.specDeleted"));
     } finally {
       setDeletingId(null);
     }
@@ -85,40 +87,45 @@ export function AdminK8sSpecTable({
     () => [
       {
         id: "name",
-        header: "Nama Spec",
+        header: t("kubernetes.colSpecName"),
         className: "font-sans font-bold text-foreground",
         cell: (s) => s.name,
       },
       {
         id: "cpu",
-        header: "vCPU",
+        header: t("kubernetes.specVcpu"),
         className: "text-foreground font-mono",
         cell: (s) => `${s.cpu_cores} Cores`,
       },
       {
         id: "ram",
-        header: "RAM",
+        header: t("kubernetes.specRam"),
         className: "text-foreground font-mono",
         cell: (s) => `${s.ram_mb} MB`,
       },
       {
         id: "storage",
-        header: "Storage",
+        header: t("kubernetes.specStorage"),
         className: "text-foreground font-mono",
         cell: (s) => `${s.storage_gb} GB`,
       },
       {
         id: "price",
-        header: "Tarif Bulanan",
+        header: t("kubernetes.colMonthlyRate"),
         cell: (s) => (
           <span className="text-emerald-400 font-bold font-mono">
-            Rp {s.price_monthly.toLocaleString("id-ID")}/bln
+            {new Intl.NumberFormat(locale === "id" ? "id-ID" : "en-US", {
+              style: "currency",
+              currency: "IDR",
+              maximumFractionDigits: 0,
+            }).format(s.price_monthly)}
+            {locale === "id" ? "/bln" : "/mo"}
           </span>
         ),
       },
       {
         id: "actions",
-        header: "Aksi",
+        header: t("common.actions"),
         align: "right",
         cell: (s) => (
           <Button
@@ -127,7 +134,7 @@ export function AdminK8sSpecTable({
             disabled={deletingId === s.id}
             onClick={() => handleDelete(s.id)}
             className="h-8 w-8 p-0 text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 rounded-full"
-            title="Hapus Spec"
+            title={t("common.delete")}
           >
             {deletingId === s.id ? (
               <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -139,7 +146,7 @@ export function AdminK8sSpecTable({
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [deletingId],
+    [deletingId, t, locale],
   );
 
   const actions = (
@@ -151,7 +158,7 @@ export function AdminK8sSpecTable({
             className="h-9 px-3.5 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs gap-1.5 shadow-md shadow-primary/20"
           >
             <Plus className="h-4 w-4" />
-            Tambah Paket Spec
+            {t("kubernetes.addSpec")}
           </Button>
         }
       />
@@ -159,14 +166,14 @@ export function AdminK8sSpecTable({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-base font-bold">
             <Layers className="h-5 w-5 text-primary" />
-            Tambah Paket Resource Spec
+            {t("kubernetes.addSpecTitle")}
           </DialogTitle>
         </DialogHeader>
         <form onSubmit={handleCreate} className="space-y-3.5 pt-2">
           <div>
-            <Label className="text-xs text-muted-foreground">Nama Paket</Label>
+            <Label className="text-xs text-muted-foreground">{t("kubernetes.specName")}</Label>
             <Input
-              placeholder="misal: Standard 1 Core / 2GB"
+              placeholder={t("kubernetes.specNamePlaceholder")}
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="mt-1.5 bg-muted/30 border-border text-foreground text-xs h-10"
@@ -175,7 +182,7 @@ export function AdminK8sSpecTable({
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <Label className="text-xs text-muted-foreground">vCPU Cores</Label>
+              <Label className="text-xs text-muted-foreground">{t("kubernetes.specVcpu")}</Label>
               <Input
                 type="number"
                 step="0.5"
@@ -185,7 +192,7 @@ export function AdminK8sSpecTable({
               />
             </div>
             <div>
-              <Label className="text-xs text-muted-foreground">RAM (MB)</Label>
+              <Label className="text-xs text-muted-foreground">{t("kubernetes.specRam")}</Label>
               <Input
                 type="number"
                 step="512"
@@ -198,7 +205,7 @@ export function AdminK8sSpecTable({
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <Label className="text-xs text-muted-foreground">Storage (GB)</Label>
+              <Label className="text-xs text-muted-foreground">{t("kubernetes.specStorage")}</Label>
               <Input
                 type="number"
                 value={storage}
@@ -207,7 +214,7 @@ export function AdminK8sSpecTable({
               />
             </div>
             <div>
-              <Label className="text-xs text-muted-foreground">Tarif Bulanan (IDR)</Label>
+              <Label className="text-xs text-muted-foreground">{t("kubernetes.specMonthlyPrice")}</Label>
               <Input
                 type="number"
                 step="5000"
@@ -225,10 +232,10 @@ export function AdminK8sSpecTable({
           >
             {submitting ? (
               <>
-                <Loader2 className="h-4 w-4 animate-spin" /> Menyimpan Spec...
+                <Loader2 className="h-4 w-4 animate-spin" /> {t("kubernetes.savingSpec")}
               </>
             ) : (
-              "Simpan Paket Spec"
+              t("kubernetes.saveSpec")
             )}
           </Button>
         </form>
@@ -241,10 +248,10 @@ export function AdminK8sSpecTable({
       <div>
         <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
           <Layers className="h-4 w-4 text-primary" />
-          Paket Resource Pod (Specs)
+          {t("kubernetes.specsTitle")}
         </h3>
         <p className="text-xs text-muted-foreground mt-0.5">
-          Konfigurasi batas vCPU, RAM, dan tarif bulanan untuk deployment container
+          {t("kubernetes.specsDesc")}
         </p>
       </div>
 
@@ -254,16 +261,16 @@ export function AdminK8sSpecTable({
         keyExtractor={(s) => s.id}
         isLoading={loading}
         searchable={true}
-        searchPlaceholder="Cari nama paket spec..."
-        searchButtonText="Cari"
+        searchPlaceholder={t("kubernetes.searchSpecPlaceholder")}
+        searchButtonText={t("common.search")}
         searchAccessor={(s) => [s.name, s.cpu_cores, s.ram_mb, s.storage_gb]}
         paginated={true}
         pageSize={10}
-        entityName="paket spec"
+        entityName={t("kubernetes.specEntityName")}
         actions={actions}
         emptyIcon={Layers}
-        emptyTitle="Belum Ada Paket Spec"
-        emptyDescription="Tambahkan paket spec pertama Anda untuk menentukan kuota dan harga container pod."
+        emptyTitle={t("kubernetes.noSpecsTitle")}
+        emptyDescription={t("kubernetes.noSpecsDesc")}
       />
     </div>
   );

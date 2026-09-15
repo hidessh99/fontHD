@@ -30,6 +30,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n";
 
 interface AdminSettingsTableProps {
   settings: SystemSetting[];
@@ -47,6 +48,7 @@ export function AdminSettingsTable({
   onUpdateSetting,
   onDeleteSetting,
 }: AdminSettingsTableProps) {
+  const { t } = useI18n();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [editingSetting, setEditingSetting] = useState<SystemSetting | null>(
     null,
@@ -83,7 +85,7 @@ export function AdminSettingsTable({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!key.trim() || !value.trim()) {
-      toast.error("Key dan Value wajib diisi");
+      toast.error(t("content.keyAndValueRequired"));
       return;
     }
 
@@ -97,7 +99,7 @@ export function AdminSettingsTable({
           group,
           is_public: isPublic,
         });
-        toast.success(`Konfigurasi ${key} berhasil diperbarui!`);
+        toast.success(t("content.settingUpdated", { key }));
       } else {
         await onCreateSetting({
           key: key.trim(),
@@ -106,11 +108,11 @@ export function AdminSettingsTable({
           group,
           is_public: isPublic,
         });
-        toast.success(`Konfigurasi ${key} berhasil ditambahkan!`);
+        toast.success(t("content.settingCreated", { key }));
       }
       setIsAddModalOpen(false);
     } catch {
-      toast.error("Gagal menyimpan konfigurasi");
+      toast.error(t("content.settingSaveFailed"));
     } finally {
       setSubmitting(false);
     }
@@ -120,7 +122,7 @@ export function AdminSettingsTable({
     () => [
       {
         id: "group",
-        header: "Grup",
+        header: t("content.colGroup"),
         className: "whitespace-nowrap font-sans",
         cell: (s) => (
           <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-muted text-muted-foreground">
@@ -130,34 +132,34 @@ export function AdminSettingsTable({
       },
       {
         id: "key",
-        header: "Config Key",
+        header: t("content.colKey"),
         className: "font-bold text-foreground whitespace-nowrap font-mono",
         cell: (s) => s.key,
       },
       {
         id: "value",
-        header: "Nilai (Value)",
+        header: t("content.colValue"),
         className: "max-w-xs truncate text-primary font-semibold font-mono",
         cell: (s) => s.value,
       },
       {
         id: "visibility",
-        header: "Visibilitas",
+        header: t("content.colVisibility"),
         className: "whitespace-nowrap font-sans",
         cell: (s) =>
           s.is_public ? (
             <span className="inline-flex items-center gap-1 text-[11px] text-emerald-400">
-              <Globe className="w-3 h-3" /> Publik
+              <Globe className="w-3 h-3" /> {t("content.public")}
             </span>
           ) : (
             <span className="inline-flex items-center gap-1 text-[11px] text-amber-400">
-              <Lock className="w-3 h-3" /> Privat
+              <Lock className="w-3 h-3" /> {t("content.private")}
             </span>
           ),
       },
       {
         id: "actions",
-        header: "Aksi",
+        header: t("content.colSettingActions"),
         align: "right",
         cell: (s) => (
           <div className="inline-flex items-center gap-1">
@@ -166,7 +168,7 @@ export function AdminSettingsTable({
               variant="ghost"
               className="h-7 w-7 p-0 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-full"
               onClick={() => handleOpenEdit(s)}
-              title="Edit Konfigurasi"
+              title={t("content.editParamTitle")}
             >
               <Edit2 className="w-3.5 h-3.5" />
             </Button>
@@ -175,7 +177,7 @@ export function AdminSettingsTable({
               variant="ghost"
               className="h-7 w-7 p-0 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded-full"
               onClick={() => onDeleteSetting(s.id)}
-              title="Hapus Parameter"
+              title={t("content.deleteParamTitle")}
             >
               <Trash2 className="w-3.5 h-3.5" />
             </Button>
@@ -183,17 +185,17 @@ export function AdminSettingsTable({
         ),
       },
     ],
-    [onDeleteSetting],
+    [onDeleteSetting, t],
   );
 
   const filters: DataTableFilterConfig<SystemSetting>[] = useMemo(
     () => [
       {
         id: "group",
-        label: "Grup",
+        label: t("content.colGroup"),
         defaultValue: "ALL",
         options: [
-          { label: "Semua Grup", value: "ALL" },
+          { label: t("content.allGroups"), value: "ALL" },
           { label: "General", value: "GENERAL" },
           { label: "SEO", value: "SEO" },
           { label: "Payment", value: "PAYMENT" },
@@ -204,7 +206,7 @@ export function AdminSettingsTable({
           (s.group || "GENERAL").toUpperCase() === val.toUpperCase(),
       },
     ],
-    [],
+    [t],
   );
 
   const actions = (
@@ -213,7 +215,7 @@ export function AdminSettingsTable({
       className="gap-2 text-xs font-semibold bg-primary hover:bg-primary/90 text-primary-foreground rounded-full h-9 px-4 shadow-sm"
     >
       <Plus className="w-3.5 h-3.5" />
-      <span>Tambah Parameter Baru</span>
+      <span>{t("content.addNewParam")}</span>
     </Button>
   );
 
@@ -224,17 +226,17 @@ export function AdminSettingsTable({
         columns={columns}
         keyExtractor={(s) => s.id}
         searchable={true}
-        searchPlaceholder="Cari konfigurasi parameter sistem..."
-        searchButtonText="Cari"
+        searchPlaceholder={t("content.searchParamPlaceholder")}
+        searchButtonText={t("common.search", "Search")}
         searchAccessor={(s) => [s.key, s.value, s.group, s.description]}
         filters={filters}
         paginated={true}
         pageSize={10}
-        entityName="parameter sistem"
+        entityName={t("content.entitySettingName")}
         actions={actions}
         emptyIcon={Sliders}
-        emptyTitle="Tidak Ada Parameter"
-        emptyDescription="Belum ada parameter konfigurasi sistem yang sesuai."
+        emptyTitle={t("content.noSettingsTitle")}
+        emptyDescription={t("content.noSettingsDesc")}
       />
 
       {/* Add / Edit Parameter Dialog */}
@@ -244,16 +246,16 @@ export function AdminSettingsTable({
             <DialogTitle className="flex items-center gap-2 text-base font-bold">
               <Sliders className="w-4 h-4 text-primary" />
               {editingSetting
-                ? `Edit Parameter: ${editingSetting.key}`
-                : "Tambah Parameter Baru"}
+                ? t("content.editParam", { key: editingSetting.key })
+                : t("content.addNewParam")}
             </DialogTitle>
           </DialogHeader>
 
           <form onSubmit={handleSubmit} className="space-y-3.5 pt-2">
             <div>
-              <Label className="text-xs text-muted-foreground">Config Key</Label>
+              <Label className="text-xs text-muted-foreground">{t("content.colKey")}</Label>
               <Input
-                placeholder="misal: APP_MAINTENANCE_MODE"
+                placeholder={t("content.keyPlaceholder")}
                 value={key}
                 disabled={Boolean(editingSetting)}
                 onChange={(e) => setKey(e.target.value)}
@@ -262,9 +264,9 @@ export function AdminSettingsTable({
             </div>
 
             <div>
-              <Label className="text-xs text-muted-foreground">Nilai (Value)</Label>
+              <Label className="text-xs text-muted-foreground">{t("content.colValue")}</Label>
               <Input
-                placeholder="misal: true / https://api.govpn.com"
+                placeholder={t("content.valPlaceholder")}
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
                 className="mt-1 font-mono text-xs h-9"
@@ -273,7 +275,7 @@ export function AdminSettingsTable({
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <Label className="text-xs text-muted-foreground">Grup</Label>
+                <Label className="text-xs text-muted-foreground">{t("content.colGroup")}</Label>
                 <NativeSelect
                   variant="rounded"
                   value={group}
@@ -289,25 +291,25 @@ export function AdminSettingsTable({
               </div>
 
               <div>
-                <Label className="text-xs text-muted-foreground">Visibilitas</Label>
+                <Label className="text-xs text-muted-foreground">{t("content.colVisibility")}</Label>
                 <NativeSelect
                   variant="rounded"
                   value={isPublic ? "true" : "false"}
                   onChange={(e) => setIsPublic(e.target.value === "true")}
                   className="mt-1 w-full text-xs font-mono"
                 >
-                  <option value="false">Privat (Internal)</option>
-                  <option value="true">Publik (Client-side)</option>
+                  <option value="false">{t("content.privateInternalOpt")}</option>
+                  <option value="true">{t("content.publicClientOpt")}</option>
                 </NativeSelect>
               </div>
             </div>
 
             <div>
               <Label className="text-xs text-muted-foreground">
-                Deskripsi Kegunaan (Opsional)
+                {t("content.descLabel")}
               </Label>
               <Input
-                placeholder="Penjelasan fungsi konfigurasi ini..."
+                placeholder={t("content.descPlaceholder")}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 className="mt-1 text-xs h-9"
@@ -321,7 +323,7 @@ export function AdminSettingsTable({
                 onClick={() => setIsAddModalOpen(false)}
                 className="rounded-full text-xs px-4"
               >
-                Batal
+                {t("content.cancel")}
               </Button>
               <Button
                 type="submit"
@@ -330,10 +332,10 @@ export function AdminSettingsTable({
               >
                 {submitting ? (
                   <>
-                    <Loader2 className="w-3.5 h-3.5 animate-spin mr-1" /> Menyimpan...
+                    <Loader2 className="w-3.5 h-3.5 animate-spin mr-1" /> {t("content.saving")}
                   </>
                 ) : (
-                  "Simpan Parameter"
+                  t("content.saveParam")
                 )}
               </Button>
             </div>

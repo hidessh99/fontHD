@@ -51,6 +51,7 @@ export function AdminSubscriptionTable({
   const [newStatus, setNewStatus] = useState<SubscriptionStatus>("ACTIVE");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const { t } = useI18n();
 
   const handleOpenDialog = (sub: Subscription) => {
     setSelectedSub(sub);
@@ -70,7 +71,7 @@ export function AdminSubscriptionTable({
         await onUpdateStatus(selectedSub.id, newStatus);
       }
       setDialogOpen(false);
-      toast.success("Perubahan langganan berhasil disimpan");
+      toast.success(t("common.success") || "Perubahan langganan berhasil disimpan");
     } finally {
       setSubmitting(false);
     }
@@ -80,7 +81,7 @@ export function AdminSubscriptionTable({
     () => [
       {
         id: "status",
-        header: "Status",
+        header: t("common.status"),
         cell: (sub) => <SubscriptionStatusBadge status={sub.status} />,
       },
       {
@@ -96,25 +97,25 @@ export function AdminSubscriptionTable({
       },
       {
         id: "plan",
-        header: "Paket Langganan",
+        header: t("subscription.planName"),
         className: "font-sans font-bold text-foreground",
         cell: (sub) => sub.plan?.name || "Premium VPN",
       },
       {
         id: "start_date",
-        header: "Mulai",
+        header: t("common.date"),
         className: "font-sans text-muted-foreground",
         cell: (sub) => new Date(sub.start_date).toLocaleDateString("id-ID"),
       },
       {
         id: "end_date",
-        header: "Berakhir",
+        header: t("vpn.expiredAt"),
         className: "font-sans text-muted-foreground",
         cell: (sub) => new Date(sub.end_date).toLocaleDateString("id-ID"),
       },
       {
         id: "actions",
-        header: "Aksi",
+        header: t("common.actions"),
         align: "right",
         cell: (sub) => (
           <Button
@@ -124,22 +125,22 @@ export function AdminSubscriptionTable({
             className="h-8 px-2.5 text-xs text-primary hover:text-primary hover:bg-primary/10 rounded-full gap-1"
           >
             <Edit3 className="h-3.5 w-3.5" />
-            Ubah
+            {t("common.edit")}
           </Button>
         ),
       },
     ],
-    [],
+    [t],
   );
 
   const filters: DataTableFilterConfig<Subscription>[] = useMemo(
     () => [
       {
         id: "status",
-        label: "Status",
+        label: t("common.status"),
         defaultValue: "ALL",
         options: [
-          { label: "Semua Status", value: "ALL" },
+          { label: t("common.all"), value: "ALL" },
           { label: "ACTIVE", value: "ACTIVE" },
           { label: "EXPIRED", value: "EXPIRED" },
           { label: "CANCELLED", value: "CANCELLED" },
@@ -147,7 +148,7 @@ export function AdminSubscriptionTable({
         filterFn: (sub, val) => sub.status?.toUpperCase() === val.toUpperCase(),
       },
     ],
-    [],
+    [t],
   );
 
   return (
@@ -155,10 +156,10 @@ export function AdminSubscriptionTable({
       <div>
         <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
           <ShieldCheck className="h-4 w-4 text-primary" />
-          Audit Global Langganan Pengguna
+          {t("subscription.adminTableTitle")}
         </h3>
         <p className="text-xs text-muted-foreground mt-0.5">
-          Daftar seluruh langganan aktif, riwayat kadaluarsa, dan kemampuan modifikasi status
+          {t("subscription.adminTableSubtitle")}
         </p>
       </div>
 
@@ -168,16 +169,16 @@ export function AdminSubscriptionTable({
         keyExtractor={(sub) => sub.id}
         isLoading={loading}
         searchable={true}
-        searchPlaceholder="Cari user ID, nama paket..."
-        searchButtonText="Cari"
+        searchPlaceholder={t("common.search")}
+        searchButtonText={t("common.search")}
         searchAccessor={(sub) => [sub.user_id, sub.plan?.name, sub.status]}
         filters={filters}
         paginated={true}
         pageSize={10}
-        entityName="langganan"
+        entityName={t("subscription.userSubsTab", { count: "" }).trim()}
         emptyIcon={ShieldCheck}
-        emptyTitle="Belum Ada Langganan"
-        emptyDescription="Langganan pengguna akan terdata secara otomatis di sini."
+        emptyTitle={t("subscription.noSubsYet")}
+        emptyDescription={t("subscription.noSubsYetDesc")}
       />
 
       {/* Override Dialog */}
@@ -186,13 +187,13 @@ export function AdminSubscriptionTable({
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2 text-base font-bold">
               <Edit3 className="h-4 w-4 text-primary" />
-              Modifikasi Langganan #{selectedSub?.id}
+              {t("subscription.modifySubTitle", { id: String(selectedSub?.id || "") })}
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-4 pt-2">
             <div>
               <span className="text-xs text-muted-foreground block mb-1.5">
-                Ganti Paket Membership
+                {t("subscription.changeMembershipPlan")}
               </span>
               <NativeSelect
                 variant="rounded"
@@ -210,7 +211,7 @@ export function AdminSubscriptionTable({
 
             <div>
               <span className="text-xs text-muted-foreground block mb-1.5">
-                Override Status Langganan
+                {t("subscription.overrideStatus")}
               </span>
               <NativeSelect
                 variant="rounded"
@@ -220,9 +221,9 @@ export function AdminSubscriptionTable({
                 }
                 className="w-full text-xs font-mono"
               >
-                <option value="ACTIVE">ACTIVE (Aktif)</option>
-                <option value="EXPIRED">EXPIRED (Kedaluwarsa)</option>
-                <option value="CANCELLED">CANCELLED (Dibatalkan)</option>
+                <option value="ACTIVE">ACTIVE ({t("vpn.active")})</option>
+                <option value="EXPIRED">EXPIRED ({t("vpn.expired")})</option>
+                <option value="CANCELLED">CANCELLED ({t("common.cancelled") || "Dibatalkan"})</option>
               </NativeSelect>
             </div>
 
@@ -233,7 +234,7 @@ export function AdminSubscriptionTable({
                 onClick={() => setDialogOpen(false)}
                 className="rounded-full text-xs px-4"
               >
-                Batal
+                {t("common.cancel")}
               </Button>
               <Button
                 size="sm"
@@ -243,10 +244,10 @@ export function AdminSubscriptionTable({
               >
                 {submitting ? (
                   <>
-                    <Loader2 className="h-3.5 w-3.5 animate-spin mr-1" /> Menyimpan...
+                    <Loader2 className="h-3.5 w-3.5 animate-spin mr-1" /> {t("common.loading")}
                   </>
                 ) : (
-                  "Simpan Perubahan"
+                  t("subscription.saveChanges")
                 )}
               </Button>
             </div>

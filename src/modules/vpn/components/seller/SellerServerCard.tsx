@@ -25,6 +25,8 @@ export function SellerServerCard({
   onEdit,
   onDelete,
 }: SellerServerCardProps) {
+  const { t } = useI18n();
+
   return (
     <Card className="border border-border/80 bg-card/60 hover:border-primary/40 hover:bg-card transition-all duration-200 rounded-2xl">
       <CardHeader className="pb-3 flex flex-row items-center justify-between space-y-0">
@@ -49,7 +51,7 @@ export function SellerServerCard({
         <div className="grid grid-cols-2 gap-2 text-xs font-mono p-2.5 rounded-xl bg-surface border border-border/50">
           <div>
             <span className="text-[10px] text-muted-foreground uppercase block">
-              Pengguna Aktif
+              {t("vpn.capacity")}
             </span>
             <span className="font-semibold text-foreground">
               {server.current_users} / {server.max_users}
@@ -57,7 +59,7 @@ export function SellerServerCard({
           </div>
           <div>
             <span className="text-[10px] text-muted-foreground uppercase block">
-              Tipe Server
+              {t("vpn.serverFormTier")}
             </span>
             <span className="font-semibold text-primary uppercase">
               {server.tier}
@@ -79,7 +81,7 @@ export function SellerServerCard({
               onClick={() => onEdit(server)}
               className="text-xs rounded-full min-h-9 px-3 gap-1.5"
             >
-              <Edit3 className="size-3.5 text-muted-foreground" /> Edit Node
+              <Edit3 className="size-3.5 text-muted-foreground" /> {t("vpn.editNode")}
             </Button>
           )}
           {onDelete && (
@@ -89,7 +91,7 @@ export function SellerServerCard({
               onClick={() => onDelete(server.id)}
               className="text-xs rounded-full min-h-9 px-3 text-destructive hover:bg-destructive/10 gap-1.5"
             >
-              <Trash2 className="size-3.5" /> Hapus
+              <Trash2 className="size-3.5" /> {t("common.delete")}
             </Button>
           )}
         </div>

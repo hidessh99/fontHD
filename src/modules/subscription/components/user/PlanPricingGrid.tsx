@@ -11,6 +11,7 @@ import { Plan } from "../../types/subscription.types";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Check, Sparkles } from "lucide-react";
+import { useI18n } from "@/lib/i18n/context";
 
 interface PlanPricingGridProps {
   plans: Plan[];
@@ -23,15 +24,16 @@ export function PlanPricingGrid({
   onSelectPlan,
   activePlanId,
 }: PlanPricingGridProps) {
+  const { t } = useI18n();
+
   return (
     <div className="space-y-6">
       <div className="text-center max-w-xl mx-auto space-y-1.5">
         <h2 className="text-xl font-bold tracking-tight text-foreground">
-          Pilihan Paket Berlangganan GoVPN
+          {t("subscription.bestPlansTitle")}
         </h2>
         <p className="text-xs text-muted-foreground">
-          Dapatkan akses prioritas tanpa batas ke seluruh protokol tunneling VPN
-          dan AI Gateway
+          {t("subscription.bestPlansSubtitle")}
         </p>
       </div>
 
@@ -51,7 +53,7 @@ export function PlanPricingGrid({
             >
               {isFeatured && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground font-semibold text-[10px] uppercase tracking-wider px-3 py-0.5 rounded-full shadow-sm flex items-center gap-1">
-                  <Sparkles className="h-3 w-3" /> Paling Populer
+                  <Sparkles className="h-3 w-3" /> {t("subscription.popular")}
                 </div>
               )}
 
@@ -79,23 +81,22 @@ export function PlanPricingGrid({
                 <div className="space-y-2.5 pt-4 border-t border-border/60 text-xs">
                   <div className="flex items-center gap-2 font-medium text-foreground">
                     <Check className="h-4 w-4 text-emerald-400 shrink-0" />
-                    <span>Hingga {plan.max_devices} Perangkat Simultan</span>
+                    <span>{t("subscription.upToDevices", { count: plan.max_devices })}</span>
                   </div>
 
                   <div className="flex items-center gap-2 font-medium text-foreground">
                     <Check className="h-4 w-4 text-emerald-400 shrink-0" />
                     <span>
-                      Bandwidth{" "}
                       {plan.bandwidth_gb > 0
-                        ? `${plan.bandwidth_gb} GB`
-                        : "Unlimited Kuota"}
+                        ? `Bandwidth ${plan.bandwidth_gb} GB`
+                        : t("subscription.unlimitedQuota")}
                     </span>
                   </div>
 
                   <div className="flex items-center gap-2 font-medium text-foreground">
                     <Check className="h-4 w-4 text-emerald-400 shrink-0" />
                     <span>
-                      Akses Seluruh Protokol (SSH, VMess, VLess, Trojan, WG)
+                      {t("subscription.allProtocolsAccess")}
                     </span>
                   </div>
 
@@ -123,7 +124,7 @@ export function PlanPricingGrid({
                         : "bg-card border border-border hover:bg-muted text-foreground"
                   }`}
                 >
-                  {isCurrent ? "Paket Aktif Anda" : "Pilih Paket Ini"}
+                  {isCurrent ? t("subscription.activePlanBtn") : t("subscription.selectPlanBtn")}
                 </Button>
               </div>
             </Card>

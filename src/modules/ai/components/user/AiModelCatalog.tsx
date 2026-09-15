@@ -2,6 +2,7 @@
 // GoVPN AI Model Catalog Component
 // Part of Pola C: components/user/AiModelCatalog.tsx
 // 100% Coinbase Institutional Design System (Context Windows & Token Pricing)
+// Fully Localized with useI18n (EN/ID)
 // ==============================================================================
 
 "use client";
@@ -13,12 +14,14 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Search, Cpu, Coins, Layers } from "lucide-react";
 import { EmptyState } from "@/components/shared/EmptyState";
+import { useI18n } from "@/lib/i18n/context";
 
 interface AiModelCatalogProps {
   models: AiModel[];
 }
 
 export function AiModelCatalog({ models }: AiModelCatalogProps) {
+  const { t } = useI18n();
   const [search, setSearch] = useState("");
 
   const filtered = models.filter(
@@ -35,17 +38,17 @@ export function AiModelCatalog({ models }: AiModelCatalogProps) {
         <div>
           <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
             <Cpu className="h-4 w-4 text-primary" />
-            Katalog Model AI Tersedia
+            {t("ai.availableModelsTitle")}
           </h3>
           <p className="text-xs text-muted-foreground mt-0.5">
-            Daftar model LLM yang dapat diakses melalui unified API Gateway
+            {t("ai.availableModelsSubtitle")}
           </p>
         </div>
 
         <div className="relative w-full sm:w-64">
           <Search className="absolute left-3.5 top-3 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Cari model..."
+            placeholder={t("ai.searchModelsPlaceholder")}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="pl-10 bg-card/60 border-border text-foreground text-xs h-10 rounded-xl"
@@ -56,8 +59,8 @@ export function AiModelCatalog({ models }: AiModelCatalogProps) {
       {filtered.length === 0 ? (
         <EmptyState
           icon={Cpu}
-          title="Model Tidak Ditemukan"
-          description="Tidak ada model AI yang cocok dengan pencarian Anda."
+          title={t("ai.noModelsFound")}
+          description={t("ai.noModelsFoundDesc")}
         />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
@@ -88,7 +91,7 @@ export function AiModelCatalog({ models }: AiModelCatalogProps) {
                 <div className="grid grid-cols-2 gap-2 pt-2 border-t border-border/60 text-[11px] font-mono">
                   <div className="rounded-lg bg-muted/30 p-2">
                     <span className="text-muted-foreground font-sans flex items-center gap-1">
-                      <Layers className="h-3 w-3 text-primary" /> Context
+                      <Layers className="h-3 w-3 text-primary" /> {t("ai.context")}
                     </span>
                     <span className="font-semibold text-foreground mt-0.5 block">
                       {model.context_window
@@ -99,7 +102,7 @@ export function AiModelCatalog({ models }: AiModelCatalogProps) {
 
                   <div className="rounded-lg bg-muted/30 p-2">
                     <span className="text-muted-foreground font-sans flex items-center gap-1">
-                      <Coins className="h-3 w-3 text-amber-400" /> Harga / 1K
+                      <Coins className="h-3 w-3 text-amber-400" /> {t("ai.pricePer1k")}
                     </span>
                     <span className="font-semibold text-foreground mt-0.5 block">
                       Rp {model.input_price_per_1k || 15}

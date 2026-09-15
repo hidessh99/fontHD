@@ -22,6 +22,7 @@ import { NativeSelect } from "@/components/ui/native-select";
 import { toast } from "sonner";
 import { ServerNode, VpnProtocol, VpnAccountTier } from "../../types/vpn.types";
 import { vpnAdminApi } from "../../api/admin.api";
+import { useI18n } from "@/lib/i18n/context";
 
 interface ServerNodeFormModalProps {
   isOpen: boolean;
@@ -38,6 +39,7 @@ export function ServerNodeFormModal({
 }: ServerNodeFormModalProps) {
   const isEditing = Boolean(server);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { t } = useI18n();
 
   const [formData, setFormData] = useState({
     name: server?.name || "",
@@ -66,7 +68,7 @@ export function ServerNodeFormModal({
         } else {
           await vpnAdminApi.updateMonthServer(server.id, formData);
         }
-        toast.success(`Server ${formData.name} berhasil diperbarui!`);
+        toast.success(t("vpn.serverFormUpdated", { name: formData.name }));
       } else {
         const payload = {
           ...formData,
@@ -87,7 +89,7 @@ export function ServerNodeFormModal({
           await vpnAdminApi.createMonthServer(payload);
         }
         toast.success(
-          `Server node baru ${formData.name} berhasil ditambahkan!`,
+          t("vpn.serverFormCreated", { name: formData.name }),
         );
       }
 
@@ -97,7 +99,7 @@ export function ServerNodeFormModal({
       const msg =
         err instanceof Error
           ? err.message
-          : "Gagal menyimpan konfigurasi server.";
+          : t("common.error");
       toast.error(msg);
     } finally {
       setIsSubmitting(false);
@@ -116,19 +118,18 @@ export function ServerNodeFormModal({
           </div>
           <DialogTitle className="text-lg font-bold">
             {isEditing
-              ? `Edit Server Node #${server?.id}`
-              : "Tambah Server Node Baru"}
+              ? t("vpn.serverFormTitleEdit", { id: String(server?.id || "") })
+              : t("vpn.serverFormTitleAdd")}
           </DialogTitle>
           <DialogDescription className="text-xs text-muted-foreground">
-            Konfigurasikan alamat IP publik, domain DNS, kuota kapasitas, dan
-            biaya tiering.
+            {t("vpn.serverFormDescription")}
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4 pt-2 font-mono">
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
-              <Label className="text-xs font-medium">Nama Server</Label>
+              <Label className="text-xs font-medium">{t("vpn.serverFormServerName")}</Label>
               <Input
                 value={formData.name}
                 onChange={(e) =>
@@ -140,7 +141,7 @@ export function ServerNodeFormModal({
               />
             </div>
             <div className="space-y-1.5">
-              <Label className="text-xs font-medium">Negara / Kode</Label>
+              <Label className="text-xs font-medium">{t("vpn.serverFormCountryCode")}</Label>
               <Input
                 value={formData.country_code}
                 onChange={(e) =>
@@ -158,7 +159,7 @@ export function ServerNodeFormModal({
 
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
-              <Label className="text-xs font-medium">IP Publik Server</Label>
+              <Label className="text-xs font-medium">{t("vpn.serverFormPublicIp")}</Label>
               <Input
                 value={formData.ip}
                 onChange={(e) =>
@@ -170,7 +171,7 @@ export function ServerNodeFormModal({
               />
             </div>
             <div className="space-y-1.5">
-              <Label className="text-xs font-medium">Domain DNS</Label>
+              <Label className="text-xs font-medium">{t("vpn.serverFormDnsDomain")}</Label>
               <Input
                 value={formData.domain}
                 onChange={(e) =>
@@ -185,7 +186,7 @@ export function ServerNodeFormModal({
 
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
-              <Label className="text-xs font-medium">Kapasitas Max Users</Label>
+              <Label className="text-xs font-medium">{t("vpn.serverFormMaxUsers")}</Label>
               <Input
                 type="number"
                 value={formData.max_users}
@@ -200,7 +201,7 @@ export function ServerNodeFormModal({
               />
             </div>
             <div className="space-y-1.5">
-              <Label className="text-xs font-medium">Tier Berlangganan</Label>
+              <Label className="text-xs font-medium">{t("vpn.serverFormTier")}</Label>
               <NativeSelect
                 value={formData.tier}
                 onChange={(e) =>
@@ -227,7 +228,7 @@ export function ServerNodeFormModal({
               onClick={onClose}
               className="text-xs rounded-full min-h-10 px-5 font-sans"
             >
-              Batal
+              {t("common.cancel")}
             </Button>
             <Button
               type="submit"
@@ -238,11 +239,11 @@ export function ServerNodeFormModal({
               {isSubmitting ? (
                 <>
                   <Loader2 className="mr-1.5 size-3.5 animate-spin" />{" "}
-                  Menyimpan...
+                  {t("vpn.serverFormSaving")}
                 </>
               ) : (
                 <>
-                  <Save className="mr-1.5 size-3.5" /> Simpan Node
+                  <Save className="mr-1.5 size-3.5" /> {t("vpn.serverFormSaveNode")}
                 </>
               )}
             </Button>

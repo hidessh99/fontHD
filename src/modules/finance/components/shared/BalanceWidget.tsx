@@ -2,6 +2,7 @@
 // GoVPN Finance Balance Widget Component
 // Part of Pola C: components/shared/BalanceWidget.tsx
 // 100% Coinbase Design System (JetBrains Mono IDR, Pill CTA, High-Trust Tokens)
+// Fully Localized with useI18n (EN/ID)
 // ==============================================================================
 
 "use client";
@@ -11,6 +12,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Wallet, TrendingDown } from "lucide-react";
 import { TopupModal } from "../user/TopupModal";
 import { CreateTopupDto } from "../../types/user.types";
+import { useI18n } from "@/lib/i18n/context";
 
 interface BalanceWidgetProps {
   balance: number;
@@ -27,6 +29,8 @@ export function BalanceWidget({
   onTopup,
   onValidateVoucher,
 }: BalanceWidgetProps) {
+  const { t } = useI18n();
+
   const formatIDR = (val: number) => {
     return new Intl.NumberFormat("id-ID", {
       style: "currency",
@@ -46,7 +50,7 @@ export function BalanceWidget({
           </div>
           <div>
             <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider font-mono">
-              Saldo Dompet Aktif
+              {t("finance.activeWalletBalance")}
             </span>
             <div className="flex items-baseline gap-2 mt-1">
               <span className="font-mono text-3xl font-bold tracking-tight text-foreground">
@@ -58,7 +62,7 @@ export function BalanceWidget({
             </div>
             <div className="flex items-center gap-1.5 mt-2 text-xs text-muted-foreground font-mono">
               <TrendingDown className="h-3.5 w-3.5 text-muted-foreground" />
-              <span>Total belanja:</span>
+              <span>{t("finance.totalSpent")}</span>
               <span className="font-mono text-foreground font-semibold">
                 {formatIDR(totalSpent)}
               </span>

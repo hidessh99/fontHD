@@ -10,6 +10,7 @@ import React from "react";
 import { UserDeviceSession } from "../../types/iam.types";
 import { Button } from "@/components/ui/button";
 import { Laptop, Smartphone, Globe, LogOut, CheckCircle2 } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 
 interface SessionDeviceItemProps {
   session: UserDeviceSession;
@@ -22,6 +23,7 @@ export function SessionDeviceItem({
   onRevoke,
   isRevoking,
 }: SessionDeviceItemProps) {
+  const { t, locale } = useI18n();
   const isMobile =
     session.user_agent?.toLowerCase().includes("mobile") ||
     session.device_name?.toLowerCase().includes("android") ||
@@ -31,12 +33,15 @@ export function SessionDeviceItem({
 
   const formatDate = (dateStr?: string) => {
     if (!dateStr) return "-";
-    return new Date(dateStr).toLocaleString("id-ID", {
-      day: "2-digit",
-      month: "short",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
+    return new Date(dateStr).toLocaleString(
+      locale === "id" ? "id-ID" : "en-US",
+      {
+        day: "2-digit",
+        month: "short",
+        hour: "2-digit",
+        minute: "2-digit",
+      }
+    );
   };
 
   return (
@@ -53,7 +58,7 @@ export function SessionDeviceItem({
             {session.is_current && (
               <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 text-[10px] font-mono font-bold text-emerald-400">
                 <CheckCircle2 className="h-3 w-3" />
-                Perangkat Ini
+                {t("iam.thisDevice")}
               </span>
             )}
           </div>
@@ -65,7 +70,7 @@ export function SessionDeviceItem({
             </span>
             {session.location && <span>• {session.location}</span>}
             <span>
-              • Aktif:{" "}
+              • {t("iam.activeAt")}{" "}
               {formatDate(session.last_active_at || session.created_at)}
             </span>
           </div>
@@ -81,7 +86,7 @@ export function SessionDeviceItem({
           className="border-rose-500/30 text-rose-400 hover:bg-rose-500/10 rounded-full text-xs font-semibold px-4 h-8 gap-1.5 self-end sm:self-center"
         >
           <LogOut className="h-3.5 w-3.5" />
-          Cabut Sesi
+          {t("iam.revokeSession")}
         </Button>
       )}
     </div>

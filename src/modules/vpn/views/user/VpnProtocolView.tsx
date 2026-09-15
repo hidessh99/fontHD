@@ -17,6 +17,7 @@ import { CreateVpnModal } from "../../components/user/CreateVpnModal";
 import { RenewAccountDialog } from "../../components/user/RenewAccountDialog";
 import { useVpnUser } from "../../hooks/useVpnUser";
 import { VpnProtocol } from "../../types/vpn.types";
+import { useI18n } from "@/lib/i18n/context";
 
 interface VpnProtocolViewProps {
   protocol: string;
@@ -25,6 +26,7 @@ interface VpnProtocolViewProps {
 export function VpnProtocolView({ protocol }: VpnProtocolViewProps) {
   const normProto = protocol.toLowerCase() as VpnProtocol;
   const { accounts, isLoading, refresh, deleteAccount } = useVpnUser(normProto);
+  const { t } = useI18n();
 
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [renewModalAccount, setRenewModalAccount] = useState<
@@ -39,12 +41,11 @@ export function VpnProtocolView({ protocol }: VpnProtocolViewProps) {
           <div className="flex items-center gap-2.5 mb-1.5">
             <ProtocolBadge protocol={normProto} />
             <h1 className="text-xl font-bold tracking-tight">
-              Manajemen Akun {normProto.toUpperCase()}
+              {normProto.toUpperCase()} {t("vpn.vpnTitle") || "Tunneling Accounts"}
             </h1>
           </div>
           <p className="text-xs text-muted-foreground">
-            Daftar akun tunneling aktif, masa berlaku, dan kredensial koneksi
-            1-Click Copy.
+            {t("vpn.vpnSubtitle") || "Manage tunneling accounts, expiration dates, and 1-Click copy credentials."}
           </p>
         </div>
 
@@ -54,21 +55,21 @@ export function VpnProtocolView({ protocol }: VpnProtocolViewProps) {
             size="sm"
             onClick={() => refresh()}
             disabled={isLoading}
-            className="text-xs font-mono h-10 px-4 rounded-full"
+            className="text-xs font-mono h-10 px-4 rounded-full cursor-pointer"
           >
             <RefreshCw
               className={`mr-1.5 size-3.5 ${isLoading ? "animate-spin" : ""}`}
             />
-            Segarkan
+            {t("common.refresh") || "Refresh"}
           </Button>
 
           <Button
             size="sm"
             onClick={() => setCreateModalOpen(true)}
-            className="bg-primary hover:bg-primary-hover text-white text-xs font-semibold h-10 px-5 rounded-full shadow-md shadow-primary/25"
+            className="bg-primary hover:bg-primary-hover text-white text-xs font-semibold h-10 px-5 rounded-full shadow-md shadow-primary/25 cursor-pointer"
           >
-            <Plus className="mr-1.5 size-4" /> Buat Akun{" "}
-            {normProto.toUpperCase()}
+            <Plus className="mr-1.5 size-4" /> {t("vpn.createAccount") || "Create Account"} (
+            {normProto.toUpperCase()})
           </Button>
         </div>
       </div>
@@ -79,22 +80,22 @@ export function VpnProtocolView({ protocol }: VpnProtocolViewProps) {
           <div className="flex flex-col items-center gap-2 text-center">
             <Spinner className="size-6 text-primary animate-spin" />
             <p className="text-xs font-mono text-muted-foreground">
-              Memuat akun {normProto.toUpperCase()}...
+              {t("common.loading") || "Loading..."}
             </p>
           </div>
         </div>
       ) : accounts.length === 0 ? (
         <EmptyState
           icon={Zap}
-          title={`Belum Ada Akun ${normProto.toUpperCase()}`}
-          description={`Anda belum memiliki akun tunneling ${normProto.toUpperCase()} yang aktif. Buat akun baru sekarang untuk memulai koneksi.`}
+          title={`${t("dashboard.noActiveAccounts") || "No Active Accounts"} (${normProto.toUpperCase()})`}
+          description={t("dashboard.noActiveAccountsDesc") || `You don't have any active ${normProto.toUpperCase()} tunneling accounts yet.`}
           action={
             <Button
               size="sm"
               onClick={() => setCreateModalOpen(true)}
-              className="bg-primary hover:bg-primary-hover text-white text-xs rounded-full min-h-10 px-6 shadow-md shadow-primary/25"
+              className="bg-primary hover:bg-primary-hover text-white text-xs rounded-full min-h-10 px-6 shadow-md shadow-primary/25 cursor-pointer"
             >
-              <Plus className="mr-1.5 size-3.5" /> Buat Akun Perdana
+              <Plus className="mr-1.5 size-3.5" /> {t("vpn.createAccount") || "Create Account"}
             </Button>
           }
         />

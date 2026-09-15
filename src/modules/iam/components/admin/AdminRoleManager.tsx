@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/dialog";
 import { ShieldCheck, Plus, Trash2, Loader2, Users } from "lucide-react";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n";
 
 interface AdminRoleManagerProps {
   roles: RoleEntity[];
@@ -33,6 +34,7 @@ export function AdminRoleManager({
   onCreateRole,
   onDeleteRole,
 }: AdminRoleManagerProps) {
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");
@@ -51,13 +53,13 @@ export function AdminRoleManager({
         slug: slug.trim().toLowerCase(),
         description: description.trim() || undefined,
       });
-      toast.success("Peran baru berhasil ditambahkan ke RBAC!");
+      toast.success(t("iam.roleCreated"));
       setOpen(false);
       setName("");
       setSlug("");
       setDescription("");
     } catch {
-      toast.error("Gagal menambahkan peran baru.");
+      toast.error(t("iam.roleCreateFailed"));
     } finally {
       setIsSubmitting(false);
     }
@@ -68,9 +70,9 @@ export function AdminRoleManager({
     setDeletingId(id);
     try {
       await onDeleteRole(id);
-      toast.success("Peran berhasil dihapus.");
+      toast.success(t("iam.roleDeleted"));
     } catch {
-      toast.error("Gagal menghapus peran.");
+      toast.error(t("iam.roleDeleteFailed"));
     } finally {
       setDeletingId(null);
     }
@@ -82,11 +84,10 @@ export function AdminRoleManager({
         <div>
           <h3 className="text-sm font-bold font-mono text-foreground flex items-center gap-2">
             <ShieldCheck className="h-4 w-4 text-primary" />
-            Manajemen Peran &amp; Hak Akses (RBAC) ({roles.length})
+            {t("iam.rbacManagerTitle", { count: roles.length })}
           </h3>
           <p className="text-xs text-muted-foreground">
-            Definisikan hierarki akses kontrol sistem untuk User, Reseller,
-            Finance, Support, dan Admin.
+            {t("iam.rbacManagerDesc")}
           </p>
         </div>
 
@@ -95,7 +96,7 @@ export function AdminRoleManager({
             render={
               <Button className="bg-primary hover:bg-primary-hover text-white gap-2 font-semibold text-xs rounded-full min-h-9 px-5 shadow-sm">
                 <Plus className="h-4 w-4" />
-                Tambah Peran
+                {t("iam.addRole")}
               </Button>
             }
           />
@@ -103,7 +104,7 @@ export function AdminRoleManager({
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2 text-lg font-bold">
                 <ShieldCheck className="h-5 w-5 text-primary" />
-                Tambah Peran RBAC Baru
+                {t("iam.addNewRoleTitle")}
               </DialogTitle>
             </DialogHeader>
 
@@ -113,11 +114,11 @@ export function AdminRoleManager({
                   htmlFor="role-name"
                   className="text-xs font-medium text-muted-foreground"
                 >
-                  Nama Peran (Display Name)
+                  {t("iam.roleNameLabel")}
                 </Label>
                 <Input
                   id="role-name"
-                  placeholder="Contoh: Support Specialist"
+                  placeholder={t("iam.roleNamePlaceholder")}
                   value={name}
                   onChange={(e) => {
                     setName(e.target.value);
@@ -137,7 +138,7 @@ export function AdminRoleManager({
                   htmlFor="role-slug"
                   className="text-xs font-medium text-muted-foreground"
                 >
-                  Identifier Slug (Uppercase/Snake Case)
+                  {t("iam.roleSlugLabel")}
                 </Label>
                 <Input
                   id="role-slug"
@@ -154,11 +155,11 @@ export function AdminRoleManager({
                   htmlFor="role-desc"
                   className="text-xs font-medium text-muted-foreground"
                 >
-                  Deskripsi Hak Akses
+                  {t("iam.roleDescLabel")}
                 </Label>
                 <Input
                   id="role-desc"
-                  placeholder="Akses baca-tulis tiket bantuan dan live chat"
+                  placeholder={t("iam.roleDescPlaceholder")}
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   className="mt-1 text-xs rounded-xl min-h-10"
@@ -172,7 +173,7 @@ export function AdminRoleManager({
                   onClick={() => setOpen(false)}
                   className="text-xs rounded-full min-h-10 px-5"
                 >
-                  Batal
+                  {t("common.cancel", "Cancel")}
                 </Button>
                 <Button
                   type="submit"
@@ -182,10 +183,10 @@ export function AdminRoleManager({
                   {isSubmitting ? (
                     <>
                       <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />{" "}
-                      Menyimpan...
+                      {t("iam.sending")}
                     </>
                   ) : (
-                    "Buat Peran"
+                    t("iam.createRoleButton")
                   )}
                 </Button>
               </div>
@@ -207,7 +208,7 @@ export function AdminRoleManager({
                 </span>
                 {r.is_system ? (
                   <span className="text-[10px] font-mono font-bold text-muted-foreground bg-muted/40 px-2 py-0.5 rounded-full">
-                    SISTEM
+                    {t("iam.systemRole")}
                   </span>
                 ) : (
                   onDeleteRole && (
@@ -226,14 +227,14 @@ export function AdminRoleManager({
 
               <h4 className="text-sm font-bold text-foreground">{r.name}</h4>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                {r.description || "Tidak ada deskripsi peran."}
+                {r.description || t("iam.noRoleDesc")}
               </p>
             </div>
 
             <div className="pt-2 border-t border-border/40 flex items-center justify-between text-xs font-mono text-muted-foreground">
               <span className="flex items-center gap-1.5">
                 <Users className="h-3.5 w-3.5" />
-                {r.user_count || 0} Pengguna
+                {t("iam.roleUserCount", { count: r.user_count || 0 })}
               </span>
               <span>ID: {r.id}</span>
             </div>

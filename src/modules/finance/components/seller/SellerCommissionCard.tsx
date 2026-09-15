@@ -2,6 +2,7 @@
 // GoVPN Finance Seller Commission Card Component
 // Part of Pola C: components/seller/SellerCommissionCard.tsx
 // 100% Coinbase Institutional Design System (Metric Cards, Monospace Figures)
+// Fully Localized with useI18n (EN/ID)
 // ==============================================================================
 
 "use client";
@@ -14,6 +15,7 @@ import {
 } from "../../types/seller.types";
 import { SellerWithdrawalModal } from "./SellerWithdrawalModal";
 import { DollarSign, Clock, CheckCircle2, TrendingUp } from "lucide-react";
+import { useI18n } from "@/lib/i18n/context";
 
 interface SellerCommissionCardProps {
   stats: SellerCommissionStats;
@@ -24,6 +26,8 @@ export function SellerCommissionCard({
   stats,
   onRequestWithdrawal,
 }: SellerCommissionCardProps) {
+  const { t } = useI18n();
+
   const formatIDR = (val: number) => {
     return new Intl.NumberFormat("id-ID", {
       style: "currency",
@@ -45,19 +49,18 @@ export function SellerCommissionCard({
             </div>
             <div>
               <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider font-mono">
-                Komisi Reseller Tersedia
+                {t("finance.commissionAvailableBanner")}
               </span>
               <div className="flex items-baseline gap-2 mt-1">
                 <span className="font-mono text-3xl font-black tracking-tight text-foreground">
                   {formatIDR(stats.available_balance)}
                 </span>
                 <span className="text-xs font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded-full font-mono">
-                  SIAP CAIR
+                  {t("finance.readyToPayout")}
                 </span>
               </div>
               <p className="text-xs text-muted-foreground mt-1">
-                Hasil penjualan paket VPN, perpanjangan user, dan bonus
-                afiliasi.
+                {t("finance.commissionDesc")}
               </p>
             </div>
           </div>
@@ -77,7 +80,7 @@ export function SellerCommissionCard({
         <div className="rounded-2xl border border-border/80 bg-card/40 p-5 space-y-2">
           <div className="flex items-center justify-between">
             <span className="text-xs text-muted-foreground font-mono font-medium uppercase">
-              Total Akumulasi Komisi
+              {t("finance.totalAccumulatedCommission")}
             </span>
             <TrendingUp className="h-4 w-4 text-primary" />
           </div>
@@ -85,7 +88,7 @@ export function SellerCommissionCard({
             {formatIDR(stats.total_earned)}
           </div>
           <div className="text-[11px] text-muted-foreground">
-            Semua revenue yang pernah diperoleh
+            {t("finance.totalAccumulatedDesc")}
           </div>
         </div>
 
@@ -93,7 +96,7 @@ export function SellerCommissionCard({
         <div className="rounded-2xl border border-border/80 bg-card/40 p-5 space-y-2">
           <div className="flex items-center justify-between">
             <span className="text-xs text-muted-foreground font-mono font-medium uppercase">
-              Sedang Diproses Admin
+              {t("finance.processingByAdmin")}
             </span>
             <Clock className="h-4 w-4 text-amber-400" />
           </div>
@@ -101,7 +104,7 @@ export function SellerCommissionCard({
             {formatIDR(stats.pending_withdrawal)}
           </div>
           <div className="text-[11px] text-muted-foreground">
-            Permintaan penarikan dalam antrian
+            {t("finance.pendingQueueDesc")}
           </div>
         </div>
 
@@ -109,7 +112,7 @@ export function SellerCommissionCard({
         <div className="rounded-2xl border border-border/80 bg-card/40 p-5 space-y-2">
           <div className="flex items-center justify-between">
             <span className="text-xs text-muted-foreground font-mono font-medium uppercase">
-              Total Berhasil Dicairkan
+              {t("finance.totalSuccessfullyWithdrawn")}
             </span>
             <CheckCircle2 className="h-4 w-4 text-emerald-400" />
           </div>
@@ -117,7 +120,7 @@ export function SellerCommissionCard({
             {formatIDR(stats.total_withdrawn)}
           </div>
           <div className="text-[11px] text-muted-foreground">
-            Telah ditransfer ke rekening bank Anda
+            {t("finance.transferredToBankDesc")}
           </div>
         </div>
       </div>

@@ -23,6 +23,7 @@ import {
   Globe,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n";
 
 interface K8sAppCardProps {
   app: K8sApp;
@@ -39,15 +40,16 @@ export function K8sAppCard({
   onOpenEnv,
   onRenew,
 }: K8sAppCardProps) {
+  const { t, locale } = useI18n();
   const [restarting, setRestarting] = useState(false);
 
   const handleRestart = async () => {
     setRestarting(true);
     try {
       await onRestart(app.id);
-      toast.success(`Pod ${app.name} berhasil di-restart`);
+      toast.success(t("kubernetes.podRestarted", { name: app.name }));
     } catch {
-      toast.error("Gagal melakukan restart pod");
+      toast.error(t("kubernetes.podRestartFailed"));
     } finally {
       setRestarting(false);
     }
@@ -81,7 +83,7 @@ export function K8sAppCard({
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 rounded-xl bg-primary/10 text-primary hover:bg-primary/20 border border-primary/20 transition-colors"
-              title="Buka URL Aplikasi"
+              title="URL"
             >
               <ExternalLink className="h-4 w-4" />
             </a>
@@ -92,7 +94,7 @@ export function K8sAppCard({
         <div className="grid grid-cols-3 gap-2.5 py-3 border-y border-border/60 text-xs font-mono">
           <div className="rounded-xl bg-muted/30 p-2.5">
             <span className="text-muted-foreground font-sans flex items-center gap-1 text-[11px]">
-              <Cpu className="h-3 w-3 text-primary" /> CPU
+              <Cpu className="h-3 w-3 text-primary" /> {t("kubernetes.cpu")}
             </span>
             <span className="font-semibold text-foreground mt-0.5 block">
               {app.spec?.cpu_cores || 1} Cores
@@ -101,7 +103,7 @@ export function K8sAppCard({
 
           <div className="rounded-xl bg-muted/30 p-2.5">
             <span className="text-muted-foreground font-sans flex items-center gap-1 text-[11px]">
-              <HardDrive className="h-3 w-3 text-indigo-400" /> RAM
+              <HardDrive className="h-3 w-3 text-indigo-400" /> {t("kubernetes.ram")}
             </span>
             <span className="font-semibold text-foreground mt-0.5 block">
               {app.spec?.ram_mb || 1024} MB
@@ -110,7 +112,7 @@ export function K8sAppCard({
 
           <div className="rounded-xl bg-muted/30 p-2.5">
             <span className="text-muted-foreground font-sans flex items-center gap-1 text-[11px]">
-              <Globe className="h-3 w-3 text-emerald-400" /> Ports
+              <Globe className="h-3 w-3 text-emerald-400" /> {t("kubernetes.ports")}
             </span>
             <span className="font-semibold text-foreground mt-0.5 block truncate">
               {app.ports?.length > 0 ? app.ports.join(", ") : "80"}
@@ -123,8 +125,10 @@ export function K8sAppCard({
           <div className="text-[11px] text-muted-foreground flex items-center gap-1.5 font-mono">
             <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
             <span>
-              Aktif hingga:{" "}
-              {new Date(app.expires_at).toLocaleDateString("id-ID")}
+              {t("kubernetes.expiresAt")}{" "}
+              {new Date(app.expires_at).toLocaleDateString(
+                locale === "id" ? "id-ID" : "en-US"
+              )}
             </span>
           </div>
 
@@ -135,12 +139,12 @@ export function K8sAppCard({
               disabled={restarting}
               onClick={handleRestart}
               className="h-8 px-2.5 rounded-lg border-border text-xs gap-1"
-              title="Restart Container Pod"
+              title={t("kubernetes.restart")}
             >
               <RotateCcw
                 className={`h-3 w-3 ${restarting ? "animate-spin text-primary" : ""}`}
               />
-              Restart
+              {t("kubernetes.restart")}
             </Button>
 
             <Button
@@ -148,10 +152,10 @@ export function K8sAppCard({
               size="sm"
               onClick={() => onOpenLogs(app)}
               className="h-8 px-2.5 rounded-lg border-border text-xs gap-1"
-              title="Lihat Logs Pod"
+              title={t("kubernetes.logs")}
             >
               <Terminal className="h-3 w-3 text-primary" />
-              Logs
+              {t("kubernetes.logs")}
             </Button>
 
             <Button
@@ -159,10 +163,10 @@ export function K8sAppCard({
               size="sm"
               onClick={() => onOpenEnv(app)}
               className="h-8 px-2.5 rounded-lg border-border text-xs gap-1"
-              title="Konfigurasi Environment Variable"
+              title={t("kubernetes.env")}
             >
               <Settings className="h-3 w-3 text-muted-foreground" />
-              Env
+              {t("kubernetes.env")}
             </Button>
 
             <Button
@@ -170,7 +174,7 @@ export function K8sAppCard({
               onClick={() => onRenew(app.id)}
               className="h-8 px-3 rounded-lg bg-primary hover:bg-primary/90 text-primary-foreground text-xs font-semibold shadow-sm"
             >
-              Perpanjang
+              {t("kubernetes.renew")}
             </Button>
           </div>
         </div>

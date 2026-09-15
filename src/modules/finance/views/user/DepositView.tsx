@@ -2,6 +2,7 @@
 // GoVPN Finance User Deposit View
 // Part of Pola C: views/user/DepositView.tsx
 // 100% Coinbase Institutional Design System (Preset Buttons, QRIS Streaming)
+// Fully Localized with useI18n (EN/ID)
 // ==============================================================================
 
 "use client";
@@ -30,10 +31,12 @@ import {
   Loader2,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n/context";
 
 const PRESET_AMOUNTS = [10000, 25000, 50000, 100000, 250000, 500000];
 
 export function DepositView() {
+  const { t } = useI18n();
   const {
     activeInvoice,
     createTopup,
@@ -62,10 +65,10 @@ export function DepositView() {
       const res = await validateVoucher(voucherCode.trim());
       if (res.valid) {
         setVoucherDiscount(res.discount_amount);
-        toast.success(res.message || "Voucher berhasil diterapkan!");
+        toast.success(res.message || t("finance.voucherApplied"));
       } else {
         setVoucherDiscount(0);
-        toast.error(res.message || "Voucher tidak valid");
+        toast.error(res.message || t("finance.voucherInvalid"));
       }
     } finally {
       setIsCheckingVoucher(false);
@@ -75,7 +78,7 @@ export function DepositView() {
   const handleCreateDeposit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (selectedAmount < 10000) {
-      toast.error("Minimal pengisian saldo adalah Rp 10.000");
+      toast.error(t("finance.minDepositError"));
       return;
     }
 
@@ -104,11 +107,10 @@ export function DepositView() {
       <div>
         <h1 className="text-2xl font-bold tracking-tight text-foreground flex items-center gap-2.5">
           <Wallet className="h-6 w-6 text-primary" />
-          Deposit Saldo Akun
+          {t("finance.depositTitle")}
         </h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Isi saldo dompet GoVPN Anda secara instan menggunakan QRIS atau
-          Virtual Account otomatis.
+          {t("finance.depositSubtitle")}
         </p>
       </div>
 
@@ -118,10 +120,10 @@ export function DepositView() {
           <Card className="border-border/80 bg-card/60 shadow-xl rounded-2xl">
             <CardHeader className="pb-4">
               <CardTitle className="text-base font-bold text-foreground">
-                Pilih Nominal &amp; Metode Deposit
+                {t("finance.depositFormTitle")}
               </CardTitle>
               <CardDescription className="text-xs text-muted-foreground">
-                Saldo otomatis masuk 24 jam nonstop setelah QRIS terverifikasi.
+                {t("finance.depositFormSubtitle")}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -129,7 +131,7 @@ export function DepositView() {
                 {/* Presets */}
                 <div>
                   <Label className="text-xs font-medium text-muted-foreground">
-                    Pilihan Nominal Cepat
+                    {t("finance.selectAmount")}
                   </Label>
                   <div className="grid grid-cols-3 gap-2.5 mt-2">
                     {PRESET_AMOUNTS.map((amt) => (
@@ -158,7 +160,7 @@ export function DepositView() {
                     htmlFor="dep-amount"
                     className="text-xs font-medium text-muted-foreground"
                   >
-                    Atau Masukkan Nominal Lain (Min. Rp 10.000)
+                    {t("finance.customAmountMin")}
                   </Label>
                   <div className="relative mt-1.5">
                     <span className="absolute left-3 top-2.5 text-xs text-muted-foreground font-mono">
@@ -167,7 +169,7 @@ export function DepositView() {
                     <Input
                       id="dep-amount"
                       type="number"
-                      placeholder="Contoh: 150000"
+                      placeholder="150000"
                       value={customAmount}
                       onChange={(e) => setCustomAmount(e.target.value)}
                       className="pl-9 font-mono text-sm rounded-xl min-h-10"
@@ -178,7 +180,7 @@ export function DepositView() {
                 {/* Method */}
                 <div>
                   <Label className="text-xs font-medium text-muted-foreground">
-                    Metode Pembayaran
+                    {t("finance.paymentMethod")}
                   </Label>
                   <div className="grid grid-cols-2 gap-3 mt-1.5">
                     <button
@@ -193,10 +195,10 @@ export function DepositView() {
                       <QrCode className="h-5 w-5 shrink-0 text-primary mt-0.5" />
                       <div>
                         <div className="font-bold text-foreground font-mono">
-                          QRIS Real-Time
+                          {t("finance.qrisRealtime")}
                         </div>
                         <div className="text-[11px] text-muted-foreground">
-                          BCA, Gopay, Dana, Ovo
+                          {t("finance.qrisSupported")}
                         </div>
                       </div>
                     </button>
@@ -213,10 +215,10 @@ export function DepositView() {
                       <Zap className="h-5 w-5 shrink-0 text-amber-400 mt-0.5" />
                       <div>
                         <div className="font-bold text-foreground font-mono">
-                          Virtual Account
+                          {t("finance.virtualAccount")}
                         </div>
                         <div className="text-[11px] text-muted-foreground">
-                          BCA, Mandiri, BRI, BNI
+                          {t("finance.vaSupported")}
                         </div>
                       </div>
                     </button>
@@ -229,14 +231,14 @@ export function DepositView() {
                     htmlFor="dep-voucher"
                     className="text-xs font-medium text-muted-foreground"
                   >
-                    Kupon Promo (Opsional)
+                    {t("finance.promoCouponOptional")}
                   </Label>
                   <div className="flex gap-2 mt-1.5">
                     <div className="relative flex-1">
                       <Tag className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
                       <Input
                         id="dep-voucher"
-                        placeholder="KODE PROMO"
+                        placeholder="PROMOCODE"
                         value={voucherCode}
                         onChange={(e) =>
                           setVoucherCode(e.target.value.toUpperCase())
@@ -255,7 +257,7 @@ export function DepositView() {
                       {isCheckingVoucher ? (
                         <Loader2 className="h-4 w-4 animate-spin" />
                       ) : (
-                        "Gunakan"
+                        t("finance.apply")
                       )}
                     </Button>
                   </div>
@@ -264,19 +266,19 @@ export function DepositView() {
                 {/* Summary */}
                 <div className="rounded-xl bg-surface border border-border/60 p-4 text-xs space-y-2 font-mono">
                   <div className="flex justify-between text-muted-foreground">
-                    <span>Nominal Deposit:</span>
+                    <span>{t("finance.depositAmount")}:</span>
                     <span className="text-foreground">
                       {formatIDR(selectedAmount)}
                     </span>
                   </div>
                   {voucherDiscount > 0 && (
                     <div className="flex justify-between text-emerald-400 font-semibold">
-                      <span>Diskon Kupon:</span>
+                      <span>{t("finance.voucherDiscount")}</span>
                       <span>-{formatIDR(voucherDiscount)}</span>
                     </div>
                   )}
                   <div className="border-t border-border/50 pt-2 flex justify-between font-bold text-sm text-foreground">
-                    <span>Total Pembayaran:</span>
+                    <span>{t("finance.totalPayment")}</span>
                     <span className="text-primary font-bold">
                       {formatIDR(finalAmount)}
                     </span>
@@ -289,7 +291,7 @@ export function DepositView() {
                   disabled={isSubmitting || selectedAmount < 10000}
                 >
                   <ShieldCheck className="h-4 w-4" />
-                  Konfirmasi &amp; Terbitkan QRIS
+                  {t("finance.confirmAndIssueQris")}
                   <ArrowRight className="h-4 w-4" />
                 </Button>
               </form>
@@ -312,31 +314,15 @@ export function DepositView() {
             <Card className="w-full border-border/80 bg-card/60 p-6 text-foreground space-y-4 rounded-2xl shadow-lg">
               <h3 className="font-bold text-foreground flex items-center gap-2">
                 <ShieldCheck className="h-5 w-5 text-primary" />
-                Panduan Pembayaran QRIS Instan
+                {t("finance.qrisGuideTitle")}
               </h3>
               <ol className="list-decimal list-inside space-y-2 text-xs text-muted-foreground leading-relaxed">
-                <li>
-                  Tentukan nominal deposit yang Anda inginkan (minimal Rp
-                  10.000).
-                </li>
-                <li>
-                  Klik tombol{" "}
-                  <strong>&quot;Konfirmasi &amp; Terbitkan QRIS&quot;</strong>.
-                </li>
-                <li>
-                  Buka aplikasi m-Banking atau e-Wallet favorit Anda (BCA,
-                  Mandiri, GoPay, OVO, DANA).
-                </li>
-                <li>
-                  Pindai (scan) kode QRIS yang muncul di layar pembayaran.
-                </li>
-                <li>
-                  Pastikan nama merchant tertera <strong>GoVPN Network</strong>.
-                </li>
-                <li>
-                  Selesaikan transaksi dan saldo Anda akan bertambah secara
-                  otomatis dalam 3-5 detik.
-                </li>
+                <li>{t("finance.qrisGuideStep1")}</li>
+                <li>{t("finance.qrisGuideStep2")}</li>
+                <li>{t("finance.qrisGuideStep3")}</li>
+                <li>{t("finance.qrisGuideStep4")}</li>
+                <li>{t("finance.qrisGuideStep5")}</li>
+                <li>{t("finance.qrisGuideStep6")}</li>
               </ol>
             </Card>
           )}

@@ -2,6 +2,7 @@
 // GoVPN AI Wallet Card Component
 // Part of Pola C: components/user/AiWalletCard.tsx
 // 100% Coinbase Institutional Design System (Balance, Token Quotas & Instant Topup)
+// Fully Localized with useI18n (EN/ID)
 // ==============================================================================
 
 "use client";
@@ -21,6 +22,7 @@ import {
 } from "@/components/ui/dialog";
 import { Wallet, Plus, Zap, Loader2, Sparkles } from "lucide-react";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n/context";
 
 interface AiWalletCardProps {
   wallet?: AiWallet | null;
@@ -28,6 +30,7 @@ interface AiWalletCardProps {
 }
 
 export function AiWalletCard({ wallet, onTopup }: AiWalletCardProps) {
+  const { t, locale } = useI18n();
   const [openTopup, setOpenTopup] = useState(false);
   const [amount, setAmount] = useState(50000);
   const [submitting, setSubmitting] = useState(false);
@@ -39,7 +42,7 @@ export function AiWalletCard({ wallet, onTopup }: AiWalletCardProps) {
     e.preventDefault();
     if (!onTopup) return;
     if (amount < 10000) {
-      toast.error("Minimal topup saldo AI adalah Rp 10.000");
+      toast.error(t("ai.minTopupError"));
       return;
     }
 
@@ -48,7 +51,7 @@ export function AiWalletCard({ wallet, onTopup }: AiWalletCardProps) {
       await onTopup(amount);
       setOpenTopup(false);
       toast.success(
-        `Topup Saldo AI Rp ${amount.toLocaleString("id-ID")} berhasil`,
+        t("ai.topupSuccess", { amount: amount.toLocaleString(locale === "id" ? "id-ID" : "en-US") }),
       );
     } finally {
       setSubmitting(false);
@@ -65,10 +68,10 @@ export function AiWalletCard({ wallet, onTopup }: AiWalletCardProps) {
             </div>
             <div>
               <span className="text-xs text-muted-foreground font-medium">
-                Saldo Dompet AI
+                {t("ai.walletBalance")}
               </span>
               <div className="font-mono text-2xl font-bold text-foreground mt-0.5">
-                Rp {balance.toLocaleString("id-ID")}
+                Rp {balance.toLocaleString(locale === "id" ? "id-ID" : "en-US")}
               </div>
             </div>
           </div>
@@ -81,7 +84,7 @@ export function AiWalletCard({ wallet, onTopup }: AiWalletCardProps) {
                   className="h-9 px-3.5 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs gap-1.5 shadow-md shadow-primary/20"
                 >
                   <Plus className="h-4 w-4" />
-                  Topup Saldo
+                  {t("ai.topupBalance")}
                 </Button>
               }
             />
@@ -89,14 +92,14 @@ export function AiWalletCard({ wallet, onTopup }: AiWalletCardProps) {
               <DialogHeader>
                 <DialogTitle className="flex items-center gap-2 text-base font-bold">
                   <Sparkles className="h-4 w-4 text-primary" />
-                  Topup Saldo Kuota AI Gateway
+                  {t("ai.topupModalTitle")}
                 </DialogTitle>
               </DialogHeader>
 
               <form onSubmit={handleTopupSubmit} className="space-y-4 pt-2">
                 <div>
                   <Label className="text-xs text-muted-foreground">
-                    Pilih Nominal Topup
+                    {t("ai.selectTopupPreset")}
                   </Label>
                   <div className="grid grid-cols-3 gap-2 mt-2">
                     {[25000, 50000, 100000].map((preset) => (
@@ -110,7 +113,7 @@ export function AiWalletCard({ wallet, onTopup }: AiWalletCardProps) {
                             : "border-border bg-muted/30 text-muted-foreground hover:text-foreground"
                         }`}
                       >
-                        Rp {preset.toLocaleString("id-ID")}
+                        Rp {preset.toLocaleString(locale === "id" ? "id-ID" : "en-US")}
                       </button>
                     ))}
                   </div>
@@ -118,7 +121,7 @@ export function AiWalletCard({ wallet, onTopup }: AiWalletCardProps) {
 
                 <div>
                   <Label className="text-xs text-muted-foreground">
-                    Nominal Kustom (IDR)
+                    {t("ai.customAmount")}
                   </Label>
                   <Input
                     type="number"
@@ -138,10 +141,10 @@ export function AiWalletCard({ wallet, onTopup }: AiWalletCardProps) {
                   {submitting ? (
                     <>
                       <Loader2 className="h-4 w-4 animate-spin" />
-                      Memproses Topup...
+                      {t("ai.processingTopup")}
                     </>
                   ) : (
-                    "Konfirmasi & Bayar"
+                    t("ai.confirmAndPay")
                   )}
                 </Button>
               </form>
@@ -153,7 +156,7 @@ export function AiWalletCard({ wallet, onTopup }: AiWalletCardProps) {
         <div className="pt-2 border-t border-border/60 flex items-center justify-between text-xs">
           <span className="text-muted-foreground flex items-center gap-1.5">
             <Zap className="h-3.5 w-3.5 text-amber-400" />
-            Token Terpakai
+            {t("ai.usedTokens")}
           </span>
           <span className="font-mono font-semibold text-foreground">
             {usedTokens.toLocaleString()} tokens

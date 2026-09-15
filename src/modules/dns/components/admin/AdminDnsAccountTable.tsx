@@ -2,6 +2,7 @@
 // GoVPN DNS Admin Cloudflare Accounts Table Component
 // Part of Pola C: components/admin/AdminDnsAccountTable.tsx
 // 100% Coinbase Institutional Design System + Standardized Enterprise DataTable
+// Fully Localized with useI18n (EN/ID)
 // ==============================================================================
 
 "use client";
@@ -31,6 +32,7 @@ import {
   Mail,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n/context";
 
 interface AdminDnsAccountTableProps {
   accounts: DnsAccount[];
@@ -45,6 +47,7 @@ export function AdminDnsAccountTable({
   onDeleteAccount,
   loading = false,
 }: AdminDnsAccountTableProps) {
+  const { t } = useI18n();
   const [openCreate, setOpenCreate] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -56,7 +59,7 @@ export function AdminDnsAccountTable({
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name || !email || !apiKey) {
-      toast.error("Nama, email, dan API key wajib diisi");
+      toast.error(t("dns.nameAndContentRequired"));
       return;
     }
 
@@ -73,24 +76,20 @@ export function AdminDnsAccountTable({
       setEmail("");
       setApiKey("");
       setAccountId("");
-      toast.success("Akun Cloudflare berhasil ditambahkan");
+      toast.success(t("dns.accountAdded"));
     } finally {
       setSubmitting(false);
     }
   };
 
   const handleDelete = async (id: string | number) => {
-    if (
-      !confirm(
-        "Hapus akun Cloudflare ini? Semua domain yang terhubung akan terpengaruh.",
-      )
-    ) {
+    if (!confirm(t("dns.accountDeleteConfirm"))) {
       return;
     }
     setDeletingId(id);
     try {
       await onDeleteAccount(id);
-      toast.success("Akun Cloudflare berhasil dihapus");
+      toast.success(t("dns.accountDeleted"));
     } finally {
       setDeletingId(null);
     }
@@ -100,7 +99,7 @@ export function AdminDnsAccountTable({
     () => [
       {
         id: "name",
-        header: "Nama Akun",
+        header: t("dns.accountNameLabel"),
         cell: (acc) => (
           <div className="flex items-center gap-2">
             <div className="h-7 w-7 rounded-lg bg-primary/10 text-primary flex items-center justify-center font-bold font-mono text-xs border border-primary/20 shrink-0">
@@ -119,7 +118,7 @@ export function AdminDnsAccountTable({
       },
       {
         id: "email",
-        header: "Email",
+        header: t("dns.cfEmailLabel"),
         className: "font-sans",
         cell: (acc) => (
           <div className="flex items-center gap-1.5 text-foreground">
@@ -130,7 +129,7 @@ export function AdminDnsAccountTable({
       },
       {
         id: "api_key",
-        header: "API Key (Masked)",
+        header: t("dns.apiKeyLabel"),
         cell: (acc) => (
           <div className="flex items-center gap-1 text-muted-foreground text-[11px] font-mono">
             <Key className="h-3 w-3 text-amber-400 shrink-0" />
@@ -140,7 +139,7 @@ export function AdminDnsAccountTable({
       },
       {
         id: "zone_count",
-        header: "Jumlah Zone",
+        header: t("dns.recordsCount"),
         align: "center",
         cell: (acc) => (
           <Badge
@@ -153,7 +152,7 @@ export function AdminDnsAccountTable({
       },
       {
         id: "status",
-        header: "Status",
+        header: t("common.status"),
         cell: (acc) => (
           <Badge
             variant="outline"
@@ -170,7 +169,7 @@ export function AdminDnsAccountTable({
       },
       {
         id: "actions",
-        header: "Aksi",
+        header: t("common.actions"),
         align: "right",
         cell: (acc) => (
           <Button
@@ -179,7 +178,7 @@ export function AdminDnsAccountTable({
             disabled={deletingId === acc.id}
             onClick={() => handleDelete(acc.id)}
             className="h-8 w-8 p-0 text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 rounded-full"
-            title="Hapus Akun"
+            title={t("dns.deleteRecord")}
           >
             {deletingId === acc.id ? (
               <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -191,24 +190,24 @@ export function AdminDnsAccountTable({
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [deletingId],
+    [deletingId, t],
   );
 
   const filters: DataTableFilterConfig<DnsAccount>[] = useMemo(
     () => [
       {
         id: "status",
-        label: "Status",
+        label: t("common.status"),
         defaultValue: "ALL",
         options: [
-          { label: "Semua Status", value: "ALL" },
+          { label: t("common.all"), value: "ALL" },
           { label: "ACTIVE", value: "ACTIVE" },
           { label: "REVOKED", value: "REVOKED" },
         ],
         filterFn: (acc, val) => (acc.status || "ACTIVE").toUpperCase() === val.toUpperCase(),
       },
     ],
-    [],
+    [t],
   );
 
   const actions = (
@@ -220,7 +219,7 @@ export function AdminDnsAccountTable({
             className="h-9 px-3.5 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs gap-1.5 shadow-lg shadow-primary/20"
           >
             <Plus className="h-4 w-4" />
-            Tambah Akun CF
+            {t("dns.addCfAccount")}
           </Button>
         }
       />
@@ -230,14 +229,14 @@ export function AdminDnsAccountTable({
             <div className="p-2 rounded-xl bg-primary/10 text-primary border border-primary/20">
               <Cloud className="h-5 w-5" />
             </div>
-            Tambah Akun Cloudflare
+            {t("dns.newCfAccountModalTitle")}
           </DialogTitle>
         </DialogHeader>
         <form onSubmit={handleCreate} className="space-y-3.5 pt-2">
           <div>
-            <Label className="text-xs text-muted-foreground">Nama Akun / Label</Label>
+            <Label className="text-xs text-muted-foreground">{t("dns.accountNameLabel")}</Label>
             <Input
-              placeholder="misal: Cloudflare Production SG"
+              placeholder="e.g. Cloudflare Production SG"
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="mt-1.5 bg-muted/30 border-border text-foreground text-xs h-10"
@@ -245,7 +244,7 @@ export function AdminDnsAccountTable({
           </div>
 
           <div>
-            <Label className="text-xs text-muted-foreground">Email Akun Cloudflare</Label>
+            <Label className="text-xs text-muted-foreground">{t("dns.cfEmailLabel")}</Label>
             <Input
               type="email"
               placeholder="admin@domain.com"
@@ -256,10 +255,10 @@ export function AdminDnsAccountTable({
           </div>
 
           <div>
-            <Label className="text-xs text-muted-foreground">Global API Key / API Token</Label>
+            <Label className="text-xs text-muted-foreground">{t("dns.apiKeyLabel")}</Label>
             <Input
               type="password"
-              placeholder="Paste Cloudflare Global API Key atau API Token"
+              placeholder="Paste Cloudflare Global API Key or API Token"
               value={apiKey}
               onChange={(e) => setApiKey(e.target.value)}
               className="mt-1.5 bg-muted/30 border-border text-foreground font-mono text-xs h-10"
@@ -267,7 +266,7 @@ export function AdminDnsAccountTable({
           </div>
 
           <div>
-            <Label className="text-xs text-muted-foreground">Account ID (Opsional)</Label>
+            <Label className="text-xs text-muted-foreground">{t("dns.accountIdLabel")}</Label>
             <Input
               placeholder="Cloudflare Account Tag / ID"
               value={accountId}
@@ -283,10 +282,10 @@ export function AdminDnsAccountTable({
           >
             {submitting ? (
               <>
-                <Loader2 className="h-4 w-4 animate-spin" /> Menyimpan Akun...
+                <Loader2 className="h-4 w-4 animate-spin" /> {t("dns.savingAccount")}
               </>
             ) : (
-              "Simpan Akun Cloudflare"
+              t("dns.saveAccount")
             )}
           </Button>
         </form>
@@ -299,10 +298,10 @@ export function AdminDnsAccountTable({
       <div>
         <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
           <Cloud className="h-4 w-4 text-primary" />
-          Akun Cloudflare API
+          {t("dns.cfAccountsTitle")}
         </h3>
         <p className="text-xs text-muted-foreground mt-0.5">
-          Kelola multi-akun Cloudflare provider untuk manajemen DNS otomatis
+          {t("dns.cfAccountsSubtitle")}
         </p>
       </div>
 
@@ -312,8 +311,8 @@ export function AdminDnsAccountTable({
         keyExtractor={(acc) => acc.id}
         isLoading={loading}
         searchable={true}
-        searchPlaceholder="Cari nama akun, email, account ID..."
-        searchButtonText="Cari"
+        searchPlaceholder={t("dns.searchPlaceholder")}
+        searchButtonText={t("common.search")}
         searchAccessor={(acc) => [acc.name, acc.email, acc.account_id]}
         filters={filters}
         paginated={true}
@@ -321,8 +320,8 @@ export function AdminDnsAccountTable({
         entityName="akun Cloudflare"
         actions={actions}
         emptyIcon={Cloud}
-        emptyTitle="Belum Ada Akun Cloudflare"
-        emptyDescription="Tambahkan akun Cloudflare pertama Anda untuk mengaktifkan sinkronisasi otomatis DNS."
+        emptyTitle={t("dns.noAccountsTitle")}
+        emptyDescription={t("dns.noAccountsDesc")}
       />
     </div>
   );

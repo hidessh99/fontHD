@@ -26,82 +26,107 @@ import {
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { getCookie } from "@/lib/storage/cookies";
+import { useI18n } from "@/lib/i18n/context";
 
 interface NavItem {
-  title: string;
+  id: string;
+  titleKey: string;
+  defaultTitle: string;
   href: string;
   icon: React.ComponentType<{ className?: string }>;
   badge?: string;
-  subItems?: Array<{ title: string; href: string; badge?: string }>;
+  subItems?: Array<{ titleKey: string; defaultTitle: string; href: string; badge?: string }>;
 }
 
 const navItems: NavItem[] = [
   {
-    title: "Overview",
+    id: "overview",
+    titleKey: "nav.user.overview",
+    defaultTitle: "Overview",
     href: "/dashboard",
     icon: LayoutDashboard,
   },
   {
-    title: "VPN Protocols",
+    id: "vpn",
+    titleKey: "nav.user.vpnProtocols",
+    defaultTitle: "VPN Protocols",
     href: "/vpn",
     icon: Zap,
     subItems: [
-      { title: "SSH / Dropbear", href: "/vpn/ssh" },
-      { title: "VMess (V2Ray)", href: "/vpn/vmess" },
-      { title: "VLess Reality", href: "/vpn/vless" },
-      { title: "Trojan", href: "/vpn/trojan" },
-      { title: "Shadowsocks", href: "/vpn/shadowsocks" },
-      { title: "WireGuard", href: "/vpn/wireguard" },
+      { titleKey: "protocols.ssh", defaultTitle: "SSH / Dropbear", href: "/vpn/ssh" },
+      { titleKey: "protocols.vmess", defaultTitle: "VMess (V2Ray)", href: "/vpn/vmess" },
+      { titleKey: "protocols.vless", defaultTitle: "VLess Reality", href: "/vpn/vless" },
+      { titleKey: "protocols.trojan", defaultTitle: "Trojan", href: "/vpn/trojan" },
+      { titleKey: "protocols.shadowsocks", defaultTitle: "Shadowsocks", href: "/vpn/shadowsocks" },
+      { titleKey: "protocols.wireguard", defaultTitle: "WireGuard", href: "/vpn/wireguard" },
     ],
   },
   {
-    title: "Server Nodes",
+    id: "servers",
+    titleKey: "nav.user.serverNodes",
+    defaultTitle: "Server Nodes",
     href: "/servers",
     icon: Server,
     badge: "Live",
   },
   {
-    title: "Billing & Saldo",
+    id: "billing",
+    titleKey: "nav.user.billing",
+    defaultTitle: "Billing & Deposit",
     href: "/billing",
     icon: CreditCard,
     subItems: [
-      { title: "Faktur & Tagihan", href: "/billing/invoices" },
-      { title: "Deposit Saldo", href: "/billing/deposit" },
+      { titleKey: "finance.invoicesTitle", defaultTitle: "Invoices", href: "/billing/invoices" },
+      { titleKey: "finance.depositTitle", defaultTitle: "Deposit Balance", href: "/billing/deposit" },
     ],
   },
   {
-    title: "DNS Cloudflare",
+    id: "dns",
+    titleKey: "nav.user.dnsManager",
+    defaultTitle: "DNS Manager",
     href: "/dns",
     icon: Globe,
   },
   {
-    title: "AI Gateway",
+    id: "ai",
+    titleKey: "nav.user.aiGateway",
+    defaultTitle: "AI Gateway",
     href: "/ai",
     icon: Bot,
     badge: "New",
   },
   {
-    title: "Kubernetes Apps",
+    id: "k8s",
+    titleKey: "nav.user.kubernetes",
+    defaultTitle: "Kubernetes Fleet",
     href: "/kubernetes",
     icon: Box,
   },
   {
-    title: "Paket Langganan",
+    id: "subscription",
+    titleKey: "nav.user.subscriptionPlans",
+    defaultTitle: "Subscription Plans",
     href: "/subscription",
     icon: Layers,
   },
   {
-    title: "Bantuan & CS",
+    id: "support",
+    titleKey: "nav.user.supportTickets",
+    defaultTitle: "Support Tickets",
     href: "/support",
     icon: HelpCircle,
   },
   {
-    title: "Pusat Panduan",
+    id: "kb",
+    titleKey: "nav.user.knowledgeBase",
+    defaultTitle: "Knowledge Base",
     href: "/articles",
     icon: BookOpen,
   },
   {
-    title: "Pengaturan & API",
+    id: "settings",
+    titleKey: "nav.user.settings",
+    defaultTitle: "Account Settings",
     href: "/settings",
     icon: Settings,
   },
@@ -117,9 +142,10 @@ export function DashboardSidebar({
   onCloseMobile,
 }: DashboardSidebarProps) {
   const pathname = usePathname();
+  const { t } = useI18n();
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({
-    "VPN Protocols": true,
-    "Billing & Saldo": false,
+    vpn: true,
+    billing: false,
   });
   const [userRole, setUserRole] = useState<string>("");
 
@@ -128,8 +154,8 @@ export function DashboardSidebar({
     setUserRole(role);
   }, []);
 
-  const toggleGroup = (title: string) => {
-    setOpenGroups((prev) => ({ ...prev, [title]: !prev[title] }));
+  const toggleGroup = (id: string) => {
+    setOpenGroups((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
   const router = useRouter();
@@ -186,14 +212,15 @@ export function DashboardSidebar({
             (item.subItems &&
               item.subItems.some((sub) => pathname === sub.href));
           const hasSub = !!item.subItems && item.subItems.length > 0;
-          const isExpanded = openGroups[item.title] ?? false;
+          const isExpanded = openGroups[item.id] ?? false;
+          const title = t(item.titleKey) || item.defaultTitle;
 
           return (
-            <div key={item.title} className="space-y-0.5">
+            <div key={item.id} className="space-y-0.5">
               {hasSub ? (
                 <button
                   type="button"
-                  onClick={() => toggleGroup(item.title)}
+                  onClick={() => toggleGroup(item.id)}
                   className={cn(
                     "flex w-full items-center justify-between rounded-xl px-3 py-2 text-xs font-semibold transition-all duration-150",
                     isActive
@@ -208,7 +235,7 @@ export function DashboardSidebar({
                         isActive ? "text-primary" : "text-muted-foreground",
                       )}
                     />
-                    <span>{item.title}</span>
+                    <span>{title}</span>
                   </div>
                   <div className="flex items-center gap-1.5">
                     {item.badge && (
@@ -243,7 +270,7 @@ export function DashboardSidebar({
                           : "text-muted-foreground",
                       )}
                     />
-                    <span>{item.title}</span>
+                    <span>{title}</span>
                   </div>
                   {item.badge && (
                     <Badge
@@ -278,7 +305,7 @@ export function DashboardSidebar({
                             : "text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground",
                         )}
                       >
-                        {sub.title}
+                        {t(sub.titleKey) || sub.defaultTitle}
                       </Link>
                     );
                   })}
@@ -297,7 +324,7 @@ export function DashboardSidebar({
             className="flex w-full items-center gap-2 rounded-xl px-3 py-1.5 text-xs font-semibold text-amber-500 hover:bg-amber-500/10 transition-colors"
           >
             <Building2 className="size-4 text-amber-500" />
-            <span>Portal Partner / Reseller</span>
+            <span>{t("nav.user.resellerPortal") || "Reseller Portal"}</span>
           </Link>
         )}
 
@@ -307,17 +334,17 @@ export function DashboardSidebar({
             className="flex w-full items-center gap-2 rounded-xl px-3 py-1.5 text-xs font-semibold text-rose-400 hover:bg-rose-500/10 transition-colors"
           >
             <ShieldAlert className="size-4 text-rose-400" />
-            <span>Superadmin Console</span>
+            <span>{t("nav.user.adminConsole") || "Admin Console"}</span>
           </Link>
         )}
 
         <button
           type="button"
           onClick={handleLogout}
-          className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-medium text-rose-400 hover:bg-rose-500/10 transition-colors"
+          className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-medium text-rose-400 hover:bg-rose-500/10 transition-colors cursor-pointer"
         >
           <LogOut className="size-4" />
-          <span>Keluar dari Akun</span>
+          <span>{t("common.logout") || "Logout"}</span>
         </button>
       </div>
     </aside>

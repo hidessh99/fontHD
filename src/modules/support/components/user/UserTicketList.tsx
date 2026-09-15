@@ -2,6 +2,7 @@
 // GoVPN User Ticket List Component
 // Part of Pola C: components/user/UserTicketList.tsx
 // 100% Coinbase Institutional Design System
+// Fully Localized with useI18n (EN/ID)
 // ==============================================================================
 
 "use client";
@@ -12,6 +13,7 @@ import { TicketStatusBadge } from "../shared/TicketStatusBadge";
 import { TicketPriorityBadge } from "../shared/TicketPriorityBadge";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { ChevronRight, Clock, LifeBuoy } from "lucide-react";
+import { useI18n } from "@/lib/i18n/context";
 
 interface UserTicketListProps {
   tickets: Ticket[];
@@ -24,12 +26,14 @@ export function UserTicketList({
   onSelectTicket,
   selectedTicketId,
 }: UserTicketListProps) {
+  const { t, locale } = useI18n();
+
   if (tickets.length === 0) {
     return (
       <EmptyState
         icon={LifeBuoy}
-        title="Belum Ada Tiket Bantuan"
-        description="Jika Anda mengalami kendala konektivitas atau pertanyaan teknis, ajukan tiket baru."
+        title={t("support.noTickets")}
+        description={t("support.noTicketsDesc")}
       />
     );
   }
@@ -78,7 +82,7 @@ export function UserTicketList({
                   <span>
                     {new Date(
                       ticket.last_reply_at || ticket.created_at,
-                    ).toLocaleDateString("id-ID", {
+                    ).toLocaleDateString(locale === "id" ? "id-ID" : "en-US", {
                       day: "numeric",
                       month: "short",
                       hour: "2-digit",

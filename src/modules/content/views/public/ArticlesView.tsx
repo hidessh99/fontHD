@@ -14,8 +14,10 @@ import { BookOpen, Search, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n";
 
 export function ArticlesView() {
+  const { t } = useI18n();
   const { posts, loading, refresh } = useContentPublic();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedTag, setSelectedTag] = useState<string>("ALL");
@@ -42,14 +44,13 @@ export function ArticlesView() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-border/40 pb-6">
         <div>
           <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-medium text-primary mb-2">
-            <BookOpen className="w-3.5 h-3.5" /> Pusat Pengetahuan & Panduan
+            <BookOpen className="w-3.5 h-3.5" /> {t("content.badge")}
           </div>
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
-            Artikel, Tutorial & Update Jaringan
+            {t("content.title")}
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Panduan teknis bypass DPI, optimalisasi koneksi gaming, dan
-            arsitektur keamanan GoVPN.
+            {t("content.subtitle")}
           </p>
         </div>
 
@@ -58,12 +59,12 @@ export function ArticlesView() {
           size="sm"
           onClick={() => {
             refresh();
-            toast.info("Memperbarui artikel...");
+            toast.info(t("content.refreshingArticles"));
           }}
           className="gap-2 self-start sm:self-auto"
         >
           <RefreshCw className="w-4 h-4" />
-          <span>Segarkan</span>
+          <span>{t("common.refresh")}</span>
         </Button>
       </div>
 
@@ -73,7 +74,7 @@ export function ArticlesView() {
           <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground z-10" />
           <Input
             type="text"
-            placeholder="Cari artikel atau tutorial..."
+            placeholder={t("content.searchPlaceholder")}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full pl-9 pr-3.5 text-xs rounded-lg border-border/50 bg-background/50"
@@ -89,7 +90,7 @@ export function ArticlesView() {
                 : "bg-background/50 border border-border/50 text-muted-foreground hover:text-foreground"
             }`}
           >
-            Semua Topik
+            {t("content.allTopics")}
           </button>
           {allTags.map((tag) => (
             <button

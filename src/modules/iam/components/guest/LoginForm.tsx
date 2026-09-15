@@ -21,6 +21,7 @@ import { LoginRequest } from "../../types/guest.types";
 import { ForgotPasswordModal } from "./ForgotPasswordModal";
 import { Lock, Mail, Loader2, ArrowRight, ShieldCheck } from "lucide-react";
 import Link from "next/link";
+import { useI18n } from "@/lib/i18n";
 
 interface LoginFormProps {
   onLogin: (data: LoginRequest) => Promise<boolean>;
@@ -28,6 +29,7 @@ interface LoginFormProps {
 }
 
 export function LoginForm({ onLogin, onForgotPassword }: LoginFormProps) {
+  const { t } = useI18n();
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [twoFactorCode, setTwoFactorCode] = useState("");
@@ -40,14 +42,11 @@ export function LoginForm({ onLogin, onForgotPassword }: LoginFormProps) {
 
     setIsSubmitting(true);
     try {
-      const ok = await onLogin({
+      await onLogin({
         username_or_email: identifier.trim(),
         password,
         two_factor_code: show2Fa ? twoFactorCode.trim() : undefined,
       });
-      if (!ok && !show2Fa && password) {
-        // If server indicated 2FA required, show input
-      }
     } finally {
       setIsSubmitting(false);
     }
@@ -60,11 +59,10 @@ export function LoginForm({ onLogin, onForgotPassword }: LoginFormProps) {
           <Lock className="h-6 w-6" />
         </div>
         <CardTitle className="text-2xl font-bold tracking-tight text-foreground">
-          Masuk ke GoVPN
+          {t("iam.loginTitle")}
         </CardTitle>
         <CardDescription className="text-xs text-muted-foreground">
-          Kelola server VPN berkecepatan tinggi, saldo akun, dan telemetri
-          jaringan.
+          {t("iam.loginDesc")}
         </CardDescription>
       </CardHeader>
 
@@ -76,14 +74,14 @@ export function LoginForm({ onLogin, onForgotPassword }: LoginFormProps) {
               htmlFor="login-id"
               className="text-xs font-medium text-muted-foreground"
             >
-              Email atau Username
+              {t("iam.emailOrUsername")}
             </Label>
             <div className="relative mt-1.5">
               <Mail className="absolute left-3.5 top-3.5 h-4 w-4 text-muted-foreground" />
               <Input
                 id="login-id"
                 type="text"
-                placeholder="nama@email.com atau username"
+                placeholder={t("iam.emailOrUsernamePlaceholder")}
                 value={identifier}
                 onChange={(e) => setIdentifier(e.target.value)}
                 autoComplete="username"
@@ -100,7 +98,7 @@ export function LoginForm({ onLogin, onForgotPassword }: LoginFormProps) {
                 htmlFor="login-pw"
                 className="text-xs font-medium text-muted-foreground"
               >
-                Kata Sandi
+                {t("iam.password")}
               </Label>
               <div className="flex items-center gap-2.5">
                 <button
@@ -108,7 +106,7 @@ export function LoginForm({ onLogin, onForgotPassword }: LoginFormProps) {
                   onClick={() => setShow2Fa((prev) => !prev)}
                   className="text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  {show2Fa ? "Sembunyikan 2FA" : "+ 2FA"}
+                  {show2Fa ? t("iam.hide2fa") : t("iam.show2fa")}
                 </button>
                 {onForgotPassword && (
                   <ForgotPasswordModal onSubmitForgot={onForgotPassword} />
@@ -120,7 +118,7 @@ export function LoginForm({ onLogin, onForgotPassword }: LoginFormProps) {
               <Input
                 id="login-pw"
                 type="password"
-                placeholder="••••••••••••"
+                placeholder={t("iam.passwordPlaceholder")}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 autoComplete="current-password"
@@ -137,7 +135,7 @@ export function LoginForm({ onLogin, onForgotPassword }: LoginFormProps) {
                 htmlFor="login-2fa"
                 className="text-xs font-medium text-muted-foreground"
               >
-                Kode Autentikasi 2FA (6 Digit)
+                {t("iam.twoFactorCodeLabel")}
               </Label>
               <div className="relative mt-1.5">
                 <ShieldCheck className="absolute left-3.5 top-3.5 h-4 w-4 text-primary" />
@@ -162,11 +160,11 @@ export function LoginForm({ onLogin, onForgotPassword }: LoginFormProps) {
           >
             {isSubmitting ? (
               <>
-                <Loader2 className="h-4 w-4 animate-spin" /> Sedang Masuk...
+                <Loader2 className="h-4 w-4 animate-spin" /> {t("iam.loggingIn")}
               </>
             ) : (
               <>
-                Masuk ke Akun
+                {t("iam.loginButton")}
                 <ArrowRight className="h-4 w-4" />
               </>
             )}
@@ -177,7 +175,7 @@ export function LoginForm({ onLogin, onForgotPassword }: LoginFormProps) {
         <div className="relative flex items-center justify-center my-4">
           <div className="border-t border-border/60 w-full" />
           <span className="bg-card px-3 text-[11px] uppercase tracking-wider text-muted-foreground font-mono">
-            Atau
+            {t("iam.orDivider")}
           </span>
         </div>
 
@@ -204,17 +202,17 @@ export function LoginForm({ onLogin, onForgotPassword }: LoginFormProps) {
               d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
             />
           </svg>
-          Lanjutkan dengan Google
+          {t("iam.continueWithGoogle")}
         </a>
 
         {/* Register CTA */}
         <p className="text-center text-xs text-muted-foreground pt-2">
-          Belum memiliki akun?{" "}
+          {t("iam.dontHaveAccount")}{" "}
           <Link
             href="/register"
             className="text-primary hover:underline font-semibold font-mono"
           >
-            Daftar Sekarang
+            {t("iam.registerNow")}
           </Link>
         </p>
       </CardContent>

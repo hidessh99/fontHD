@@ -19,6 +19,7 @@ import { NativeSelect } from "@/components/ui/native-select";
 import { DataTable, ColumnDef, DataTableFilterConfig } from "@/components/shared/data-table";
 import { RefreshCw, Trash2, Calendar, Mail, Users } from "lucide-react";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n";
 
 interface AdminUserTableProps {
   users: UserProfile[];
@@ -49,6 +50,7 @@ export function AdminUserTable({
   onAddIncome,
   onReduceIncome,
 }: AdminUserTableProps) {
+  const { t, locale } = useI18n();
   const [deletingId, setDeletingId] = useState<string | number | null>(null);
 
   const formatIDR = (val?: number) => {
@@ -66,9 +68,9 @@ export function AdminUserTable({
     if (!onChangeRole) return;
     try {
       await onChangeRole(userId, newRole);
-      toast.success(`Peran user berhasil diubah menjadi ${newRole}!`);
+      toast.success(t("iam.userRoleUpdated", { role: newRole }));
     } catch {
-      toast.error("Gagal mengubah peran user.");
+      toast.error(t("iam.userRoleUpdateFailed"));
     }
   };
 
@@ -77,9 +79,9 @@ export function AdminUserTable({
     setDeletingId(userId);
     try {
       await onDeleteUser(userId);
-      toast.success("Akun user berhasil dihapus.");
+      toast.success(t("iam.userAccountDeleted"));
     } catch {
-      toast.error("Gagal menghapus akun user.");
+      toast.error(t("iam.userAccountDeleteFailed"));
     } finally {
       setDeletingId(null);
     }
@@ -89,7 +91,7 @@ export function AdminUserTable({
     () => [
       {
         id: "user",
-        header: "User",
+        header: t("iam.colUser"),
         cell: (u) => (
           <div className="flex flex-col font-sans">
             <span className="font-bold text-foreground font-mono">
@@ -106,7 +108,7 @@ export function AdminUserTable({
       },
       {
         id: "role",
-        header: "Peran (Role)",
+        header: t("iam.colRole"),
         cell: (u) =>
           onChangeRole ? (
             <NativeSelect
@@ -128,31 +130,33 @@ export function AdminUserTable({
       },
       {
         id: "balance",
-        header: "Saldo Dompet",
+        header: t("iam.colWalletBalance"),
         className: "font-bold text-emerald-400 font-mono",
         cell: (u) => formatIDR(u.balance),
       },
       {
         id: "income",
-        header: "Komisi Reseller",
+        header: t("iam.colResellerIncome"),
         className: "font-bold text-blue-400 font-mono",
         cell: (u) => formatIDR(u.income),
       },
       {
         id: "createdAt",
-        header: "Bergabung",
+        header: t("iam.colJoined"),
         cell: (u) => (
           <div className="flex items-center gap-1 text-muted-foreground whitespace-nowrap">
             <Calendar className="h-3 w-3 shrink-0" />
             {u.createdAt
-              ? new Date(u.createdAt).toLocaleDateString("id-ID")
+              ? new Date(u.createdAt).toLocaleDateString(
+                  locale === "id" ? "id-ID" : "en-US"
+                )
               : "-"}
           </div>
         ),
       },
       {
         id: "actions",
-        header: "Aksi Superadmin",
+        header: t("iam.colSuperadminActions"),
         align: "right",
         cell: (u) => (
           <div className="flex items-center justify-end gap-2">
@@ -181,14 +185,14 @@ export function AdminUserTable({
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [deletingId, onChangeRole, onDeleteUser],
+    [deletingId, locale, onChangeRole, onDeleteUser, t],
   );
 
   const filters: DataTableFilterConfig<UserProfile>[] = useMemo(
     () => [
       {
         id: "role",
-        label: "Peran",
+        label: t("iam.colRole"),
         defaultValue: "ALL",
         options: [
           { label: "Semua Peran", value: "ALL" },
@@ -200,7 +204,7 @@ export function AdminUserTable({
         filterFn: (u, val) => u.role?.toUpperCase() === val.toUpperCase(),
       },
     ],
-    [],
+    [t],
   );
 
   return (
@@ -210,16 +214,16 @@ export function AdminUserTable({
       keyExtractor={(u) => u.id}
       isLoading={isLoading}
       searchable={true}
-      searchPlaceholder="Cari ID, username, email..."
-      searchButtonText="Cari"
+      searchPlaceholder={t("iam.searchUserPlaceholder")}
+      searchButtonText={t("common.search", "Search")}
       searchAccessor={(u) => [u.username, u.email, u.id]}
       filters={filters}
       paginated={true}
       pageSize={10}
-      entityName="pengguna"
+      entityName={t("iam.userEntityName")}
       emptyIcon={Users}
-      emptyTitle="Pengguna Tidak Ditemukan"
-      emptyDescription="Tidak ada data user yang sesuai dengan kriteria pencarian atau filter peran."
+      emptyTitle={t("iam.noUsersTitle")}
+      emptyDescription={t("iam.noUsersDesc")}
       actions={
         onRefresh && (
           <Button
@@ -232,7 +236,7 @@ export function AdminUserTable({
             <RefreshCw
               className={`h-3.5 w-3.5 ${isLoading ? "animate-spin" : ""}`}
             />
-            Segarkan Data
+            {t("iam.refreshData")}
           </Button>
         )
       }

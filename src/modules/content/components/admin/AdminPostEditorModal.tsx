@@ -21,6 +21,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { NativeSelect } from "@/components/ui/native-select";
 import { FileText, Save, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n";
 
 interface AdminPostEditorModalProps {
   open: boolean;
@@ -38,6 +39,7 @@ export function AdminPostEditorModal({
   postToEdit,
   onSave,
 }: AdminPostEditorModalProps) {
+  const { t } = useI18n();
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
   const [summary, setSummary] = useState("");
@@ -83,7 +85,7 @@ export function AdminPostEditorModal({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title.trim() || !slug.trim() || !content.trim()) {
-      toast.error("Judul, slug, dan isi konten wajib diisi");
+      toast.error(t("content.requiredFields"));
       return;
     }
 
@@ -107,7 +109,7 @@ export function AdminPostEditorModal({
           },
           postToEdit.id,
         );
-        toast.success("Artikel berhasil diperbarui!");
+        toast.success(t("content.postUpdated"));
       } else {
         await onSave({
           title: title.trim(),
@@ -118,11 +120,11 @@ export function AdminPostEditorModal({
           tags,
           featured_image: featuredImage.trim() || undefined,
         });
-        toast.success("Artikel baru berhasil diterbitkan!");
+        toast.success(t("content.postPublished"));
       }
       onOpenChange(false);
     } catch {
-      toast.error("Gagal menyimpan artikel");
+      toast.error(t("content.postSaveFailed"));
     } finally {
       setSaving(false);
     }
@@ -135,13 +137,13 @@ export function AdminPostEditorModal({
           <div className="flex items-center gap-2 text-primary mb-1">
             <FileText className="w-5 h-5" />
             <span className="text-xs font-bold uppercase tracking-wider">
-              CMS Content Editor
+              {t("content.cmsEditorBadge")}
             </span>
           </div>
           <DialogTitle className="text-xl font-bold">
             {postToEdit
-              ? "Edit Artikel / Panduan"
-              : "Tulis Artikel / Panduan Baru"}
+              ? t("content.editModalTitle")
+              : t("content.createModalTitle")}
           </DialogTitle>
         </DialogHeader>
 
@@ -152,12 +154,12 @@ export function AdminPostEditorModal({
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
               <label className="text-xs font-semibold text-muted-foreground">
-                Judul Artikel
+                {t("content.postTitleLabel")}
               </label>
               <Input
                 type="text"
                 required
-                placeholder="Cara Mengatasi DPI Filtering ISP Telkomsel..."
+                placeholder={t("content.postTitlePlaceholder")}
                 value={title}
                 onChange={(e) => handleTitleChange(e.target.value)}
                 className="font-semibold"
@@ -166,12 +168,12 @@ export function AdminPostEditorModal({
 
             <div className="space-y-1.5">
               <label className="text-xs font-semibold text-muted-foreground">
-                Slug URL
+                {t("content.slugLabel")}
               </label>
               <Input
                 type="text"
                 required
-                placeholder="cara-mengatasi-dpi-telkomsel"
+                placeholder={t("content.slugPlaceholder")}
                 value={slug}
                 onChange={(e) => setSlug(e.target.value)}
                 className="font-mono"
@@ -182,7 +184,7 @@ export function AdminPostEditorModal({
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
               <label className="text-xs font-semibold text-muted-foreground">
-                Status Publikasi
+                {t("content.pubStatusLabel")}
               </label>
               <NativeSelect
                 value={status}
@@ -190,16 +192,16 @@ export function AdminPostEditorModal({
                 className="font-semibold"
               >
                 <option value="PUBLISHED">
-                  PUBLISHED (Diterbitkan Langsung)
+                  {t("content.statusPublishedOpt")}
                 </option>
-                <option value="DRAFT">DRAFT (Konsep Internal)</option>
-                <option value="ARCHIVED">ARCHIVED (Diarsipkan)</option>
+                <option value="DRAFT">{t("content.statusDraftOpt")}</option>
+                <option value="ARCHIVED">{t("content.statusArchivedOpt")}</option>
               </NativeSelect>
             </div>
 
             <div className="space-y-1.5">
               <label className="text-xs font-semibold text-muted-foreground">
-                Tagar (Koma dipisah)
+                {t("content.tagsLabel")}
               </label>
               <Input
                 type="text"
@@ -212,11 +214,11 @@ export function AdminPostEditorModal({
 
           <div className="space-y-1.5">
             <label className="text-xs font-semibold text-muted-foreground">
-              Ringkasan / Sinopsis (Excerpt)
+              {t("content.summaryLabel")}
             </label>
             <Input
               type="text"
-              placeholder="Ringkasan 1-2 kalimat untuk preview card di beranda pengetahuan..."
+              placeholder={t("content.summaryPlaceholder")}
               value={summary}
               onChange={(e) => setSummary(e.target.value)}
             />
@@ -224,7 +226,7 @@ export function AdminPostEditorModal({
 
           <div className="space-y-1.5">
             <label className="text-xs font-semibold text-muted-foreground">
-              URL Gambar Sampul (Opsional)
+              {t("content.coverImageLabel")}
             </label>
             <Input
               type="url"
@@ -237,12 +239,12 @@ export function AdminPostEditorModal({
 
           <div className="space-y-1.5">
             <label className="text-xs font-semibold text-muted-foreground">
-              Konten Lengkap (Markdown didukung)
+              {t("content.bodyLabel")}
             </label>
             <Textarea
               required
               rows={8}
-              placeholder="Tuliskan panduan langkah demi langkah atau pengumuman lengkap di sini..."
+              placeholder={t("content.bodyPlaceholder")}
               value={content}
               onChange={(e) => setContent(e.target.value)}
               className="font-mono resize-none leading-relaxed"
@@ -256,7 +258,7 @@ export function AdminPostEditorModal({
               onClick={() => onOpenChange(false)}
               disabled={saving}
             >
-              Batal
+              {t("content.cancel")}
             </Button>
             <Button
               type="submit"
@@ -266,13 +268,13 @@ export function AdminPostEditorModal({
               {saving ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>Menyimpan...</span>
+                  <span>{t("content.saving")}</span>
                 </>
               ) : (
                 <>
                   <Save className="w-4 h-4" />
                   <span>
-                    {postToEdit ? "Perbarui Artikel" : "Terbitkan Artikel"}
+                    {postToEdit ? t("content.updatePost") : t("content.publishPost")}
                   </span>
                 </>
               )}

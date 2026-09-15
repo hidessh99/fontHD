@@ -16,9 +16,11 @@ import { TriggerBillingModal } from "../../components/admin/TriggerBillingModal"
 import { SellerServerCard } from "../../components/seller/SellerServerCard";
 import { useVpnUser } from "../../hooks/useVpnUser";
 import { ServerNode } from "../../types/vpn.types";
+import { useI18n } from "@/lib/i18n/context";
 
 export function AdminServersView() {
   const { servers, isLoading, refresh } = useVpnUser();
+  const { t } = useI18n();
 
   const [formModalOpen, setFormModalOpen] = useState(false);
   const [selectedServer, setSelectedServer] = useState<ServerNode | null>(null);
@@ -42,12 +44,11 @@ export function AdminServersView() {
           <div className="flex items-center gap-2 mb-1 text-primary">
             <ShieldAlert className="size-5" />
             <h1 className="text-xl font-bold tracking-tight text-foreground">
-              Superadmin Global Server Fleet
+              {t("vpn.superadminFleetTitle")}
             </h1>
           </div>
           <p className="text-xs text-muted-foreground">
-            Kontrol penuh seluruh node VPS (Always, Month, PayAsYouGo, Free),
-            port routing, dan manual cron trigger.
+            {t("vpn.superadminFleetSubtitle")}
           </p>
         </div>
 
@@ -62,7 +63,7 @@ export function AdminServersView() {
             <RefreshCw
               className={`mr-1.5 size-3.5 ${isLoading ? "animate-spin" : ""}`}
             />
-            Segarkan
+            {t("common.refresh")}
           </Button>
 
           <Button
@@ -71,7 +72,7 @@ export function AdminServersView() {
             onClick={() => setBillingModalOpen(true)}
             className="text-xs font-mono h-10 px-4 rounded-full text-amber-400 border-amber-500/30 hover:bg-amber-500/10"
           >
-            <CreditCard className="mr-1.5 size-3.5" /> Trigger Billing
+            <CreditCard className="mr-1.5 size-3.5" /> {t("vpn.triggerBilling")}
           </Button>
 
           <Button
@@ -79,7 +80,7 @@ export function AdminServersView() {
             onClick={handleAddNew}
             className="bg-primary hover:bg-primary-hover text-white text-xs font-semibold h-10 px-5 rounded-full shadow-md shadow-primary/25"
           >
-            <Plus className="mr-1.5 size-4" /> Tambah Node VPS
+            <Plus className="mr-1.5 size-4" /> {t("vpn.addNode")}
           </Button>
         </div>
       </div>
@@ -92,15 +93,15 @@ export function AdminServersView() {
       ) : servers.length === 0 ? (
         <EmptyState
           icon={Server}
-          title="Tidak Ada Server Terdaftar"
-          description="Belum ada server VPS yang didaftarkan di sistem. Tambahkan server node baru sekarang."
+          title={t("vpn.noServersAdmin")}
+          description={t("vpn.noServersAdminDesc")}
           action={
             <Button
               size="sm"
               onClick={handleAddNew}
               className="bg-primary hover:bg-primary-hover text-white text-xs rounded-full min-h-10 px-6 shadow-md shadow-primary/25"
             >
-              <Plus className="mr-1.5 size-4" /> Tambah Server Perdana
+              <Plus className="mr-1.5 size-4" /> {t("vpn.addNodeFirst")}
             </Button>
           }
         />

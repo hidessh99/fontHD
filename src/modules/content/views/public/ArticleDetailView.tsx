@@ -14,12 +14,14 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n";
 
 interface ArticleDetailViewProps {
   slug: string;
 }
 
 export function ArticleDetailView({ slug }: ArticleDetailViewProps) {
+  const { t, locale } = useI18n();
   const { selectedPost, loading, fetchPostBySlug } = useContentPublic(slug);
 
   useEffect(() => {
@@ -33,9 +35,9 @@ export function ArticleDetailView({ slug }: ArticleDetailViewProps) {
   }
 
   const handleShare = () => {
-    if (navigator.clipboard) {
+    if (typeof window !== "undefined" && navigator.clipboard) {
       navigator.clipboard.writeText(window.location.href);
-      toast.success("Tautan artikel disalin ke clipboard!");
+      toast.success(t("content.linkCopied"));
     }
   };
 
@@ -48,7 +50,7 @@ export function ArticleDetailView({ slug }: ArticleDetailViewProps) {
           className="inline-flex items-center gap-1.5 text-xs font-semibold text-muted-foreground hover:text-primary transition-colors group"
         >
           <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-          <span>Kembali ke Semua Artikel</span>
+          <span>{t("content.backToAllArticles")}</span>
         </Link>
       </div>
 
@@ -76,25 +78,28 @@ export function ArticleDetailView({ slug }: ArticleDetailViewProps) {
           <div className="flex items-center gap-4">
             <span className="flex items-center gap-1.5 font-medium text-foreground">
               <User className="w-3.5 h-3.5 text-primary" />
-              {selectedPost.author_name || "Tim Riset Jaringan GoVPN"}
+              {selectedPost.author_name || t("content.defaultAuthor")}
             </span>
             <span>•</span>
             <span className="flex items-center gap-1.5">
               <Clock className="w-3.5 h-3.5" />
               {new Date(
                 selectedPost.published_at || selectedPost.created_at,
-              ).toLocaleDateString("id-ID", {
-                day: "numeric",
-                month: "long",
-                year: "numeric",
-              })}
+              ).toLocaleDateString(
+                locale === "id" ? "id-ID" : "en-US",
+                {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                }
+              )}
             </span>
             {selectedPost.views_count !== undefined && (
               <>
                 <span>•</span>
                 <span className="flex items-center gap-1.5 font-mono">
                   <Eye className="w-3.5 h-3.5" />
-                  {selectedPost.views_count} Pembaca
+                  {selectedPost.views_count} {t("content.readers")}
                 </span>
               </>
             )}
@@ -107,7 +112,7 @@ export function ArticleDetailView({ slug }: ArticleDetailViewProps) {
             className="gap-1.5"
           >
             <Share2 className="w-3.5 h-3.5" />
-            <span>Bagikan</span>
+            <span>{t("content.share")}</span>
           </Button>
         </div>
       </div>

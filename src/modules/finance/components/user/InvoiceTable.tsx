@@ -2,6 +2,7 @@
 // GoVPN Finance Invoice Table Component
 // Part of Pola C: components/user/InvoiceTable.tsx
 // 100% Coinbase Institutional Design System + Standardized Enterprise DataTable
+// Fully Localized with useI18n (EN/ID)
 // ==============================================================================
 
 "use client";
@@ -17,6 +18,7 @@ import {
   ExternalLink,
   Calendar,
 } from "lucide-react";
+import { useI18n } from "@/lib/i18n/context";
 
 interface InvoiceTableProps {
   invoices: Invoice[];
@@ -24,6 +26,8 @@ interface InvoiceTableProps {
 }
 
 export function InvoiceTable({ invoices, onSelectInvoice }: InvoiceTableProps) {
+  const { t, locale } = useI18n();
+
   const formatIDR = (val: number) => {
     return new Intl.NumberFormat("id-ID", {
       style: "currency",
@@ -34,7 +38,7 @@ export function InvoiceTable({ invoices, onSelectInvoice }: InvoiceTableProps) {
 
   const formatDate = (dateStr?: string) => {
     if (!dateStr) return "-";
-    return new Date(dateStr).toLocaleString("id-ID", {
+    return new Date(dateStr).toLocaleString(locale === "id" ? "id-ID" : "en-US", {
       day: "2-digit",
       month: "short",
       year: "numeric",
@@ -47,7 +51,7 @@ export function InvoiceTable({ invoices, onSelectInvoice }: InvoiceTableProps) {
     () => [
       {
         id: "invoice_number",
-        header: "Nomor Faktur",
+        header: t("finance.invoiceNumber"),
         cell: (inv) => (
           <div className="flex flex-col">
             <span className="font-mono text-xs font-bold text-foreground">
@@ -63,7 +67,7 @@ export function InvoiceTable({ invoices, onSelectInvoice }: InvoiceTableProps) {
       },
       {
         id: "created_at",
-        header: "Tanggal Buat",
+        header: t("finance.createdAt"),
         cell: (inv) => (
           <div className="flex items-center gap-1.5 text-xs text-muted-foreground font-mono">
             <Calendar className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
@@ -73,7 +77,7 @@ export function InvoiceTable({ invoices, onSelectInvoice }: InvoiceTableProps) {
       },
       {
         id: "payment_method",
-        header: "Metode",
+        header: t("finance.paymentMethod"),
         cell: (inv) => (
           <span className="inline-flex items-center rounded-md bg-muted/60 border border-border/60 px-2.5 py-0.5 text-xs font-medium font-mono text-foreground">
             {inv.payment_method}
@@ -82,7 +86,7 @@ export function InvoiceTable({ invoices, onSelectInvoice }: InvoiceTableProps) {
       },
       {
         id: "amount",
-        header: "Nominal",
+        header: t("finance.amount"),
         cell: (inv) => (
           <div className="flex flex-col">
             <span className="font-mono font-semibold text-foreground">
@@ -90,7 +94,7 @@ export function InvoiceTable({ invoices, onSelectInvoice }: InvoiceTableProps) {
             </span>
             {inv.admin_fee ? (
               <span className="text-[10px] text-muted-foreground font-mono">
-                Biaya: {formatIDR(inv.admin_fee)}
+                Fee: {formatIDR(inv.admin_fee)}
               </span>
             ) : null}
           </div>
@@ -98,12 +102,12 @@ export function InvoiceTable({ invoices, onSelectInvoice }: InvoiceTableProps) {
       },
       {
         id: "status",
-        header: "Status",
+        header: t("finance.paymentStatus"),
         cell: (inv) => <StatusBadge status={inv.status} />,
       },
       {
         id: "actions",
-        header: "Aksi",
+        header: t("common.actions"),
         align: "right",
         cell: (inv) => (
           <div className="flex items-center justify-end gap-2">
@@ -114,12 +118,12 @@ export function InvoiceTable({ invoices, onSelectInvoice }: InvoiceTableProps) {
                 onClick={() => onSelectInvoice(inv)}
               >
                 <QrCode className="h-3.5 w-3.5" />
-                Bayar QRIS
+                {t("finance.payQris")}
               </Button>
             )}
             {inv.status === "PAID" && (
               <span className="text-xs text-emerald-400 font-semibold font-mono">
-                Lunas
+                {t("finance.paid")}
               </span>
             )}
             {inv.checkout_url && inv.status === "PENDING" && (
@@ -136,17 +140,18 @@ export function InvoiceTable({ invoices, onSelectInvoice }: InvoiceTableProps) {
         ),
       },
     ],
-    [onSelectInvoice],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [onSelectInvoice, t],
   );
 
   const filters: DataTableFilterConfig<Invoice>[] = useMemo(
     () => [
       {
         id: "status",
-        label: "Status",
+        label: t("finance.paymentStatus"),
         defaultValue: "ALL",
         options: [
-          { label: "Semua Status", value: "ALL" },
+          { label: t("common.all"), value: "ALL" },
           { label: "PENDING", value: "PENDING" },
           { label: "PAID", value: "PAID" },
           { label: "EXPIRED", value: "EXPIRED" },
@@ -155,7 +160,7 @@ export function InvoiceTable({ invoices, onSelectInvoice }: InvoiceTableProps) {
         filterFn: (inv, val) => inv.status?.toUpperCase() === val.toUpperCase(),
       },
     ],
-    [],
+    [t],
   );
 
   return (
@@ -164,16 +169,16 @@ export function InvoiceTable({ invoices, onSelectInvoice }: InvoiceTableProps) {
       columns={columns}
       keyExtractor={(inv) => inv.id}
       searchable={true}
-      searchPlaceholder="Cari nomor faktur, keterangan, metode..."
-      searchButtonText="Cari"
+      searchPlaceholder={t("common.search")}
+      searchButtonText={t("common.search")}
       searchAccessor={(inv) => [inv.invoice_number, inv.description, inv.payment_method]}
       filters={filters}
       paginated={true}
       pageSize={10}
       entityName="faktur"
       emptyIcon={CreditCard}
-      emptyTitle="Belum Ada Riwayat Faktur"
-      emptyDescription="Tagihan dan faktur deposit Anda akan otomatis tercatat di sini."
+      emptyTitle={t("finance.noInvoicesTitle")}
+      emptyDescription={t("finance.noInvoicesDesc")}
     />
   );
 }

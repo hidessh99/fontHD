@@ -19,11 +19,13 @@ interface SellerCustomerSubscriptionTableProps {
 export function SellerCustomerSubscriptionTable({
   subscriptions,
 }: SellerCustomerSubscriptionTableProps) {
+  const { t } = useI18n();
+
   const columns: ColumnDef<Subscription>[] = useMemo(
     () => [
       {
         id: "status",
-        header: "Status",
+        header: t("common.status"),
         cell: (sub) => <SubscriptionStatusBadge status={sub.status} />,
       },
       {
@@ -39,13 +41,13 @@ export function SellerCustomerSubscriptionTable({
       },
       {
         id: "plan",
-        header: "Paket Langganan",
+        header: t("subscription.planName"),
         className: "font-sans font-bold text-foreground",
         cell: (sub) => sub.plan?.name || "Premium VPN",
       },
       {
         id: "devices",
-        header: "Maks. Device",
+        header: t("subscription.simultaneousDevices"),
         className: "text-foreground font-mono text-xs",
         cell: (sub) => (
           <div className="flex items-center gap-1">
@@ -56,7 +58,7 @@ export function SellerCustomerSubscriptionTable({
       },
       {
         id: "end_date",
-        header: "Masa Berlaku",
+        header: t("vpn.expiredAt"),
         className: "font-sans text-muted-foreground",
         cell: (sub) => (
           <div className="flex items-center gap-1.5 font-mono text-[11px]">
@@ -66,17 +68,17 @@ export function SellerCustomerSubscriptionTable({
         ),
       },
     ],
-    [],
+    [t],
   );
 
   const filters: DataTableFilterConfig<Subscription>[] = useMemo(
     () => [
       {
         id: "status",
-        label: "Status",
+        label: t("common.status"),
         defaultValue: "ALL",
         options: [
-          { label: "Semua Status", value: "ALL" },
+          { label: t("common.all"), value: "ALL" },
           { label: "ACTIVE", value: "ACTIVE" },
           { label: "EXPIRED", value: "EXPIRED" },
           { label: "CANCELLED", value: "CANCELLED" },
@@ -84,7 +86,7 @@ export function SellerCustomerSubscriptionTable({
         filterFn: (sub, val) => sub.status?.toUpperCase() === val.toUpperCase(),
       },
     ],
-    [],
+    [t],
   );
 
   return (
@@ -93,16 +95,16 @@ export function SellerCustomerSubscriptionTable({
       columns={columns}
       keyExtractor={(sub) => sub.id}
       searchable={true}
-      searchPlaceholder="Cari User ID atau nama paket pelanggan..."
-      searchButtonText="Cari"
+      searchPlaceholder={t("common.search")}
+      searchButtonText={t("common.search")}
       searchAccessor={(sub) => [sub.user_id, sub.plan?.name, sub.status]}
       filters={filters}
       paginated={true}
       pageSize={10}
-      entityName="langganan pelanggan"
+      entityName={t("subscription.customerSubsList")}
       emptyIcon={ShieldCheck}
-      emptyTitle="Belum Ada Langganan Pelanggan"
-      emptyDescription="Pelanggan yang Anda daftarkan atau beli paket langganannya akan muncul di sini."
+      emptyTitle={t("subscription.noCustomerSubsYet")}
+      emptyDescription={t("subscription.noCustomerSubsYetDesc")}
     />
   );
 }

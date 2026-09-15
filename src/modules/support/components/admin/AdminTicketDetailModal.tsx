@@ -19,6 +19,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Send, Loader2, Trash2, Lock, User, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n";
 
 interface AdminTicketDetailModalProps {
   open: boolean;
@@ -41,6 +42,7 @@ export function AdminTicketDetailModal({
   onUpdateStatus,
   loadingReplies,
 }: AdminTicketDetailModalProps) {
+  const { t, locale } = useI18n();
   const [replyMessage, setReplyMessage] = useState("");
   const [isInternal, setIsInternal] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -61,11 +63,11 @@ export function AdminTicketDetailModal({
       setIsInternal(false);
       toast.success(
         isInternal
-          ? "Catatan internal disimpan"
-          : "Balasan terkirim ke pengguna",
+          ? t("support.internalNoteSaved")
+          : t("support.replySentToUser"),
       );
     } catch {
-      toast.error("Gagal mengirim balasan");
+      toast.error(t("support.replyFailed"));
     } finally {
       setSubmitting(false);
     }
@@ -106,13 +108,13 @@ export function AdminTicketDetailModal({
 
           <div className="text-xs text-muted-foreground flex items-center gap-2">
             <span>
-              Pelapor:{" "}
+              {t("support.reporter")}:{" "}
               {ticket.user_name ||
                 ticket.user_email ||
                 `User #${ticket.user_id}`}
             </span>
             <span>•</span>
-            <span>Kategori: {ticket.department || "Umum"}</span>
+            <span>{t("support.category")}: {ticket.department || t("support.general")}</span>
           </div>
         </div>
 
@@ -123,13 +125,16 @@ export function AdminTicketDetailModal({
             <div className="flex items-center justify-between text-xs">
               <span className="font-semibold text-foreground flex items-center gap-1.5">
                 <User className="w-3.5 h-3.5 text-muted-foreground" />
-                {ticket.user_name || "Pengguna"}
+                {ticket.user_name || t("support.you")}
               </span>
               <span className="text-[11px] text-muted-foreground">
-                {new Date(ticket.created_at).toLocaleTimeString("id-ID", {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
+                {new Date(ticket.created_at).toLocaleTimeString(
+                  locale === "id" ? "id-ID" : "en-US",
+                  {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  }
+                )}
               </span>
             </div>
             <p className="text-xs text-foreground/90 whitespace-pre-wrap pl-5">
@@ -161,7 +166,7 @@ export function AdminTicketDetailModal({
                     <div className="flex items-center gap-1.5">
                       {r.is_internal ? (
                         <span className="flex items-center gap-1 text-[10px] font-bold text-amber-500 bg-amber-500/20 px-1.5 py-0.5 rounded">
-                          <Lock className="w-3 h-3" /> INTERNAL NOTE
+                          <Lock className="w-3 h-3" /> {t("support.internalNote")}
                         </span>
                       ) : isAdmin ? (
                         <ShieldCheck className="w-3.5 h-3.5 text-primary" />
@@ -169,21 +174,24 @@ export function AdminTicketDetailModal({
                         <User className="w-3.5 h-3.5 text-muted-foreground" />
                       )}
                       <span className="font-semibold text-foreground">
-                        {r.user_name || (isAdmin ? "GoVPN Support" : "User")}
+                        {r.user_name || (isAdmin ? t("support.techSupport") : t("support.you"))}
                       </span>
                     </div>
 
                     <div className="flex items-center gap-2">
                       <span className="text-[10px] text-muted-foreground">
-                        {new Date(r.created_at).toLocaleTimeString("id-ID", {
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        })}
+                        {new Date(r.created_at).toLocaleTimeString(
+                          locale === "id" ? "id-ID" : "en-US",
+                          {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          }
+                        )}
                       </span>
                       <button
                         onClick={() => onDeleteReply(r.id)}
                         className="text-muted-foreground hover:text-destructive transition-colors p-1"
-                        title="Hapus Pesan"
+                        title={t("support.deleteMessage")}
                       >
                         <Trash2 className="w-3 h-3" />
                       </button>
@@ -208,8 +216,8 @@ export function AdminTicketDetailModal({
             required
             placeholder={
               isInternal
-                ? "Tulis catatan internal (hanya terlihat oleh tim admin)..."
-                : "Tulis balasan langsung ke tiket pengguna..."
+                ? t("support.internalNotePrompt")
+                : t("support.replyPrompt")
             }
             value={replyMessage}
             onChange={(e) => setReplyMessage(e.target.value)}
@@ -228,7 +236,7 @@ export function AdminTicketDetailModal({
                 className="flex items-center gap-1 text-xs text-muted-foreground cursor-pointer font-medium select-none"
               >
                 <Lock className="w-3 h-3 text-amber-500" />
-                Catatan Internal (Internal Only)
+                {t("support.internalNoteCheckbox")}
               </Label>
             </div>
 
@@ -243,7 +251,7 @@ export function AdminTicketDetailModal({
               ) : (
                 <Send className="w-3.5 h-3.5" />
               )}
-              <span>{isInternal ? "Simpan Catatan" : "Kirim Balasan"}</span>
+              <span>{isInternal ? t("support.saveNote") : t("support.sendReply")}</span>
             </Button>
           </div>
         </form>

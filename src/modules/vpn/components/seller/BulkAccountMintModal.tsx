@@ -20,6 +20,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { VpnProtocol } from "../../types/vpn.types";
+import { useI18n } from "@/lib/i18n/context";
 
 interface BulkAccountMintModalProps {
   isOpen: boolean;
@@ -34,6 +35,7 @@ export function BulkAccountMintModal({
   const [quantity, setQuantity] = useState<number>(10);
   const [prefix, setPrefix] = useState<string>("vip-");
   const [isMinting, setIsMinting] = useState<boolean>(false);
+  const { t } = useI18n();
 
   const handleMint = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,7 +45,7 @@ export function BulkAccountMintModal({
     setTimeout(() => {
       setIsMinting(false);
       toast.success(
-        `Berhasil mencetak ${quantity} akun ${protocol.toUpperCase()}! File TXT siap diunduh.`,
+        t("vpn.bulkMintSuccess", { count: quantity, protocol: protocol.toUpperCase() }),
       );
       onClose();
     }, 1200);
@@ -60,17 +62,16 @@ export function BulkAccountMintModal({
             </span>
           </div>
           <DialogTitle className="text-lg font-bold">
-            Cetak Massal Akun VPN
+            {t("vpn.bulkMintTitle")}
           </DialogTitle>
           <DialogDescription className="text-xs text-muted-foreground">
-            Cetak hingga 100 akun VPN secara instan untuk didistribusikan kepada
-            sub-klien Anda.
+            {t("vpn.bulkMintDesc")}
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleMint} className="space-y-4 pt-2 font-mono">
           <div className="space-y-1.5">
-            <Label className="text-xs font-medium">Pilih Protokol</Label>
+            <Label className="text-xs font-medium">{t("seller.selectProtocol")}</Label>
             <div className="grid grid-cols-4 gap-2 text-xs font-bold">
               {(["vmess", "vless", "trojan", "ssh"] as const).map((p) => (
                 <button
@@ -92,7 +93,7 @@ export function BulkAccountMintModal({
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
               <Label htmlFor="mint-quantity" className="text-xs font-medium">
-                Jumlah Akun
+                {t("vpn.quantityAccounts")}
               </Label>
               <Input
                 id="mint-quantity"
@@ -108,7 +109,7 @@ export function BulkAccountMintModal({
 
             <div className="space-y-1.5">
               <Label htmlFor="mint-prefix" className="text-xs font-medium">
-                Prefix Username
+                {t("vpn.prefixUsername")}
               </Label>
               <Input
                 id="mint-prefix"
@@ -128,7 +129,7 @@ export function BulkAccountMintModal({
               onClick={onClose}
               className="text-xs rounded-full min-h-10 px-5 font-sans"
             >
-              Batal
+              {t("common.cancel")}
             </Button>
             <Button
               type="submit"
@@ -139,11 +140,11 @@ export function BulkAccountMintModal({
               {isMinting ? (
                 <>
                   <Loader2 className="mr-1.5 size-3.5 animate-spin" />{" "}
-                  Mencetak...
+                  {t("vpn.bulkMinting")}
                 </>
               ) : (
                 <>
-                  <Download className="mr-1.5 size-3.5" /> Cetak & Download Akun
+                  <Download className="mr-1.5 size-3.5" /> {t("vpn.bulkMintAction")}
                 </>
               )}
             </Button>

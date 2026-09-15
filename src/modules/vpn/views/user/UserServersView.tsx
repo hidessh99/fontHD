@@ -16,9 +16,11 @@ import { ServerNodeCard } from "../../components/user/ServerNodeCard";
 import { CreateVpnModal } from "../../components/user/CreateVpnModal";
 import { useVpnUser } from "../../hooks/useVpnUser";
 import { ServerNode, VpnProtocol } from "../../types/vpn.types";
+import { useI18n } from "@/lib/i18n/context";
 
 export function UserServersView() {
   const { servers, isLoading, refresh } = useVpnUser();
+  const { t } = useI18n();
 
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCountry, setSelectedCountry] = useState("ALL");
@@ -58,12 +60,11 @@ export function UserServersView() {
           <div className="flex items-center gap-2 mb-1 text-primary">
             <Server className="size-5" />
             <h1 className="text-xl font-bold tracking-tight text-foreground">
-              Armada Server Node VPN
+              {t("vpn.serverFleet")}
             </h1>
           </div>
           <p className="text-xs text-muted-foreground">
-            Status ketersediaan node server global, monitoring ping latensi
-            real-time, dan kapasitas akun aktif.
+            {t("vpn.serverFleetSubtitle")}
           </p>
         </div>
 
@@ -77,7 +78,7 @@ export function UserServersView() {
           <RefreshCw
             className={`mr-1.5 size-3.5 ${isLoading ? "animate-spin" : ""}`}
           />
-          Segarkan
+          {t("common.refresh")}
         </Button>
       </div>
 
@@ -86,7 +87,7 @@ export function UserServersView() {
         <div className="relative w-full sm:max-w-xs">
           <Search className="absolute left-3 top-3 size-4 text-muted-foreground" />
           <Input
-            placeholder="Cari server, negara, atau IP..."
+            placeholder={t("vpn.searchServer")}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-9 text-xs font-mono rounded-xl min-h-10"
@@ -101,7 +102,7 @@ export function UserServersView() {
             onClick={() => setSelectedCountry("ALL")}
             className="text-xs h-9 px-4 font-mono rounded-full"
           >
-            Semua ({servers.length})
+            {t("vpn.all", { count: servers.length })}
           </Button>
           {availableCountries.map((cc) => (
             <Button
@@ -123,15 +124,15 @@ export function UserServersView() {
           <div className="flex flex-col items-center gap-2 text-center">
             <Spinner className="size-6 text-primary animate-spin" />
             <p className="text-xs font-mono text-muted-foreground">
-              Memeriksa armada server...
+              {t("vpn.checkingFleet")}
             </p>
           </div>
         </div>
       ) : filteredServers.length === 0 ? (
         <EmptyState
           icon={Server}
-          title="Tidak Ada Server Ditemukan"
-          description="Tidak ada server node yang cocok dengan kriteria pencarian Anda. Coba reset filter negara atau kata kunci pencarian."
+          title={t("vpn.noServersFound")}
+          description={t("vpn.noServersFoundDesc")}
         />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">

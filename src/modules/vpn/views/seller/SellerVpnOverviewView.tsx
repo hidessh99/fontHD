@@ -15,10 +15,12 @@ import { SellerQuotaProgress } from "../../components/seller/SellerQuotaProgress
 import { SellerServerCard } from "../../components/seller/SellerServerCard";
 import { BulkAccountMintModal } from "../../components/seller/BulkAccountMintModal";
 import { useVpnSeller } from "../../hooks/useVpnSeller";
+import { useI18n } from "@/lib/i18n/context";
 
 export function SellerVpnOverviewView() {
   const { servers, isLoading, refresh, deleteServer } = useVpnSeller();
   const [bulkMintOpen, setBulkMintOpen] = useState(false);
+  const { t } = useI18n();
 
   return (
     <div className="space-y-6">
@@ -28,12 +30,11 @@ export function SellerVpnOverviewView() {
           <div className="flex items-center gap-2 mb-1 text-primary">
             <ShieldCheck className="size-5" />
             <h1 className="text-xl font-bold tracking-tight text-foreground">
-              Reseller & Partner VPN Hub
+              {t("vpn.resellerHubTitle")}
             </h1>
           </div>
           <p className="text-xs text-muted-foreground">
-            Manajemen armada server reseller, kuota lisensi grosir, dan
-            pencetakan batch akun VPN.
+            {t("vpn.resellerHubSubtitle")}
           </p>
         </div>
 
@@ -48,7 +49,7 @@ export function SellerVpnOverviewView() {
             <RefreshCw
               className={`mr-1.5 size-3.5 ${isLoading ? "animate-spin" : ""}`}
             />
-            Segarkan
+            {t("common.refresh")}
           </Button>
 
           <Button
@@ -56,7 +57,7 @@ export function SellerVpnOverviewView() {
             onClick={() => setBulkMintOpen(true)}
             className="bg-primary hover:bg-primary-hover text-white text-xs font-semibold h-10 px-5 rounded-full shadow-md shadow-primary/25"
           >
-            <Layers className="mr-1.5 size-4" /> Cetak Massal Akun
+            <Layers className="mr-1.5 size-4" /> {t("vpn.bulkMintBtn")}
           </Button>
         </div>
       </div>
@@ -72,7 +73,7 @@ export function SellerVpnOverviewView() {
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-sm font-bold tracking-wider uppercase text-muted-foreground font-mono">
-            Node Server Khusus Reseller ({servers.length})
+            {t("vpn.resellerServersTitle", { count: servers.length })}
           </h2>
         </div>
 
@@ -83,15 +84,15 @@ export function SellerVpnOverviewView() {
         ) : servers.length === 0 ? (
           <EmptyState
             icon={Layers}
-            title="Belum Ada Node Server Reseller"
-            description="Anda belum mendaftarkan VPS dedicated untuk sub-klien Anda. Tambahkan server node untuk mulai mendistribusikan tunneling."
+            title={t("vpn.resellerNoServers")}
+            description={t("vpn.resellerNoServersDesc")}
             action={
               <Button
                 size="sm"
                 onClick={() => setBulkMintOpen(true)}
                 className="bg-primary hover:bg-primary-hover text-white text-xs rounded-full min-h-10 px-6 shadow-md shadow-primary/25"
               >
-                <Plus className="mr-1.5 size-4" /> Daftarkan Server Perdana
+                <Plus className="mr-1.5 size-4" /> {t("vpn.addNodeFirst")}
               </Button>
             }
           />

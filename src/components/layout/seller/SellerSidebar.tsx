@@ -13,9 +13,11 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
+import { useI18n } from "@/lib/i18n/context";
 
 interface SellerNavItem {
-  title: string;
+  titleKey: string;
+  defaultTitle: string;
   href: string;
   icon: React.ComponentType<{ className?: string }>;
   badge?: string;
@@ -23,18 +25,21 @@ interface SellerNavItem {
 
 const sellerNavItems: SellerNavItem[] = [
   {
-    title: "Provisi VPN & Kuota",
+    titleKey: "nav.seller.vpnProvision",
+    defaultTitle: "VPN Provision & Quota",
     href: "/seller/vpn",
     icon: Zap,
     badge: "Minting",
   },
   {
-    title: "Langganan Pelanggan",
+    titleKey: "nav.seller.customerSubscriptions",
+    defaultTitle: "Customer Subscriptions",
     href: "/seller/subscription",
     icon: Layers,
   },
   {
-    title: "Penarikan Komisi",
+    titleKey: "nav.seller.commissionWithdrawal",
+    defaultTitle: "Commission Payout",
     href: "/seller/withdrawal",
     icon: CreditCard,
     badge: "Payout",
@@ -51,6 +56,7 @@ export function SellerSidebar({
   onCloseMobile,
 }: SellerSidebarProps) {
   const pathname = usePathname();
+  const { t } = useI18n();
 
   return (
     <aside
@@ -89,7 +95,7 @@ export function SellerSidebar({
             <Sparkles className="size-3 text-amber-500" /> Reseller Tier
           </span>
           <span className="font-bold text-amber-500 text-[11px]">
-            25% Komisi
+            25% Commission
           </span>
         </div>
         <p className="text-[11px] text-muted-foreground leading-tight">
@@ -100,7 +106,7 @@ export function SellerSidebar({
       {/* Navigation List */}
       <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-2">
         <div className="px-3 pb-2 text-[10px] font-mono uppercase tracking-wider text-muted-foreground">
-          Operasional Reseller
+          {t("seller.title") || "Reseller Operations"}
         </div>
 
         {sellerNavItems.map((item) => {
@@ -125,7 +131,7 @@ export function SellerSidebar({
                     isActive ? "text-black" : "text-amber-500",
                   )}
                 />
-                <span>{item.title}</span>
+                <span>{t(item.titleKey) || item.defaultTitle}</span>
               </div>
               {item.badge && (
                 <Badge
@@ -152,7 +158,7 @@ export function SellerSidebar({
           className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-medium text-muted-foreground hover:bg-sidebar-accent hover:text-foreground transition-colors"
         >
           <ArrowLeft className="size-4" />
-          <span>Kembali ke Console Member</span>
+          <span>{t("nav.seller.backToDashboard") || "Back to Dashboard"}</span>
         </Link>
       </div>
     </aside>

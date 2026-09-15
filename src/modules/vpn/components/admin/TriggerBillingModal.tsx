@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { vpnAdminApi } from "../../api/admin.api";
 import { TriggerPayasBillingResponse } from "../../types/admin.types";
+import { useI18n } from "@/lib/i18n/context";
 
 interface TriggerBillingModalProps {
   isOpen: boolean;
@@ -32,6 +33,7 @@ export function TriggerBillingModal({
   onSuccess,
 }: TriggerBillingModalProps) {
   const [isProcessing, setIsProcessing] = useState(false);
+  const { t } = useI18n();
 
   const handleTrigger = async () => {
     setIsProcessing(true);
@@ -44,16 +46,16 @@ export function TriggerBillingModal({
 
       if (res.payload) {
         toast.success(
-          `Billing berhasil diproses! Total: Rp ${res.payload.total_billed_amount.toLocaleString()}`,
+          t("vpn.triggerBillingSuccess", { total: res.payload.total_billed_amount.toLocaleString() }),
         );
         onSuccess?.(res.payload);
         onClose();
       } else {
-        toast.error(res.message || "Gagal memproses billing.");
+        toast.error(res.message || t("common.error"));
       }
     } catch (err: unknown) {
       const msg =
-        err instanceof Error ? err.message : "Terjadi kesalahan saat billing.";
+        err instanceof Error ? err.message : t("common.error");
       toast.error(msg);
     } finally {
       setIsProcessing(false);
@@ -71,11 +73,10 @@ export function TriggerBillingModal({
             </span>
           </div>
           <DialogTitle className="text-lg font-bold">
-            Eksekusi Billing PayAsYouGo
+            {t("vpn.triggerBillingTitle")}
           </DialogTitle>
           <DialogDescription className="text-xs text-muted-foreground">
-            Sistem akan menghitung uptime aktif seluruh akun PayAsYouGo dan
-            memotong saldo dompet pengguna secara real-time.
+            {t("vpn.triggerBillingDesc")}
           </DialogDescription>
         </DialogHeader>
 
@@ -83,8 +84,7 @@ export function TriggerBillingModal({
           <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-300 flex items-start gap-2.5">
             <AlertTriangle className="size-4 shrink-0 mt-0.5" />
             <span>
-              Tindakan ini mengirimkan header idempotensi ke backend Go. Akun
-              dengan saldo tidak mencukupi akan otomatis dijeda (PAUSED).
+              {t("vpn.triggerBillingWarning")}
             </span>
           </div>
 
@@ -96,7 +96,7 @@ export function TriggerBillingModal({
               onClick={onClose}
               className="text-xs rounded-full min-h-10 px-5"
             >
-              Batal
+              {t("common.cancel")}
             </Button>
             <Button
               type="button"
@@ -107,13 +107,11 @@ export function TriggerBillingModal({
             >
               {isProcessing ? (
                 <>
-                  <Loader2 className="mr-1.5 size-3.5 animate-spin" /> Memproses
-                  Billing...
+                  <Loader2 className="mr-1.5 size-3.5 animate-spin" /> {t("vpn.triggerBillingRunning")}
                 </>
               ) : (
                 <>
-                  <CreditCard className="mr-1.5 size-3.5" /> Jalankan Billing
-                  Sekarang
+                  <CreditCard className="mr-1.5 size-3.5" /> {t("vpn.triggerBillingRun")}
                 </>
               )}
             </Button>

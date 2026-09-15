@@ -2,6 +2,7 @@
 // GoVPN Finance Admin Billing Ledger Table Component
 // Part of Pola C: components/admin/AdminBillingTable.tsx
 // 100% Coinbase Institutional Design System + Standardized Enterprise DataTable
+// Fully Localized with useI18n (EN/ID)
 // ==============================================================================
 
 "use client";
@@ -31,6 +32,7 @@ import {
   Receipt,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n/context";
 
 interface AdminBillingTableProps {
   records: BillingRecord[];
@@ -47,6 +49,7 @@ export function AdminBillingTable({
   onCreateAdjustment,
   onCheckExpired,
 }: AdminBillingTableProps) {
+  const { t, locale } = useI18n();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isCheckingExpired, setIsCheckingExpired] = useState(false);
@@ -83,7 +86,7 @@ export function AdminBillingTable({
         type,
         description: description.trim(),
       });
-      toast.success("Mutasi ledger superadmin berhasil diterapkan!");
+      toast.success(t("finance.mutationApplied"));
       setIsModalOpen(false);
       setUserId("");
       setAmount("");
@@ -114,12 +117,12 @@ export function AdminBillingTable({
     () => [
       {
         id: "created_at",
-        header: "Waktu",
+        header: t("finance.mutationTime"),
         cell: (item) => (
           <div className="flex items-center gap-1.5 whitespace-nowrap text-muted-foreground font-mono">
             <Calendar className="h-3 w-3 shrink-0" />
             <span>
-              {new Date(item.created_at).toLocaleString("id-ID", {
+              {new Date(item.created_at).toLocaleString(locale === "id" ? "id-ID" : "en-US", {
                 day: "2-digit",
                 month: "short",
                 year: "numeric",
@@ -132,13 +135,13 @@ export function AdminBillingTable({
       },
       {
         id: "user_id",
-        header: "User ID",
+        header: t("finance.targetUserId"),
         className: "font-bold text-foreground font-mono",
         cell: (item) => item.user_id,
       },
       {
         id: "type",
-        header: "Tipe",
+        header: t("finance.transactionType"),
         cell: (item) => (
           <span
             className={`inline-flex items-center rounded-md px-2 py-0.5 text-[11px] font-semibold font-mono ${
@@ -155,7 +158,7 @@ export function AdminBillingTable({
       },
       {
         id: "description",
-        header: "Keterangan",
+        header: t("finance.description"),
         cell: (item) => (
           <span className="font-sans text-muted-foreground max-w-55 truncate block">
             {item.description}
@@ -164,7 +167,7 @@ export function AdminBillingTable({
       },
       {
         id: "amount",
-        header: "Nominal",
+        header: t("finance.amount"),
         className: "font-bold font-mono",
         cell: (item) => {
           const isPositive = item.amount >= 0 && item.type !== "PURCHASE";
@@ -178,29 +181,30 @@ export function AdminBillingTable({
       },
       {
         id: "balance_before",
-        header: "Sebelum",
+        header: "Before",
         className: "text-muted-foreground font-mono",
         cell: (item) => formatIDR(item.balance_before),
       },
       {
         id: "balance_after",
-        header: "Sesudah",
+        header: t("finance.finalBalance"),
         align: "right",
         className: "font-bold text-foreground font-mono",
         cell: (item) => formatIDR(item.balance_after),
       },
     ],
-    [],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [t],
   );
 
   const filters: DataTableFilterConfig<BillingRecord>[] = useMemo(
     () => [
       {
         id: "type",
-        label: "Tipe",
+        label: t("finance.transactionType"),
         defaultValue: "ALL",
         options: [
-          { label: "Semua Tipe", value: "ALL" },
+          { label: t("common.all"), value: "ALL" },
           { label: "TOPUP", value: "TOPUP" },
           { label: "ADMIN_ADJUST", value: "ADMIN_ADJUST" },
           { label: "REFUND", value: "REFUND" },
@@ -209,7 +213,7 @@ export function AdminBillingTable({
         filterFn: (item, val) => item.type?.toUpperCase() === val.toUpperCase(),
       },
     ],
-    [],
+    [t],
   );
 
   const actions = (
@@ -225,7 +229,7 @@ export function AdminBillingTable({
           <Clock
             className={`h-3.5 w-3.5 ${isCheckingExpired ? "animate-spin" : ""}`}
           />
-          Cek Expired
+          {t("finance.checkExpired")}
         </Button>
       )}
 
@@ -249,7 +253,7 @@ export function AdminBillingTable({
           render={
             <Button className="bg-primary hover:bg-primary-hover text-white gap-2 font-semibold text-xs rounded-full min-h-9 px-5 shadow-sm">
               <PlusCircle className="h-4 w-4" />
-              Penyesuaian Ledger
+              {t("finance.ledgerAdjustment")}
             </Button>
           }
         />
@@ -257,7 +261,7 @@ export function AdminBillingTable({
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2 text-lg font-bold">
               <DollarSign className="h-5 w-5 text-primary" />
-              Penyesuaian Saldo Ledger (Superadmin)
+              {t("finance.ledgerAdjustment")}
             </DialogTitle>
           </DialogHeader>
 
@@ -267,11 +271,11 @@ export function AdminBillingTable({
                 htmlFor="adj-user"
                 className="text-xs font-medium text-muted-foreground"
               >
-                Target User ID
+                {t("finance.targetUserId")}
               </Label>
               <Input
                 id="adj-user"
-                placeholder="Contoh: usr-12345"
+                placeholder="usr-12345"
                 value={userId}
                 onChange={(e) => setUserId(e.target.value)}
                 className="mt-1.5 font-mono text-xs rounded-xl min-h-10"
@@ -281,7 +285,7 @@ export function AdminBillingTable({
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <Label className="text-xs font-medium text-muted-foreground">
-                  Tipe Penyesuaian
+                  {t("finance.adjustmentType")}
                 </Label>
                 <NativeSelect
                   variant="rounded"
@@ -304,12 +308,12 @@ export function AdminBillingTable({
                   htmlFor="adj-amount"
                   className="text-xs font-medium text-muted-foreground"
                 >
-                  Nominal (IDR)
+                  {t("finance.depositAmount")}
                 </Label>
                 <Input
                   id="adj-amount"
                   type="number"
-                  placeholder="Misal: 50000 / -25000"
+                  placeholder="50000"
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
                   className="mt-1.5 font-mono text-xs rounded-xl min-h-10"
@@ -322,11 +326,11 @@ export function AdminBillingTable({
                 htmlFor="adj-desc"
                 className="text-xs font-medium text-muted-foreground"
               >
-                Alasan / Keterangan Mutasi
+                {t("finance.mutationReason")}
               </Label>
               <Input
                 id="adj-desc"
-                placeholder="Contoh: Koreksi transaksi gagal / Bonus loyalitas"
+                placeholder="Description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 className="mt-1.5 text-xs rounded-xl min-h-10"
@@ -340,7 +344,7 @@ export function AdminBillingTable({
                 onClick={() => setIsModalOpen(false)}
                 className="text-xs rounded-full min-h-10 px-5"
               >
-                Batal
+                {t("finance.cancel")}
               </Button>
               <Button
                 type="submit"
@@ -349,10 +353,10 @@ export function AdminBillingTable({
               >
                 {isSubmitting ? (
                   <>
-                    <Loader2 className="mr-1.5 h-4 w-4 animate-spin" /> Menerapkan...
+                    <Loader2 className="mr-1.5 h-4 w-4 animate-spin" /> {t("common.loading")}
                   </>
                 ) : (
-                  "Simpan Mutasi"
+                  t("finance.saveMutation")
                 )}
               </Button>
             </div>
@@ -369,8 +373,8 @@ export function AdminBillingTable({
       keyExtractor={(item) => item.id}
       isLoading={isLoading}
       searchable={true}
-      searchPlaceholder="Cari user ID, keterangan, tipe..."
-      searchButtonText="Cari"
+      searchPlaceholder={t("common.search")}
+      searchButtonText={t("common.search")}
       searchAccessor={(item) => [item.user_id, item.description, item.type]}
       filters={filters}
       paginated={true}
@@ -378,8 +382,8 @@ export function AdminBillingTable({
       entityName="mutasi ledger"
       actions={actions}
       emptyIcon={Receipt}
-      emptyTitle="Tidak Ada Catatan Mutasi"
-      emptyDescription="Belum ada mutasi ledger billing yang tercatat dalam sistem."
+      emptyTitle={t("finance.noMutationRecords")}
+      emptyDescription={t("finance.noMutationRecordsDesc")}
     />
   );
 }

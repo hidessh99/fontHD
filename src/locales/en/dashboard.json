@@ -1,0 +1,21 @@
+{
+  "welcome": "Welcome back",
+  "subtitle": "GoVPN Tunneling Infrastructure Console. Manage multi-protocol accounts, monitor server status in real-time, and copy credentials in one click.",
+  "orderNewAccount": "Order New Account",
+  "activeAccounts": "Active Accounts",
+  "readyTunnels": "Tunnels ready to connect",
+  "walletBalance": "Wallet Balance",
+  "topupBalance": "Top Up",
+  "activeServers": "Active Servers",
+  "globalNodes": "Global edge nodes online",
+  "monthlyTraffic": "Monthly Traffic",
+  "ofQuota": "of quota used",
+  "myAccounts": "My Active VPN Accounts",
+  "myAccountsSubtitle": "List of active tunnels across all tunneling protocols.",
+  "quickCreate": "Quick Protocol Order",
+  "quickCreateSubtitle": "Choose your desired tunneling protocol to deploy a new account instantly.",
+  "noActiveAccounts": "No Active VPN Accounts",
+  "noActiveAccountsDesc": "You don't have any active VPN accounts yet. Choose a protocol to create your first tunnel.",
+  "serverStatus": "Server Fleet Status",
+  "serverStatusSubtitle": "Real-time health and load monitoring of global nodes."
+}

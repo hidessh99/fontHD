@@ -1,0 +1,52 @@
+{
+  "admin": {
+    "groupInfrastructure": "Infrastruktur Inti",
+    "groupCommerce": "Komersial & Penagihan",
+    "groupServices": "Layanan & AI Gateway",
+    "groupSystem": "Administrasi Sistem",
+    "dashboard": "Ikhtisar Dashboard",
+    "servers": "Armada Server Node",
+    "kubernetes": "Aplikasi Kubernetes",
+    "monitor": "Kesehatan Sistem",
+    "cron": "Penjadwal Cronjob",
+    "subscriptions": "Paket Langganan",
+    "finance": "Keuangan & Buku Kas",
+    "vpnFleet": "Akun VPN Pengguna",
+    "dns": "DNS & Cloudflare",
+    "ai": "AI Gateway & Model",
+    "content": "Pusat Bantuan & Berita",
+    "support": "Tiket Bantuan",
+    "notifications": "Pusat Notifikasi",
+    "users": "IAM & Kontrol Akses",
+    "settings": "Pengaturan Global",
+    "backToUser": "Kembali ke Area Member",
+    "backToSeller": "Kembali ke Portal Reseller"
+  },
+  "user": {
+    "overview": "Ikhtisar",
+    "vpnProtocols": "Protokol VPN",
+    "serverNodes": "Server Node",
+    "subscriptionPlans": "Paket Langganan",
+    "billing": "Tagihan & Deposit",
+    "dnsManager": "Pengelola DNS",
+    "aiGateway": "AI Gateway",
+    "kubernetes": "Armada Kubernetes",
+    "knowledgeBase": "Pusat Bantuan",
+    "supportTickets": "Tiket Bantuan",
+    "settings": "Pengaturan Akun",
+    "resellerPortal": "Portal Reseller",
+    "adminConsole": "Konsol Admin"
+  },
+  "seller": {
+    "vpnProvision": "Provisi VPN & Kuota",
+    "customerSubscriptions": "Langganan Pelanggan",
+    "commissionWithdrawal": "Penarikan Komisi",
+    "backToDashboard": "Kembali ke Dashboard"
+  },
+  "profile": {
+    "myProfile": "Profil Saya",
+    "apiKeys": "Kunci API",
+    "security": "Keamanan",
+    "switchLanguage": "Ganti Bahasa"
+  }
+}

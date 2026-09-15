@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { ServerPingBadge } from "@/components/shared/ServerPingBadge";
 import { ProtocolBadge } from "@/components/shared/ProtocolBadge";
 import { ServerNode } from "../../types/vpn.types";
+import { useI18n } from "@/lib/i18n/context";
 
 interface ServerNodeCardProps {
   server: ServerNode;
@@ -25,6 +26,8 @@ export function ServerNodeCard({
   onSelect,
   selected = false,
 }: ServerNodeCardProps) {
+  const { t } = useI18n();
+
   return (
     <Card
       className={`border transition-all duration-200 rounded-2xl ${
@@ -55,10 +58,10 @@ export function ServerNodeCard({
         <div className="flex items-center justify-between text-xs font-mono text-muted-foreground p-2 rounded-xl bg-surface border border-border/50">
           <div className="flex items-center gap-1.5">
             <Users className="size-3.5" />
-            <span>Kapasitas:</span>
+            <span>{t("vpn.capacity")}:</span>
           </div>
           <span className="font-semibold text-foreground">
-            {server.current_users} / {server.max_users} Users
+            {server.current_users} / {server.max_users} {t("vpn.onlineUsers", { count: "" }).trim()}
           </span>
         </div>
 
@@ -76,7 +79,7 @@ export function ServerNodeCard({
             className="w-full text-xs font-semibold rounded-full min-h-10"
             onClick={() => onSelect(server)}
           >
-            {selected ? "Server Dipilih" : "Pilih Server Ini"}
+            {selected ? t("vpn.serverSelected") : t("vpn.selectThisServer")}
             <ArrowRight className="ml-1.5 size-3.5" />
           </Button>
         )}

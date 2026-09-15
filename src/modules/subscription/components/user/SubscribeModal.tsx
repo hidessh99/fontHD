@@ -21,6 +21,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Check, Loader2, Sparkles } from "lucide-react";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n/context";
 
 interface SubscribeModalProps {
   plan: Plan | null;
@@ -40,6 +41,7 @@ export function SubscribeModal({
 }: SubscribeModalProps) {
   const [autoRenew, setAutoRenew] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const { t } = useI18n();
 
   if (!plan) return null;
 
@@ -57,10 +59,10 @@ export function SubscribeModal({
         idempotencyKey,
       );
       onOpenChange(false);
-      toast.success(`Berhasil berlangganan paket ${plan.name}`);
+      toast.success(t("subscription.createSuccess") || `Berhasil berlangganan paket ${plan.name}`);
     } catch {
       toast.error(
-        "Gagal memproses langganan. Silakan periksa saldo dompet Anda.",
+        t("subscription.insufficientBalance") || "Gagal memproses langganan. Silakan periksa saldo dompet Anda.",
       );
     } finally {
       setSubmitting(false);
@@ -73,7 +75,7 @@ export function SubscribeModal({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-base font-bold">
             <Sparkles className="h-5 w-5 text-primary" />
-            Konfirmasi Berlangganan Paket
+            {t("subscription.confirmTitle")}
           </DialogTitle>
         </DialogHeader>
 
@@ -85,7 +87,7 @@ export function SubscribeModal({
                   {plan.name}
                 </h4>
                 <p className="text-xs text-muted-foreground">
-                  Siklus: {plan.billing_cycle}
+                  {t("subscription.billingPeriod")}: {plan.billing_cycle}
                 </p>
               </div>
               <span className="text-lg font-bold text-primary font-mono">
@@ -96,7 +98,7 @@ export function SubscribeModal({
             <div className="pt-2 border-t border-border/60 text-xs space-y-1.5 text-muted-foreground">
               <div className="flex items-center gap-2">
                 <Check className="h-3.5 w-3.5 text-emerald-400" />
-                <span>Maks. {plan.max_devices} Perangkat</span>
+                <span>{t("subscription.maxDevices", { count: plan.max_devices })}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Check className="h-3.5 w-3.5 text-emerald-400" />
@@ -104,7 +106,7 @@ export function SubscribeModal({
                   Bandwidth:{" "}
                   {plan.bandwidth_gb > 0
                     ? `${plan.bandwidth_gb} GB`
-                    : "Unlimited"}
+                    : t("subscription.unlimitedQuota")}
                 </span>
               </div>
             </div>
@@ -113,10 +115,10 @@ export function SubscribeModal({
           <div className="flex items-center justify-between p-3 rounded-xl border border-border bg-muted/20 text-xs">
             <Label htmlFor="auto-renew" className="cursor-pointer flex-1 pr-3">
               <span className="font-semibold text-foreground block text-xs">
-                Perpanjangan Otomatis
+                {t("subscription.autoRenewLabel")}
               </span>
               <span className="text-muted-foreground text-[11px] font-normal">
-                Perpanjang otomatis jika saldo dompet mencukupi
+                {t("subscription.autoRenewNote")}
               </span>
             </Label>
             <Checkbox
@@ -134,10 +136,10 @@ export function SubscribeModal({
             {submitting ? (
               <>
                 <Loader2 className="h-4 w-4 animate-spin" />
-                Memproses Pembayaran...
+                {t("subscription.processingPayment")}
               </>
             ) : (
-              `Bayar & Aktifkan (Rp ${plan.price.toLocaleString("id-ID")})`
+              t("subscription.payAndActivate", { price: plan.price.toLocaleString("id-ID") })
             )}
           </Button>
         </div>

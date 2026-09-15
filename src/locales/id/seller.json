@@ -1,0 +1,17 @@
+{
+  "title": "Portal Reseller & Mitra",
+  "subtitle": "Cetak kredensial VPN massal, kelola langganan pelanggan, dan pantau penghasilan komisi.",
+  "quotaRemaining": "Kuota Pencetakan Akun Reseller",
+  "quotaRemainingDesc": "{used} dari {total} akun dicetak pada siklus penagihan ini.",
+  "bulkMint": "Cetak Akun VPN Massal",
+  "bulkMintSubtitle": "Buat banyak akun sekaligus di server yang dipilih.",
+  "selectProtocol": "Pilih Protokol",
+  "quantity": "Jumlah Akun",
+  "prefix": "Prefiks Username",
+  "durationDays": "Durasi (Hari)",
+  "commissionBalance": "Total Saldo Komisi",
+  "withdrawCommission": "Ajukan Pembayaran",
+  "customerSubscriptions": "Langganan Pelanggan",
+  "assignedServers": "Server Khusus yang Ditetapkan",
+  "mintSuccess": "Berhasil mencetak {count} akun VPN!"
+}

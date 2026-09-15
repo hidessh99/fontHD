@@ -1,0 +1,15 @@
+{
+  "title": "Notification Hub & Queue",
+  "subtitle": "Multi-channel dispatch system across Telegram, WhatsApp, Email, and Webhooks.",
+  "channels": "Delivery Channels",
+  "templates": "Message Templates",
+  "queue": "Notification Queue",
+  "retryFailed": "Retry Failed Tasks",
+  "telegram": "Telegram Bot",
+  "whatsapp": "WhatsApp Gateway",
+  "email": "Transactional Email",
+  "webhook": "HTTP Webhook",
+  "sentAt": "Sent At",
+  "recipient": "Recipient",
+  "payload": "Payload Data"
+}

@@ -10,6 +10,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { AlertTriangle, Mail, Loader2, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n";
 
 interface VerifyEmailBannerProps {
   email: string;
@@ -22,6 +23,7 @@ export function VerifyEmailBanner({
   isVerified,
   onResendVerification,
 }: VerifyEmailBannerProps) {
+  const { t } = useI18n();
   const [isSending, setIsSending] = useState(false);
   const [hasSent, setHasSent] = useState(false);
 
@@ -32,9 +34,9 @@ export function VerifyEmailBanner({
     try {
       await onResendVerification(email);
       setHasSent(true);
-      toast.success("Tautan verifikasi email berhasil dikirim ulang!");
+      toast.success(t("iam.verificationResent"));
     } catch {
-      toast.error("Gagal mengirim ulang email verifikasi.");
+      toast.error(t("iam.verificationResendFailed"));
     } finally {
       setIsSending(false);
     }
@@ -46,11 +48,10 @@ export function VerifyEmailBanner({
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 w-full">
         <div>
           <AlertTitle className="text-xs font-bold font-mono">
-            Verifikasi Alamat Email Anda
+            {t("iam.verifyEmailTitle")}
           </AlertTitle>
           <AlertDescription className="text-xs text-amber-300/80 mt-0.5">
-            Akun Anda belum diverifikasi. Harap periksa kotak masuk email{" "}
-            <strong className="font-mono">{email}</strong>.
+            {t("iam.verifyEmailDesc", { email })}
           </AlertDescription>
         </div>
 
@@ -64,16 +65,16 @@ export function VerifyEmailBanner({
           {isSending ? (
             <>
               <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />{" "}
-              Mengirim...
+              {t("iam.sending")}
             </>
           ) : hasSent ? (
             <>
               <CheckCircle2 className="mr-1.5 h-3.5 w-3.5 text-emerald-400" />{" "}
-              Terkirim
+              {t("iam.sent")}
             </>
           ) : (
             <>
-              <Mail className="mr-1.5 h-3.5 w-3.5" /> Kirim Ulang
+              <Mail className="mr-1.5 h-3.5 w-3.5" /> {t("iam.resend")}
             </>
           )}
         </Button>

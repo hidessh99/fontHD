@@ -17,10 +17,12 @@ import type { CreateSubscriptionDto } from "../../types/user.types";
 import { RefreshCw, ShieldCheck, Zap, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n/context";
 
 export function SubscriptionPlansView() {
   const { plans, subscription, loading, subscribe, upgrade, refresh } =
     useSubscriptionUser();
+  const { t } = useI18n();
   const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpgrading, setIsUpgrading] = useState(false);
@@ -41,10 +43,10 @@ export function SubscriptionPlansView() {
   ) => {
     if (isUpgrading && subscription) {
       await upgrade({ new_plan_id: dto.plan_id }, idempotencyKey);
-      toast.success("Paket langganan berhasil diperbarui!");
+      toast.success(t("subscription.upgradeSuccess") || "Paket langganan berhasil diperbarui!");
     } else {
       await subscribe(dto, idempotencyKey);
-      toast.success("Langganan baru berhasil diaktifkan!");
+      toast.success(t("subscription.createSuccess") || "Langganan baru berhasil diaktifkan!");
     }
   };
 
@@ -57,11 +59,10 @@ export function SubscriptionPlansView() {
             <Sparkles className="w-3.5 h-3.5" /> High-Performance Tunneling
           </div>
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
-            Paket & Langganan VPN
+            {t("subscription.plansTitle")}
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Pilih paket bandwidth tanpa batas dengan latency gaming rendah dan
-            enkripsi kelas militer.
+            {t("subscription.plansSubtitle")}
           </p>
         </div>
 
@@ -70,12 +71,12 @@ export function SubscriptionPlansView() {
           size="sm"
           onClick={() => {
             refresh();
-            toast.info("Memperbarui data langganan...");
+            toast.info(t("common.refreshing") || "Memperbarui data...");
           }}
           className="gap-2 self-start sm:self-auto"
         >
           <RefreshCw className="w-4 h-4" />
-          <span>Segarkan Data</span>
+          <span>{t("common.refresh")}</span>
         </Button>
       </div>
 
@@ -83,7 +84,7 @@ export function SubscriptionPlansView() {
       {subscription && (
         <section className="space-y-3">
           <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
-            Status Langganan Anda
+            {t("subscription.yourStatus")}
           </h2>
           <UserSubscriptionCard
             subscription={subscription}
@@ -98,11 +99,10 @@ export function SubscriptionPlansView() {
       <section className="space-y-6">
         <div className="text-center max-w-2xl mx-auto space-y-2">
           <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">
-            Pilihan Paket Terbaik Sesuai Kebutuhan
+            {t("subscription.bestPlansTitle")}
           </h2>
           <p className="text-xs sm:text-sm text-muted-foreground">
-            Semua paket mendukung bypass DPI, protokol V2Ray/Trojan/WireGuard,
-            dan jaminan uptime 99.9%.
+            {t("subscription.bestPlansSubtitle")}
           </p>
         </div>
 
@@ -131,11 +131,10 @@ export function SubscriptionPlansView() {
           </div>
           <div>
             <h4 className="text-sm font-semibold text-foreground">
-              Zero-Logs Policy
+              {t("subscription.zeroLogs")}
             </h4>
             <p className="text-xs text-muted-foreground mt-0.5">
-              Tidak ada riwayat DNS, IP tujuan, atau lalu lintas data pengguna
-              yang disimpan di disk server kami.
+              {t("subscription.zeroLogsDesc")}
             </p>
           </div>
         </div>
@@ -146,11 +145,10 @@ export function SubscriptionPlansView() {
           </div>
           <div>
             <h4 className="text-sm font-semibold text-foreground">
-              Aktivasi Instan
+              {t("subscription.instantActivation")}
             </h4>
             <p className="text-xs text-muted-foreground mt-0.5">
-              Kredensial dan konfigurasi protokol diterbitkan dalam hitungan
-              detik setelah verifikasi pembayaran.
+              {t("subscription.instantActivationDesc")}
             </p>
           </div>
         </div>
@@ -161,11 +159,10 @@ export function SubscriptionPlansView() {
           </div>
           <div>
             <h4 className="text-sm font-semibold text-foreground">
-              Garansi 7 Hari
+              {t("subscription.moneyBack")}
             </h4>
             <p className="text-xs text-muted-foreground mt-0.5">
-              Pengembalian saldo instan jika terjadi kendala konektivitas server
-              yang tidak dapat terselesaikan.
+              {t("subscription.moneyBackDesc")}
             </p>
           </div>
         </div>

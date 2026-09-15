@@ -2,6 +2,7 @@
 // GoVPN DNS Admin Global Record Table Component
 // Part of Pola C: components/admin/AdminGlobalRecordTable.tsx
 // 100% Coinbase Institutional Design System + Standardized Enterprise DataTable
+// Fully Localized with useI18n (EN/ID)
 // ==============================================================================
 
 "use client";
@@ -15,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { DataTable, ColumnDef, DataTableFilterConfig } from "@/components/shared/data-table";
 import { Trash2, Globe, Sparkles, Loader2, User } from "lucide-react";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n/context";
 
 interface AdminGlobalRecordTableProps {
   records: DnsRecord[];
@@ -29,16 +31,17 @@ export function AdminGlobalRecordTable({
   onCleanupRecords,
   loading = false,
 }: AdminGlobalRecordTableProps) {
+  const { t } = useI18n();
   const [deletingId, setDeletingId] = useState<string | number | null>(null);
   const [cleaning, setCleaning] = useState(false);
 
   const handleDelete = async (id: string | number) => {
-    if (!confirm("Hapus record DNS ini dari zona Cloudflare?")) return;
+    if (!confirm(t("dns.deleteConfirm"))) return;
     setDeletingId(id);
     try {
       if (onDeleteRecord) {
         await onDeleteRecord(id);
-        toast.success("Record DNS berhasil dihapus");
+        toast.success(t("dns.deleteSuccess"));
       }
     } finally {
       setDeletingId(null);
@@ -51,17 +54,17 @@ export function AdminGlobalRecordTable({
     try {
       const res = await onCleanupRecords();
       toast.success(
-        `Pembersihan Selesai: ${res?.cleaned_count ?? 0} record kadaluarsa dihapus`,
+        t("dns.cleanupSuccess", { count: res?.cleaned_count ?? 0 }),
       );
     } catch {
-      toast.error("Gagal menjalankan pembersihan record");
+      toast.error(t("dns.cleanupFailed"));
     } finally {
       setCleaning(false);
     }
   };
 
   const formatTtl = (ttl: number) => {
-    if (ttl === 1) return "Auto";
+    if (ttl === 1) return t("dns.autoTtl");
     if (ttl < 60) return `${ttl}s`;
     if (ttl < 3600) return `${Math.round(ttl / 60)}m`;
     return `${Math.round(ttl / 3600)}h`;
@@ -71,7 +74,7 @@ export function AdminGlobalRecordTable({
     () => [
       {
         id: "type",
-        header: "Tipe",
+        header: t("dns.recordType"),
         cell: (rec) => <DnsTypeBadge type={rec.type} />,
       },
       {
@@ -90,7 +93,7 @@ export function AdminGlobalRecordTable({
       },
       {
         id: "host",
-        header: "Nama Host / FQDN",
+        header: t("dns.recordName"),
         cell: (rec) => {
           const fqdn = rec.domain_name
             ? `${rec.name}.${rec.domain_name}`
@@ -118,7 +121,7 @@ export function AdminGlobalRecordTable({
       },
       {
         id: "content",
-        header: "Target IP / Value",
+        header: t("dns.recordContent"),
         cell: (rec) => (
           <div className="flex items-center gap-1.5 font-mono">
             <span className="text-foreground">{rec.content}</span>
@@ -128,18 +131,18 @@ export function AdminGlobalRecordTable({
       },
       {
         id: "proxy",
-        header: "Proxy CF",
+        header: t("dns.proxyStatus"),
         cell: (rec) => <CloudflareProxyBadge proxied={rec.proxied} />,
       },
       {
         id: "ttl",
-        header: "TTL",
+        header: t("dns.ttl"),
         className: "text-muted-foreground font-mono",
         cell: (rec) => formatTtl(rec.ttl),
       },
       {
         id: "actions",
-        header: "Aksi",
+        header: t("common.actions"),
         align: "right",
         cell: (rec) =>
           onDeleteRecord ? (
@@ -149,7 +152,7 @@ export function AdminGlobalRecordTable({
               disabled={deletingId === rec.id}
               onClick={() => handleDelete(rec.id)}
               className="h-8 w-8 p-0 text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 rounded-full"
-              title="Hapus Record"
+              title={t("dns.deleteRecord")}
             >
               {deletingId === rec.id ? (
                 <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -161,17 +164,17 @@ export function AdminGlobalRecordTable({
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [deletingId, onDeleteRecord],
+    [deletingId, onDeleteRecord, t],
   );
 
   const filters: DataTableFilterConfig<DnsRecord>[] = useMemo(
     () => [
       {
         id: "type",
-        label: "Tipe Record",
+        label: t("dns.recordType"),
         defaultValue: "ALL",
         options: [
-          { label: "Semua Tipe", value: "ALL" },
+          { label: t("common.all"), value: "ALL" },
           { label: "A", value: "A" },
           { label: "AAAA", value: "AAAA" },
           { label: "CNAME", value: "CNAME" },
@@ -181,7 +184,7 @@ export function AdminGlobalRecordTable({
         filterFn: (rec, val) => rec.type?.toUpperCase() === val.toUpperCase(),
       },
     ],
-    [],
+    [t],
   );
 
   const actions = onCleanupRecords && (
@@ -197,7 +200,7 @@ export function AdminGlobalRecordTable({
       ) : (
         <Sparkles className="h-3.5 w-3.5 text-amber-400" />
       )}
-      Bersihkan Record Kadaluarsa
+      {t("dns.cleanupExpired")}
     </Button>
   );
 
@@ -206,10 +209,10 @@ export function AdminGlobalRecordTable({
       <div>
         <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
           <Globe className="h-4 w-4 text-primary" />
-          Audit Global DNS Record
+          {t("dns.auditTitle")}
         </h3>
         <p className="text-xs text-muted-foreground mt-0.5">
-          Semua record DNS yang dibuat oleh seluruh pengguna di seluruh zona domain
+          {t("dns.auditSubtitle")}
         </p>
       </div>
 
@@ -219,8 +222,8 @@ export function AdminGlobalRecordTable({
         keyExtractor={(rec) => rec.id}
         isLoading={loading}
         searchable={true}
-        searchPlaceholder="Cari host, domain, IP, user ID..."
-        searchButtonText="Cari"
+        searchPlaceholder={t("dns.searchPlaceholder")}
+        searchButtonText={t("common.search")}
         searchAccessor={(rec) => [
           rec.name,
           rec.domain_name,
@@ -234,8 +237,8 @@ export function AdminGlobalRecordTable({
         entityName="record DNS"
         actions={actions}
         emptyIcon={Globe}
-        emptyTitle="Tidak Ada Record DNS"
-        emptyDescription="Belum ada record DNS yang terdaftar dalam sistem."
+        emptyTitle={t("dns.noGlobalRecords")}
+        emptyDescription={t("dns.noGlobalRecords")}
       />
     </div>
   );

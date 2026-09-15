@@ -2,6 +2,7 @@
 // GoVPN DNS User Record Table Component
 // Part of Pola C: components/user/UserDnsRecordTable.tsx
 // 100% Coinbase Institutional Design System + Standardized Enterprise DataTable
+// Fully Localized with useI18n (EN/ID)
 // ==============================================================================
 
 "use client";
@@ -14,6 +15,7 @@ import { CopyButton } from "@/components/shared/CopyButton";
 import { Button } from "@/components/ui/button";
 import { DataTable, ColumnDef, DataTableFilterConfig } from "@/components/shared/data-table";
 import { Trash2, Globe, Clock } from "lucide-react";
+import { useI18n } from "@/lib/i18n/context";
 
 interface UserDnsRecordTableProps {
   records: DnsRecord[];
@@ -26,23 +28,25 @@ export function UserDnsRecordTable({
   onDeleteRecord,
   deletingId,
 }: UserDnsRecordTableProps) {
+  const { t } = useI18n();
+
   const formatTtl = (ttl: number) => {
-    if (ttl === 1) return "Auto";
-    if (ttl < 60) return `${ttl}d`;
+    if (ttl === 1) return t("dns.autoTtl");
+    if (ttl < 60) return `${ttl}s`;
     if (ttl < 3600) return `${Math.round(ttl / 60)}m`;
-    return `${Math.round(ttl / 3600)}j`;
+    return `${Math.round(ttl / 3600)}h`;
   };
 
   const columns: ColumnDef<DnsRecord>[] = useMemo(
     () => [
       {
         id: "type",
-        header: "Tipe",
+        header: t("dns.recordType"),
         cell: (rec) => <DnsTypeBadge type={rec.type} />,
       },
       {
         id: "host",
-        header: "Nama Host / Subdomain",
+        header: t("dns.recordName"),
         cell: (rec) => {
           const fqdn = rec.domain_name
             ? `${rec.name}.${rec.domain_name}`
@@ -70,7 +74,7 @@ export function UserDnsRecordTable({
       },
       {
         id: "content",
-        header: "Target IP / Value",
+        header: t("dns.recordContent"),
         cell: (rec) => (
           <div className="flex items-center gap-1.5 font-mono">
             <span className="text-foreground font-semibold bg-surface border border-border/60 px-2 py-0.5 rounded text-[11px]">
@@ -82,12 +86,12 @@ export function UserDnsRecordTable({
       },
       {
         id: "proxy",
-        header: "Proxy Cloudflare",
+        header: t("dns.proxyStatus"),
         cell: (rec) => <CloudflareProxyBadge proxied={rec.proxied} />,
       },
       {
         id: "ttl",
-        header: "TTL",
+        header: t("dns.ttl"),
         cell: (rec) => (
           <div className="flex items-center gap-1 text-muted-foreground font-mono">
             <Clock className="h-3 w-3 shrink-0" />
@@ -97,7 +101,7 @@ export function UserDnsRecordTable({
       },
       {
         id: "actions",
-        header: "Aksi",
+        header: t("common.actions"),
         align: "right",
         cell: (rec) =>
           onDeleteRecord ? (
@@ -107,24 +111,25 @@ export function UserDnsRecordTable({
               disabled={deletingId === rec.id}
               onClick={() => onDeleteRecord(rec.id)}
               className="h-8 w-8 p-0 text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 rounded-full"
-              title="Hapus Record DNS"
+              title={t("dns.deleteRecord")}
             >
               <Trash2 className="h-3.5 w-3.5" />
             </Button>
           ) : null,
       },
     ],
-    [deletingId, onDeleteRecord],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [deletingId, onDeleteRecord, t],
   );
 
   const filters: DataTableFilterConfig<DnsRecord>[] = useMemo(
     () => [
       {
         id: "type",
-        label: "Tipe",
+        label: t("dns.recordType"),
         defaultValue: "ALL",
         options: [
-          { label: "Semua Tipe", value: "ALL" },
+          { label: t("common.all"), value: "ALL" },
           { label: "A", value: "A" },
           { label: "AAAA", value: "AAAA" },
           { label: "CNAME", value: "CNAME" },
@@ -133,7 +138,7 @@ export function UserDnsRecordTable({
         filterFn: (rec, val) => rec.type?.toUpperCase() === val.toUpperCase(),
       },
     ],
-    [],
+    [t],
   );
 
   return (
@@ -142,8 +147,8 @@ export function UserDnsRecordTable({
       columns={columns}
       keyExtractor={(rec) => rec.id}
       searchable={true}
-      searchPlaceholder="Cari subdomain, IP, keterangan..."
-      searchButtonText="Cari"
+      searchPlaceholder={t("dns.searchPlaceholder")}
+      searchButtonText={t("common.search")}
       searchAccessor={(rec) => [
         rec.name,
         rec.domain_name,
@@ -155,8 +160,8 @@ export function UserDnsRecordTable({
       pageSize={10}
       entityName="record DNS"
       emptyIcon={Globe}
-      emptyTitle="Belum Ada Record DNS"
-      emptyDescription="Buat subdomain VPN kustom pertama Anda menggunakan tombol 'Tambah Record DNS' di atas."
+      emptyTitle={t("dns.noRecords")}
+      emptyDescription={t("dns.noRecordsDesc")}
     />
   );
 }

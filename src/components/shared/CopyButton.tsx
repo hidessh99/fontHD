@@ -5,6 +5,7 @@ import { Copy, Check } from "lucide-react";
 import { Button, type ButtonProps } from "@/components/ui/button";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n/context";
 
 interface CopyButtonProps extends Omit<ButtonProps, "onClick"> {
   text: string;
@@ -16,23 +17,25 @@ interface CopyButtonProps extends Omit<ButtonProps, "onClick"> {
 export function CopyButton({
   text,
   label,
-  successMessage = "Berhasil disalin ke clipboard!",
+  successMessage,
   className,
   variant = "outline",
   size = "sm",
   ...props
 }: CopyButtonProps) {
+  const { t } = useI18n();
   const [copied, setCopied] = useState(false);
+  const effectiveSuccessMsg = successMessage || t("common.copied") || "Successfully copied to clipboard!";
 
   const handleCopy = async (e: React.MouseEvent) => {
     e.stopPropagation();
     try {
       await navigator.clipboard.writeText(text);
       setCopied(true);
-      toast.success(successMessage);
+      toast.success(effectiveSuccessMsg);
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      toast.error("Gagal menyalin ke clipboard");
+      toast.error(t("common.error") || "Failed to copy to clipboard");
     }
   };
 
@@ -53,7 +56,7 @@ export function CopyButton({
       ) : (
         <Copy className="size-3.5" />
       )}
-      {label && <span>{copied ? "Tersalin" : label}</span>}
+      {label && <span>{copied ? (t("common.copied") || "Copied") : label}</span>}
     </Button>
   );
 }

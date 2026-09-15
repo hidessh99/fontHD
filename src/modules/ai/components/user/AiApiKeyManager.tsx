@@ -2,6 +2,7 @@
 // GoVPN AI API Key Manager Component
 // Part of Pola C: components/user/AiApiKeyManager.tsx
 // 100% Coinbase Institutional Design System (Masked Keys, Copy & Creation Modal)
+// Fully Localized with useI18n (EN/ID)
 // ==============================================================================
 
 "use client";
@@ -23,6 +24,7 @@ import {
 import { EmptyState } from "@/components/shared/EmptyState";
 import { Key, Plus, Trash2, Loader2, Clock } from "lucide-react";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n/context";
 
 interface AiApiKeyManagerProps {
   apiKeys: AiApiKey[];
@@ -37,6 +39,7 @@ export function AiApiKeyManager({
   onDeleteKey,
   loading = false,
 }: AiApiKeyManagerProps) {
+  const { t, locale } = useI18n();
   const [openCreate, setOpenCreate] = useState(false);
   const [keyName, setKeyName] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -46,7 +49,7 @@ export function AiApiKeyManager({
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!keyName.trim()) {
-      toast.error("Nama API Key wajib diisi");
+      toast.error(t("ai.keyNameRequired"));
       return;
     }
 
@@ -59,24 +62,20 @@ export function AiApiKeyManager({
         setOpenCreate(false);
       }
       setKeyName("");
-      toast.success("API Key baru berhasil dibuat");
+      toast.success(t("ai.keyCreated"));
     } finally {
       setSubmitting(false);
     }
   };
 
   const handleDelete = async (id: string | number) => {
-    if (
-      !confirm(
-        "Cabut API Key ini? Permintaan dari aplikasi Anda akan segera ditolak.",
-      )
-    ) {
+    if (!confirm(t("ai.revokeKeyConfirm"))) {
       return;
     }
     setDeletingId(id);
     try {
       await onDeleteKey(id);
-      toast.success("API Key berhasil dicabut");
+      toast.success(t("ai.keyRevoked"));
     } finally {
       setDeletingId(null);
     }
@@ -88,11 +87,10 @@ export function AiApiKeyManager({
         <div>
           <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
             <Key className="h-4 w-4 text-primary" />
-            API Key Gateway
+            {t("ai.apiKeyGatewayTitle")}
           </h3>
           <p className="text-xs text-muted-foreground mt-0.5">
-            Gunakan API Key ini untuk mengakses endpoint OpenAI-compatible
-            `/api/ai/v1`
+            {t("ai.apiKeyGatewaySubtitle")}
           </p>
         </div>
 
@@ -110,7 +108,7 @@ export function AiApiKeyManager({
                 className="h-9 px-3.5 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs gap-1.5 shadow-md shadow-primary/20"
               >
                 <Plus className="h-4 w-4" />
-                Buat API Key Baru
+                {t("ai.createNewKey")}
               </Button>
             }
           />
@@ -119,21 +117,19 @@ export function AiApiKeyManager({
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2 text-base font-bold">
                 <Key className="h-5 w-5 text-primary" />
-                {newlyCreatedKey ? "Simpan API Key Anda" : "Buat API Key Baru"}
+                {newlyCreatedKey ? t("ai.saveYourKeyTitle") : t("ai.createNewKey")}
               </DialogTitle>
             </DialogHeader>
 
             {newlyCreatedKey ? (
               <div className="space-y-4 pt-2">
                 <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-3.5 text-xs text-amber-300">
-                  ⚠️ <strong>Penting:</strong> Salin API Key ini sekarang. Demi
-                  keamanan, kunci rahasia ini tidak akan pernah ditampilkan
-                  lagi.
+                  ⚠️ <strong>Important:</strong> {t("ai.keySecretWarning")}
                 </div>
 
                 <div>
                   <Label className="text-xs text-muted-foreground font-medium">
-                    Secret Key
+                    {t("ai.secretKeyLabel")}
                   </Label>
                   <div className="flex items-center gap-2 mt-1.5">
                     <Input
@@ -143,7 +139,7 @@ export function AiApiKeyManager({
                     />
                     <CopyButton
                       text={newlyCreatedKey}
-                      label="Salin"
+                      label={t("ai.copy")}
                       className="h-10 px-3"
                     />
                   </div>
@@ -156,17 +152,17 @@ export function AiApiKeyManager({
                   }}
                   className="w-full h-11 rounded-xl bg-primary text-primary-foreground font-bold text-xs mt-2"
                 >
-                  Selesai
+                  {t("ai.done")}
                 </Button>
               </div>
             ) : (
               <form onSubmit={handleCreate} className="space-y-4 pt-2">
                 <div>
                   <Label className="text-xs text-muted-foreground font-medium">
-                    Nama / Label Kunci
+                    {t("ai.keyNameLabel")}
                   </Label>
                   <Input
-                    placeholder="misal: Python App / LangChain Prod"
+                    placeholder={t("ai.keyNamePlaceholder")}
                     value={keyName}
                     onChange={(e) => setKeyName(e.target.value)}
                     className="mt-1.5 bg-muted/30 border-border text-foreground text-xs h-10"
@@ -181,10 +177,10 @@ export function AiApiKeyManager({
                   {submitting ? (
                     <>
                       <Loader2 className="h-4 w-4 animate-spin" />
-                      Membuat Kunci...
+                      {t("ai.creatingKey")}
                     </>
                   ) : (
-                    "Buat API Key"
+                    t("ai.createKey")
                   )}
                 </Button>
               </form>
@@ -197,25 +193,25 @@ export function AiApiKeyManager({
         <div className="w-full h-64 flex flex-col items-center justify-center gap-3 rounded-2xl border border-border/80 bg-card/40">
           <Loader2 className="h-7 w-7 animate-spin text-primary" />
           <p className="text-xs text-muted-foreground font-medium">
-            Memuat daftar API Key...
+            {t("common.loading")}
           </p>
         </div>
       ) : apiKeys.length === 0 ? (
         <EmptyState
           icon={Key}
-          title="Belum Ada API Key"
-          description="Buat API Key pertama Anda untuk mulai menghubungkan aplikasi dengan AI Gateway."
+          title={t("ai.noKeysTitle")}
+          description={t("ai.noKeysDesc")}
         />
       ) : (
         <div className="w-full overflow-x-auto rounded-2xl border border-border/80 bg-card/60 shadow-xl">
           <table className="w-full text-left text-sm text-muted-foreground font-mono">
             <thead className="border-b border-border/80 bg-muted/30 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               <tr>
-                <th className="px-5 py-4 font-sans">Label Kunci</th>
-                <th className="px-5 py-4 font-sans">Prefix Key</th>
-                <th className="px-5 py-4 font-sans">Dibuat</th>
-                <th className="px-5 py-4 font-sans">Terakhir Dipakai</th>
-                <th className="px-5 py-4 font-sans text-right">Aksi</th>
+                <th className="px-5 py-4 font-sans">{t("ai.keyLabel")}</th>
+                <th className="px-5 py-4 font-sans">{t("ai.keyPrefix")}</th>
+                <th className="px-5 py-4 font-sans">{t("common.created")}</th>
+                <th className="px-5 py-4 font-sans">{t("ai.lastUsed")}</th>
+                <th className="px-5 py-4 font-sans text-right">{t("common.actions")}</th>
               </tr>
             </thead>
             <tbody className="divide-y border-border/40 text-xs">
@@ -235,7 +231,7 @@ export function AiApiKeyManager({
                     <div className="flex items-center gap-1.5 text-[11px]">
                       <Clock className="h-3 w-3 text-muted-foreground" />
                       <span>
-                        {new Date(k.created_at).toLocaleDateString("id-ID")}
+                        {new Date(k.created_at).toLocaleDateString(locale === "id" ? "id-ID" : "en-US")}
                       </span>
                     </div>
                   </td>
@@ -243,11 +239,11 @@ export function AiApiKeyManager({
                   <td className="px-5 py-3.5 font-sans text-muted-foreground">
                     {k.last_used_at ? (
                       <span className="text-[11px] text-emerald-400 font-medium">
-                        {new Date(k.last_used_at).toLocaleDateString("id-ID")}
+                        {new Date(k.last_used_at).toLocaleDateString(locale === "id" ? "id-ID" : "en-US")}
                       </span>
                     ) : (
                       <span className="text-[11px] text-muted-foreground">
-                        Belum pernah
+                        {t("ai.neverUsed")}
                       </span>
                     )}
                   </td>
@@ -259,7 +255,7 @@ export function AiApiKeyManager({
                       disabled={deletingId === k.id}
                       onClick={() => handleDelete(k.id)}
                       className="h-8 w-8 p-0 text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 rounded-full"
-                      title="Cabut Kunci"
+                      title={t("ai.revokeKey")}
                     >
                       {deletingId === k.id ? (
                         <Loader2 className="h-3.5 w-3.5 animate-spin" />

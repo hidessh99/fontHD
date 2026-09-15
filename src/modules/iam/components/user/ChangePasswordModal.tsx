@@ -20,6 +20,7 @@ import { Label } from "@/components/ui/label";
 import { ChangePasswordRequest } from "../../types/user.types";
 import { Lock, Loader2, KeyRound } from "lucide-react";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n";
 
 interface ChangePasswordModalProps {
   onChangePassword: (data: ChangePasswordRequest) => Promise<unknown>;
@@ -30,6 +31,7 @@ export function ChangePasswordModal({
   onChangePassword,
   triggerButton,
 }: ChangePasswordModalProps) {
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -41,12 +43,12 @@ export function ChangePasswordModal({
     if (!oldPassword || !newPassword) return;
 
     if (newPassword.length < 8) {
-      toast.error("Kata sandi baru minimal 8 karakter");
+      toast.error(t("iam.passwordMin8Error"));
       return;
     }
 
     if (newPassword !== confirmPassword) {
-      toast.error("Konfirmasi kata sandi tidak cocok");
+      toast.error(t("iam.passwordMismatchError"));
       return;
     }
 
@@ -56,15 +58,13 @@ export function ChangePasswordModal({
         old_password: oldPassword,
         new_password: newPassword,
       });
-      toast.success("Kata sandi berhasil diperbarui!");
+      toast.success(t("iam.passwordChanged"));
       setOpen(false);
       setOldPassword("");
       setNewPassword("");
       setConfirmPassword("");
     } catch {
-      toast.error(
-        "Gagal memperbarui kata sandi. Periksa kata sandi lama Anda.",
-      );
+      toast.error(t("iam.passwordChangeFailed"));
     } finally {
       setIsSubmitting(false);
     }
@@ -82,7 +82,7 @@ export function ChangePasswordModal({
               className="border-border/80 hover:bg-muted/30 text-foreground gap-2 font-semibold text-xs rounded-full min-h-10 px-5"
             >
               <KeyRound className="h-4 w-4 text-primary" />
-              Ganti Kata Sandi
+              {t("iam.changePassword")}
             </Button>
           )
         }
@@ -92,7 +92,7 @@ export function ChangePasswordModal({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-lg font-bold">
             <Lock className="h-5 w-5 text-primary" />
-            Perbarui Kata Sandi Akun
+            {t("iam.changePasswordTitle")}
           </DialogTitle>
         </DialogHeader>
 
@@ -102,7 +102,7 @@ export function ChangePasswordModal({
               htmlFor="old-pw"
               className="text-xs font-medium text-muted-foreground"
             >
-              Kata Sandi Saat Ini
+              {t("iam.currentPasswordLabel")}
             </Label>
             <Input
               id="old-pw"
@@ -120,7 +120,7 @@ export function ChangePasswordModal({
               htmlFor="new-pw"
               className="text-xs font-medium text-muted-foreground"
             >
-              Kata Sandi Baru (Min. 8 Karakter)
+              {t("iam.newPasswordLabel")}
             </Label>
             <Input
               id="new-pw"
@@ -138,7 +138,7 @@ export function ChangePasswordModal({
               htmlFor="conf-pw"
               className="text-xs font-medium text-muted-foreground"
             >
-              Ulangi Kata Sandi Baru
+              {t("iam.confirmNewPasswordLabel")}
             </Label>
             <Input
               id="conf-pw"
@@ -158,7 +158,7 @@ export function ChangePasswordModal({
               onClick={() => setOpen(false)}
               className="text-xs rounded-full min-h-10 px-5"
             >
-              Batal
+              {t("common.cancel", "Cancel")}
             </Button>
             <Button
               type="submit"
@@ -168,10 +168,10 @@ export function ChangePasswordModal({
               {isSubmitting ? (
                 <>
                   <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />{" "}
-                  Menyimpan...
+                  {t("iam.savingChanges")}
                 </>
               ) : (
-                "Simpan Kata Sandi"
+                t("iam.savePassword")
               )}
             </Button>
           </div>

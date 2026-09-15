@@ -1,0 +1,15 @@
+{
+  "title": "Pusat Notifikasi & Antrean",
+  "subtitle": "Sistem pengiriman multi-kanal melalui Telegram, WhatsApp, Email, dan Webhook.",
+  "channels": "Kanal Pengiriman",
+  "templates": "Template Pesan",
+  "queue": "Antrean Notifikasi",
+  "retryFailed": "Coba Ulang Tugas Gagal",
+  "telegram": "Bot Telegram",
+  "whatsapp": "Gateway WhatsApp",
+  "email": "Email Transaksional",
+  "webhook": "Webhook HTTP",
+  "sentAt": "Dikirim Pada",
+  "recipient": "Penerima",
+  "payload": "Data Payload"
+}

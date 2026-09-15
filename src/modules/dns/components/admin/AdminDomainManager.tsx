@@ -2,6 +2,7 @@
 // GoVPN DNS Admin Domain Manager Component
 // Part of Pola C: components/admin/AdminDomainManager.tsx
 // 100% Coinbase Institutional Design System (Root Zones & Account Binding)
+// Fully Localized with useI18n (EN/ID)
 // ==============================================================================
 
 "use client";
@@ -31,6 +32,7 @@ import {
   ShieldAlert,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n/context";
 
 interface AdminDomainManagerProps {
   domains: DnsDomain[];
@@ -47,6 +49,7 @@ export function AdminDomainManager({
   onDeleteDomain,
   loading = false,
 }: AdminDomainManagerProps) {
+  const { t } = useI18n();
   const [openCreate, setOpenCreate] = useState(false);
   const [accountId, setAccountId] = useState<string | number>(
     accounts[0]?.id || "",
@@ -65,7 +68,7 @@ export function AdminDomainManager({
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!domainName) {
-      toast.error("Nama domain wajib diisi");
+      toast.error(t("dns.nameAndContentRequired"));
       return;
     }
 
@@ -79,24 +82,20 @@ export function AdminDomainManager({
       setOpenCreate(false);
       setDomainName("");
       setZoneId("");
-      toast.success("Domain zona berhasil didaftarkan");
+      toast.success(t("dns.domainAdded"));
     } finally {
       setSubmitting(false);
     }
   };
 
   const handleDelete = async (id: string | number) => {
-    if (
-      !confirm(
-        "Hapus domain zona ini? Semua record di domain ini akan terhapus.",
-      )
-    ) {
+    if (!confirm(t("dns.domainDeleteConfirm"))) {
       return;
     }
     setDeletingId(id);
     try {
       await onDeleteDomain(id);
-      toast.success("Domain zona berhasil dihapus");
+      toast.success(t("dns.domainDeleted"));
     } finally {
       setDeletingId(null);
     }
@@ -108,11 +107,10 @@ export function AdminDomainManager({
         <div>
           <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
             <Globe className="h-4 w-4 text-primary" />
-            Zona Domain Terdaftar
+            {t("dns.registeredZonesTitle")}
           </h3>
           <p className="text-xs text-muted-foreground mt-0.5">
-            Daftar domain aktif yang dapat digunakan pengguna untuk membuat
-            subdomain VPN
+            {t("dns.registeredZonesSubtitle")}
           </p>
         </div>
 
@@ -124,7 +122,7 @@ export function AdminDomainManager({
                 className="h-9 px-3.5 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs gap-1.5 shadow-lg shadow-primary/20"
               >
                 <Plus className="h-4 w-4" />
-                Tambah Domain
+                {t("dns.addDomain")}
               </Button>
             }
           />
@@ -134,13 +132,13 @@ export function AdminDomainManager({
                 <div className="p-2 rounded-xl bg-primary/10 text-primary border border-primary/20">
                   <Globe className="h-5 w-5" />
                 </div>
-                Tambah Zona Domain Baru
+                {t("dns.newDomainModalTitle")}
               </DialogTitle>
             </DialogHeader>
             <form onSubmit={handleCreate} className="space-y-3.5 pt-2">
               <div>
                 <Label className="text-xs text-muted-foreground">
-                  Pilih Akun Cloudflare
+                  {t("dns.selectCfAccount")}
                 </Label>
                 <NativeSelect
                   value={accountId}
@@ -157,10 +155,10 @@ export function AdminDomainManager({
 
               <div>
                 <Label className="text-xs text-muted-foreground">
-                  Nama Domain (Root FQDN)
+                  {t("dns.domainNameLabel")}
                 </Label>
                 <Input
-                  placeholder="misal: govpn-network.id"
+                  placeholder="e.g. govpn-network.id"
                   value={domainName}
                   onChange={(e) => setDomainName(e.target.value)}
                   className="mt-1.5 bg-muted/30 border-border text-foreground font-mono text-xs h-10"
@@ -169,10 +167,10 @@ export function AdminDomainManager({
 
               <div>
                 <Label className="text-xs text-muted-foreground">
-                  Cloudflare Zone ID (Opsional)
+                  {t("dns.zoneIdLabel")}
                 </Label>
                 <Input
-                  placeholder="32 Karakter Hex Zone ID dari Dashboard CF"
+                  placeholder="32 hex character Zone ID"
                   value={zoneId}
                   onChange={(e) => setZoneId(e.target.value)}
                   className="mt-1.5 bg-muted/30 border-border text-foreground font-mono text-xs h-10"
@@ -187,10 +185,10 @@ export function AdminDomainManager({
                 {submitting ? (
                   <>
                     <Loader2 className="h-4 w-4 animate-spin" />
-                    Menyimpan Domain...
+                    {t("dns.savingDomain")}
                   </>
                 ) : (
-                  "Simpan Zona Domain"
+                  t("dns.saveDomain")
                 )}
               </Button>
             </form>
@@ -202,24 +200,24 @@ export function AdminDomainManager({
         <div className="w-full h-64 flex flex-col items-center justify-center gap-3 rounded-2xl border border-border/80 bg-card/40">
           <Loader2 className="h-7 w-7 animate-spin text-primary" />
           <p className="text-xs text-muted-foreground font-medium">
-            Memuat daftar zona domain...
+            {t("common.loading")}
           </p>
         </div>
       ) : domains.length === 0 ? (
         <EmptyState
           icon={Globe}
-          title="Belum Ada Zona Domain"
-          description="Tambahkan domain root pertama Anda untuk mulai mendistribusikan subdomain VPN ke pengguna."
+          title={t("dns.noDomainsTitle")}
+          description={t("dns.noDomainsDesc")}
         />
       ) : (
         <div className="w-full overflow-x-auto rounded-2xl border border-border/80 bg-card/60 shadow-xl">
           <table className="w-full text-left text-sm text-muted-foreground font-mono">
             <thead className="border-b border-border/80 bg-muted/30 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               <tr>
-                <th className="px-5 py-4 font-sans">Nama Domain</th>
-                <th className="px-5 py-4 font-sans">Cloudflare Zone ID</th>
-                <th className="px-5 py-4 font-sans">Status</th>
-                <th className="px-5 py-4 font-sans text-right">Aksi</th>
+                <th className="px-5 py-4 font-sans">{t("dns.domain")}</th>
+                <th className="px-5 py-4 font-sans">{t("dns.zoneId")}</th>
+                <th className="px-5 py-4 font-sans">{t("common.status")}</th>
+                <th className="px-5 py-4 font-sans text-right">{t("common.actions")}</th>
               </tr>
             </thead>
             <tbody className="divide-y border-border/40 text-xs">

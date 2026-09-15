@@ -28,6 +28,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n";
 
 interface AddressManagerProps {
   addresses: UserAddress[];
@@ -40,6 +41,7 @@ export function AddressManager({
   onCreateAddress,
   onDeleteAddress,
 }: AddressManagerProps) {
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("Rumah");
   const [recipientName, setRecipientName] = useState("");
@@ -69,7 +71,7 @@ export function AddressManager({
         country,
         is_default: addresses.length === 0,
       });
-      toast.success("Alamat baru berhasil ditambahkan!");
+      toast.success(t("iam.addressCreated"));
       setOpen(false);
       setRecipientName("");
       setPhoneNumber("");
@@ -78,7 +80,7 @@ export function AddressManager({
       setStateProvince("");
       setPostalCode("");
     } catch {
-      toast.error("Gagal menambahkan alamat.");
+      toast.error(t("iam.addressCreateFailed"));
     } finally {
       setIsSubmitting(false);
     }
@@ -89,9 +91,9 @@ export function AddressManager({
     setDeletingId(id);
     try {
       await onDeleteAddress(id);
-      toast.success("Alamat berhasil dihapus.");
+      toast.success(t("iam.addressDeleted"));
     } catch {
-      toast.error("Gagal menghapus alamat.");
+      toast.error(t("iam.addressDeleteFailed"));
     } finally {
       setDeletingId(null);
     }
@@ -103,11 +105,10 @@ export function AddressManager({
         <div>
           <h3 className="text-sm font-bold font-mono text-foreground flex items-center gap-2">
             <MapPin className="h-4 w-4 text-primary" />
-            Buku Alamat Penagihan ({addresses.length})
+            {t("iam.addressBookTitle", { count: addresses.length })}
           </h3>
           <p className="text-xs text-muted-foreground">
-            Alamat yang dicantumkan pada faktur pembayaran dan verifikasi
-            identitas resmi.
+            {t("iam.addressBookDesc")}
           </p>
         </div>
 
@@ -116,7 +117,7 @@ export function AddressManager({
             render={
               <Button className="bg-primary hover:bg-primary-hover text-white gap-2 font-semibold text-xs rounded-full min-h-9 px-4 shadow-sm">
                 <Plus className="h-4 w-4" />
-                Tambah Alamat
+                {t("iam.addAddress")}
               </Button>
             }
           />
@@ -124,7 +125,7 @@ export function AddressManager({
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2 text-lg font-bold">
                 <Home className="h-5 w-5 text-primary" />
-                Tambah Alamat Baru
+                {t("iam.addNewAddressTitle")}
               </DialogTitle>
             </DialogHeader>
 
@@ -132,7 +133,7 @@ export function AddressManager({
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <Label className="text-xs font-medium text-muted-foreground">
-                    Label Alamat
+                    {t("iam.addressLabel")}
                   </Label>
                   <Input
                     value={title}
@@ -144,7 +145,7 @@ export function AddressManager({
                 </div>
                 <div>
                   <Label className="text-xs font-medium text-muted-foreground">
-                    Nama Penerima
+                    {t("iam.recipientName")}
                   </Label>
                   <Input
                     value={recipientName}
@@ -158,7 +159,7 @@ export function AddressManager({
 
               <div>
                 <Label className="text-xs font-medium text-muted-foreground">
-                  Nomor Telepon
+                  {t("iam.phoneNumber")}
                 </Label>
                 <Input
                   value={phoneNumber}
@@ -171,12 +172,12 @@ export function AddressManager({
 
               <div>
                 <Label className="text-xs font-medium text-muted-foreground">
-                  Alamat Lengkap
+                  {t("iam.fullAddress")}
                 </Label>
                 <Input
                   value={addressLine1}
                   onChange={(e) => setAddressLine1(e.target.value)}
-                  placeholder="Jalan, Nomor Rumah, RT/RW, Kelurahan, Kecamatan"
+                  placeholder={t("iam.fullAddressPlaceholder")}
                   required
                   className="mt-1 text-xs rounded-xl min-h-10"
                 />
@@ -185,31 +186,31 @@ export function AddressManager({
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                 <div>
                   <Label className="text-xs font-medium text-muted-foreground">
-                    Kota
+                    {t("iam.city")}
                   </Label>
                   <Input
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
-                    placeholder="Kota"
+                    placeholder={t("iam.city")}
                     required
                     className="mt-1 text-xs rounded-xl min-h-10"
                   />
                 </div>
                 <div>
                   <Label className="text-xs font-medium text-muted-foreground">
-                    Provinsi
+                    {t("iam.province")}
                   </Label>
                   <Input
                     value={stateProvince}
                     onChange={(e) => setStateProvince(e.target.value)}
-                    placeholder="Provinsi"
+                    placeholder={t("iam.province")}
                     required
                     className="mt-1 text-xs rounded-xl min-h-10"
                   />
                 </div>
                 <div>
                   <Label className="text-xs font-medium text-muted-foreground">
-                    Kode Pos
+                    {t("iam.postalCode")}
                   </Label>
                   <Input
                     value={postalCode}
@@ -221,7 +222,7 @@ export function AddressManager({
                 </div>
                 <div>
                   <Label className="text-xs font-medium text-muted-foreground">
-                    Negara
+                    {t("iam.country")}
                   </Label>
                   <Input
                     value={country}
@@ -240,7 +241,7 @@ export function AddressManager({
                   onClick={() => setOpen(false)}
                   className="text-xs rounded-full min-h-10 px-5"
                 >
-                  Batal
+                  {t("common.cancel", "Cancel")}
                 </Button>
                 <Button
                   type="submit"
@@ -250,10 +251,10 @@ export function AddressManager({
                   {isSubmitting ? (
                     <>
                       <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />{" "}
-                      Menyimpan...
+                      {t("iam.savingChanges")}
                     </>
                   ) : (
-                    "Simpan Alamat"
+                    t("iam.saveAddress")
                   )}
                 </Button>
               </div>
@@ -264,8 +265,7 @@ export function AddressManager({
 
       {addresses.length === 0 ? (
         <div className="rounded-2xl border border-dashed border-border/80 p-8 text-center text-xs text-muted-foreground">
-          Belum ada alamat tersimpan. Klik &quot;Tambah Alamat&quot; untuk
-          mendaftarkan alamat penagihan Anda.
+          {t("iam.noAddressesYet")}
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -281,7 +281,7 @@ export function AddressManager({
                   </span>
                   {addr.is_default && (
                     <span className="inline-flex items-center gap-1 text-[10px] font-mono text-emerald-400">
-                      <CheckCircle2 className="h-3 w-3" /> Utama
+                      <CheckCircle2 className="h-3 w-3" /> {t("iam.primary")}
                     </span>
                   )}
                 </div>

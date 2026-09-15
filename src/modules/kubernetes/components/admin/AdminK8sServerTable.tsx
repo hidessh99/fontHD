@@ -30,6 +30,7 @@ import {
   ShieldAlert,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n";
 
 interface AdminK8sServerTableProps {
   servers: K8sServer[];
@@ -44,6 +45,7 @@ export function AdminK8sServerTable({
   onDeleteServer,
   loading = false,
 }: AdminK8sServerTableProps) {
+  const { t } = useI18n();
   const [openCreate, setOpenCreate] = useState(false);
   const [name, setName] = useState("");
   const [nodeIp, setNodeIp] = useState("");
@@ -57,7 +59,7 @@ export function AdminK8sServerTable({
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim() || !nodeIp.trim()) {
-      toast.error("Nama node dan IP wajib diisi");
+      toast.error(t("kubernetes.nodeName") + " & " + t("kubernetes.nodeIp"));
       return;
     }
 
@@ -74,7 +76,7 @@ export function AdminK8sServerTable({
       setOpenCreate(false);
       setName("");
       setNodeIp("");
-      toast.success("Node cluster baru berhasil ditambahkan");
+      toast.success(t("kubernetes.nodeAdded"));
     } finally {
       setSubmitting(false);
     }
@@ -91,7 +93,7 @@ export function AdminK8sServerTable({
     setDeletingId(id);
     try {
       await onDeleteServer(id);
-      toast.success("Node cluster berhasil dihapus");
+      toast.success(t("kubernetes.nodeDeleted"));
     } finally {
       setDeletingId(null);
     }
@@ -101,13 +103,13 @@ export function AdminK8sServerTable({
     () => [
       {
         id: "name",
-        header: "Nama Node",
+        header: t("kubernetes.colNodeName"),
         className: "font-sans font-bold text-foreground",
         cell: (srv) => srv.name,
       },
       {
         id: "node_ip",
-        header: "IP Address",
+        header: t("kubernetes.colNodeIp"),
         cell: (srv) => (
           <span className="text-foreground font-semibold bg-surface border border-border/60 px-2 py-0.5 rounded text-[11px] font-mono">
             {srv.node_ip}
@@ -116,19 +118,19 @@ export function AdminK8sServerTable({
       },
       {
         id: "region_cluster",
-        header: "Region & Cluster",
+        header: t("kubernetes.colRegionCluster"),
         className: "font-sans text-xs text-foreground",
         cell: (srv) => `${srv.region} • ${srv.cluster_name}`,
       },
       {
         id: "capacity",
-        header: "Kapasitas (CPU/RAM)",
+        header: t("kubernetes.colCapacity"),
         className: "text-foreground font-mono",
         cell: (srv) => `${srv.total_cpu} vCPU / ${srv.total_ram_gb} GB`,
       },
       {
         id: "pod_count",
-        header: "Pod Aktif",
+        header: t("kubernetes.colActivePods"),
         align: "center",
         cell: (srv) => (
           <Badge
@@ -141,7 +143,7 @@ export function AdminK8sServerTable({
       },
       {
         id: "status",
-        header: "Status",
+        header: t("kubernetes.colNodeStatus"),
         cell: (srv) => (
           <Badge
             variant="outline"
@@ -162,7 +164,7 @@ export function AdminK8sServerTable({
       },
       {
         id: "actions",
-        header: "Aksi",
+        header: t("common.actions", "Actions"),
         align: "right",
         cell: (srv) => (
           <Button
@@ -183,17 +185,17 @@ export function AdminK8sServerTable({
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [deletingId],
+    [deletingId, t],
   );
 
   const filters: DataTableFilterConfig<K8sServer>[] = useMemo(
     () => [
       {
         id: "status",
-        label: "Status",
+        label: t("kubernetes.colNodeStatus"),
         defaultValue: "ALL",
         options: [
-          { label: "Semua Status", value: "ALL" },
+          { label: t("kubernetes.allStatuses"), value: "ALL" },
           { label: "READY", value: "READY" },
           { label: "NOT_READY", value: "NOT_READY" },
           { label: "MAINTENANCE", value: "MAINTENANCE" },
@@ -201,7 +203,7 @@ export function AdminK8sServerTable({
         filterFn: (srv, val) => (srv.status || "READY").toUpperCase() === val.toUpperCase(),
       },
     ],
-    [],
+    [t],
   );
 
   const actions = (
@@ -213,7 +215,7 @@ export function AdminK8sServerTable({
             className="h-9 px-3.5 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs gap-1.5 shadow-md shadow-primary/20"
           >
             <Plus className="h-4 w-4" />
-            Tambah Node Worker
+            {t("kubernetes.addWorkerNode")}
           </Button>
         }
       />
@@ -221,12 +223,12 @@ export function AdminK8sServerTable({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-base font-bold">
             <Server className="h-5 w-5 text-primary" />
-            Registrasi Worker Node Baru
+            {t("kubernetes.registerWorkerNode")}
           </DialogTitle>
         </DialogHeader>
         <form onSubmit={handleCreate} className="space-y-3.5 pt-2">
           <div>
-            <Label className="text-xs text-muted-foreground">Nama Node</Label>
+            <Label className="text-xs text-muted-foreground">{t("kubernetes.nodeName")}</Label>
             <Input
               placeholder="misal: k8s-worker-sg-01"
               value={name}
@@ -236,7 +238,7 @@ export function AdminK8sServerTable({
           </div>
 
           <div>
-            <Label className="text-xs text-muted-foreground">Node IP Address</Label>
+            <Label className="text-xs text-muted-foreground">{t("kubernetes.nodeIp")}</Label>
             <Input
               placeholder="103.147.12.90"
               value={nodeIp}
@@ -247,7 +249,7 @@ export function AdminK8sServerTable({
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <Label className="text-xs text-muted-foreground">Region</Label>
+              <Label className="text-xs text-muted-foreground">{t("kubernetes.region")}</Label>
               <Input
                 value={region}
                 onChange={(e) => setRegion(e.target.value)}
@@ -255,7 +257,7 @@ export function AdminK8sServerTable({
               />
             </div>
             <div>
-              <Label className="text-xs text-muted-foreground">Cluster Name</Label>
+              <Label className="text-xs text-muted-foreground">{t("kubernetes.clusterName")}</Label>
               <Input
                 value={clusterName}
                 onChange={(e) => setClusterName(e.target.value)}
@@ -266,7 +268,7 @@ export function AdminK8sServerTable({
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <Label className="text-xs text-muted-foreground">Kapasitas CPU (vCPU)</Label>
+              <Label className="text-xs text-muted-foreground">{t("kubernetes.cpuCapacity")}</Label>
               <Input
                 type="number"
                 value={cpu}
@@ -275,7 +277,7 @@ export function AdminK8sServerTable({
               />
             </div>
             <div>
-              <Label className="text-xs text-muted-foreground">Kapasitas RAM (GB)</Label>
+              <Label className="text-xs text-muted-foreground">{t("kubernetes.ramCapacity")}</Label>
               <Input
                 type="number"
                 value={ram}
@@ -292,7 +294,7 @@ export function AdminK8sServerTable({
               onClick={() => setOpenCreate(false)}
               className="text-xs rounded-full min-h-10 px-5"
             >
-              Batal
+              {t("common.cancel", "Cancel")}
             </Button>
             <Button
               type="submit"
@@ -301,10 +303,10 @@ export function AdminK8sServerTable({
             >
               {submitting ? (
                 <>
-                  <Loader2 className="mr-1.5 h-4 w-4 animate-spin" /> Mendaftarkan...
+                  <Loader2 className="mr-1.5 h-4 w-4 animate-spin" /> {t("kubernetes.savingNode")}
                 </>
               ) : (
-                "Simpan Node"
+                t("kubernetes.saveNode")
               )}
             </Button>
           </div>
@@ -318,10 +320,10 @@ export function AdminK8sServerTable({
       <div>
         <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
           <Server className="h-4 w-4 text-primary" />
-          Node Worker Kubernetes Cluster
+          {t("kubernetes.workerNodesTitle")}
         </h3>
         <p className="text-xs text-muted-foreground mt-0.5">
-          Daftar bare-metal / VPS worker node penampung pod container pengguna
+          {t("kubernetes.workerNodesDesc")}
         </p>
       </div>
 
@@ -331,17 +333,17 @@ export function AdminK8sServerTable({
         keyExtractor={(srv) => srv.id}
         isLoading={loading}
         searchable={true}
-        searchPlaceholder="Cari nama node, IP, region, cluster..."
-        searchButtonText="Cari"
+        searchPlaceholder={t("kubernetes.searchNodePlaceholder")}
+        searchButtonText={t("common.search", "Search")}
         searchAccessor={(srv) => [srv.name, srv.node_ip, srv.region, srv.cluster_name]}
         filters={filters}
         paginated={true}
         pageSize={10}
-        entityName="worker node"
+        entityName={t("kubernetes.nodeEntityName")}
         actions={actions}
         emptyIcon={Server}
-        emptyTitle="Belum Ada Worker Node"
-        emptyDescription="Tambahkan worker node pertama Anda untuk mulai mendeploy pod container."
+        emptyTitle={t("kubernetes.noNodesTitle")}
+        emptyDescription={t("kubernetes.noNodesDesc")}
       />
     </div>
   );

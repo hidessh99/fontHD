@@ -15,8 +15,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Server, Layers, Rocket, RefreshCw } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 
 export function AdminK8sView() {
+  const { t } = useI18n();
   const {
     servers,
     specs,
@@ -48,11 +50,10 @@ export function AdminK8sView() {
             <div className="p-2 rounded-xl bg-primary/10 text-primary border border-primary/20">
               <Server className="h-5 w-5" />
             </div>
-            Admin Kubernetes Cluster Control Plane
+            {t("kubernetes.adminK8sTitle")}
           </h1>
           <p className="text-xs text-muted-foreground mt-1">
-            Kelola worker nodes bare-metal, paket kuota CPU/RAM, dan blueprint
-            template aplikasi
+            {t("kubernetes.adminK8sSubtitle")}
           </p>
         </div>
 
@@ -66,7 +67,7 @@ export function AdminK8sView() {
           <RefreshCw
             className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`}
           />
-          Segarkan
+          {t("common.refresh", "Refresh")}
         </Button>
       </div>
 
@@ -76,7 +77,7 @@ export function AdminK8sView() {
           <CardContent className="p-0 flex items-center justify-between">
             <div>
               <span className="text-xs text-muted-foreground font-medium">
-                Worker Nodes Aktif
+                {t("kubernetes.workerNodesActive")}
               </span>
               <div className="font-mono text-2xl font-bold text-foreground mt-1">
                 {servers.length} Node ({totalPods} Pods)
@@ -92,7 +93,7 @@ export function AdminK8sView() {
           <CardContent className="p-0 flex items-center justify-between">
             <div>
               <span className="text-xs text-muted-foreground font-medium">
-                Kapasitas CPU Klaster
+                {t("kubernetes.clusterCpuCapacity")}
               </span>
               <div className="font-mono text-2xl font-bold text-emerald-400 mt-1">
                 {totalCapacityCores} vCPU Cores
@@ -108,7 +109,7 @@ export function AdminK8sView() {
           <CardContent className="p-0 flex items-center justify-between">
             <div>
               <span className="text-xs text-muted-foreground font-medium">
-                Kapasitas RAM Klaster
+                {t("kubernetes.clusterRamCapacity")}
               </span>
               <div className="font-mono text-2xl font-bold text-primary mt-1">
                 {totalCapacityRam} GB RAM
@@ -132,15 +133,15 @@ export function AdminK8sView() {
         <TabsList variant="line" className="border-b border-border w-full justify-start gap-2 h-auto pb-0">
           <TabsTrigger value="servers" className="gap-2 py-2.5">
             <Server className="h-3.5 w-3.5" />
-            <span>Worker Nodes ({servers.length})</span>
+            <span>{t("kubernetes.tabWorkerNodes", { count: servers.length })}</span>
           </TabsTrigger>
           <TabsTrigger value="specs" className="gap-2 py-2.5">
             <Layers className="h-3.5 w-3.5" />
-            <span>Paket Resource Specs ({specs.length})</span>
+            <span>{t("kubernetes.tabResourceSpecs", { count: specs.length })}</span>
           </TabsTrigger>
           <TabsTrigger value="templates" className="gap-2 py-2.5">
             <Rocket className="h-3.5 w-3.5" />
-            <span>Template Blueprint ({templates.length})</span>
+            <span>{t("kubernetes.tabTemplates", { count: templates.length })}</span>
           </TabsTrigger>
         </TabsList>
       </Tabs>

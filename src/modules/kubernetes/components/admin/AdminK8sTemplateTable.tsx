@@ -7,6 +7,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
+import { useI18n } from "@/locales/client";
 import { K8sTemplate } from "../../types/k8s.types";
 import { AdminCreateTemplateDto } from "../../types/admin.types";
 import { Button } from "@/components/ui/button";
@@ -38,6 +39,7 @@ export function AdminK8sTemplateTable({
   onDeleteTemplate,
   loading = false,
 }: AdminK8sTemplateTableProps) {
+  const { t } = useI18n();
   const [openCreate, setOpenCreate] = useState(false);
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");
@@ -53,7 +55,7 @@ export function AdminK8sTemplateTable({
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim() || !image.trim()) {
-      toast.error("Nama template dan Docker Image wajib diisi");
+      toast.error(t("kubernetes.templateValidation"));
       return;
     }
 
@@ -73,18 +75,18 @@ export function AdminK8sTemplateTable({
       setName("");
       setSlug("");
       setImage("");
-      toast.success("Template container baru berhasil ditambahkan");
+      toast.success(t("kubernetes.templateAdded"));
     } finally {
       setSubmitting(false);
     }
   };
 
   const handleDelete = async (id: string | number) => {
-    if (!confirm("Hapus template aplikasi ini?")) return;
+    if (!confirm(t("kubernetes.confirmDeleteTemplate"))) return;
     setDeletingId(id);
     try {
       await onDeleteTemplate(id);
-      toast.success("Template berhasil dihapus");
+      toast.success(t("kubernetes.templateDeleted"));
     } finally {
       setDeletingId(null);
     }
@@ -94,14 +96,14 @@ export function AdminK8sTemplateTable({
     () => [
       {
         id: "name",
-        header: "Nama Template",
+        header: t("kubernetes.colTemplateName"),
         className: "font-sans",
-        cell: (t) => (
+        cell: (tRow) => (
           <div className="flex flex-col">
-            <span className="font-bold text-foreground">{t.name}</span>
-            {t.description && (
+            <span className="font-bold text-foreground">{tRow.name}</span>
+            {tRow.description && (
               <span className="text-[11px] text-muted-foreground line-clamp-1">
-                {t.description}
+                {tRow.description}
               </span>
             )}
           </div>
@@ -109,45 +111,45 @@ export function AdminK8sTemplateTable({
       },
       {
         id: "category",
-        header: "Kategori",
-        cell: (t) => (
+        header: t("kubernetes.colCategory"),
+        cell: (tRow) => (
           <Badge
             variant="outline"
             className="border-border bg-card text-foreground font-mono text-[11px]"
           >
-            {t.category}
+            {tRow.category}
           </Badge>
         ),
       },
       {
         id: "docker_image",
-        header: "Docker Image",
-        cell: (t) => (
+        header: t("kubernetes.dockerImageLabel"),
+        cell: (tRow) => (
           <span className="text-foreground font-semibold bg-surface border border-border/60 px-2.5 py-1 rounded-lg text-[11px] font-mono">
-            {t.docker_image}
+            {tRow.docker_image}
           </span>
         ),
       },
       {
         id: "port",
-        header: "Port",
+        header: t("kubernetes.portLabel"),
         className: "text-foreground font-mono",
-        cell: (t) => `:${t.default_port}`,
+        cell: (tRow) => `:${tRow.default_port}`,
       },
       {
         id: "actions",
-        header: "Aksi",
+        header: t("common.actions"),
         align: "right",
-        cell: (t) => (
+        cell: (tRow) => (
           <Button
             variant="ghost"
             size="sm"
-            disabled={deletingId === t.id}
-            onClick={() => handleDelete(t.id)}
+            disabled={deletingId === tRow.id}
+            onClick={() => handleDelete(tRow.id)}
             className="h-8 w-8 p-0 text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 rounded-full"
-            title="Hapus Template"
+            title={t("common.delete")}
           >
-            {deletingId === t.id ? (
+            {deletingId === tRow.id ? (
               <Loader2 className="h-3.5 w-3.5 animate-spin" />
             ) : (
               <Trash2 className="h-3.5 w-3.5" />
@@ -157,27 +159,27 @@ export function AdminK8sTemplateTable({
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [deletingId],
+    [deletingId, t],
   );
 
   const filters: DataTableFilterConfig<K8sTemplate>[] = useMemo(
     () => [
       {
         id: "category",
-        label: "Kategori",
+        label: t("kubernetes.category"),
         defaultValue: "ALL",
         options: [
-          { label: "Semua Kategori", value: "ALL" },
-          { label: "VPN & Tunneling", value: "VPN" },
-          { label: "Web Server", value: "WEB" },
-          { label: "Database", value: "DATABASE" },
-          { label: "CMS", value: "CMS" },
-          { label: "DevOps Tools", value: "DEVOPS" },
+          { label: t("kubernetes.catAll"), value: "ALL" },
+          { label: t("kubernetes.catVpn"), value: "VPN" },
+          { label: t("kubernetes.catWeb"), value: "WEB" },
+          { label: t("kubernetes.catDatabase"), value: "DATABASE" },
+          { label: t("kubernetes.catCms"), value: "CMS" },
+          { label: t("kubernetes.catDevops"), value: "DEVOPS" },
         ],
-        filterFn: (t, val) => t.category?.toUpperCase() === val.toUpperCase(),
+        filterFn: (item, val) => item.category?.toUpperCase() === val.toUpperCase(),
       },
     ],
-    [],
+    [t],
   );
 
   const actions = (
@@ -189,7 +191,7 @@ export function AdminK8sTemplateTable({
             className="h-9 px-3.5 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs gap-1.5 shadow-md shadow-primary/20"
           >
             <Plus className="h-4 w-4" />
-            Tambah Template
+            {t("kubernetes.addTemplate")}
           </Button>
         }
       />
@@ -197,12 +199,12 @@ export function AdminK8sTemplateTable({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-base font-bold">
             <Rocket className="h-5 w-5 text-primary" />
-            Tambah Template Aplikasi Baru
+            {t("kubernetes.addTemplateTitle")}
           </DialogTitle>
         </DialogHeader>
         <form onSubmit={handleCreate} className="space-y-3.5 pt-2">
           <div>
-            <Label className="text-xs text-muted-foreground">Nama Aplikasi</Label>
+            <Label className="text-xs text-muted-foreground">{t("kubernetes.appName")}</Label>
             <Input
               placeholder="misal: Shadowsocks Libev"
               value={name}
@@ -212,7 +214,7 @@ export function AdminK8sTemplateTable({
           </div>
 
           <div>
-            <Label className="text-xs text-muted-foreground">Kategori</Label>
+            <Label className="text-xs text-muted-foreground">{t("kubernetes.category")}</Label>
             <NativeSelect
               variant="rounded"
               value={category}
@@ -223,16 +225,16 @@ export function AdminK8sTemplateTable({
               }
               className="mt-1.5 w-full text-xs font-mono"
             >
-              <option value="VPN">VPN & Tunneling</option>
-              <option value="WEB">Web Server</option>
-              <option value="DATABASE">Database</option>
-              <option value="CMS">CMS</option>
-              <option value="DEVOPS">DevOps Tools</option>
+              <option value="VPN">{t("kubernetes.catVpn")}</option>
+              <option value="WEB">{t("kubernetes.catWeb")}</option>
+              <option value="DATABASE">{t("kubernetes.catDatabase")}</option>
+              <option value="CMS">{t("kubernetes.catCms")}</option>
+              <option value="DEVOPS">{t("kubernetes.catDevops")}</option>
             </NativeSelect>
           </div>
 
           <div>
-            <Label className="text-xs text-muted-foreground">Docker Image</Label>
+            <Label className="text-xs text-muted-foreground">{t("kubernetes.dockerImageLabel")}</Label>
             <Input
               placeholder="shadowsocks/shadowsocks-libev:latest"
               value={image}
@@ -242,7 +244,7 @@ export function AdminK8sTemplateTable({
           </div>
 
           <div>
-            <Label className="text-xs text-muted-foreground">Default Port</Label>
+            <Label className="text-xs text-muted-foreground">{t("kubernetes.defaultPort")}</Label>
             <Input
               type="number"
               value={port}
@@ -252,7 +254,7 @@ export function AdminK8sTemplateTable({
           </div>
 
           <div>
-            <Label className="text-xs text-muted-foreground">Deskripsi Singkat</Label>
+            <Label className="text-xs text-muted-foreground">{t("kubernetes.shortDescription")}</Label>
             <Input
               placeholder="Proxy tunneling aman berkecepatan tinggi"
               value={description}
@@ -268,10 +270,10 @@ export function AdminK8sTemplateTable({
           >
             {submitting ? (
               <>
-                <Loader2 className="h-4 w-4 animate-spin" /> Menyimpan Template...
+                <Loader2 className="h-4 w-4 animate-spin" /> {t("kubernetes.savingTemplate")}
               </>
             ) : (
-              "Simpan Template"
+              t("kubernetes.saveTemplate")
             )}
           </Button>
         </form>
@@ -284,30 +286,30 @@ export function AdminK8sTemplateTable({
       <div>
         <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
           <Rocket className="h-4 w-4 text-primary" />
-          Template Aplikasi 1-Click Deploy
+          {t("kubernetes.templatesTitle")}
         </h3>
         <p className="text-xs text-muted-foreground mt-0.5">
-          Daftar blueprint aplikasi siap pakai (Shadowsocks, WireGuard, NGINX, WordPress)
+          {t("kubernetes.templatesDesc")}
         </p>
       </div>
 
       <DataTable<K8sTemplate>
         data={templates}
         columns={columns}
-        keyExtractor={(t) => t.id}
+        keyExtractor={(tRow) => tRow.id}
         isLoading={loading}
         searchable={true}
-        searchPlaceholder="Cari nama template, image, deskripsi..."
-        searchButtonText="Cari"
-        searchAccessor={(t) => [t.name, t.docker_image, t.description, t.category]}
+        searchPlaceholder={t("kubernetes.searchTemplatePlaceholder")}
+        searchButtonText={t("common.search")}
+        searchAccessor={(tRow) => [tRow.name, tRow.docker_image, tRow.description, tRow.category]}
         filters={filters}
         paginated={true}
         pageSize={10}
-        entityName="template aplikasi"
+        entityName={t("kubernetes.templateEntityName")}
         actions={actions}
         emptyIcon={Rocket}
-        emptyTitle="Belum Ada Template"
-        emptyDescription="Tambahkan template aplikasi 1-click deploy pertama Anda."
+        emptyTitle={t("kubernetes.noTemplatesTitle")}
+        emptyDescription={t("kubernetes.noTemplatesDesc")}
       />
     </div>
   );

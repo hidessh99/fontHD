@@ -3,6 +3,7 @@
 // Part of Pola C: components/user/CreateTicketModal.tsx
 // Algoritma 3: Idempotent Mutation with X-Idempotency-Key
 // 100% Coinbase Institutional Design System
+// Fully Localized with useI18n (EN/ID)
 // ==============================================================================
 
 "use client";
@@ -22,6 +23,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { NativeSelect } from "@/components/ui/native-select";
 import { LifeBuoy, Send, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n/context";
 
 interface CreateTicketModalProps {
   open: boolean;
@@ -37,6 +39,7 @@ export function CreateTicketModal({
   onOpenChange,
   onSubmitTicket,
 }: CreateTicketModalProps) {
+  const { t } = useI18n();
   const [subject, setSubject] = useState("");
   const [department, setDepartment] = useState("Konektivitas VPN");
   const [priority, setPriority] = useState<TicketPriority>("MEDIUM");
@@ -46,7 +49,7 @@ export function CreateTicketModal({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!subject.trim() || !description.trim()) {
-      toast.error("Subjek dan penjelasan kendala wajib diisi");
+      toast.error(t("support.subjectAndDescRequired"));
       return;
     }
 
@@ -64,12 +67,12 @@ export function CreateTicketModal({
         },
         idempotencyKey,
       );
-      toast.success("Tiket bantuan berhasil diajukan!");
+      toast.success(t("support.ticketCreated"));
       onOpenChange(false);
       setSubject("");
       setDescription("");
     } catch {
-      toast.error("Gagal mengajukan tiket bantuan. Silakan coba lagi.");
+      toast.error(t("support.ticketCreateFailed"));
     } finally {
       setSubmitting(false);
     }
@@ -82,23 +85,23 @@ export function CreateTicketModal({
           <div className="flex items-center gap-2 text-primary mb-1">
             <LifeBuoy className="w-5 h-5" />
             <span className="text-xs font-bold uppercase tracking-wider">
-              Helpdesk & Support
+              {t("support.helpdeskBadge")}
             </span>
           </div>
           <DialogTitle className="text-xl font-bold">
-            Buat Tiket Bantuan Baru
+            {t("support.newTicketModalTitle")}
           </DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4 pt-2">
           <div className="space-y-1.5">
             <label className="text-xs font-semibold text-muted-foreground">
-              Subjek Tiket
+              {t("support.ticketSubject")}
             </label>
             <Input
               type="text"
               required
-              placeholder="Contoh: Gagal koneksi node SG-01 pada protokol Trojan"
+              placeholder={t("support.subjectPlaceholder")}
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
             />
@@ -107,50 +110,44 @@ export function CreateTicketModal({
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1.5">
               <label className="text-xs font-semibold text-muted-foreground">
-                Departemen / Kategori
+                {t("support.departmentLabel")}
               </label>
               <NativeSelect
                 value={department}
                 onChange={(e) => setDepartment(e.target.value)}
               >
-                <option value="Konektivitas VPN">
-                  Konektivitas VPN & Protokol
-                </option>
-                <option value="Billing & Langganan">
-                  Billing, Invoice & Langganan
-                </option>
-                <option value="DNS & Routing">DNS Cloudflare & Routing</option>
-                <option value="Akun & Kredensial">
-                  Akun & Kredensial Pengguna
-                </option>
-                <option value="Lainnya">Pertanyaan Umum Lainnya</option>
+                <option value="Konektivitas VPN">{t("support.deptVpn")}</option>
+                <option value="Billing & Langganan">{t("support.deptBilling")}</option>
+                <option value="DNS & Routing">{t("support.deptDns")}</option>
+                <option value="Akun & Kredensial">{t("support.deptAccount")}</option>
+                <option value="Lainnya">{t("support.deptOther")}</option>
               </NativeSelect>
             </div>
 
             <div className="space-y-1.5">
               <label className="text-xs font-semibold text-muted-foreground">
-                Prioritas
+                {t("support.priorityLabel")}
               </label>
               <NativeSelect
                 value={priority}
                 onChange={(e) => setPriority(e.target.value as TicketPriority)}
               >
-                <option value="LOW">Rendah (Low)</option>
-                <option value="MEDIUM">Normal (Medium)</option>
-                <option value="HIGH">Tinggi (High)</option>
-                <option value="URGENT">Mendesak (Urgent)</option>
+                <option value="LOW">{t("support.priorityLow")}</option>
+                <option value="MEDIUM">{t("support.priorityMedium")}</option>
+                <option value="HIGH">{t("support.priorityHigh")}</option>
+                <option value="URGENT">{t("support.priorityUrgent")}</option>
               </NativeSelect>
             </div>
           </div>
 
           <div className="space-y-1.5">
             <label className="text-xs font-semibold text-muted-foreground">
-              Detail Kendala & Pesan Error
+              {t("support.descriptionLabel")}
             </label>
             <Textarea
               required
               rows={4}
-              placeholder="Jelaskan kendala secara rinci, termasuk perangkat yang digunakan (iOS/Android/Windows) dan pesan error jika ada..."
+              placeholder={t("support.descriptionPlaceholder")}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               className="resize-none"
@@ -164,7 +161,7 @@ export function CreateTicketModal({
               onClick={() => onOpenChange(false)}
               disabled={submitting}
             >
-              Batal
+              {t("common.cancel")}
             </Button>
             <Button
               type="submit"
@@ -174,12 +171,12 @@ export function CreateTicketModal({
               {submitting ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>Mengirimkan...</span>
+                  <span>{t("support.submitting")}</span>
                 </>
               ) : (
                 <>
                   <Send className="w-4 h-4" />
-                  <span>Ajukan Tiket</span>
+                  <span>{t("support.submitTicket")}</span>
                 </>
               )}
             </Button>

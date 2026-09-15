@@ -16,6 +16,7 @@ import { DataTableToolbar } from "./DataTableToolbar";
 import { DataTableRowSkeleton } from "./DataTableRowSkeleton";
 import { DataTableProps } from "./types";
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n/context";
 
 export function DataTable<TData>({
   data,
@@ -24,22 +25,29 @@ export function DataTable<TData>({
   isLoading = false,
   loadingRowsCount = 5,
   searchable = false,
-  searchPlaceholder = "Cari data...",
-  searchButtonText = "Cari",
+  searchPlaceholder,
+  searchButtonText,
   searchAccessor,
   filters,
   paginated = true,
   pageSize: initialPageSize = 10,
   pageSizeOptions = [10, 20, 50, 100],
-  entityName = "data",
+  entityName,
   actions,
   emptyIcon = Search,
-  emptyTitle = "Tidak Ada Data Ditemukan",
+  emptyTitle,
   emptyDescription,
   emptyAction,
   className,
   tableClassName,
 }: DataTableProps<TData>) {
+  const { t } = useI18n();
+  const effectiveSearchPlaceholder = searchPlaceholder || t("common.search") || "Search data...";
+  const effectiveSearchButtonText = searchButtonText || t("common.filter") || "Search";
+  const effectiveEmptyTitle = emptyTitle || t("common.noData") || "No Data Found";
+  const effectiveEmptyDescription = emptyDescription || t("common.table.noResults") || "No matching results found.";
+  const effectiveEntityName = entityName || t("common.details") || "items";
+
   // Committed search query (only changes when user clicks "Cari" or presses Enter)
   const [appliedSearch, setAppliedSearch] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -133,16 +141,16 @@ export function DataTable<TData>({
   const resolvedEmptyDesc =
     emptyDescription ??
     (appliedSearch
-      ? `Tidak ada ${entityName} yang sesuai dengan pencarian "${appliedSearch}".`
-      : `Belum ada data ${entityName} yang tersedia.`);
+      ? `${t("common.table.noResults") || "No results matching"} "${appliedSearch}".`
+      : t("common.noData") || "No data available.");
 
   return (
     <div className={cn("space-y-4", className)}>
       {/* Search & Filter Toolbar */}
       <DataTableToolbar
         searchable={searchable}
-        searchPlaceholder={searchPlaceholder}
-        searchButtonText={searchButtonText}
+        searchPlaceholder={effectiveSearchPlaceholder}
+        searchButtonText={effectiveSearchButtonText}
         onSearchCommit={handleSearchCommit}
         onSearchClear={handleSearchClear}
         filters={filters}
@@ -188,7 +196,7 @@ export function DataTable<TData>({
                 >
                   <EmptyState
                     icon={emptyIcon}
-                    title={emptyTitle}
+                    title={effectiveEmptyTitle}
                     description={resolvedEmptyDesc}
                     action={emptyAction}
                     className="border-none bg-transparent p-4"

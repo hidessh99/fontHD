@@ -31,6 +31,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n";
 
 interface ProfileCardProps {
   user: UserProfile;
@@ -41,6 +42,7 @@ interface ProfileCardProps {
 }
 
 export function ProfileCard({ user, onUpdateProfile }: ProfileCardProps) {
+  const { t, locale } = useI18n();
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [username, setUsername] = useState(user.username || "");
   const [email, setEmail] = useState(user.email || "");
@@ -60,10 +62,10 @@ export function ProfileCard({ user, onUpdateProfile }: ProfileCardProps) {
         email: email.trim(),
         phone_number: phoneNumber.trim() || undefined,
       });
-      toast.success("Profil berhasil diperbarui!");
+      toast.success(t("iam.profileUpdated"));
       setIsEditOpen(false);
     } catch {
-      toast.error("Gagal memperbarui profil.");
+      toast.error(t("iam.profileUpdateFailed"));
     } finally {
       setIsSubmitting(false);
     }
@@ -71,11 +73,14 @@ export function ProfileCard({ user, onUpdateProfile }: ProfileCardProps) {
 
   const formatDate = (dateStr?: string) => {
     if (!dateStr) return "-";
-    return new Date(dateStr).toLocaleDateString("id-ID", {
-      day: "2-digit",
-      month: "long",
-      year: "numeric",
-    });
+    return new Date(dateStr).toLocaleDateString(
+      locale === "id" ? "id-ID" : "en-US",
+      {
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+      }
+    );
   };
 
   return (
@@ -97,7 +102,7 @@ export function ProfileCard({ user, onUpdateProfile }: ProfileCardProps) {
               <RoleBadge role={user.role} />
               {user.isEmailVerified && (
                 <span className="inline-flex items-center gap-1 text-[10px] font-mono font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full">
-                  <ShieldCheck className="h-3 w-3" /> Terverifikasi
+                  <ShieldCheck className="h-3 w-3" /> {t("iam.verified")}
                 </span>
               )}
             </div>
@@ -115,7 +120,7 @@ export function ProfileCard({ user, onUpdateProfile }: ProfileCardProps) {
               )}
               <span className="flex items-center gap-1.5">
                 <Calendar className="h-3.5 w-3.5" />
-                Bergabung: {formatDate(user.createdAt)}
+                {t("iam.joined")}: {formatDate(user.createdAt)}
               </span>
             </div>
           </div>
@@ -131,7 +136,7 @@ export function ProfileCard({ user, onUpdateProfile }: ProfileCardProps) {
                   className="border-border/80 hover:bg-muted/30 text-foreground gap-2 font-semibold text-xs rounded-full min-h-10 px-5 shadow-sm self-start md:self-center"
                 >
                   <Edit3 className="h-4 w-4 text-primary" />
-                  Ubah Profil
+                  {t("iam.editProfile")}
                 </Button>
               }
             />
@@ -139,7 +144,7 @@ export function ProfileCard({ user, onUpdateProfile }: ProfileCardProps) {
               <DialogHeader>
                 <DialogTitle className="flex items-center gap-2 text-lg font-bold">
                   <User className="h-5 w-5 text-primary" />
-                  Perbarui Informasi Profil
+                  {t("iam.editProfileTitle")}
                 </DialogTitle>
               </DialogHeader>
 
@@ -149,7 +154,7 @@ export function ProfileCard({ user, onUpdateProfile }: ProfileCardProps) {
                     htmlFor="edit-uname"
                     className="text-xs font-medium text-muted-foreground"
                   >
-                    Username
+                    {t("iam.username")}
                   </Label>
                   <Input
                     id="edit-uname"
@@ -165,7 +170,7 @@ export function ProfileCard({ user, onUpdateProfile }: ProfileCardProps) {
                     htmlFor="edit-email"
                     className="text-xs font-medium text-muted-foreground"
                   >
-                    Alamat Email
+                    {t("iam.activeEmail")}
                   </Label>
                   <Input
                     id="edit-email"
@@ -182,7 +187,7 @@ export function ProfileCard({ user, onUpdateProfile }: ProfileCardProps) {
                     htmlFor="edit-phone"
                     className="text-xs font-medium text-muted-foreground"
                   >
-                    Nomor WhatsApp / Ponsel (Opsional)
+                    {t("iam.whatsappPhone")}
                   </Label>
                   <Input
                     id="edit-phone"
@@ -200,7 +205,7 @@ export function ProfileCard({ user, onUpdateProfile }: ProfileCardProps) {
                     onClick={() => setIsEditOpen(false)}
                     className="text-xs rounded-full min-h-10 px-5"
                   >
-                    Batal
+                    {t("common.cancel", "Cancel")}
                   </Button>
                   <Button
                     type="submit"
@@ -210,10 +215,10 @@ export function ProfileCard({ user, onUpdateProfile }: ProfileCardProps) {
                     {isSubmitting ? (
                       <>
                         <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />{" "}
-                        Menyimpan...
+                        {t("iam.savingChanges")}
                       </>
                     ) : (
-                      "Simpan Perubahan"
+                      t("iam.saveChanges")
                     )}
                   </Button>
                 </div>

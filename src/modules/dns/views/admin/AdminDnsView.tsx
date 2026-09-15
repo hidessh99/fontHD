@@ -2,6 +2,7 @@
 // GoVPN DNS Superadmin Manager View Component
 // Part of Pola C: views/admin/AdminDnsView.tsx
 // 100% Coinbase Institutional Design System (Multi-CF Accounts, Root Zones & Audit)
+// Fully Localized with useI18n (EN/ID)
 // ==============================================================================
 
 "use client";
@@ -15,8 +16,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Cloud, Globe, Layers, RefreshCw } from "lucide-react";
+import { useI18n } from "@/lib/i18n/context";
 
 export function AdminDnsView() {
+  const { t } = useI18n();
   const {
     accounts,
     domains,
@@ -43,10 +46,10 @@ export function AdminDnsView() {
           <CardContent className="p-0 flex items-center justify-between">
             <div>
               <span className="text-xs text-muted-foreground font-medium">
-                Akun Cloudflare API
+                {t("dns.cfAccountsCount")}
               </span>
               <div className="font-mono text-2xl font-bold text-foreground mt-1">
-                {accounts.length} Akun
+                {accounts.length}
               </div>
             </div>
             <div className="p-2.5 rounded-xl bg-primary/10 text-primary border border-primary/20">
@@ -59,10 +62,10 @@ export function AdminDnsView() {
           <CardContent className="p-0 flex items-center justify-between">
             <div>
               <span className="text-xs text-muted-foreground font-medium">
-                Domain Root Zones
+                {t("dns.rootZonesCount")}
               </span>
               <div className="font-mono text-2xl font-bold text-emerald-400 mt-1">
-                {domains.length} Zona
+                {domains.length}
               </div>
             </div>
             <div className="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
@@ -75,10 +78,10 @@ export function AdminDnsView() {
           <CardContent className="p-0 flex items-center justify-between">
             <div>
               <span className="text-xs text-muted-foreground font-medium">
-                Total Global Record
+                {t("dns.totalGlobalRecords")}
               </span>
               <div className="font-mono text-2xl font-bold text-primary mt-1">
-                {records.length} Record
+                {records.length}
               </div>
             </div>
             <div className="p-2.5 rounded-xl bg-primary/10 text-primary border border-primary/20">
@@ -98,13 +101,13 @@ export function AdminDnsView() {
         >
           <TabsList variant="line" className="gap-2">
             <TabsTrigger value="records" className="py-2 text-xs font-semibold">
-              Audit Global Record ({records.length})
+              {t("dns.auditGlobalTab")} ({records.length})
             </TabsTrigger>
             <TabsTrigger value="domains" className="py-2 text-xs font-semibold">
-              Zona Domain ({domains.length})
+              {t("dns.domainZonesTab")} ({domains.length})
             </TabsTrigger>
             <TabsTrigger value="accounts" className="py-2 text-xs font-semibold">
-              Akun Cloudflare ({accounts.length})
+              {t("dns.cfAccountsTab")} ({accounts.length})
             </TabsTrigger>
           </TabsList>
         </Tabs>
@@ -119,7 +122,7 @@ export function AdminDnsView() {
           <RefreshCw
             className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`}
           />
-          Segarkan
+          {t("common.refresh")}
         </Button>
       </div>
 

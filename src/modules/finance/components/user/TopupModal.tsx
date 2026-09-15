@@ -2,6 +2,7 @@
 // GoVPN Finance User Topup Deposit Modal Component
 // Part of Pola C: components/user/TopupModal.tsx
 // 100% Coinbase Design System (56px Pill CTA, JetBrains Mono, QRIS/VA Options)
+// Fully Localized with useI18n (EN/ID)
 // ==============================================================================
 
 "use client";
@@ -20,6 +21,7 @@ import { Label } from "@/components/ui/label";
 import { PaymentMethod, CreateTopupDto } from "../../types";
 import { Wallet, QrCode, Tag, Check, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n/context";
 
 interface TopupModalProps {
   onTopup: (dto: CreateTopupDto) => Promise<unknown>;
@@ -36,6 +38,7 @@ export function TopupModal({
   onValidateVoucher,
   triggerButton,
 }: TopupModalProps) {
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
   const [amount, setAmount] = useState<number>(50000);
   const [customAmount, setCustomAmount] = useState<string>("");
@@ -57,10 +60,10 @@ export function TopupModal({
       const res = await onValidateVoucher(voucherCode.trim());
       if (res.valid) {
         setVoucherDiscount(res.discount_amount);
-        toast.success(res.message || "Voucher berhasil digunakan!");
+        toast.success(res.message || t("finance.voucherApplied"));
       } else {
         setVoucherDiscount(0);
-        toast.error(res.message || "Kode voucher tidak valid");
+        toast.error(res.message || t("finance.voucherInvalid"));
       }
     } finally {
       setIsCheckingVoucher(false);
@@ -70,7 +73,7 @@ export function TopupModal({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (selectedAmount < 10000) {
-      toast.error("Minimal pengisian saldo adalah Rp 10.000");
+      toast.error(t("finance.minDepositError"));
       return;
     }
 
@@ -106,7 +109,7 @@ export function TopupModal({
           ) : (
             <Button className="bg-primary hover:bg-primary-hover text-white gap-2 font-semibold text-xs rounded-full min-h-11 px-6 shadow-md shadow-primary/25">
               <Wallet className="h-4 w-4" />
-              Top Up Saldo
+              {t("finance.topupNow")}
             </Button>
           )
         }
@@ -116,7 +119,7 @@ export function TopupModal({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-lg font-bold">
             <Wallet className="h-5 w-5 text-primary" />
-            Isi Saldo Akun (Deposit)
+            {t("finance.depositTitle")}
           </DialogTitle>
         </DialogHeader>
 
@@ -124,7 +127,7 @@ export function TopupModal({
           {/* Preset Amounts */}
           <div>
             <Label className="text-xs font-medium text-muted-foreground">
-              Pilih Nominal Cepat
+              {t("finance.selectAmount")}
             </Label>
             <div className="grid grid-cols-3 gap-2 mt-1.5">
               {PRESET_AMOUNTS.map((amt) => (
@@ -153,7 +156,7 @@ export function TopupModal({
               htmlFor="custom-amount"
               className="text-xs font-medium text-muted-foreground"
             >
-              Atau Nominal Lainnya (Min. Rp 10.000)
+              {t("finance.customAmountMin")}
             </Label>
             <div className="relative mt-1.5">
               <span className="absolute left-3 top-2.5 text-xs text-muted-foreground font-mono">
@@ -162,7 +165,7 @@ export function TopupModal({
               <Input
                 id="custom-amount"
                 type="number"
-                placeholder="Misal: 75000"
+                placeholder="75000"
                 value={customAmount}
                 onChange={(e) => setCustomAmount(e.target.value)}
                 className="pl-9 font-mono text-xs rounded-xl min-h-10"
@@ -173,7 +176,7 @@ export function TopupModal({
           {/* Payment Method */}
           <div>
             <Label className="text-xs font-medium text-muted-foreground">
-              Metode Pembayaran
+              {t("finance.paymentMethod")}
             </Label>
             <div className="grid grid-cols-2 gap-2 mt-1.5">
               <button
@@ -188,10 +191,10 @@ export function TopupModal({
                 <QrCode className="h-5 w-5 text-primary" />
                 <div>
                   <div className="text-xs font-bold font-mono">
-                    QRIS Realtime
+                    {t("finance.qrisRealtime")}
                   </div>
                   <div className="text-[10px] text-muted-foreground">
-                    Semua Bank & E-Wallet
+                    {t("finance.qrisSupported")}
                   </div>
                 </div>
               </button>
@@ -208,10 +211,10 @@ export function TopupModal({
                 <Wallet className="h-5 w-5 text-indigo-400" />
                 <div>
                   <div className="text-xs font-bold font-mono">
-                    Virtual Account
+                    {t("finance.virtualAccount")}
                   </div>
                   <div className="text-[10px] text-muted-foreground">
-                    BCA, Mandiri, BRI, BNI
+                    {t("finance.vaSupported")}
                   </div>
                 </div>
               </button>
@@ -225,14 +228,14 @@ export function TopupModal({
                 htmlFor="voucher"
                 className="text-xs font-medium text-muted-foreground"
               >
-                Kupon Promo / Voucher
+                {t("finance.promoCouponOptional")}
               </Label>
               <div className="flex gap-2 mt-1.5">
                 <div className="relative flex-1">
                   <Tag className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
                   <Input
                     id="voucher"
-                    placeholder="KODE PROMO"
+                    placeholder="PROMOCODE"
                     value={voucherCode}
                     onChange={(e) =>
                       setVoucherCode(e.target.value.toUpperCase())
@@ -260,17 +263,17 @@ export function TopupModal({
           {/* Summary Box */}
           <div className="rounded-xl bg-surface border border-border/60 p-3.5 space-y-1.5 font-mono text-xs">
             <div className="flex justify-between text-muted-foreground">
-              <span>Nominal Deposit:</span>
+              <span>{t("finance.depositAmount")}:</span>
               <span>{formatIDR(selectedAmount)}</span>
             </div>
             {voucherDiscount > 0 && (
               <div className="flex justify-between text-emerald-400 font-semibold">
-                <span>Diskon Kupon:</span>
+                <span>{t("finance.voucherDiscount")}</span>
                 <span>-{formatIDR(voucherDiscount)}</span>
               </div>
             )}
             <div className="border-t border-border/50 pt-2 flex justify-between font-bold text-foreground text-sm">
-              <span>Total Bayar:</span>
+              <span>{t("finance.totalPayment")}</span>
               <span className="text-primary">{formatIDR(finalAmount)}</span>
             </div>
           </div>
@@ -282,7 +285,7 @@ export function TopupModal({
               onClick={() => setOpen(false)}
               className="text-xs rounded-full min-h-10 px-5"
             >
-              Batal
+              {t("finance.cancel")}
             </Button>
             <Button
               type="submit"
@@ -292,10 +295,10 @@ export function TopupModal({
               {isSubmitting ? (
                 <>
                   <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />{" "}
-                  Memproses...
+                  {t("common.loading")}
                 </>
               ) : (
-                "Lanjut ke Pembayaran"
+                t("finance.confirmAndIssueQris")
               )}
             </Button>
           </div>

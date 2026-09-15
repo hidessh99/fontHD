@@ -2,6 +2,7 @@
 // GoVPN DNS User Manager View Component
 // Part of Pola C: views/user/DnsManagerView.tsx
 // 100% Coinbase Institutional Design System (Stats, Filter Pills, Action Bar)
+// Fully Localized with useI18n (EN/ID)
 // ==============================================================================
 
 "use client";
@@ -14,8 +15,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Globe, Cloud, Search, RefreshCw, Layers } from "lucide-react";
+import { useI18n } from "@/lib/i18n/context";
 
 export function DnsManagerView() {
+  const { t } = useI18n();
   const {
     domains,
     records,
@@ -41,7 +44,7 @@ export function DnsManagerView() {
           <CardContent className="p-0 flex items-center justify-between">
             <div>
               <span className="text-xs text-muted-foreground font-medium">
-                Domain Zona Terdaftar
+                {t("dns.registeredZones")}
               </span>
               <div className="font-mono text-2xl font-bold text-foreground mt-1">
                 {domains.length} Domain
@@ -57,7 +60,7 @@ export function DnsManagerView() {
           <CardContent className="p-0 flex items-center justify-between">
             <div>
               <span className="text-xs text-muted-foreground font-medium">
-                Total DNS Record
+                {t("dns.totalRecords")}
               </span>
               <div className="font-mono text-2xl font-bold text-primary mt-1">
                 {allRecords.length} Record
@@ -73,7 +76,7 @@ export function DnsManagerView() {
           <CardContent className="p-0 flex items-center justify-between">
             <div>
               <span className="text-xs text-muted-foreground font-medium">
-                Cloudflare Proxied (CDN)
+                {t("dns.cfProxiedCdn")}
               </span>
               <div className="font-mono text-2xl font-bold text-amber-400 mt-1">
                 {proxiedCount} Record
@@ -92,7 +95,7 @@ export function DnsManagerView() {
           <div className="relative flex-1 max-w-sm">
             <Search className="absolute left-3.5 top-3 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Cari subdomain, IP target, atau catatan..."
+              placeholder={t("dns.searchPlaceholder")}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-10 bg-card/60 border-border text-foreground text-xs h-10 rounded-xl"
@@ -108,7 +111,7 @@ export function DnsManagerView() {
                   : "bg-muted/40 border border-border text-muted-foreground hover:text-foreground hover:bg-muted"
               }`}
             >
-              Semua Zona
+              {t("dns.allZones")}
             </button>
             {domains.map((d) => (
               <button
@@ -137,7 +140,7 @@ export function DnsManagerView() {
             <RefreshCw
               className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`}
             />
-            Segarkan
+            {t("common.refresh")}
           </Button>
 
           <CreateUserRecordModal domains={domains} onAddRecord={addRecord} />

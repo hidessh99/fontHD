@@ -1,0 +1,14 @@
+{
+  "title": "System Health & Node Telemetry",
+  "subtitle": "Real-time edge server telemetry, ping latency, uptime, and incident logs.",
+  "uptimePercent": "Uptime Percentage",
+  "avgLatency": "Average Latency",
+  "incidentLogs": "Incident Logs",
+  "createMonitor": "Create New Monitor",
+  "checkInterval": "Check Interval",
+  "targetHost": "Target Host / IP",
+  "monitorType": "Monitor Type",
+  "operational": "All Systems Operational",
+  "degraded": "Degraded Performance",
+  "down": "Service Disruption"
+}

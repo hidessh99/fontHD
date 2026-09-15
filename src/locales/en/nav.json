@@ -1,0 +1,52 @@
+{
+  "admin": {
+    "groupInfrastructure": "Core Infrastructure",
+    "groupCommerce": "Commerce & Billing",
+    "groupServices": "Services & AI Gateway",
+    "groupSystem": "System Administration",
+    "dashboard": "Dashboard Overview",
+    "servers": "Server Node Fleet",
+    "kubernetes": "Kubernetes Apps",
+    "monitor": "System Health",
+    "cron": "Cronjob Scheduler",
+    "subscriptions": "Subscription Plans",
+    "finance": "Finance & Ledger",
+    "vpnFleet": "VPN User Accounts",
+    "dns": "DNS & Cloudflare",
+    "ai": "AI Gateway & Models",
+    "content": "Knowledge Base & News",
+    "support": "Helpdesk Tickets",
+    "notifications": "Notification Hub",
+    "users": "IAM & Access Control",
+    "settings": "Global Settings",
+    "backToUser": "Back to Member Area",
+    "backToSeller": "Back to Reseller Portal"
+  },
+  "user": {
+    "overview": "Overview",
+    "vpnProtocols": "VPN Protocols",
+    "serverNodes": "Server Nodes",
+    "subscriptionPlans": "Subscription Plans",
+    "billing": "Billing & Deposit",
+    "dnsManager": "DNS Manager",
+    "aiGateway": "AI Gateway",
+    "kubernetes": "Kubernetes Fleet",
+    "knowledgeBase": "Knowledge Base",
+    "supportTickets": "Support Tickets",
+    "settings": "Account Settings",
+    "resellerPortal": "Reseller Portal",
+    "adminConsole": "Admin Console"
+  },
+  "seller": {
+    "vpnProvision": "VPN Provision & Quota",
+    "customerSubscriptions": "Customer Subscriptions",
+    "commissionWithdrawal": "Commission Payout",
+    "backToDashboard": "Back to Dashboard"
+  },
+  "profile": {
+    "myProfile": "My Profile",
+    "apiKeys": "API Keys",
+    "security": "Security",
+    "switchLanguage": "Switch Language"
+  }
+}

@@ -10,12 +10,15 @@ import React from "react";
 import { SellerStats } from "../../types/subscription.types";
 import { Card, CardContent } from "@/components/ui/card";
 import { Users, ShieldCheck, DollarSign, Award } from "lucide-react";
+import { useI18n } from "@/lib/i18n/context";
 
 interface SellerStatsWidgetProps {
   stats?: SellerStats | null;
 }
 
 export function SellerStatsWidget({ stats }: SellerStatsWidgetProps) {
+  const { t } = useI18n();
+
   const fallbackStats: SellerStats = {
     seller_tier: "GOLD RESELLER",
     total_customers: 34,
@@ -33,7 +36,7 @@ export function SellerStatsWidget({ stats }: SellerStatsWidgetProps) {
         <CardContent className="p-0 flex items-center justify-between">
           <div>
             <span className="text-xs text-muted-foreground font-medium">
-              Tier Kemitraan
+              {t("subscription.partnerTier")}
             </span>
             <div className="font-mono text-xl font-bold text-amber-400 mt-1">
               {data.seller_tier}
@@ -49,7 +52,7 @@ export function SellerStatsWidget({ stats }: SellerStatsWidgetProps) {
         <CardContent className="p-0 flex items-center justify-between">
           <div>
             <span className="text-xs text-muted-foreground font-medium">
-              Total Pelanggan
+              {t("subscription.totalCustomers")}
             </span>
             <div className="font-mono text-2xl font-bold text-foreground mt-1">
               {data.total_customers} User
@@ -65,7 +68,7 @@ export function SellerStatsWidget({ stats }: SellerStatsWidgetProps) {
         <CardContent className="p-0 flex items-center justify-between">
           <div>
             <span className="text-xs text-muted-foreground font-medium">
-              Langganan Aktif
+              {t("subscription.activeSubs")}
             </span>
             <div className="font-mono text-2xl font-bold text-emerald-400 mt-1">
               {data.active_subscriptions} Akun
@@ -81,7 +84,7 @@ export function SellerStatsWidget({ stats }: SellerStatsWidgetProps) {
         <CardContent className="p-0 flex items-center justify-between">
           <div>
             <span className="text-xs text-muted-foreground font-medium">
-              Estimasi Komisi ({data.commission_rate}%)
+              {t("subscription.estimatedCommission", { rate: data.commission_rate })}
             </span>
             <div className="font-mono text-2xl font-bold text-primary mt-1">
               Rp {data.pending_commission.toLocaleString("id-ID")}

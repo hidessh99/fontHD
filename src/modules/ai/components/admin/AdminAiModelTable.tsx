@@ -2,6 +2,7 @@
 // GoVPN Admin AI Model Table Component
 // Part of Pola C: components/admin/AdminAiModelTable.tsx
 // 100% Coinbase Institutional Design System + Standardized Enterprise DataTable
+// Fully Localized with useI18n (EN/ID)
 // ==============================================================================
 
 "use client";
@@ -24,6 +25,7 @@ import {
 import { DataTable, ColumnDef } from "@/components/shared/data-table";
 import { Cpu, Plus, Trash2, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n/context";
 
 interface AdminAiModelTableProps {
   models: AiModel[];
@@ -40,6 +42,7 @@ export function AdminAiModelTable({
   onDeleteModel,
   loading = false,
 }: AdminAiModelTableProps) {
+  const { t } = useI18n();
   const [openCreate, setOpenCreate] = useState(false);
   const [name, setName] = useState("");
   const [modelId, setModelId] = useState("");
@@ -61,7 +64,7 @@ export function AdminAiModelTable({
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim() || !modelId.trim() || !providerId) {
-      toast.error("Nama, Model ID, dan Provider wajib diisi");
+      toast.error(t("dns.nameAndContentRequired"));
       return;
     }
 
@@ -79,18 +82,18 @@ export function AdminAiModelTable({
       setOpenCreate(false);
       setName("");
       setModelId("");
-      toast.success("Model AI baru berhasil didaftarkan");
+      toast.success(t("ai.modelRegistered"));
     } finally {
       setSubmitting(false);
     }
   };
 
   const handleDelete = async (id: string | number) => {
-    if (!confirm("Hapus model AI ini dari gateway?")) return;
+    if (!confirm(t("ai.deleteModelConfirm"))) return;
     setDeletingId(id);
     try {
       await onDeleteModel(id);
-      toast.success("Model AI berhasil dihapus");
+      toast.success(t("ai.modelDeleted"));
     } finally {
       setDeletingId(null);
     }
@@ -100,13 +103,13 @@ export function AdminAiModelTable({
     () => [
       {
         id: "name",
-        header: "Nama Model",
+        header: t("ai.modelDisplayName"),
         className: "font-sans",
         cell: (m) => <span className="font-bold text-foreground">{m.name}</span>,
       },
       {
         id: "model_id",
-        header: "Model ID",
+        header: t("ai.modelIdentifier"),
         cell: (m) => (
           <span className="text-foreground font-semibold bg-surface border border-border/60 px-2 py-0.5 rounded text-[11px] font-mono">
             {m.model_id}
@@ -120,7 +123,7 @@ export function AdminAiModelTable({
       },
       {
         id: "context_window",
-        header: "Context Window",
+        header: t("ai.contextWindow"),
         className: "text-foreground font-mono",
         cell: (m) =>
           m.context_window
@@ -129,7 +132,7 @@ export function AdminAiModelTable({
       },
       {
         id: "price",
-        header: "Tarif Input / Output",
+        header: t("ai.inputPriceLabel"),
         className: "font-sans",
         cell: (m) => (
           <span className="text-foreground font-mono text-[11px]">
@@ -139,7 +142,7 @@ export function AdminAiModelTable({
       },
       {
         id: "actions",
-        header: "Aksi",
+        header: t("common.actions"),
         align: "right",
         cell: (m) => (
           <Button
@@ -148,7 +151,7 @@ export function AdminAiModelTable({
             disabled={deletingId === m.id}
             onClick={() => handleDelete(m.id)}
             className="h-8 w-8 p-0 text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 rounded-full"
-            title="Hapus Model"
+            title={t("ai.modelDeleted")}
           >
             {deletingId === m.id ? (
               <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -160,7 +163,7 @@ export function AdminAiModelTable({
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [deletingId],
+    [deletingId, t],
   );
 
   const actions = (
@@ -172,7 +175,7 @@ export function AdminAiModelTable({
             className="h-9 px-3.5 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs gap-1.5 shadow-md shadow-primary/20"
           >
             <Plus className="h-4 w-4" />
-            Tambah Model
+            {t("ai.addModel")}
           </Button>
         }
       />
@@ -180,13 +183,13 @@ export function AdminAiModelTable({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-base font-bold">
             <Cpu className="h-5 w-5 text-primary" />
-            Daftarkan Model LLM Baru
+            {t("ai.newModelModalTitle")}
           </DialogTitle>
         </DialogHeader>
         <form onSubmit={handleCreate} className="space-y-3.5 pt-2">
           <div>
             <Label className="text-xs text-muted-foreground">
-              Pilih Provider Backend
+              {t("ai.selectBackendProvider")}
             </Label>
             <NativeSelect
               variant="rounded"
@@ -204,10 +207,10 @@ export function AdminAiModelTable({
 
           <div>
             <Label className="text-xs text-muted-foreground">
-              Nama Tampilan Model
+              {t("ai.modelDisplayName")}
             </Label>
             <Input
-              placeholder="misal: GPT-4o Omni"
+              placeholder="e.g. GPT-4o Omni"
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="mt-1.5 bg-muted/30 border-border text-foreground text-xs h-10"
@@ -216,10 +219,10 @@ export function AdminAiModelTable({
 
           <div>
             <Label className="text-xs text-muted-foreground">
-              Model Identifier (API)
+              {t("ai.modelIdentifier")}
             </Label>
             <Input
-              placeholder="misal: gpt-4o atau claude-3-5-sonnet"
+              placeholder="e.g. gpt-4o or claude-3-5-sonnet"
               value={modelId}
               onChange={(e) => setModelId(e.target.value)}
               className="mt-1.5 bg-muted/30 border-border text-foreground font-mono text-xs h-10"
@@ -229,7 +232,7 @@ export function AdminAiModelTable({
           <div className="grid grid-cols-2 gap-3">
             <div>
               <Label className="text-xs text-muted-foreground">
-                Context Window
+                {t("ai.contextWindow")}
               </Label>
               <Input
                 type="number"
@@ -240,7 +243,7 @@ export function AdminAiModelTable({
             </div>
             <div>
               <Label className="text-xs text-muted-foreground">
-                Tarif Input / 1K (IDR)
+                {t("ai.inputPriceLabel")}
               </Label>
               <Input
                 type="number"
@@ -258,10 +261,10 @@ export function AdminAiModelTable({
           >
             {submitting ? (
               <>
-                <Loader2 className="h-4 w-4 animate-spin" /> Menyimpan Model...
+                <Loader2 className="h-4 w-4 animate-spin" /> {t("ai.savingModel")}
               </>
             ) : (
-              "Simpan Model AI"
+              t("ai.saveModel")
             )}
           </Button>
         </form>
@@ -274,10 +277,10 @@ export function AdminAiModelTable({
       <div>
         <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
           <Cpu className="h-4 w-4 text-primary" />
-          Manajemen Model AI Gateway
+          {t("ai.manageModelsTitle")}
         </h3>
         <p className="text-xs text-muted-foreground mt-0.5">
-          Daftar model LLM terintegrasi, kuota konteks, dan tarif biaya per 1K token
+          {t("ai.manageModelsSubtitle")}
         </p>
       </div>
 
@@ -287,16 +290,16 @@ export function AdminAiModelTable({
         keyExtractor={(m) => m.id}
         isLoading={loading}
         searchable={true}
-        searchPlaceholder="Cari nama model, model ID..."
-        searchButtonText="Cari"
+        searchPlaceholder={t("ai.searchModelsPlaceholder")}
+        searchButtonText={t("common.search")}
         searchAccessor={(m) => [m.name, m.model_id]}
         paginated={true}
         pageSize={10}
         entityName="model AI"
         actions={actions}
         emptyIcon={Cpu}
-        emptyTitle="Belum Ada Model Terdaftar"
-        emptyDescription="Tambahkan model pertama Anda untuk mengaktifkan AI Gateway."
+        emptyTitle={t("ai.noAdminModels")}
+        emptyDescription={t("ai.noAdminModelsDesc")}
       />
     </div>
   );

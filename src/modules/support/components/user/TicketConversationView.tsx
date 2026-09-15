@@ -22,6 +22,7 @@ import {
   XCircle,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n";
 
 interface TicketConversationViewProps {
   ticket: Ticket;
@@ -40,6 +41,7 @@ export function TicketConversationView({
   onCloseTicket,
   loadingReplies,
 }: TicketConversationViewProps) {
+  const { t, locale } = useI18n();
   const [replyText, setReplyText] = useState("");
   const [sending, setSending] = useState(false);
   const [closing, setClosing] = useState(false);
@@ -54,9 +56,9 @@ export function TicketConversationView({
     try {
       await onSendReply(replyText.trim(), idempotencyKey);
       setReplyText("");
-      toast.success("Balasan berhasil dikirim");
+      toast.success(t("support.replySent"));
     } catch {
-      toast.error("Gagal mengirim balasan");
+      toast.error(t("support.replyFailed"));
     } finally {
       setSending(false);
     }
@@ -66,9 +68,9 @@ export function TicketConversationView({
     setClosing(true);
     try {
       await onCloseTicket();
-      toast.success("Tiket telah ditutup");
+      toast.success(t("support.ticketClosed"));
     } catch {
-      toast.error("Gagal menutup tiket");
+      toast.error(t("support.ticketCloseFailed"));
     } finally {
       setClosing(false);
     }
@@ -100,15 +102,18 @@ export function TicketConversationView({
             {ticket.subject}
           </h2>
           <div className="flex items-center gap-3 text-xs text-muted-foreground">
-            <span>Kategori: {ticket.department || "General"}</span>
+            <span>{t("support.category")}: {ticket.department || t("support.general")}</span>
             <span>•</span>
             <span>
-              Dibuka:{" "}
-              {new Date(ticket.created_at).toLocaleDateString("id-ID", {
-                day: "numeric",
-                month: "short",
-                year: "numeric",
-              })}
+              {t("support.opened")}:{" "}
+              {new Date(ticket.created_at).toLocaleDateString(
+                locale === "id" ? "id-ID" : "en-US",
+                {
+                  day: "numeric",
+                  month: "short",
+                  year: "numeric",
+                }
+              )}
             </span>
           </div>
         </div>
@@ -126,7 +131,7 @@ export function TicketConversationView({
             ) : (
               <XCircle className="w-3.5 h-3.5" />
             )}
-            <span>Tandai Selesai / Tutup</span>
+            <span>{t("support.markResolvedOrClose")}</span>
           </Button>
         )}
       </div>
@@ -141,14 +146,17 @@ export function TicketConversationView({
                 <User className="w-3.5 h-3.5" />
               </div>
               <span className="text-xs font-semibold text-foreground">
-                {ticket.user_name || "Anda"} (Pembuat Tiket)
+                {ticket.user_name || t("support.you")} ({t("support.ticketCreator")})
               </span>
             </div>
             <span className="text-[11px] text-muted-foreground">
-              {new Date(ticket.created_at).toLocaleTimeString("id-ID", {
-                hour: "2-digit",
-                minute: "2-digit",
-              })}
+              {new Date(ticket.created_at).toLocaleTimeString(
+                locale === "id" ? "id-ID" : "en-US",
+                {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                }
+              )}
             </span>
           </div>
           <p className="text-sm text-foreground/90 whitespace-pre-wrap leading-relaxed pl-9">
@@ -194,19 +202,22 @@ export function TicketConversationView({
                     </div>
                     <span className="text-xs font-semibold text-foreground">
                       {reply.user_name ||
-                        (isAdmin ? "GoVPN Technical Support" : "Anda")}
+                        (isAdmin ? t("support.techSupport") : t("support.you"))}
                     </span>
                     {isAdmin && (
                       <span className="text-[10px] px-1.5 py-0.2 rounded bg-primary/20 text-primary font-bold">
-                        STAFF
+                        {t("support.staff")}
                       </span>
                     )}
                   </div>
                   <span className="text-[11px] text-muted-foreground">
-                    {new Date(reply.created_at).toLocaleTimeString("id-ID", {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
+                    {new Date(reply.created_at).toLocaleTimeString(
+                      locale === "id" ? "id-ID" : "en-US",
+                      {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      }
+                    )}
                   </span>
                 </div>
                 <p className="text-sm text-foreground/90 whitespace-pre-wrap leading-relaxed pl-9">
@@ -220,10 +231,7 @@ export function TicketConversationView({
         {isClosed && (
           <div className="p-3 rounded-lg bg-muted/40 border border-border/30 text-center text-xs text-muted-foreground flex items-center justify-center gap-2">
             <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-            <span>
-              Tiket ini telah ditutup. Silakan buat tiket baru jika masih
-              mengalami kendala.
-            </span>
+            <span>{t("support.ticketClosedNotice")}</span>
           </div>
         )}
       </div>
@@ -236,7 +244,7 @@ export function TicketConversationView({
         >
           <Input
             type="text"
-            placeholder="Ketik balasan atau update kendala Anda di sini..."
+            placeholder={t("support.typeReplyPlaceholder")}
             value={replyText}
             onChange={(e) => setReplyText(e.target.value)}
             className="flex-1 px-4 py-2.5 text-sm rounded-xl border-border/50 bg-background/50 h-auto"
@@ -251,7 +259,7 @@ export function TicketConversationView({
             ) : (
               <Send className="w-4 h-4" />
             )}
-            <span className="hidden sm:inline">Kirim</span>
+            <span className="hidden sm:inline">{t("support.send")}</span>
           </Button>
         </form>
       )}

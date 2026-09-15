@@ -2,6 +2,7 @@
 // GoVPN Finance User Billing & Invoices View
 // Part of Pola C: views/user/BillingInvoicesView.tsx
 // 100% Coinbase Institutional Design System (Tabs, Adaptive QRIS, Ledger)
+// Fully Localized with useI18n (EN/ID)
 // ==============================================================================
 
 "use client";
@@ -15,8 +16,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { RefreshCw, FileText, History, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Invoice } from "../../types/finance.types";
+import { useI18n } from "@/lib/i18n/context";
 
 export function BillingInvoicesView() {
+  const { t, locale } = useI18n();
   const {
     invoices,
     billingHistory,
@@ -71,14 +74,14 @@ export function BillingInvoicesView() {
               className="gap-2 text-xs font-mono font-medium data-state-active:bg-background data-state-active:text-foreground"
             >
               <FileText className="h-3.5 w-3.5" />
-              Riwayat Faktur ({invoices.length})
+              {t("finance.invoiceHistoryTab")} ({invoices.length})
             </TabsTrigger>
             <TabsTrigger
               value="ledger"
               className="gap-2 text-xs font-mono font-medium data-state-active:bg-background data-state-active:text-foreground"
             >
               <History className="h-3.5 w-3.5" />
-              Mutasi Saldo ({billingHistory.length})
+              {t("finance.balanceLedgerTab")} ({billingHistory.length})
             </TabsTrigger>
           </TabsList>
 
@@ -95,7 +98,7 @@ export function BillingInvoicesView() {
             <RefreshCw
               className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`}
             />
-            Segarkan
+            {t("common.refresh")}
           </Button>
         </div>
 
@@ -121,7 +124,7 @@ export function BillingInvoicesView() {
                     onClick={() => setSelectedInvoice(null)}
                     className="text-xs text-muted-foreground hover:text-foreground gap-1 h-7 rounded-full"
                   >
-                    <X className="h-3.5 w-3.5" /> Tutup QRIS
+                    <X className="h-3.5 w-3.5" /> {t("finance.closeQris")}
                   </Button>
                 </div>
                 <QrisPaymentCard
@@ -143,11 +146,11 @@ export function BillingInvoicesView() {
             <table className="w-full text-left text-sm text-muted-foreground">
               <thead className="border-b border-border/80 bg-muted/30 text-xs font-semibold uppercase tracking-wider text-muted-foreground font-mono">
                 <tr>
-                  <th className="px-5 py-4">Waktu Mutasi</th>
-                  <th className="px-5 py-4">Jenis Transaksi</th>
-                  <th className="px-5 py-4">Keterangan</th>
-                  <th className="px-5 py-4">Nominal</th>
-                  <th className="px-5 py-4 text-right">Saldo Akhir</th>
+                  <th className="px-5 py-4">{t("finance.mutationTime")}</th>
+                  <th className="px-5 py-4">{t("finance.transactionType")}</th>
+                  <th className="px-5 py-4">{t("finance.description")}</th>
+                  <th className="px-5 py-4">{t("finance.amount")}</th>
+                  <th className="px-5 py-4 text-right">{t("finance.finalBalance")}</th>
                 </tr>
               </thead>
               <tbody className="divide-y border-border/40 font-mono text-xs">
@@ -157,7 +160,7 @@ export function BillingInvoicesView() {
                     className="hover:bg-muted/20 transition-colors"
                   >
                     <td className="px-5 py-3.5 text-muted-foreground">
-                      {new Date(item.created_at).toLocaleString("id-ID", {
+                      {new Date(item.created_at).toLocaleString(locale === "id" ? "id-ID" : "en-US", {
                         day: "2-digit",
                         month: "short",
                         year: "numeric",

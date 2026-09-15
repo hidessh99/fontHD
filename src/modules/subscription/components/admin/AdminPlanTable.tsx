@@ -46,11 +46,12 @@ export function AdminPlanTable({
   const [bandwidth, setBandwidth] = useState(0);
   const [submitting, setSubmitting] = useState(false);
   const [deletingId, setDeletingId] = useState<string | number | null>(null);
+  const { t } = useI18n();
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim()) {
-      toast.error("Nama paket wajib diisi");
+      toast.error(t("common.error") || "Nama paket wajib diisi");
       return;
     }
 
@@ -71,7 +72,7 @@ export function AdminPlanTable({
       setOpenCreate(false);
       setName("");
       setSlug("");
-      toast.success("Paket langganan baru berhasil ditambahkan");
+      toast.success(t("common.success") || "Paket langganan baru berhasil ditambahkan");
     } finally {
       setSubmitting(false);
     }
@@ -80,14 +81,14 @@ export function AdminPlanTable({
   const handleDelete = async (id: string | number) => {
     if (
       !confirm(
-        "Hapus paket ini? Pengguna yang berlangganan aktif tidak akan terpengaruh.",
+        t("common.confirmDelete") || "Hapus paket ini? Pengguna yang berlangganan aktif tidak akan terpengaruh.",
       )
     )
       return;
     setDeletingId(id);
     try {
       await onDeletePlan(id);
-      toast.success("Paket berhasil dihapus");
+      toast.success(t("common.success") || "Paket berhasil dihapus");
     } finally {
       setDeletingId(null);
     }
@@ -97,31 +98,31 @@ export function AdminPlanTable({
     () => [
       {
         id: "name",
-        header: "Nama Paket",
+        header: t("subscription.planName"),
         className: "font-sans font-bold text-foreground",
         cell: (p) => p.name,
       },
       {
         id: "billing_cycle",
-        header: "Siklus",
+        header: t("subscription.billingPeriod"),
         className: "text-foreground font-mono text-xs",
         cell: (p) => p.billing_cycle,
       },
       {
         id: "max_devices",
-        header: "Maks. Device",
+        header: t("subscription.simultaneousDevices"),
         className: "text-foreground font-mono text-xs",
         cell: (p) => `${p.max_devices} Devices`,
       },
       {
         id: "bandwidth",
-        header: "Bandwidth",
+        header: t("subscription.bandwidthLimit"),
         className: "text-foreground font-mono text-xs",
-        cell: (p) => (p.bandwidth_gb > 0 ? `${p.bandwidth_gb} GB` : "Unlimited"),
+        cell: (p) => (p.bandwidth_gb > 0 ? `${p.bandwidth_gb} GB` : t("subscription.unlimitedQuota")),
       },
       {
         id: "price",
-        header: "Tarif",
+        header: t("subscription.planPrice"),
         cell: (p) => (
           <span className="text-emerald-400 font-bold font-mono text-xs">
             Rp {p.price.toLocaleString("id-ID")}
@@ -130,7 +131,7 @@ export function AdminPlanTable({
       },
       {
         id: "actions",
-        header: "Aksi",
+        header: t("common.actions"),
         align: "right",
         cell: (p) => (
           <Button
@@ -139,7 +140,7 @@ export function AdminPlanTable({
             disabled={deletingId === p.id}
             onClick={() => handleDelete(p.id)}
             className="h-8 w-8 p-0 text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 rounded-full"
-            title="Hapus Paket"
+            title={t("common.delete")}
           >
             {deletingId === p.id ? (
               <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -151,26 +152,26 @@ export function AdminPlanTable({
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [deletingId],
+    [deletingId, t],
   );
 
   const filters: DataTableFilterConfig<Plan>[] = useMemo(
     () => [
       {
         id: "cycle",
-        label: "Siklus",
+        label: t("subscription.billingPeriod"),
         defaultValue: "ALL",
         options: [
-          { label: "Semua Siklus", value: "ALL" },
-          { label: "Bulanan", value: "MONTHLY" },
-          { label: "3 Bulan", value: "QUARTERLY" },
-          { label: "6 Bulan", value: "SEMI_ANNUAL" },
-          { label: "Tahunan", value: "ANNUAL" },
+          { label: t("common.all"), value: "ALL" },
+          { label: t("subscription.monthly"), value: "MONTHLY" },
+          { label: t("subscription.quarterly"), value: "QUARTERLY" },
+          { label: t("subscription.semiAnnual"), value: "SEMI_ANNUAL" },
+          { label: t("subscription.yearly"), value: "ANNUAL" },
         ],
         filterFn: (p, val) => p.billing_cycle?.toUpperCase() === val.toUpperCase(),
       },
     ],
-    [],
+    [t],
   );
 
   const actions = (
@@ -182,7 +183,7 @@ export function AdminPlanTable({
             className="h-9 px-3.5 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs gap-1.5 shadow-md shadow-primary/20"
           >
             <Plus className="h-4 w-4" />
-            Tambah Paket
+            {t("subscription.createPlan")}
           </Button>
         }
       />
@@ -190,12 +191,12 @@ export function AdminPlanTable({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-base font-bold">
             <ShieldCheck className="h-5 w-5 text-primary" />
-            Tambah Paket Membership Baru
+            {t("subscription.createPlan")}
           </DialogTitle>
         </DialogHeader>
         <form onSubmit={handleCreate} className="space-y-3.5 pt-2">
           <div>
-            <Label className="text-xs text-muted-foreground">Nama Paket</Label>
+            <Label className="text-xs text-muted-foreground">{t("subscription.planName")}</Label>
             <Input
               placeholder="misal: Premium Pro Monthly"
               value={name}
@@ -205,7 +206,7 @@ export function AdminPlanTable({
           </div>
 
           <div>
-            <Label className="text-xs text-muted-foreground">Harga Langganan (IDR)</Label>
+            <Label className="text-xs text-muted-foreground">{t("subscription.planPrice")}</Label>
             <Input
               type="number"
               step="5000"
@@ -217,7 +218,7 @@ export function AdminPlanTable({
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <Label className="text-xs text-muted-foreground">Siklus Tagihan</Label>
+              <Label className="text-xs text-muted-foreground">{t("subscription.billingPeriod")}</Label>
               <NativeSelect
                 variant="rounded"
                 value={billingCycle}
@@ -226,14 +227,14 @@ export function AdminPlanTable({
                 }
                 className="mt-1.5 w-full text-xs font-mono"
               >
-                <option value="MONTHLY">Bulanan</option>
-                <option value="QUARTERLY">3 Bulan</option>
-                <option value="SEMI_ANNUAL">6 Bulan</option>
-                <option value="ANNUAL">Tahunan</option>
+                <option value="MONTHLY">{t("subscription.monthly")}</option>
+                <option value="QUARTERLY">{t("subscription.quarterly")}</option>
+                <option value="SEMI_ANNUAL">{t("subscription.semiAnnual")}</option>
+                <option value="ANNUAL">{t("subscription.yearly")}</option>
               </NativeSelect>
             </div>
             <div>
-              <Label className="text-xs text-muted-foreground">Maks. Perangkat</Label>
+              <Label className="text-xs text-muted-foreground">{t("subscription.simultaneousDevices")}</Label>
               <Input
                 type="number"
                 value={maxDevices}
@@ -244,7 +245,7 @@ export function AdminPlanTable({
           </div>
 
           <div>
-            <Label className="text-xs text-muted-foreground">Batas Kuota GB (0 = Unlimited)</Label>
+            <Label className="text-xs text-muted-foreground">{t("subscription.bandwidthLimit")}</Label>
             <Input
               type="number"
               value={bandwidth}
@@ -260,10 +261,10 @@ export function AdminPlanTable({
           >
             {submitting ? (
               <>
-                <Loader2 className="h-4 w-4 animate-spin" /> Menyimpan Paket...
+                <Loader2 className="h-4 w-4 animate-spin" /> {t("common.loading")}
               </>
             ) : (
-              "Simpan Paket Membership"
+              t("common.save")
             )}
           </Button>
         </form>
@@ -276,10 +277,10 @@ export function AdminPlanTable({
       <div>
         <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
           <ShieldCheck className="h-4 w-4 text-primary" />
-          Daftar Paket Berlangganan (Membership Tiers)
+          {t("subscription.membershipTiersTitle")}
         </h3>
         <p className="text-xs text-muted-foreground mt-0.5">
-          Konfigurasi paket keanggotaan publik, batas perangkat simultan, dan tarif tagihan
+          {t("subscription.membershipTiersSubtitle")}
         </p>
       </div>
 
@@ -289,17 +290,17 @@ export function AdminPlanTable({
         keyExtractor={(p) => p.id}
         isLoading={loading}
         searchable={true}
-        searchPlaceholder="Cari nama paket, siklus, harga..."
-        searchButtonText="Cari"
+        searchPlaceholder={t("common.search")}
+        searchButtonText={t("common.search")}
         searchAccessor={(p) => [p.name, p.billing_cycle, p.price]}
         filters={filters}
         paginated={true}
         pageSize={10}
-        entityName="paket langganan"
+        entityName={t("subscription.servicePlansTab", { count: "" }).trim()}
         actions={actions}
         emptyIcon={ShieldCheck}
-        emptyTitle="Belum Ada Paket"
-        emptyDescription="Tambahkan paket keanggotaan pertama Anda untuk mulai menerima langganan pengguna."
+        emptyTitle={t("subscription.noPlansYet")}
+        emptyDescription={t("subscription.noPlansYetDesc")}
       />
     </div>
   );

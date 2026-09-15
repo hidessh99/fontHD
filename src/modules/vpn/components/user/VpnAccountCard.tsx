@@ -25,6 +25,7 @@ import { QrCodeModal } from "@/components/shared/QrCodeModal";
 import { VpnAccount } from "../../types/vpn.types";
 import { formatDateShort } from "@/lib/utils";
 import { useVpnUserStore } from "../../store/vpn-user.store";
+import { useI18n } from "@/lib/i18n/context";
 import { toast } from "sonner";
 
 interface VpnAccountCardProps {
@@ -40,6 +41,7 @@ export function VpnAccountCard({
 }: VpnAccountCardProps) {
   const [qrOpen, setQrOpen] = useState(false);
   const [isPending, setIsPending] = useState(false);
+  const { t } = useI18n();
 
   const optimisticPauseAccount = useVpnUserStore(
     (s) => s.optimisticPauseAccount,
@@ -61,16 +63,16 @@ export function VpnAccountCard({
     if (isPaused) {
       const result = await optimisticResumeAccount(account.id);
       if (result.success) {
-        toast.success(`Akun ${account.username} aktif kembali!`);
+        toast.success(t("vpn.payasResumed", { username: account.username }));
       } else {
-        toast.error(result.error || "Gagal mengaktifkan akun.");
+        toast.error(result.error || t("common.error"));
       }
     } else {
       const result = await optimisticPauseAccount(account.id);
       if (result.success) {
-        toast.info(`Akun ${account.username} berhasil dijeda.`);
+        toast.info(t("vpn.payasPaused", { username: account.username }));
       } else {
-        toast.error(result.error || "Gagal menjeda akun.");
+        toast.error(result.error || t("common.error"));
       }
     }
     setIsPending(false);
@@ -104,7 +106,7 @@ export function VpnAccountCard({
           <div className="grid grid-cols-2 gap-2 text-xs font-mono p-2.5 rounded-xl bg-surface border border-border/60">
             <div>
               <span className="text-[10px] text-muted-foreground uppercase block">
-                Host / Server
+                {t("vpn.sni")}
               </span>
               <span className="font-semibold truncate block">
                 {account.server_host || "vpn.hidessh.com"}
@@ -112,14 +114,14 @@ export function VpnAccountCard({
             </div>
             <div>
               <span className="text-[10px] text-muted-foreground uppercase block">
-                Port
+                {t("vpn.port")}
               </span>
               <span className="font-semibold block">{account.port || 443}</span>
             </div>
             {account.uuid && (
               <div className="col-span-2">
                 <span className="text-[10px] text-muted-foreground uppercase block">
-                  UUID
+                  {t("vpn.uuid")}
                 </span>
                 <span className="text-[11px] truncate block text-primary">
                   {account.uuid}
@@ -128,7 +130,7 @@ export function VpnAccountCard({
             )}
             <div className="col-span-2 flex items-center justify-between border-t border-border/40 pt-1.5 mt-0.5">
               <span className="text-[10px] text-muted-foreground flex items-center gap-1">
-                <Calendar className="size-3" /> Kedaluwarsa
+                <Calendar className="size-3" /> {t("vpn.expiredAt")}
               </span>
               <span className="text-xs font-semibold text-foreground">
                 {formatDateShort(account.expired_at)}
@@ -141,8 +143,8 @@ export function VpnAccountCard({
             <div className="flex items-center gap-1.5">
               <CopyButton
                 text={configString}
-                label="Salin Config"
-                successMessage="Config VPN disalin!"
+                label={t("vpn.copyConfig")}
+                successMessage={t("vpn.copyConfigSuccess")}
                 size="sm"
               />
               <Button
@@ -150,7 +152,7 @@ export function VpnAccountCard({
                 size="sm"
                 onClick={() => setQrOpen(true)}
                 className="h-8 px-2.5 text-xs font-mono rounded-full"
-                title="Tampilkan QR Code"
+                title={t("vpn.showQr")}
               >
                 <QrCode className="size-3.5 text-primary" />
               </Button>
@@ -164,7 +166,7 @@ export function VpnAccountCard({
                   onClick={handleTogglePayas}
                   className="h-8 px-2.5 text-xs font-mono rounded-full"
                   title={
-                    isPaused ? "Lanjutkan Billing Akun" : "Jeda Akun Sementara"
+                    isPaused ? t("vpn.payasResume") : t("vpn.payasPause")
                   }
                 >
                   {isPaused ? (
@@ -183,7 +185,7 @@ export function VpnAccountCard({
                   size="sm"
                   onClick={() => onRenew(account.id)}
                   className="h-8 px-2 text-xs text-muted-foreground hover:text-foreground rounded-full"
-                  title="Perpanjang Akun"
+                  title={t("vpn.renewAccount")}
                 >
                   <RefreshCw className="size-3.5" />
                 </Button>
@@ -194,7 +196,7 @@ export function VpnAccountCard({
                   size="sm"
                   onClick={() => onDelete(account.id)}
                   className="h-8 px-2 text-xs text-muted-foreground hover:text-destructive rounded-full"
-                  title="Hapus Akun"
+                  title={t("vpn.deleteAccount")}
                 >
                   <Trash2 className="size-3.5" />
                 </Button>
@@ -208,7 +210,7 @@ export function VpnAccountCard({
         isOpen={qrOpen}
         onClose={() => setQrOpen(false)}
         dataString={configString}
-        title={`Scan Konfigurasi ${account.protocol.toUpperCase()}`}
+        title={t("vpn.scanQrTitle", { protocol: account.protocol.toUpperCase() })}
         protocolName={account.protocol.toUpperCase()}
       />
     </>

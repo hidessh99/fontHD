@@ -4,6 +4,7 @@
 // ==============================================================================
 
 import React from "react";
+import { useI18n } from "@/locales/client";
 import { Badge } from "@/components/ui/badge";
 import { K8sAppStatus } from "../../types/k8s.types";
 import { XCircle, RotateCcw, StopCircle } from "lucide-react";
@@ -17,6 +18,7 @@ export function K8sAppStatusBadge({
   status,
   className,
 }: K8sAppStatusBadgeProps) {
+  const { t } = useI18n();
   const norm = status?.toUpperCase();
 
   if (norm === "RUNNING") {
@@ -29,7 +31,7 @@ export function K8sAppStatusBadge({
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
           <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
         </span>
-        Running
+        {t("kubernetes.statusRunning")}
       </Badge>
     );
   }
@@ -41,7 +43,7 @@ export function K8sAppStatusBadge({
         className={`border-amber-500/30 bg-amber-500/10 text-amber-400 font-semibold gap-1 text-[11px] px-2 py-0.5 ${className}`}
       >
         <RotateCcw className="h-3 w-3 animate-spin" />
-        Provisioning
+        {t("kubernetes.statusProvisioning")}
       </Badge>
     );
   }
@@ -53,7 +55,9 @@ export function K8sAppStatusBadge({
         className={`border-rose-500/30 bg-rose-500/10 text-rose-400 font-semibold gap-1 text-[11px] px-2 py-0.5 ${className}`}
       >
         <XCircle className="h-3 w-3" />
-        {norm === "CRASH_LOOP" ? "CrashLoopBackOff" : "Failed"}
+        {norm === "CRASH_LOOP"
+          ? t("kubernetes.statusCrashLoop")
+          : t("kubernetes.statusFailed")}
       </Badge>
     );
   }
@@ -64,7 +68,7 @@ export function K8sAppStatusBadge({
       className={`border-border bg-muted/40 text-muted-foreground font-semibold gap-1 text-[11px] px-2 py-0.5 ${className}`}
     >
       <StopCircle className="h-3 w-3" />
-      Stopped
+      {t("kubernetes.statusStopped")}
     </Badge>
   );
 }

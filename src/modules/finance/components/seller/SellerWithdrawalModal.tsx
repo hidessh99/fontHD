@@ -2,6 +2,7 @@
 // GoVPN Finance Seller Withdrawal Modal Component
 // Part of Pola C: components/seller/SellerWithdrawalModal.tsx
 // 100% Coinbase Institutional Design System (JetBrains Mono, Rounded-Full CTA)
+// Fully Localized with useI18n (EN/ID)
 // ==============================================================================
 
 "use client";
@@ -26,6 +27,7 @@ import {
   Landmark,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n/context";
 
 interface SellerWithdrawalModalProps {
   availableBalance: number;
@@ -49,6 +51,7 @@ export function SellerWithdrawalModal({
   onRequestWithdrawal,
   triggerButton,
 }: SellerWithdrawalModalProps) {
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
   const [amount, setAmount] = useState<string>("");
   const [bankName, setBankName] = useState<string>("BCA");
@@ -62,11 +65,11 @@ export function SellerWithdrawalModal({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (numAmount < 50000) {
-      toast.error("Minimal penarikan komisi reseller adalah Rp 50.000");
+      toast.error(t("finance.minWithdrawalError"));
       return;
     }
     if (numAmount > availableBalance) {
-      toast.error("Nominal melebihi saldo komisi yang tersedia");
+      toast.error(t("finance.exceedsBalanceError"));
       return;
     }
     if (!accountNumber.trim() || !accountName.trim()) {
@@ -83,7 +86,7 @@ export function SellerWithdrawalModal({
         account_name: accountName.trim(),
         notes: notes.trim() || undefined,
       });
-      toast.success("Permintaan pencairan komisi diajukan ke Superadmin!");
+      toast.success(t("finance.withdrawalRequested"));
       setOpen(false);
       setAmount("");
       setAccountNumber("");
@@ -113,7 +116,7 @@ export function SellerWithdrawalModal({
           ) : (
             <Button className="bg-emerald-600 hover:bg-emerald-500 text-white gap-2 font-semibold text-xs rounded-full min-h-11 px-6 shadow-md shadow-emerald-600/20">
               <ArrowUpRight className="h-4 w-4" />
-              Cairkan Komisi
+              {t("finance.withdrawCommission")}
             </Button>
           )
         }
@@ -123,14 +126,14 @@ export function SellerWithdrawalModal({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-lg font-bold">
             <Landmark className="h-5 w-5 text-emerald-400" />
-            Pencairan Komisi Reseller
+            {t("finance.sellerWithdrawal")}
           </DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4 pt-2">
           {/* Available balance indicator */}
           <div className="rounded-xl bg-surface border border-border/60 p-3 flex items-center justify-between font-mono text-xs">
-            <span className="text-muted-foreground">Komisi Tersedia:</span>
+            <span className="text-muted-foreground">{t("finance.availableCommission")}:</span>
             <span className="font-bold text-emerald-400">
               {formatIDR(availableBalance)}
             </span>
@@ -142,7 +145,7 @@ export function SellerWithdrawalModal({
               htmlFor="seller-with-amount"
               className="text-xs font-medium text-muted-foreground"
             >
-              Nominal Pencairan (Min. Rp 50.000)
+              {t("finance.amount")} (Min. Rp 50.000)
             </Label>
             <div className="relative mt-1.5">
               <span className="absolute left-3 top-2.5 text-xs text-muted-foreground font-mono">
@@ -151,7 +154,7 @@ export function SellerWithdrawalModal({
               <Input
                 id="seller-with-amount"
                 type="number"
-                placeholder="Misal: 150000"
+                placeholder="150000"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 className="pl-9 font-mono text-xs rounded-xl min-h-10"
@@ -162,7 +165,7 @@ export function SellerWithdrawalModal({
           {/* Bank selector */}
           <div>
             <Label className="text-xs font-medium text-muted-foreground">
-              Pilih Bank / Dompet Tujuan
+              {t("finance.bankAccount")}
             </Label>
             <div className="grid grid-cols-4 gap-2 mt-1.5">
               {SELLER_BANKS.map((b) => (
@@ -188,7 +191,7 @@ export function SellerWithdrawalModal({
               htmlFor="seller-acc-no"
               className="text-xs font-medium text-muted-foreground"
             >
-              Nomor Rekening Tujuan
+              {t("finance.accountNumber")}
             </Label>
             <div className="relative mt-1.5">
               <CreditCard className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -208,7 +211,7 @@ export function SellerWithdrawalModal({
               htmlFor="seller-acc-name"
               className="text-xs font-medium text-muted-foreground"
             >
-              Nama Rekening Pemilik
+              {t("finance.accountHolder")}
             </Label>
             <div className="relative mt-1.5">
               <User className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -228,7 +231,7 @@ export function SellerWithdrawalModal({
               htmlFor="seller-notes"
               className="text-xs font-medium text-muted-foreground"
             >
-              Catatan untuk Superadmin (Opsional)
+              {t("finance.notesOptional")}
             </Label>
             <Input
               id="seller-notes"
@@ -246,7 +249,7 @@ export function SellerWithdrawalModal({
               onClick={() => setOpen(false)}
               className="text-xs rounded-full min-h-10 px-5"
             >
-              Batal
+              {t("finance.cancel")}
             </Button>
             <Button
               type="submit"
@@ -260,10 +263,10 @@ export function SellerWithdrawalModal({
               {isSubmitting ? (
                 <>
                   <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />{" "}
-                  Memproses...
+                  {t("common.loading")}
                 </>
               ) : (
-                "Kirim Pengajuan"
+                t("finance.submitRequest")
               )}
             </Button>
           </div>

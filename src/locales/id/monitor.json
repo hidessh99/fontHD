@@ -1,0 +1,14 @@
+{
+  "title": "Kesehatan Sistem & Telemetri Node",
+  "subtitle": "Telemetri server edge real-time, latensi ping, waktu aktif (uptime), dan log insiden.",
+  "uptimePercent": "Persentase Uptime",
+  "avgLatency": "Rata-rata Latensi",
+  "incidentLogs": "Log Insiden",
+  "createMonitor": "Buat Monitor Baru",
+  "checkInterval": "Interval Pemeriksaan",
+  "targetHost": "Host / IP Target",
+  "monitorType": "Tipe Monitor",
+  "operational": "Seluruh Sistem Beroperasi Normal",
+  "degraded": "Performa Menurun",
+  "down": "Gangguan Layanan"
+}

@@ -2,6 +2,7 @@
 // GoVPN User AI Gateway Dashboard View Component
 // Part of Pola C: views/user/AiDashboardView.tsx
 // 100% Coinbase Institutional Design System (Keys, Wallet, Catalog & Playground)
+// Fully Localized with useI18n (EN/ID)
 // ==============================================================================
 
 "use client";
@@ -15,8 +16,10 @@ import { AiChatPlayground } from "../../components/user/AiChatPlayground";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Key, Cpu, Sparkles, RefreshCw } from "lucide-react";
+import { useI18n } from "@/lib/i18n/context";
 
 export function AiDashboardView() {
+  const { t } = useI18n();
   const {
     models,
     apiKeys,
@@ -42,11 +45,10 @@ export function AiDashboardView() {
             <div className="p-2 rounded-xl bg-primary/10 text-primary border border-primary/20">
               <Sparkles className="h-5 w-5" />
             </div>
-            AI Gateway & LLM Inference
+            {t("ai.title")}
           </h1>
           <p className="text-xs text-muted-foreground mt-1">
-            Akses multi-model LLM (GPT-4o, Claude 3.5, DeepSeek) melalui single
-            endpoint API berkecepatan tinggi
+            {t("ai.subtitle")}
           </p>
         </div>
 
@@ -61,7 +63,7 @@ export function AiDashboardView() {
             <RefreshCw
               className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`}
             />
-            Segarkan
+            {t("common.refresh")}
           </Button>
         </div>
       </div>
@@ -74,15 +76,15 @@ export function AiDashboardView() {
         <TabsList variant="line" className="w-full justify-start border-b border-border/40">
           <TabsTrigger value="keys" className="gap-2">
             <Key className="h-3.5 w-3.5" />
-            <span>API Keys & Dompet AI</span>
+            <span>{t("ai.apiKeysAndWallet")}</span>
           </TabsTrigger>
           <TabsTrigger value="catalog" className="gap-2">
             <Cpu className="h-3.5 w-3.5" />
-            <span>Katalog Model ({models.length})</span>
+            <span>{t("ai.modelCatalog")} ({models.length})</span>
           </TabsTrigger>
           <TabsTrigger value="playground" className="gap-2">
             <Sparkles className="h-3.5 w-3.5" />
-            <span>Playground Inferensi</span>
+            <span>{t("ai.inferencePlayground")}</span>
           </TabsTrigger>
         </TabsList>
       </Tabs>

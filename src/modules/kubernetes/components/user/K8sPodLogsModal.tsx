@@ -17,6 +17,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Terminal, RefreshCw, Copy, Check } from "lucide-react";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n";
 
 interface K8sPodLogsModalProps {
   app: K8sApp | null;
@@ -31,6 +32,7 @@ export function K8sPodLogsModal({
   onOpenChange,
   onFetchLogs,
 }: K8sPodLogsModalProps) {
+  const { t, locale } = useI18n();
   const [logs, setLogs] = useState<K8sLogEntry[]>([]);
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -69,7 +71,7 @@ export function K8sPodLogsModal({
       .join("\n");
     navigator.clipboard.writeText(text);
     setCopied(true);
-    toast.success("Logs berhasil disalin ke clipboard");
+    toast.success(t("kubernetes.logsCopySuccess"));
     setTimeout(() => setCopied(false), 2000);
   };
 
@@ -95,7 +97,7 @@ export function K8sPodLogsModal({
               ) : (
                 <Copy className="h-3 w-3" />
               )}
-              {copied ? "Tersalin" : "Salin"}
+              {copied ? t("kubernetes.logsCopied") : t("kubernetes.copyLogs")}
             </Button>
           </div>
         </DialogHeader>
@@ -105,17 +107,19 @@ export function K8sPodLogsModal({
           {loading ? (
             <div className="flex items-center gap-2 text-zinc-500">
               <RefreshCw className="h-3.5 w-3.5 animate-spin" />
-              <span>Streaming pod logs...</span>
+              <span>{t("kubernetes.streamingLogs")}</span>
             </div>
           ) : logs.length === 0 ? (
             <span className="text-zinc-500">
-              Belum ada output log dari pod container ini.
+              {t("kubernetes.noLogs")}
             </span>
           ) : (
             logs.map((log, idx) => (
               <div key={idx} className="flex items-start gap-2 leading-relaxed">
                 <span className="text-zinc-600 select-none text-[11px] whitespace-nowrap">
-                  {new Date(log.timestamp).toLocaleTimeString("id-ID")}
+                  {new Date(log.timestamp).toLocaleTimeString(
+                    locale === "id" ? "id-ID" : "en-US"
+                  )}
                 </span>
                 <span
                   className={

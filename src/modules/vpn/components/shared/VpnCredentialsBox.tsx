@@ -7,6 +7,7 @@
 
 import React from "react";
 import { CopyButton } from "@/components/shared/CopyButton";
+import { useI18n } from "@/lib/i18n/context";
 
 interface VpnCredentialsBoxProps {
   host: string;
@@ -25,12 +26,14 @@ export function VpnCredentialsBox({
   uuid,
   configUrl,
 }: VpnCredentialsBoxProps) {
+  const { t } = useI18n();
+
   return (
     <div className="p-4 rounded-2xl bg-surface border border-border/70 space-y-3 font-mono text-xs">
       <div className="grid grid-cols-2 gap-2">
         <div>
           <span className="text-[10px] text-muted-foreground uppercase block tracking-wider">
-            Host / SNI
+            {t("vpn.sni")}
           </span>
           <span className="font-semibold text-foreground truncate block">
             {host}
@@ -38,13 +41,13 @@ export function VpnCredentialsBox({
         </div>
         <div>
           <span className="text-[10px] text-muted-foreground uppercase block tracking-wider">
-            Port
+            {t("vpn.port")}
           </span>
           <span className="font-semibold text-foreground block">{port}</span>
         </div>
         <div>
           <span className="text-[10px] text-muted-foreground uppercase block tracking-wider">
-            Username
+            {t("vpn.username")}
           </span>
           <span className="font-semibold text-foreground truncate block">
             {username}
@@ -53,7 +56,7 @@ export function VpnCredentialsBox({
         {password && (
           <div>
             <span className="text-[10px] text-muted-foreground uppercase block tracking-wider">
-              Password
+              {t("vpn.password")}
             </span>
             <span className="font-semibold text-foreground truncate block">
               {password}
@@ -63,7 +66,7 @@ export function VpnCredentialsBox({
         {uuid && (
           <div className="col-span-2">
             <span className="text-[10px] text-muted-foreground uppercase block tracking-wider">
-              UUID / User ID
+              {t("vpn.uuid")}
             </span>
             <span className="font-semibold text-primary truncate block select-all">
               {uuid}
@@ -79,8 +82,8 @@ export function VpnCredentialsBox({
           </span>
           <CopyButton
             text={configUrl}
-            label="Salin URI"
-            successMessage="Konfigurasi URI berhasil disalin!"
+            label={t("vpn.copyUri")}
+            successMessage={t("vpn.copyUriSuccess")}
             size="sm"
           />
         </div>

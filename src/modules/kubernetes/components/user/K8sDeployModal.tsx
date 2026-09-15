@@ -21,6 +21,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Plus, Rocket, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n";
 
 interface K8sDeployModalProps {
   templates: K8sTemplate[];
@@ -37,6 +38,7 @@ export function K8sDeployModal({
   specs,
   onDeploy,
 }: K8sDeployModalProps) {
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [selectedTemplateId, setSelectedTemplateId] = useState<string | number>(
@@ -67,7 +69,7 @@ export function K8sDeployModal({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim() || !customImage.trim() || !selectedSpecId) {
-      toast.error("Nama aplikasi, Docker image, dan Resource Tier wajib diisi");
+      toast.error(t("kubernetes.deployValidation"));
       return;
     }
 
@@ -83,7 +85,7 @@ export function K8sDeployModal({
       setOpen(false);
       setName("");
       setCustomImage("");
-      toast.success(`Aplikasi ${name} berhasil dideploy ke Kubernetes cluster`);
+      toast.success(t("kubernetes.deploySuccess", { name }));
     } finally {
       setSubmitting(false);
     }
@@ -95,7 +97,7 @@ export function K8sDeployModal({
         render={
           <Button className="h-10 px-4 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs shadow-lg shadow-primary/20 gap-2 transition-all">
             <Plus className="h-4 w-4" />
-            Deploy Container Baru
+            {t("kubernetes.deployNewContainer")}
           </Button>
         }
       />
@@ -106,7 +108,7 @@ export function K8sDeployModal({
             <div className="p-2 rounded-xl bg-primary/10 text-primary border border-primary/20">
               <Rocket className="h-5 w-5" />
             </div>
-            Deploy Container Pod ke Kubernetes
+            {t("kubernetes.deployModalTitle")}
           </DialogTitle>
         </DialogHeader>
 
@@ -115,7 +117,7 @@ export function K8sDeployModal({
           {templates.length > 0 && (
             <div>
               <Label className="text-xs text-muted-foreground font-medium">
-                Pilih Template Cepat (Opsional)
+                {t("kubernetes.quickTemplateLabel")}
               </Label>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-2">
                 {templates.map((tmpl) => (
@@ -144,10 +146,10 @@ export function K8sDeployModal({
           {/* App Name */}
           <div>
             <Label className="text-xs text-muted-foreground font-medium">
-              Nama Aplikasi
+              {t("kubernetes.appNameLabel")}
             </Label>
             <Input
-              placeholder="misal: my-vpn-gateway / my-wordpress"
+              placeholder={t("kubernetes.appNamePlaceholder")}
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="mt-1.5 bg-muted/30 border-border text-foreground font-mono text-xs h-10"
@@ -158,10 +160,10 @@ export function K8sDeployModal({
           <div className="grid grid-cols-3 gap-2.5">
             <div className="col-span-2">
               <Label className="text-xs text-muted-foreground font-medium">
-                Docker Image
+                {t("kubernetes.dockerImageLabel")}
               </Label>
               <Input
-                placeholder="misal: nginx:alpine / shadowsocks/shadowsocks-libev"
+                placeholder={t("kubernetes.dockerImagePlaceholder")}
                 value={customImage}
                 onChange={(e) => setCustomImage(e.target.value)}
                 className="mt-1.5 bg-muted/30 border-border text-foreground font-mono text-xs h-10"
@@ -169,7 +171,7 @@ export function K8sDeployModal({
             </div>
             <div>
               <Label className="text-xs text-muted-foreground font-medium">
-                Port
+                {t("kubernetes.portLabel")}
               </Label>
               <Input
                 type="number"
@@ -183,7 +185,7 @@ export function K8sDeployModal({
           {/* Resource Specs Selector */}
           <div>
             <Label className="text-xs text-muted-foreground font-medium">
-              Pilih Paket Resource (Spec)
+              {t("kubernetes.resourceSpecLabel")}
             </Label>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 mt-2">
               {specs.map((spec) => (
@@ -221,10 +223,10 @@ export function K8sDeployModal({
             {submitting ? (
               <>
                 <Loader2 className="h-4 w-4 animate-spin" />
-                Mendeploy Pod ke Cluster...
+                {t("kubernetes.deploying")}
               </>
             ) : (
-              "Deploy Aplikasi Sekarang"
+              t("kubernetes.deployNow")
             )}
           </Button>
         </form>

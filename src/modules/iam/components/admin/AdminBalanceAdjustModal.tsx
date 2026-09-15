@@ -24,6 +24,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { DollarSign, Loader2, Plus, Minus } from "lucide-react";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n";
 
 interface AdminBalanceAdjustModalProps {
   user: UserProfile;
@@ -48,6 +49,7 @@ export function AdminBalanceAdjustModal({
   onReduceIncome,
   triggerButton,
 }: AdminBalanceAdjustModalProps) {
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
   const [targetWallet, setTargetWallet] = useState<"balance" | "income">(
     "balance",
@@ -62,7 +64,7 @@ export function AdminBalanceAdjustModal({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isNaN(numAmount) || numAmount <= 0) {
-      toast.error("Masukkan nominal yang valid");
+      toast.error(t("iam.adjustmentAmount"));
       return;
     }
 
@@ -94,15 +96,17 @@ export function AdminBalanceAdjustModal({
       }
 
       toast.success(
-        `Berhasil ${actionType === "add" ? "menambah" : "mengurangi"} ${
-          targetWallet === "balance" ? "saldo" : "komisi"
-        } sebesar Rp ${numAmount.toLocaleString("id-ID")}`,
+        t("iam.balanceAdjustSuccess", {
+          action: actionType === "add" ? t("iam.addition") : t("iam.reduction"),
+          target: targetWallet === "balance" ? t("iam.walletBalanceOpt") : t("iam.resellerIncomeOpt"),
+          amount: `Rp ${numAmount.toLocaleString("id-ID")}`,
+        })
       );
       setOpen(false);
       setAmount("");
       setReason("");
     } catch {
-      toast.error("Gagal melakukan mutasi saldo admin.");
+      toast.error(t("iam.balanceAdjustFailed"));
     } finally {
       setIsSubmitting(false);
     }
@@ -129,7 +133,7 @@ export function AdminBalanceAdjustModal({
               className="rounded-full text-xs font-mono h-8 px-3 gap-1"
             >
               <DollarSign className="h-3.5 w-3.5 text-primary" />
-              Saldo
+              {t("iam.adjustBalance")}
             </Button>
           )
         }
@@ -139,7 +143,7 @@ export function AdminBalanceAdjustModal({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-lg font-bold">
             <DollarSign className="h-5 w-5 text-primary" />
-            Penyesuaian Saldo / Komisi User
+            {t("iam.balanceModalTitle")}
           </DialogTitle>
         </DialogHeader>
 
@@ -147,14 +151,14 @@ export function AdminBalanceAdjustModal({
           {/* Target User Info */}
           <div className="rounded-xl border border-border/60 bg-surface/50 p-3 text-xs font-mono space-y-1">
             <div className="flex justify-between">
-              <span className="text-muted-foreground">User:</span>
+              <span className="text-muted-foreground">{t("iam.colUser")}:</span>
               <span className="font-bold text-foreground">
                 {user.username} (ID: {user.id})
               </span>
             </div>
             <div className="flex justify-between">
               <span className="text-muted-foreground">
-                Saldo Dompet Saat Ini:
+                {t("iam.currentWalletBalance")}
               </span>
               <span className="font-bold text-emerald-400">
                 {formatIDR(user.balance)}
@@ -162,7 +166,7 @@ export function AdminBalanceAdjustModal({
             </div>
             <div className="flex justify-between">
               <span className="text-muted-foreground">
-                Komisi Reseller Saat Ini:
+                {t("iam.currentResellerIncome")}
               </span>
               <span className="font-bold text-blue-400">
                 {formatIDR(user.income)}
@@ -181,7 +185,7 @@ export function AdminBalanceAdjustModal({
                   : "border-border/60 bg-surface/50 text-muted-foreground hover:border-border"
               }`}
             >
-              Saldo Dompet (Balance)
+              {t("iam.walletBalanceOpt")}
             </button>
             <button
               type="button"
@@ -192,7 +196,7 @@ export function AdminBalanceAdjustModal({
                   : "border-border/60 bg-surface/50 text-muted-foreground hover:border-border"
               }`}
             >
-              Komisi Reseller (Income)
+              {t("iam.resellerIncomeOpt")}
             </button>
           </div>
 
@@ -207,7 +211,7 @@ export function AdminBalanceAdjustModal({
                   : "border-border/60 bg-surface/50 text-muted-foreground hover:border-border"
               }`}
             >
-              <Plus className="h-3.5 w-3.5" /> Tambah (+)
+              <Plus className="h-3.5 w-3.5" /> {t("iam.addPlus")}
             </button>
             <button
               type="button"
@@ -218,7 +222,7 @@ export function AdminBalanceAdjustModal({
                   : "border-border/60 bg-surface/50 text-muted-foreground hover:border-border"
               }`}
             >
-              <Minus className="h-3.5 w-3.5" /> Kurang (-)
+              <Minus className="h-3.5 w-3.5" /> {t("iam.reduceMinus")}
             </button>
           </div>
 
@@ -228,7 +232,7 @@ export function AdminBalanceAdjustModal({
               htmlFor="adj-amt"
               className="text-xs font-medium text-muted-foreground"
             >
-              Nominal Penyesuaian (IDR)
+              {t("iam.adjustmentAmount")}
             </Label>
             <div className="relative mt-1.5">
               <span className="absolute left-3 top-2.5 text-xs text-muted-foreground font-mono">
@@ -252,11 +256,11 @@ export function AdminBalanceAdjustModal({
               htmlFor="adj-reason"
               className="text-xs font-medium text-muted-foreground"
             >
-              Alasan Penyesuaian Ledger (Audit Log)
+              {t("iam.adjustmentReason")}
             </Label>
             <Input
               id="adj-reason"
-              placeholder="Contoh: Koreksi pembayaran manual / Bonus reseller"
+              placeholder={t("iam.adjustmentReasonPlaceholder")}
               value={reason}
               onChange={(e) => setReason(e.target.value)}
               className="mt-1.5 text-xs rounded-xl min-h-10"
@@ -270,7 +274,7 @@ export function AdminBalanceAdjustModal({
               onClick={() => setOpen(false)}
               className="text-xs rounded-full min-h-10 px-5"
             >
-              Batal
+              {t("common.cancel", "Cancel")}
             </Button>
             <Button
               type="submit"
@@ -284,10 +288,12 @@ export function AdminBalanceAdjustModal({
               {isSubmitting ? (
                 <>
                   <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />{" "}
-                  Memproses...
+                  {t("iam.sending")}
                 </>
               ) : (
-                `Terapkan ${actionType === "add" ? "Penambahan" : "Pengurangan"}`
+                t("iam.applyAdjustment", {
+                  action: actionType === "add" ? t("iam.addition") : t("iam.reduction"),
+                })
               )}
             </Button>
           </div>

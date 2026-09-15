@@ -18,6 +18,7 @@ import {
   Wifi,
   ArrowUpRight,
 } from "lucide-react";
+import { useI18n } from "@/lib/i18n/context";
 
 interface UserSubscriptionCardProps {
   subscription?: Subscription | null;
@@ -28,20 +29,21 @@ export function UserSubscriptionCard({
   subscription,
   onUpgrade,
 }: UserSubscriptionCardProps) {
+  const { t } = useI18n();
+
   if (!subscription) {
     return (
       <Card className="border-border/80 bg-card/60 backdrop-blur-sm p-6 rounded-2xl shadow-sm">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="space-y-1">
             <span className="text-xs text-muted-foreground font-medium">
-              Status Langganan
+              {t("subscription.yourStatus")}
             </span>
             <h3 className="text-lg font-bold text-foreground">
-              Paket Gratis (Free Tier)
+              {t("subscription.freeTierTitle")}
             </h3>
             <p className="text-xs text-muted-foreground">
-              Tingkatkan ke paket Premium untuk membuka kuota unlimited dan
-              seluruh protokol VPN berkecepatan tinggi.
+              {t("subscription.freeTierDesc")}
             </p>
           </div>
 
@@ -50,7 +52,7 @@ export function UserSubscriptionCard({
               onClick={onUpgrade}
               className="h-10 px-4 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs shadow-md shadow-primary/20 gap-1.5"
             >
-              Pilih Paket Premium
+              {t("subscription.choosePremium")}
               <ArrowUpRight className="h-4 w-4" />
             </Button>
           )}
@@ -65,7 +67,7 @@ export function UserSubscriptionCard({
         <div className="space-y-2">
           <div className="flex items-center gap-2">
             <span className="text-xs text-muted-foreground font-medium">
-              Langganan Aktif Anda
+              {t("subscription.activeSubscription")}
             </span>
             <SubscriptionStatusBadge status={subscription.status} />
           </div>
@@ -78,19 +80,18 @@ export function UserSubscriptionCard({
           <div className="flex items-center gap-4 text-xs text-muted-foreground flex-wrap font-mono">
             <span className="flex items-center gap-1.5">
               <Calendar className="h-3.5 w-3.5 text-primary" />
-              Berlaku hingga:{" "}
-              {new Date(subscription.end_date).toLocaleDateString("id-ID")}
+              {t("subscription.validUntil", { date: new Date(subscription.end_date).toLocaleDateString("id-ID") })}
             </span>
             <span className="flex items-center gap-1.5">
               <Smartphone className="h-3.5 w-3.5 text-indigo-400" />
-              Maks. {subscription.plan?.max_devices || 5} Perangkat
+              {t("subscription.maxDevices", { count: subscription.plan?.max_devices || 5 })}
             </span>
             <span className="flex items-center gap-1.5">
               <Wifi className="h-3.5 w-3.5 text-emerald-400" />
               Bandwidth:{" "}
               {subscription.plan?.bandwidth_gb
                 ? `${subscription.plan.bandwidth_gb} GB`
-                : "Unlimited"}
+                : t("subscription.unlimitedQuota")}
             </span>
           </div>
         </div>
@@ -100,7 +101,7 @@ export function UserSubscriptionCard({
             onClick={onUpgrade}
             className="h-10 px-4 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs shadow-md shadow-primary/20 gap-1.5 self-end sm:self-auto"
           >
-            Upgrade / Ganti Paket
+            {t("subscription.upgradeOrChange")}
             <ArrowUpRight className="h-4 w-4" />
           </Button>
         )}

@@ -14,7 +14,8 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ThemeToggle } from "../shared";
+import { ThemeToggle, LanguageSwitcher } from "../shared";
+import { useI18n } from "@/lib/i18n/context";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -46,6 +47,7 @@ export function SellerHeader({
   const pathname = usePathname();
   const router = useRouter();
   const { logout } = useAuthStore();
+  const { t } = useI18n();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   const handleLogout = async () => {
@@ -69,7 +71,7 @@ export function SellerHeader({
                 className="size-9 md:hidden border-amber-500/30"
               >
                 <Menu className="size-4 text-amber-500" />
-                <span className="sr-only">Buka Menu Partner</span>
+                <span className="sr-only">Toggle Partner Menu</span>
               </Button>
             }
           />
@@ -125,7 +127,7 @@ export function SellerHeader({
           <div className="flex items-center gap-1.5 text-amber-500">
             <Coins className="size-3.5" />
             <span className="text-[10px] font-mono uppercase tracking-wider hidden sm:inline font-bold">
-              Komisi
+              {t("finance.availableCommission") || "Commission"}
             </span>
           </div>
           <span className="font-mono text-xs font-bold text-foreground">
@@ -135,15 +137,17 @@ export function SellerHeader({
             size="sm"
             variant="ghost"
             className="h-6 px-2 text-[11px] text-amber-500 hover:bg-amber-500/15 rounded-lg ml-0.5 font-bold"
-            asChild
-            title="Tarik Komisi"
-          >
-            <Link href="/seller/withdrawal">
-              <span>Tarik</span>
-              <ArrowUpRight className="size-3 ml-0.5" />
-            </Link>
-          </Button>
+            render={
+              <Link href="/seller/withdrawal" title={t("finance.requestWithdrawal") || "Payout"}>
+                <span>{t("seller.withdrawCommission") || "Payout"}</span>
+                <ArrowUpRight className="size-3 ml-0.5" />
+              </Link>
+            }
+          />
         </div>
+
+        {/* Language Switcher */}
+        <LanguageSwitcher />
 
         {/* Theme Toggle */}
         <ThemeToggle />
@@ -193,7 +197,7 @@ export function SellerHeader({
               }
             >
               <ArrowLeft className="mr-2 size-4 text-muted-foreground" />
-              <span>Console Member Biasa</span>
+              <span>{t("nav.seller.backToDashboard") || "Member Console"}</span>
             </DropdownMenuItem>
             <DropdownMenuItem
               render={
@@ -204,7 +208,7 @@ export function SellerHeader({
               }
             >
               <Coins className="mr-2 size-4 text-muted-foreground" />
-              <span>Riwayat Penarikan</span>
+              <span>{t("finance.sellerWithdrawal") || "Payouts"}</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
@@ -212,7 +216,7 @@ export function SellerHeader({
               className="text-rose-400 focus:text-rose-400 cursor-pointer"
             >
               <LogOut className="mr-2 size-4" />
-              <span>Keluar</span>
+              <span>{t("common.logout") || "Logout"}</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

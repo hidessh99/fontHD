@@ -19,6 +19,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Mail, Loader2, KeyRound } from "lucide-react";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n";
 
 interface ForgotPasswordModalProps {
   onSubmitForgot: (email: string) => Promise<unknown>;
@@ -27,6 +28,7 @@ interface ForgotPasswordModalProps {
 export function ForgotPasswordModal({
   onSubmitForgot,
 }: ForgotPasswordModalProps) {
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -38,11 +40,11 @@ export function ForgotPasswordModal({
     setIsSubmitting(true);
     try {
       await onSubmitForgot(email.trim());
-      toast.success("Tautan pemulihan kata sandi telah dikirim ke email Anda!");
+      toast.success(t("iam.resetLinkSent"));
       setOpen(false);
       setEmail("");
     } catch {
-      toast.error("Gagal mengirim tautan pemulihan. Periksa email Anda.");
+      toast.error(t("iam.resetLinkFailed"));
     } finally {
       setIsSubmitting(false);
     }
@@ -56,7 +58,7 @@ export function ForgotPasswordModal({
             type="button"
             className="text-xs text-primary hover:underline font-mono font-medium"
           >
-            Lupa Kata Sandi?
+            {t("iam.forgotPasswordLink")}
           </button>
         }
       />
@@ -65,14 +67,13 @@ export function ForgotPasswordModal({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-lg font-bold">
             <KeyRound className="h-5 w-5 text-primary" />
-            Pemulihan Kata Sandi
+            {t("iam.forgotPasswordTitle")}
           </DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4 pt-2">
           <p className="text-xs text-muted-foreground leading-relaxed">
-            Masukkan alamat email yang terdaftar pada akun GoVPN Anda. Kami akan
-            mengirimkan tautan aman untuk membuat kata sandi baru.
+            {t("iam.forgotPasswordDesc")}
           </p>
 
           <div>
@@ -80,7 +81,7 @@ export function ForgotPasswordModal({
               htmlFor="forgot-email"
               className="text-xs font-medium text-muted-foreground"
             >
-              Alamat Email Terdaftar
+              {t("iam.registeredEmail")}
             </Label>
             <div className="relative mt-1.5">
               <Mail className="absolute left-3.5 top-3.5 h-4 w-4 text-muted-foreground" />
@@ -103,7 +104,7 @@ export function ForgotPasswordModal({
               onClick={() => setOpen(false)}
               className="text-xs rounded-full min-h-10 px-5"
             >
-              Batal
+              {t("common.cancel", "Cancel")}
             </Button>
             <Button
               type="submit"
@@ -113,10 +114,10 @@ export function ForgotPasswordModal({
               {isSubmitting ? (
                 <>
                   <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />{" "}
-                  Mengirim...
+                  {t("iam.sending")}
                 </>
               ) : (
-                "Kirim Tautan Reset"
+                t("iam.sendResetLink")
               )}
             </Button>
           </div>

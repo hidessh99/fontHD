@@ -10,8 +10,10 @@ import React, { useEffect } from "react";
 import { useIamAdmin } from "../../hooks/useIamAdmin";
 import { AdminRoleManager } from "../../components/admin/AdminRoleManager";
 import { ShieldCheck } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 
 export function AdminRolesView() {
+  const { t } = useI18n();
   const { roles, fetchRoles, createRole, deleteRole } = useIamAdmin();
 
   useEffect(() => {
@@ -23,11 +25,10 @@ export function AdminRolesView() {
       <div>
         <h1 className="text-2xl font-bold tracking-tight text-foreground flex items-center gap-2.5">
           <ShieldCheck className="h-6 w-6 text-primary" />
-          Manajemen Peran &amp; Hak Akses (RBAC)
+          {t("iam.rolesViewTitle")}
         </h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Konfigurasi hierarki peran akun, definisi perizinan modul, dan
-          pembatasan wewenang pengguna sistem.
+          {t("iam.rolesViewSubtitle")}
         </p>
       </div>
 

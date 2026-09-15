@@ -13,6 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { CopyButton } from "./CopyButton";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n/context";
 
 interface QrCodeModalProps {
   isOpen: boolean;
@@ -26,12 +27,15 @@ interface QrCodeModalProps {
 export function QrCodeModal({
   isOpen,
   onClose,
-  title = "Pindai QR Code Konfigurasi",
-  description = "Pindai kode QR ini menggunakan aplikasi v2rayNG, Clash, Shadowrocket, atau WireGuard.",
+  title,
+  description,
   dataString,
   protocolName = "VPN",
 }: QrCodeModalProps) {
+  const { t } = useI18n();
   const [qrDataUrl, setQrDataUrl] = useState<string | null>(null);
+  const modalTitle = title || t("vpn.showQr") || "Scan Configuration QR Code";
+  const modalDesc = description || t("vpn.vpnSubtitle") || "Scan this QR code using your VPN client app.";
 
   useEffect(() => {
     if (!isOpen || !dataString) {
@@ -49,9 +53,9 @@ export function QrCodeModal({
     })
       .then((url) => setQrDataUrl(url))
       .catch(() => {
-        toast.error("Gagal membuat QR Code");
+        toast.error(t("common.error") || "Failed to generate QR Code");
       });
-  }, [isOpen, dataString]);
+  }, [isOpen, dataString, t]);
 
   const handleDownloadImage = () => {
     if (!qrDataUrl) return;
@@ -59,7 +63,7 @@ export function QrCodeModal({
     link.href = qrDataUrl;
     link.download = `${protocolName.toLowerCase()}-qrcode.png`;
     link.click();
-    toast.success("Gambar QR Code berhasil diunduh");
+    toast.success(t("common.success") || "QR Code image downloaded successfully");
   };
 
   return (
@@ -72,9 +76,9 @@ export function QrCodeModal({
               {protocolName} Quick Scan
             </span>
           </div>
-          <DialogTitle className="text-lg font-bold">{title}</DialogTitle>
+          <DialogTitle className="text-lg font-bold">{modalTitle}</DialogTitle>
           <DialogDescription className="text-xs text-muted-foreground">
-            {description}
+            {modalDesc}
           </DialogDescription>
         </DialogHeader>
 
@@ -89,7 +93,7 @@ export function QrCodeModal({
               />
             ) : (
               <div className="flex size-56 items-center justify-center text-xs text-zinc-500 font-mono">
-                Membuat QR Code...
+                {t("common.loading") || "Generating QR Code..."}
               </div>
             )}
           </div>
@@ -107,12 +111,12 @@ export function QrCodeModal({
             disabled={!qrDataUrl}
             className="text-xs font-mono"
           >
-            <Download className="mr-1.5 size-3.5" /> Unduh PNG
+            <Download className="mr-1.5 size-3.5" /> {t("common.download") || "Download PNG"}
           </Button>
           <CopyButton
             text={dataString}
-            label="Salin URI"
-            successMessage="URI konfigurasi disalin!"
+            label={t("vpn.copyLink") || "Copy URI"}
+            successMessage={t("vpn.copyLink") || "Configuration URI copied!"}
             variant="default"
           />
         </div>

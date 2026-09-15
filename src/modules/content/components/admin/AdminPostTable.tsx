@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { NativeSelect } from "@/components/ui/native-select";
 import { DataTable, ColumnDef, DataTableFilterConfig } from "@/components/shared/data-table";
 import { FileText, Edit, Trash2 } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 
 interface AdminPostTableProps {
   posts: Post[];
@@ -27,11 +28,13 @@ export function AdminPostTable({
   onDeletePost,
   onUpdateStatus,
 }: AdminPostTableProps) {
+  const { t, locale } = useI18n();
+
   const columns: ColumnDef<Post>[] = useMemo(
     () => [
       {
         id: "title_slug",
-        header: "Judul & Slug",
+        header: t("content.colTitleSlug"),
         className: "max-w-sm",
         cell: (post) => (
           <div>
@@ -46,28 +49,28 @@ export function AdminPostTable({
       },
       {
         id: "status",
-        header: "Status",
+        header: t("content.colStatus"),
         cell: (post) => <PostStatusBadge status={post.status} />,
       },
       {
         id: "author",
-        header: "Penulis",
+        header: t("content.colAuthor"),
         className: "text-muted-foreground whitespace-nowrap font-sans",
-        cell: (post) => post.author_name || "Admin Editorial",
+        cell: (post) => post.author_name || t("content.defaultAuthorAdmin"),
       },
       {
         id: "views",
-        header: "Views",
+        header: t("content.colViews"),
         className: "font-mono text-muted-foreground whitespace-nowrap",
         cell: (post) => post.views_count || 0,
       },
       {
         id: "date",
-        header: "Tanggal Terbit",
+        header: t("content.colDate"),
         className: "text-muted-foreground whitespace-nowrap font-sans",
         cell: (post) =>
           new Date(post.published_at || post.created_at).toLocaleDateString(
-            "id-ID",
+            locale === "id" ? "id-ID" : "en-US",
             {
               day: "numeric",
               month: "short",
@@ -77,7 +80,7 @@ export function AdminPostTable({
       },
       {
         id: "actions",
-        header: "Aksi Operasional",
+        header: t("content.colActions"),
         align: "right",
         cell: (post) => (
           <div className="inline-flex items-center gap-1.5">
@@ -99,7 +102,7 @@ export function AdminPostTable({
               variant="ghost"
               className="h-7 w-7 p-0 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-full"
               onClick={() => onEditPost(post)}
-              title="Edit Artikel"
+              title={t("content.editPost")}
             >
               <Edit className="w-3.5 h-3.5" />
             </Button>
@@ -109,7 +112,7 @@ export function AdminPostTable({
               variant="ghost"
               className="h-7 w-7 p-0 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded-full"
               onClick={() => onDeletePost(post.id)}
-              title="Hapus Artikel"
+              title={t("content.deletePost")}
             >
               <Trash2 className="w-3.5 h-3.5" />
             </Button>
@@ -117,17 +120,17 @@ export function AdminPostTable({
         ),
       },
     ],
-    [onDeletePost, onEditPost, onUpdateStatus],
+    [locale, onDeletePost, onEditPost, onUpdateStatus, t],
   );
 
   const filters: DataTableFilterConfig<Post>[] = useMemo(
     () => [
       {
         id: "status",
-        label: "Status",
+        label: t("content.colStatus"),
         defaultValue: "ALL",
         options: [
-          { label: "Semua Status", value: "ALL" },
+          { label: t("content.allStatuses"), value: "ALL" },
           { label: "PUBLISHED", value: "PUBLISHED" },
           { label: "DRAFT", value: "DRAFT" },
           { label: "ARCHIVED", value: "ARCHIVED" },
@@ -135,7 +138,7 @@ export function AdminPostTable({
         filterFn: (post, val) => post.status?.toUpperCase() === val.toUpperCase(),
       },
     ],
-    [],
+    [t],
   );
 
   return (
@@ -144,16 +147,16 @@ export function AdminPostTable({
       columns={columns}
       keyExtractor={(post) => post.id}
       searchable={true}
-      searchPlaceholder="Cari judul artikel atau slug..."
-      searchButtonText="Cari"
+      searchPlaceholder={t("content.searchPostPlaceholder")}
+      searchButtonText={t("common.search", "Search")}
       searchAccessor={(post) => [post.title, post.slug, post.author_name]}
       filters={filters}
       paginated={true}
       pageSize={10}
-      entityName="artikel"
+      entityName={t("content.entityName")}
       emptyIcon={FileText}
-      emptyTitle="Tidak Ada Artikel"
-      emptyDescription="Belum ada artikel atau konten yang sesuai dengan filter pencarian."
+      emptyTitle={t("content.noPostsTitle")}
+      emptyDescription={t("content.noPostsDesc")}
     />
   );
 }

@@ -18,8 +18,10 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Rocket, Cpu, HardDrive, Search, RefreshCw } from "lucide-react";
 import { EmptyState } from "@/components/shared/EmptyState";
+import { useI18n } from "@/lib/i18n";
 
 export function K8sAppsView() {
+  const { t } = useI18n();
   const {
     apps,
     allApps,
@@ -60,7 +62,7 @@ export function K8sAppsView() {
           <CardContent className="p-0 flex items-center justify-between">
             <div>
               <span className="text-xs text-muted-foreground font-medium">
-                Aplikasi Aktif (Pods)
+                {t("kubernetes.activeApps")}
               </span>
               <div className="font-mono text-2xl font-bold text-foreground mt-1">
                 {runningCount} / {allApps.length} Pods
@@ -76,7 +78,7 @@ export function K8sAppsView() {
           <CardContent className="p-0 flex items-center justify-between">
             <div>
               <span className="text-xs text-muted-foreground font-medium">
-                Total Alokasi vCPU
+                {t("kubernetes.totalCores")}
               </span>
               <div className="font-mono text-2xl font-bold text-emerald-400 mt-1">
                 {totalCores} Cores
@@ -92,7 +94,7 @@ export function K8sAppsView() {
           <CardContent className="p-0 flex items-center justify-between">
             <div>
               <span className="text-xs text-muted-foreground font-medium">
-                Total Alokasi Memori
+                {t("kubernetes.totalMemory")}
               </span>
               <div className="font-mono text-2xl font-bold text-primary mt-1">
                 {totalRamGb} GB
@@ -111,7 +113,7 @@ export function K8sAppsView() {
           <div className="relative flex-1 max-w-sm">
             <Search className="absolute left-3.5 top-3 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Cari aplikasi atau container image..."
+              placeholder={t("kubernetes.searchAppPlaceholder")}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-10 bg-card/60 border-border text-foreground text-xs h-10 rounded-xl"
@@ -129,7 +131,7 @@ export function K8sAppsView() {
                     : "bg-muted/40 border border-border text-muted-foreground hover:text-foreground hover:bg-muted"
                 }`}
               >
-                {st === "ALL" ? "Semua Status" : st}
+                {st === "ALL" ? t("kubernetes.allStatuses") : st}
               </button>
             ))}
           </div>
@@ -146,7 +148,7 @@ export function K8sAppsView() {
             <RefreshCw
               className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`}
             />
-            Segarkan
+            {t("common.refresh", "Refresh")}
           </Button>
 
           <K8sDeployModal
@@ -161,8 +163,8 @@ export function K8sAppsView() {
       {apps.length === 0 ? (
         <EmptyState
           icon={Rocket}
-          title="Belum Ada Aplikasi Kontainer"
-          description="Deploy aplikasi container pertama Anda (Shadowsocks, WireGuard, NGINX, dll) menggunakan tombol di atas."
+          title={t("kubernetes.noAppsTitle")}
+          description={t("kubernetes.noAppsDesc")}
         />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">

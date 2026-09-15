@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Settings, Plus, Trash2, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n";
 
 interface K8sEnvEditorModalProps {
   app: K8sApp | null;
@@ -32,6 +33,7 @@ export function K8sEnvEditorModal({
   onOpenChange,
   onSaveEnv,
 }: K8sEnvEditorModalProps) {
+  const { t } = useI18n();
   const [envs, setEnvs] = useState<K8sEnvVar[]>([]);
   const [saving, setSaving] = useState(false);
 
@@ -62,9 +64,9 @@ export function K8sEnvEditorModal({
       const validEnvs = envs.filter((e) => e.key.trim() !== "");
       await onSaveEnv(app.id, validEnvs);
       onOpenChange(false);
-      toast.success("Environment variable berhasil diperbarui & pod di-reload");
+      toast.success(t("kubernetes.envSaved"));
     } catch {
-      toast.error("Gagal menyimpan environment variable");
+      toast.error(t("kubernetes.envSaveFailed"));
     } finally {
       setSaving(false);
     }
@@ -78,13 +80,13 @@ export function K8sEnvEditorModal({
             <div className="p-2 rounded-xl bg-primary/10 text-primary border border-primary/20">
               <Settings className="h-5 w-5" />
             </div>
-            Konfigurasi Env: {app?.name}
+            {t("kubernetes.envModalTitle", { name: app?.name || "" })}
           </DialogTitle>
         </DialogHeader>
 
         <div className="space-y-3 pt-2">
           <div className="flex items-center justify-between text-xs text-muted-foreground font-medium">
-            <span>Variabel Lingkungan (ConfigMap / Env)</span>
+            <span>{t("kubernetes.envSubtitle")}</span>
             <Button
               type="button"
               variant="ghost"
@@ -92,15 +94,14 @@ export function K8sEnvEditorModal({
               onClick={handleAdd}
               className="h-8 text-xs text-primary hover:text-primary hover:bg-primary/10 gap-1 rounded-lg"
             >
-              <Plus className="h-3.5 w-3.5" /> Tambah Baris
+              <Plus className="h-3.5 w-3.5" /> {t("kubernetes.addRow")}
             </Button>
           </div>
 
           <div className="max-h-64 overflow-y-auto space-y-2 pr-1">
             {envs.length === 0 ? (
               <div className="text-center py-6 text-xs text-muted-foreground border border-dashed border-border rounded-xl">
-                Belum ada custom environment variables. Klik &quot;Tambah
-                Baris&quot; untuk menambahkan.
+                {t("kubernetes.noCustomEnvs")}
               </div>
             ) : (
               envs.map((env, idx) => (
@@ -140,10 +141,10 @@ export function K8sEnvEditorModal({
             {saving ? (
               <>
                 <Loader2 className="h-4 w-4 animate-spin" />
-                Menerapkan ke Pod...
+                {t("kubernetes.envSaving")}
               </>
             ) : (
-              "Simpan & Terapkan ke Pod"
+              t("kubernetes.envSaveBtn")
             )}
           </Button>
         </div>

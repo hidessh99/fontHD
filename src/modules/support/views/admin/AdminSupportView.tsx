@@ -15,8 +15,10 @@ import { Ticket } from "../../types/support.types";
 import { RefreshCw, ShieldAlert, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n";
 
 export function AdminSupportView() {
+  const { t } = useI18n();
   const {
     tickets,
     selectedTicket,
@@ -51,9 +53,9 @@ export function AdminSupportView() {
     setCleaning(true);
     try {
       await cleanupTickets();
-      toast.success("Pembersihan tiket kedaluwarsa berhasil dieksekusi!");
+      toast.success(t("support.cleanupSuccess"));
     } catch {
-      toast.error("Gagal menjalankan pembersihan tiket");
+      toast.error(t("support.cleanupFailed"));
     } finally {
       setCleaning(false);
     }
@@ -65,15 +67,13 @@ export function AdminSupportView() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-border/40 pb-6">
         <div>
           <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-xs font-medium text-red-500 mb-2">
-            <ShieldAlert className="w-3.5 h-3.5" /> Superadmin Helpdesk
-            Operations
+            <ShieldAlert className="w-3.5 h-3.5" /> {t("support.adminBadge")}
           </div>
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
-            Operasional Tiket & Helpdesk
+            {t("support.adminTitle")}
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Respon keluhan pelanggan, catat nota investigasi internal, dan
-            kelola eskalasi isu jaringan VPN.
+            {t("support.adminSubtitle")}
           </p>
         </div>
 
@@ -83,12 +83,12 @@ export function AdminSupportView() {
             size="sm"
             onClick={() => {
               refresh();
-              toast.info("Data tiket diperbarui");
+              toast.info(t("common.dataRefreshed", "Data refreshed"));
             }}
             className="gap-2"
           >
             <RefreshCw className="w-4 h-4" />
-            <span>Segarkan</span>
+            <span>{t("common.refresh")}</span>
           </Button>
           <Button
             variant="secondary"
@@ -98,7 +98,7 @@ export function AdminSupportView() {
             className="gap-2 border border-border/50"
           >
             <Trash2 className="w-4 h-4 text-muted-foreground" />
-            <span>{cleaning ? "Membersihkan..." : "Cleanup Tiket Usang"}</span>
+            <span>{cleaning ? t("support.cleaning") : t("support.cleanupStaleTickets")}</span>
           </Button>
         </div>
       </div>
@@ -110,19 +110,19 @@ export function AdminSupportView() {
           onSelectTicket={handleSelectTicket}
           onSetInProgress={async (id) => {
             await setInProgress(id);
-            toast.info(`Tiket #${id} sedang diproses`);
+            toast.info(t("support.ticketInProgress", { id: String(id) }));
           }}
           onResolve={async (id) => {
             await resolveTicket(id);
-            toast.success(`Tiket #${id} diselesaikan`);
+            toast.success(t("support.ticketResolved", { id: String(id) }));
           }}
           onClose={async (id) => {
             await closeTicket(id);
-            toast.info(`Tiket #${id} ditutup`);
+            toast.info(t("support.ticketClosedId", { id: String(id) }));
           }}
           onDelete={async (id) => {
             await deleteTicket(id);
-            toast.success(`Tiket #${id} dihapus`);
+            toast.success(t("support.ticketDeleted", { id: String(id) }));
           }}
         />
       </section>
@@ -144,12 +144,12 @@ export function AdminSupportView() {
         }}
         onDeleteReply={async (replyId) => {
           await deleteReply(replyId);
-          toast.success("Pesan balasan dihapus");
+          toast.success(t("support.replyDeleted"));
         }}
         onUpdateStatus={async (status) => {
           if (selectedTicket) {
             await updateStatus(selectedTicket.id, status);
-            toast.success(`Status tiket diubah ke ${status}`);
+            toast.success(t("support.statusUpdated", { status }));
           }
         }}
       />

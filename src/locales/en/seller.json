@@ -1,0 +1,17 @@
+{
+  "title": "Reseller & Partner Portal",
+  "subtitle": "Mint bulk VPN credentials, manage customer subscriptions, and track commission earnings.",
+  "quotaRemaining": "Reseller Account Minting Quota",
+  "quotaRemainingDesc": "{used} of {total} accounts minted this billing cycle.",
+  "bulkMint": "Bulk Mint VPN Accounts",
+  "bulkMintSubtitle": "Deploy multiple accounts simultaneously across selected servers.",
+  "selectProtocol": "Select Protocol",
+  "quantity": "Quantity of Accounts",
+  "prefix": "Username Prefix",
+  "durationDays": "Duration (Days)",
+  "commissionBalance": "Total Commission Balance",
+  "withdrawCommission": "Request Payout",
+  "customerSubscriptions": "Customer Subscriptions",
+  "assignedServers": "Assigned Dedicated Servers",
+  "mintSuccess": "Successfully minted {count} VPN accounts!"
+}

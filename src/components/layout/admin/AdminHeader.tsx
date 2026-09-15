@@ -14,7 +14,8 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ThemeToggle } from "../shared";
+import { ThemeToggle, LanguageSwitcher } from "../shared";
+import { useI18n } from "@/lib/i18n/context";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -134,6 +135,9 @@ export function AdminHeader({
           </span>
         </div>
 
+        {/* Language Switcher */}
+        <LanguageSwitcher />
+
         {/* Theme Toggle */}
         <ThemeToggle />
 
@@ -182,7 +186,7 @@ export function AdminHeader({
               }
             >
               <ArrowLeft className="mr-2 size-4 text-muted-foreground" />
-              <span>Kembali ke Member Console</span>
+              <span>{t("nav.admin.backToUser") || "Back to Member Area"}</span>
             </DropdownMenuItem>
             <DropdownMenuItem
               render={
@@ -193,7 +197,7 @@ export function AdminHeader({
               }
             >
               <Terminal className="mr-2 size-4 text-muted-foreground" />
-              <span>Buka Partner Portal</span>
+              <span>{t("nav.admin.backToSeller") || "Back to Reseller Portal"}</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
@@ -201,7 +205,7 @@ export function AdminHeader({
               className="text-rose-400 focus:text-rose-400 cursor-pointer"
             >
               <LogOut className="mr-2 size-4" />
-              <span>Keluar</span>
+              <span>{t("common.logout") || "Logout"}</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

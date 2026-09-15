@@ -9,6 +9,7 @@
 import React from "react";
 import { ShieldCheck, AlertCircle } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
+import { useI18n } from "@/lib/i18n/context";
 
 interface SellerQuotaProgressProps {
   usedQuota: number;
@@ -21,6 +22,7 @@ export function SellerQuotaProgress({
   totalQuota,
   remainingQuota,
 }: SellerQuotaProgressProps) {
+  const { t } = useI18n();
   const percentage =
     totalQuota > 0 ? Math.round((usedQuota / totalQuota) * 100) : 0;
   const isLow = remainingQuota <= 5;
@@ -31,11 +33,11 @@ export function SellerQuotaProgress({
         <div className="flex items-center gap-2">
           <ShieldCheck className="size-4 text-primary" />
           <span className="text-xs font-bold text-foreground">
-            Kuota Grosir Reseller
+            {t("vpn.resellerQuotaTitle")}
           </span>
         </div>
         <span className="text-xs font-bold text-primary">
-          {percentage}% Terpakai
+          {t("vpn.resellerQuotaUsed", { percent: percentage })}
         </span>
       </div>
 
@@ -43,12 +45,10 @@ export function SellerQuotaProgress({
 
       <div className="flex items-center justify-between text-xs text-muted-foreground pt-1">
         <span>
-          Sisa: <strong className="text-foreground">{remainingQuota}</strong>{" "}
-          Akun
+          {t("vpn.resellerRemaining", { count: remainingQuota })}
         </span>
         <span>
-          Total Lisensi:{" "}
-          <strong className="text-foreground">{totalQuota}</strong>
+          {t("vpn.resellerTotal", { count: totalQuota })}
         </span>
       </div>
 
@@ -56,8 +56,7 @@ export function SellerQuotaProgress({
         <div className="flex items-center gap-2 p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs">
           <AlertCircle className="size-4 shrink-0" />
           <span>
-            Sisa kuota grosir Anda menipis. Segera topup untuk melanjutkan
-            penjualan.
+            {t("vpn.resellerQuotaLow")}
           </span>
         </div>
       )}

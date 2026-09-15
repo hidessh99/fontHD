@@ -5,6 +5,7 @@ import { SearchInput } from "@/components/ui/search-input";
 import { NativeSelect } from "@/components/ui/native-select";
 import { DataTableFilterConfig } from "./types";
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n/context";
 
 interface DataTableToolbarProps<TData> {
   searchable?: boolean;
@@ -21,8 +22,8 @@ interface DataTableToolbarProps<TData> {
 
 export function DataTableToolbar<TData>({
   searchable = false,
-  searchPlaceholder = "Cari data...",
-  searchButtonText = "Cari",
+  searchPlaceholder,
+  searchButtonText,
   onSearchCommit,
   onSearchClear,
   filters,
@@ -31,6 +32,10 @@ export function DataTableToolbar<TData>({
   actions,
   className,
 }: DataTableToolbarProps<TData>) {
+  const { t } = useI18n();
+  const effectivePlaceholder = searchPlaceholder || t("common.search") || "Search data...";
+  const effectiveButtonText = searchButtonText || t("common.filter") || "Search";
+
   // Local draft state: typing here does NOT trigger search or table filtering!
   const [draftSearch, setDraftSearch] = useState("");
 
@@ -67,8 +72,8 @@ export function DataTableToolbar<TData>({
               onChange={setDraftSearch}
               onSearch={handleSearch}
               onClear={handleClear}
-              placeholder={searchPlaceholder}
-              buttonText={searchButtonText}
+              placeholder={effectivePlaceholder}
+              buttonText={effectiveButtonText}
               hideSubmitButton={false}
             />
           </div>

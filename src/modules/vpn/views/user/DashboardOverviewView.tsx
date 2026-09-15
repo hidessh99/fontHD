@@ -18,10 +18,12 @@ import { CreateVpnModal } from "../../components/user/CreateVpnModal";
 import { useVpnUser } from "../../hooks/useVpnUser";
 import { useAuthStore } from "@/modules/iam/hooks/useAuth";
 import { VpnProtocol } from "../../types/vpn.types";
+import { useI18n } from "@/lib/i18n/context";
 
 export function DashboardOverviewView() {
   const { user } = useAuthStore();
   const { accounts, servers, isLoading, refresh, deleteAccount } = useVpnUser();
+  const { t } = useI18n();
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [selectedProto, setSelectedProto] = useState<VpnProtocol>("vmess");
 
@@ -69,22 +71,20 @@ export function DashboardOverviewView() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 rounded-2xl border border-border/80 bg-surface/50 p-6 backdrop-blur-sm">
         <div>
           <h1 className="text-2xl font-black tracking-tight text-foreground">
-            Selamat Datang,{" "}
+            {t("dashboard.welcome") || "Welcome back"},{" "}
             <span className="text-primary">{user?.username || "Member"}</span>!
           </h1>
           <p className="mt-1 text-xs text-muted-foreground max-w-xl">
-            Console infrastruktur tunneling GoVPN. Kelola akun multi-protokol,
-            pantau status server real-time, dan salin kredensial dalam satu
-            klik.
+            {t("dashboard.subtitle") || "GoVPN Tunneling Infrastructure Console. Manage multi-protocol accounts, monitor server status in real-time, and copy credentials in one click."}
           </p>
         </div>
 
         <div className="flex items-center gap-3">
           <Button
             onClick={() => handleOpenCreate("vmess")}
-            className="bg-primary hover:bg-primary-hover text-white text-xs font-semibold shadow-lg shadow-primary/25 h-10 px-5 rounded-full"
+            className="bg-primary hover:bg-primary-hover text-white text-xs font-semibold shadow-lg shadow-primary/25 h-10 px-5 rounded-full cursor-pointer"
           >
-            <Plus className="mr-1.5 size-4" /> Order Akun Baru
+            <Plus className="mr-1.5 size-4" /> {t("dashboard.orderNewAccount") || "Order New Account"}
           </Button>
         </div>
       </div>
@@ -94,7 +94,7 @@ export function DashboardOverviewView() {
         <Card className="border-border/80 bg-card/60 rounded-2xl">
           <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
             <CardTitle className="text-xs font-medium text-muted-foreground uppercase tracking-wider font-mono">
-              Akun Aktif
+              {t("dashboard.activeAccounts") || "Active Accounts"}
             </CardTitle>
             <Zap className="size-4 text-primary" />
           </CardHeader>
@@ -103,7 +103,7 @@ export function DashboardOverviewView() {
               {accounts.length}
             </div>
             <p className="text-[10px] text-muted-foreground mt-1 font-mono">
-              Tunnel siap terhubung
+              {t("dashboard.readyTunnels") || "Tunnels ready to connect"}
             </p>
           </CardContent>
         </Card>
@@ -111,7 +111,7 @@ export function DashboardOverviewView() {
         <Card className="border-border/80 bg-card/60 rounded-2xl">
           <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
             <CardTitle className="text-xs font-medium text-muted-foreground uppercase tracking-wider font-mono">
-              Saldo Wallet
+              {t("dashboard.walletBalance") || "Wallet Balance"}
             </CardTitle>
             <Wallet className="size-4 text-emerald-400" />
           </CardHeader>
@@ -123,7 +123,7 @@ export function DashboardOverviewView() {
               href="/billing/deposit"
               className="text-[10px] text-primary hover:underline mt-1 block font-mono"
             >
-              + Top up deposit
+              + {t("dashboard.topupBalance") || "Top up deposit"}
             </Link>
           </CardContent>
         </Card>
@@ -131,7 +131,7 @@ export function DashboardOverviewView() {
         <Card className="border-border/80 bg-card/60 rounded-2xl">
           <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
             <CardTitle className="text-xs font-medium text-muted-foreground uppercase tracking-wider font-mono">
-              Server Online
+              {t("dashboard.activeServers") || "Active Servers"}
             </CardTitle>
             <Server className="size-4 text-primary" />
           </CardHeader>
@@ -148,14 +148,14 @@ export function DashboardOverviewView() {
         <Card className="border-border/80 bg-card/60 rounded-2xl">
           <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
             <CardTitle className="text-xs font-medium text-muted-foreground uppercase tracking-wider font-mono">
-              Protokol Aktif
+              {t("vpn.protocol") || "Protocols"}
             </CardTitle>
             <Activity className="size-4 text-primary" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-black font-mono">6/6</div>
             <p className="text-[10px] text-muted-foreground mt-1 font-mono">
-              Semua protokol online
+              {t("common.online") || "Online"}
             </p>
           </CardContent>
         </Card>
@@ -165,13 +165,13 @@ export function DashboardOverviewView() {
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <h2 className="text-sm font-bold tracking-wider uppercase text-muted-foreground font-mono">
-            Pilih Protokol Tunneling
+            {t("dashboard.quickCreate") || "Quick Protocol Order"}
           </h2>
           <Link
             href="/servers"
             className="text-xs font-medium text-primary hover:underline flex items-center gap-1 font-mono"
           >
-            Lihat semua server <ArrowRight className="size-3" />
+            {t("vpn.serverFleet") || "View all servers"} <ArrowRight className="size-3" />
           </Link>
         </div>
 
@@ -203,7 +203,7 @@ export function DashboardOverviewView() {
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <h2 className="text-sm font-bold tracking-wider uppercase text-muted-foreground font-mono">
-            Akun VPN Aktif Anda ({accounts.length})
+            {t("dashboard.myAccounts") || "My Active VPN Accounts"} ({accounts.length})
           </h2>
           {accounts.length > 0 && (
             <span className="text-[10px] font-mono text-muted-foreground">
@@ -215,21 +215,21 @@ export function DashboardOverviewView() {
         {isLoading ? (
           <div className="h-40 rounded-xl border border-dashed border-border flex items-center justify-center">
             <p className="text-xs font-mono text-muted-foreground">
-              Memuat akun VPN aktif...
+              {t("common.loading") || "Loading active VPN accounts..."}
             </p>
           </div>
         ) : accounts.length === 0 ? (
           <EmptyState
             icon={Zap}
-            title="Belum Ada Akun VPN Aktif"
-            description="Anda belum memiliki akun tunneling yang aktif. Pilih protokol di atas atau klik tombol di bawah untuk membuat akun baru."
+            title={t("dashboard.noActiveAccounts") || "No Active VPN Accounts"}
+            description={t("dashboard.noActiveAccountsDesc") || "You don't have any active VPN accounts yet. Choose a protocol to create your first tunnel."}
             action={
               <Button
                 onClick={() => handleOpenCreate("vmess")}
                 size="sm"
-                className="bg-primary hover:bg-primary-hover text-white text-xs rounded-full min-h-10 px-6 shadow-md shadow-primary/25"
+                className="bg-primary hover:bg-primary-hover text-white text-xs rounded-full min-h-10 px-6 shadow-md shadow-primary/25 cursor-pointer"
               >
-                <Plus className="mr-1.5 size-3.5" /> Buat Akun Pertama
+                <Plus className="mr-1.5 size-3.5" /> {t("dashboard.orderNewAccount") || "Create First Account"}
               </Button>
             }
           />

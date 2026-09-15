@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { useVpnUserStore } from "../../store/vpn-user.store";
+import { useI18n } from "@/lib/i18n/context";
 
 interface RenewAccountDialogProps {
   accountId: number | string | null;
@@ -33,6 +34,7 @@ export function RenewAccountDialog({
 }: RenewAccountDialogProps) {
   const [selectedDuration, setSelectedDuration] = useState<number>(30);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { t } = useI18n();
 
   const optimisticRenewAccount = useVpnUserStore(
     (s) => s.optimisticRenewAccount,
@@ -46,11 +48,11 @@ export function RenewAccountDialog({
 
     if (result.success) {
       toast.success(
-        `Masa aktif akun berhasil diperpanjang ${selectedDuration} hari!`,
+        t("vpn.renewSuccess") || `VPN account extended by ${selectedDuration} days!`,
       );
       onClose();
     } else {
-      toast.error(result.error || "Gagal memperpanjang masa aktif akun.");
+      toast.error(result.error || t("common.error") || "Failed to renew account.");
     }
     setIsSubmitting(false);
   };
@@ -62,34 +64,34 @@ export function RenewAccountDialog({
           <div className="flex items-center gap-2 mb-1 text-primary">
             <RefreshCw className="size-4" />
             <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground">
-              Perpanjang Layanan
+              {t("vpn.quickRenew") || "Service Renewal"}
             </span>
           </div>
           <DialogTitle className="text-lg font-bold">
-            Perpanjang Masa Aktif Akun
+            {t("vpn.renewAccount") || "Renew Account Expiration"}
           </DialogTitle>
           <DialogDescription className="text-xs text-muted-foreground">
-            Pilih durasi perpanjangan masa aktif akun tunneling VPN Anda.
+            {t("vpn.vpnSubtitle") || "Select the extension period for this VPN account."}
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 pt-2">
           <div className="space-y-2">
-            <Label className="text-xs font-medium">Pilih Durasi Hari</Label>
+            <Label className="text-xs font-medium">{t("vpn.duration") || "Select Duration (Days)"}</Label>
             <div className="grid grid-cols-3 gap-2.5">
               {[30, 60, 90].map((days) => (
                 <button
                   key={days}
                   type="button"
                   onClick={() => setSelectedDuration(days)}
-                  className={`p-3 rounded-2xl border text-center font-mono text-xs font-bold transition-all ${
+                  className={`p-3 rounded-2xl border text-center font-mono text-xs font-bold transition-all cursor-pointer ${
                     selectedDuration === days
                       ? "border-primary bg-primary/10 text-primary shadow-sm"
                       : "border-border/60 bg-surface/50 text-muted-foreground hover:border-border hover:text-foreground"
                   }`}
                 >
                   <Calendar className="size-4 mx-auto mb-1 text-muted-foreground" />
-                  {days} Hari
+                  {days} {t("common.active") ? (t("vpn.durationDays", { days }) || `${days} Days`) : `${days} Days`}
                 </button>
               ))}
             </div>
@@ -101,26 +103,24 @@ export function RenewAccountDialog({
               variant="outline"
               size="sm"
               onClick={onClose}
-              className="text-xs rounded-full min-h-10 px-5"
+              className="text-xs rounded-full min-h-10 px-5 cursor-pointer"
             >
-              Batal
+              {t("common.cancel") || "Cancel"}
             </Button>
             <Button
               type="button"
               size="sm"
               onClick={handleRenew}
-              className="bg-primary hover:bg-primary-hover text-white text-xs font-semibold rounded-full min-h-10 px-6 shadow-md shadow-primary/25"
-              disabled={isSubmitting}
+              disabled={isSubmitting || !accountId}
+              className="bg-primary hover:bg-primary-hover text-white text-xs font-semibold rounded-full min-h-10 px-6 shadow-md shadow-primary/25 cursor-pointer"
             >
               {isSubmitting ? (
                 <>
-                  <Loader2 className="mr-1.5 size-3.5 animate-spin" />{" "}
-                  Memproses...
+                  <Loader2 className="mr-1.5 size-3.5 animate-spin" /> {t("common.loading") || "Renewing..."}
                 </>
               ) : (
                 <>
-                  <RefreshCw className="mr-1.5 size-3.5" /> Konfirmasi
-                  Perpanjang
+                  <RefreshCw className="mr-1.5 size-3.5" /> {t("vpn.renewAccount") || "Confirm Renewal"}
                 </>
               )}
             </Button>

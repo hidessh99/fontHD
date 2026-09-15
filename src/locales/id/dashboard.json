@@ -1,0 +1,21 @@
+{
+  "welcome": "Selamat Datang",
+  "subtitle": "Console infrastruktur tunneling GoVPN. Kelola akun multi-protokol, pantau status server real-time, dan salin kredensial dalam satu klik.",
+  "orderNewAccount": "Order Akun Baru",
+  "activeAccounts": "Akun Aktif",
+  "readyTunnels": "Tunnel siap terhubung",
+  "walletBalance": "Saldo Wallet",
+  "topupBalance": "Isi Saldo",
+  "activeServers": "Server Aktif",
+  "globalNodes": "Node global online",
+  "monthlyTraffic": "Traffic Bulanan",
+  "ofQuota": "dari kuota terpakai",
+  "myAccounts": "Akun VPN Aktif Saya",
+  "myAccountsSubtitle": "Daftar tunnel aktif di seluruh protokol tunneling.",
+  "quickCreate": "Order Protokol Cepat",
+  "quickCreateSubtitle": "Pilih protokol tunneling yang diinginkan untuk membuat akun baru secara instan.",
+  "noActiveAccounts": "Belum Ada Akun VPN Aktif",
+  "noActiveAccountsDesc": "Anda belum memiliki akun VPN aktif. Pilih protokol untuk membuat tunnel pertama Anda.",
+  "serverStatus": "Status Armada Server",
+  "serverStatusSubtitle": "Pemantauan kesehatan dan beban node global secara real-time."
+}

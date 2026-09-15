@@ -17,8 +17,10 @@ import { VerifyEmailBanner } from "../../components/guest/VerifyEmailBanner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
 import { ShieldCheck, Laptop, MapPin, KeyRound } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 
 export function UserProfileSettingsView() {
+  const { t } = useI18n();
   const {
     user,
     sessions,
@@ -59,21 +61,21 @@ export function UserProfileSettingsView() {
             className="gap-2 text-xs font-mono font-medium data-state-active:bg-background data-state-active:text-foreground"
           >
             <ShieldCheck className="h-3.5 w-3.5" />
-            Keamanan &amp; 2FA
+            {t("iam.tabSecurity")}
           </TabsTrigger>
           <TabsTrigger
             value="sessions"
             className="gap-2 text-xs font-mono font-medium data-state-active:bg-background data-state-active:text-foreground"
           >
             <Laptop className="h-3.5 w-3.5" />
-            Sesi Perangkat ({sessions.length})
+            {t("iam.tabSessions", { count: sessions.length })}
           </TabsTrigger>
           <TabsTrigger
             value="addresses"
             className="gap-2 text-xs font-mono font-medium data-state-active:bg-background data-state-active:text-foreground"
           >
             <MapPin className="h-3.5 w-3.5" />
-            Alamat Penagihan ({addresses.length})
+            {t("iam.tabAddresses", { count: addresses.length })}
           </TabsTrigger>
         </TabsList>
 
@@ -89,11 +91,10 @@ export function UserProfileSettingsView() {
                   </div>
                   <div>
                     <h4 className="text-sm font-bold text-foreground">
-                      Kata Sandi Akun
+                      {t("iam.accountPasswordTitle")}
                     </h4>
                     <p className="text-xs text-muted-foreground">
-                      Ubah kata sandi secara berkala untuk menjaga keamanan
-                      akun.
+                      {t("iam.accountPasswordDesc")}
                     </p>
                   </div>
                 </div>
@@ -113,11 +114,10 @@ export function UserProfileSettingsView() {
                   </div>
                   <div>
                     <h4 className="text-sm font-bold text-foreground">
-                      Autentikasi Dua Faktor (2FA)
+                      {t("iam.twoFactorTitle")}
                     </h4>
                     <p className="text-xs text-muted-foreground">
-                      Wajibkan kode 6-digit dari Google Authenticator saat
-                      login.
+                      {t("iam.twoFactorDesc")}
                     </p>
                   </div>
                 </div>
@@ -125,13 +125,13 @@ export function UserProfileSettingsView() {
 
               <div className="pt-2 border-t border-border/40 flex items-center justify-between">
                 <span className="text-xs font-mono text-muted-foreground">
-                  Status:{" "}
+                  {t("iam.status")}:{" "}
                   <strong
                     className={
                       twoFactorEnabled ? "text-emerald-400" : "text-amber-400"
                     }
                   >
-                    {twoFactorEnabled ? "AKTIF" : "TIDAK AKTIF"}
+                    {twoFactorEnabled ? t("iam.statusActive") : t("iam.statusInactive")}
                   </strong>
                 </span>
                 <TwoFactorSetupModal

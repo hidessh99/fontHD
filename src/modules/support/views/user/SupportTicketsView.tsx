@@ -2,6 +2,7 @@
 // GoVPN User Support Tickets View
 // Part of Pola C: views/user/SupportTicketsView.tsx
 // Algoritma 4: Dynamic Island Route Component (Helpdesk Chat & Ticket Console)
+// Fully Localized with useI18n (EN/ID)
 // ==============================================================================
 
 "use client";
@@ -15,8 +16,10 @@ import { TicketConversationView } from "../../components/user/TicketConversation
 import { RefreshCw, Plus, LifeBuoy, MessageSquareQuote } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n/context";
 
 export function SupportTicketsView() {
+  const { t } = useI18n();
   const {
     tickets,
     selectedTicket,
@@ -48,14 +51,13 @@ export function SupportTicketsView() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-border/40 pb-6">
         <div>
           <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-medium text-primary mb-2">
-            <LifeBuoy className="w-3.5 h-3.5" /> Pusat Bantuan & Helpdesk 24/7
+            <LifeBuoy className="w-3.5 h-3.5" /> {t("support.helpdeskBadge")}
           </div>
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
-            Bantuan Teknis & Tiket
+            {t("support.title")}
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Dukungan teknis dedicated untuk pemecahan masalah protokol, rute
-            tunneling, dan kendala akun.
+            {t("support.subtitle")}
           </p>
         </div>
 
@@ -65,12 +67,12 @@ export function SupportTicketsView() {
             size="sm"
             onClick={() => {
               refresh();
-              toast.info("Memperbarui tiket bantuan...");
+              toast.info(t("common.loading"));
             }}
             className="gap-2"
           >
             <RefreshCw className="w-4 h-4" />
-            <span>Segarkan</span>
+            <span>{t("common.refresh")}</span>
           </Button>
           <Button
             size="sm"
@@ -78,7 +80,7 @@ export function SupportTicketsView() {
             className="gap-2"
           >
             <Plus className="w-4 h-4" />
-            <span>Ajukan Tiket Baru</span>
+            <span>{t("support.openNewTicket")}</span>
           </Button>
         </div>
       </div>
@@ -93,7 +95,7 @@ export function SupportTicketsView() {
         >
           <div className="flex items-center justify-between">
             <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
-              Daftar Tiket Anda ({tickets.length})
+              {t("support.yourTicketsList")} ({tickets.length})
             </h2>
           </div>
 
@@ -127,11 +129,10 @@ export function SupportTicketsView() {
             <div className="h-96 rounded-2xl border border-dashed border-border/60 flex flex-col items-center justify-center p-6 text-center text-muted-foreground bg-card/20">
               <MessageSquareQuote className="w-12 h-12 stroke-[1.2] mb-3 text-muted-foreground/60" />
               <p className="text-sm font-medium text-foreground">
-                Pilih tiket untuk melihat riwayat percakapan
+                {t("support.selectTicketPrompt")}
               </p>
               <p className="text-xs text-muted-foreground mt-1 max-w-xs">
-                Klik salah satu tiket di daftar sebelah kiri untuk membalas
-                respon teknis dari tim GoVPN.
+                {t("support.selectTicketPromptDesc")}
               </p>
             </div>
           )}

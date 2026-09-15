@@ -2,6 +2,7 @@
 // GoVPN Admin AI Wallet Manager Component
 // Part of Pola C: components/admin/AdminAiWalletManager.tsx
 // 100% Coinbase Institutional Design System (User Wallet Auditing & Manual Adjust)
+// Fully Localized with useI18n (EN/ID)
 // ==============================================================================
 
 "use client";
@@ -22,6 +23,7 @@ import {
 import { Wallet, Plus, Minus, Loader2, User, Zap } from "lucide-react";
 import { toast } from "sonner";
 import { EmptyState } from "@/components/shared/EmptyState";
+import { useI18n } from "@/lib/i18n/context";
 
 interface AdminAiWalletManagerProps {
   wallets: AiWallet[];
@@ -34,6 +36,7 @@ export function AdminAiWalletManager({
   onAdjustWallet,
   loading = false,
 }: AdminAiWalletManagerProps) {
+  const { t, locale } = useI18n();
   const [openAdjust, setOpenAdjust] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState<string | number>("");
   const [amount, setAmount] = useState<number>(50000);
@@ -44,7 +47,7 @@ export function AdminAiWalletManager({
   const handleAdjust = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedUserId || !reason.trim() || amount <= 0) {
-      toast.error("User ID, nominal, dan alasan wajib diisi");
+      toast.error(t("dns.nameAndContentRequired"));
       return;
     }
 
@@ -58,7 +61,7 @@ export function AdminAiWalletManager({
       });
       setOpenAdjust(false);
       setReason("");
-      toast.success("Penyesuaian saldo AI berhasil diterapkan");
+      toast.success(t("ai.adjustmentApplied"));
     } finally {
       setSubmitting(false);
     }
@@ -70,11 +73,10 @@ export function AdminAiWalletManager({
         <div>
           <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
             <Wallet className="h-4 w-4 text-primary" />
-            Audit Dompet AI Pengguna
+            {t("ai.auditWalletsTitle")}
           </h3>
           <p className="text-xs text-muted-foreground mt-0.5">
-            Daftar saldo dan konsumsi token AI per pengguna beserta opsi
-            penyesuaian manual
+            {t("ai.auditWalletsSubtitle")}
           </p>
         </div>
 
@@ -86,7 +88,7 @@ export function AdminAiWalletManager({
                 className="h-9 px-3.5 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs gap-1.5 shadow-md shadow-primary/20"
               >
                 <Plus className="h-4 w-4" />
-                Sesuaikan Saldo
+                {t("ai.adjustBalance")}
               </Button>
             }
           />
@@ -94,16 +96,16 @@ export function AdminAiWalletManager({
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2 text-base font-bold">
                 <Wallet className="h-5 w-5 text-primary" />
-                Penyesuaian Saldo Dompet AI
+                {t("ai.adjustWalletModalTitle")}
               </DialogTitle>
             </DialogHeader>
             <form onSubmit={handleAdjust} className="space-y-3.5 pt-2">
               <div>
                 <Label className="text-xs text-muted-foreground">
-                  Target User ID
+                  {t("ai.targetUserId")}
                 </Label>
                 <Input
-                  placeholder="ID Pengguna (misal: 101)"
+                  placeholder="e.g. 101"
                   value={selectedUserId}
                   onChange={(e) => setSelectedUserId(e.target.value)}
                   className="mt-1.5 bg-muted/30 border-border text-foreground font-mono text-xs h-10"
@@ -112,7 +114,7 @@ export function AdminAiWalletManager({
 
               <div>
                 <Label className="text-xs text-muted-foreground">
-                  Tipe Penyesuaian
+                  {t("ai.adjustmentType")}
                 </Label>
                 <div className="grid grid-cols-2 gap-2 mt-1.5">
                   <button
@@ -124,7 +126,7 @@ export function AdminAiWalletManager({
                         : "border-border bg-muted/30 text-muted-foreground hover:text-foreground"
                     }`}
                   >
-                    <Plus className="h-3.5 w-3.5" /> Tambah Saldo
+                    <Plus className="h-3.5 w-3.5" /> {t("ai.addBalance")}
                   </button>
                   <button
                     type="button"
@@ -135,14 +137,14 @@ export function AdminAiWalletManager({
                         : "border-border bg-muted/30 text-muted-foreground hover:text-foreground"
                     }`}
                   >
-                    <Minus className="h-3.5 w-3.5" /> Potong Saldo
+                    <Minus className="h-3.5 w-3.5" /> {t("ai.deductBalance")}
                   </button>
                 </div>
               </div>
 
               <div>
                 <Label className="text-xs text-muted-foreground">
-                  Nominal (IDR)
+                  {t("ai.customAmount")}
                 </Label>
                 <Input
                   type="number"
@@ -156,10 +158,10 @@ export function AdminAiWalletManager({
 
               <div>
                 <Label className="text-xs text-muted-foreground">
-                  Alasan Penyesuaian
+                  {t("ai.adjustmentReason")}
                 </Label>
                 <Input
-                  placeholder="misal: Kompensasi downtime gateway"
+                  placeholder="e.g. Gateway downtime compensation"
                   value={reason}
                   onChange={(e) => setReason(e.target.value)}
                   className="mt-1.5 bg-muted/30 border-border text-foreground text-xs h-10"
@@ -174,10 +176,10 @@ export function AdminAiWalletManager({
                 {submitting ? (
                   <>
                     <Loader2 className="h-4 w-4 animate-spin" />
-                    Menerapkan Perubahan...
+                    {t("ai.applyingAdjustment")}
                   </>
                 ) : (
-                  "Terapkan Penyesuaian"
+                  t("ai.applyAdjustment")
                 )}
               </Button>
             </form>
@@ -189,25 +191,25 @@ export function AdminAiWalletManager({
         <div className="w-full h-64 flex flex-col items-center justify-center gap-3 rounded-2xl border border-border/80 bg-card/40">
           <Loader2 className="h-7 w-7 animate-spin text-primary" />
           <p className="text-xs text-muted-foreground font-medium">
-            Memuat data dompet pengguna...
+            {t("common.loading")}
           </p>
         </div>
       ) : wallets.length === 0 ? (
         <EmptyState
           icon={Wallet}
-          title="Belum Ada Data Dompet AI"
-          description="Pengguna yang menggunakan gateway AI akan otomatis terdaftar di sini."
+          title={t("ai.noWalletsTitle")}
+          description={t("ai.noWalletsDesc")}
         />
       ) : (
         <div className="w-full overflow-x-auto rounded-2xl border border-border/80 bg-card/60 shadow-xl">
           <table className="w-full text-left text-sm text-muted-foreground font-mono">
             <thead className="border-b border-border/80 bg-muted/30 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               <tr>
-                <th className="px-5 py-4 font-sans">User ID</th>
-                <th className="px-5 py-4 font-sans">Saldo AI (IDR)</th>
-                <th className="px-5 py-4 font-sans">Total Token Digunakan</th>
-                <th className="px-5 py-4 font-sans">Total Permintaan</th>
-                <th className="px-5 py-4 font-sans text-right">Aksi</th>
+                <th className="px-5 py-4 font-sans">{t("ai.targetUserId")}</th>
+                <th className="px-5 py-4 font-sans">{t("ai.walletBalance")}</th>
+                <th className="px-5 py-4 font-sans">{t("ai.usedTokens")}</th>
+                <th className="px-5 py-4 font-sans">{t("ai.totalRequests")}</th>
+                <th className="px-5 py-4 font-sans text-right">{t("common.actions")}</th>
               </tr>
             </thead>
             <tbody className="divide-y border-border/40 text-xs">
@@ -225,7 +227,7 @@ export function AdminAiWalletManager({
 
                   <td className="px-5 py-3.5">
                     <span className="font-bold text-emerald-400 font-mono">
-                      Rp {w.balance.toLocaleString("id-ID")}
+                      Rp {w.balance.toLocaleString(locale === "id" ? "id-ID" : "en-US")}
                     </span>
                   </td>
 
@@ -250,7 +252,7 @@ export function AdminAiWalletManager({
                       }}
                       className="h-8 px-2.5 text-xs text-primary hover:text-primary hover:bg-primary/10 rounded-lg"
                     >
-                      Sesuaikan
+                      {t("ai.adjustBalance")}
                     </Button>
                   </td>
                 </tr>

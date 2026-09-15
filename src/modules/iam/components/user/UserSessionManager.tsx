@@ -12,6 +12,7 @@ import { SessionDeviceItem } from "../shared/SessionDeviceItem";
 import { Button } from "@/components/ui/button";
 import { ShieldAlert, LogOut, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n";
 
 interface UserSessionManagerProps {
   sessions: UserDeviceSession[];
@@ -24,6 +25,7 @@ export function UserSessionManager({
   onRevokeSession,
   onLogoutAllOther,
 }: UserSessionManagerProps) {
+  const { t } = useI18n();
   const [revokingId, setRevokingId] = useState<string | number | null>(null);
   const [isLoggingOutAll, setIsLoggingOutAll] = useState(false);
 
@@ -32,9 +34,9 @@ export function UserSessionManager({
     setRevokingId(id);
     try {
       await onRevokeSession(id);
-      toast.success("Sesi perangkat berhasil diputuskan!");
+      toast.success(t("iam.sessionRevoked"));
     } catch {
-      toast.error("Gagal memutuskan sesi.");
+      toast.error(t("iam.sessionRevokeFailed"));
     } finally {
       setRevokingId(null);
     }
@@ -45,9 +47,9 @@ export function UserSessionManager({
     setIsLoggingOutAll(true);
     try {
       await onLogoutAllOther();
-      toast.success("Semua sesi perangkat lain telah berhasil dikeluarkan!");
+      toast.success(t("iam.allOtherSessionsRevoked"));
     } catch {
-      toast.error("Gagal mengeluarkan sesi perangkat lain.");
+      toast.error(t("iam.allOtherSessionsRevokeFailed"));
     } finally {
       setIsLoggingOutAll(false);
     }
@@ -59,11 +61,10 @@ export function UserSessionManager({
         <div>
           <h3 className="text-sm font-bold font-mono text-foreground flex items-center gap-2">
             <ShieldAlert className="h-4 w-4 text-primary" />
-            Manajemen Sesi Login Aktif ({sessions.length})
+            {t("iam.activeSessionsTitle", { count: sessions.length })}
           </h3>
           <p className="text-xs text-muted-foreground">
-            Daftar perangkat yang saat ini memiliki token akses ke akun GoVPN
-            Anda.
+            {t("iam.activeSessionsDesc")}
           </p>
         </div>
 
@@ -80,7 +81,7 @@ export function UserSessionManager({
             ) : (
               <LogOut className="h-3.5 w-3.5" />
             )}
-            Keluar dari Semua Perangkat Lain
+            {t("iam.logoutAllOtherDevices")}
           </Button>
         )}
       </div>

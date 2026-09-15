@@ -2,6 +2,7 @@
 // GoVPN Superadmin AI Management View Component
 // Part of Pola C: views/admin/AdminAiView.tsx
 // 100% Coinbase Institutional Design System (Models, Providers, Wallets & Analytics)
+// Fully Localized with useI18n (EN/ID)
 // ==============================================================================
 
 "use client";
@@ -22,8 +23,10 @@ import {
   RefreshCw,
   Sparkles,
 } from "lucide-react";
+import { useI18n } from "@/lib/i18n/context";
 
 export function AdminAiView() {
+  const { t } = useI18n();
   const {
     models,
     providers,
@@ -51,11 +54,10 @@ export function AdminAiView() {
             <div className="p-2 rounded-xl bg-primary/10 text-primary border border-primary/20">
               <Sparkles className="h-5 w-5" />
             </div>
-            Admin AI Gateway Control Center
+            {t("ai.adminTitle")}
           </h1>
           <p className="text-xs text-muted-foreground mt-1">
-            Manajemen model inferensi LLM, koneksi provider upstream, dan audit
-            dompet pengguna
+            {t("ai.adminSubtitle")}
           </p>
         </div>
 
@@ -69,7 +71,7 @@ export function AdminAiView() {
           <RefreshCw
             className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`}
           />
-          Segarkan
+          {t("common.refresh")}
         </Button>
       </div>
 
@@ -79,7 +81,7 @@ export function AdminAiView() {
           <CardContent className="p-0 flex items-center justify-between">
             <div>
               <span className="text-xs text-muted-foreground font-medium">
-                Total Permintaan
+                {t("ai.totalRequests")}
               </span>
               <div className="font-mono text-2xl font-bold text-foreground mt-1">
                 {stats.total_requests.toLocaleString()}
@@ -95,7 +97,7 @@ export function AdminAiView() {
           <CardContent className="p-0 flex items-center justify-between">
             <div>
               <span className="text-xs text-muted-foreground font-medium">
-                Konsumsi Token
+                {t("ai.tokenConsumption")}
               </span>
               <div className="font-mono text-2xl font-bold text-primary mt-1">
                 {(stats.total_tokens / 1000000).toFixed(2)}M
@@ -111,10 +113,10 @@ export function AdminAiView() {
           <CardContent className="p-0 flex items-center justify-between">
             <div>
               <span className="text-xs text-muted-foreground font-medium">
-                Model Aktif
+                {t("ai.activeModels")}
               </span>
               <div className="font-mono text-2xl font-bold text-emerald-400 mt-1">
-                {models.length} Model
+                {models.length}
               </div>
             </div>
             <div className="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
@@ -127,10 +129,10 @@ export function AdminAiView() {
           <CardContent className="p-0 flex items-center justify-between">
             <div>
               <span className="text-xs text-muted-foreground font-medium">
-                Provider Terhubung
+                {t("ai.connectedProviders")}
               </span>
               <div className="font-mono text-2xl font-bold text-amber-400 mt-1">
-                {providers.length} Provider
+                {providers.length}
               </div>
             </div>
             <div className="p-2.5 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/20">
@@ -148,15 +150,15 @@ export function AdminAiView() {
         <TabsList variant="line" className="w-full justify-start border-b border-border/40">
           <TabsTrigger value="models" className="gap-2">
             <Cpu className="h-3.5 w-3.5" />
-            <span>Model LLM ({models.length})</span>
+            <span>{t("ai.llmModelsTab")} ({models.length})</span>
           </TabsTrigger>
           <TabsTrigger value="providers" className="gap-2">
             <Server className="h-3.5 w-3.5" />
-            <span>Provider Upstream ({providers.length})</span>
+            <span>{t("ai.upstreamProvidersTab")} ({providers.length})</span>
           </TabsTrigger>
           <TabsTrigger value="wallets" className="gap-2">
             <Wallet className="h-3.5 w-3.5" />
-            <span>Dompet Pengguna ({wallets.length})</span>
+            <span>{t("ai.userWalletsTab")} ({wallets.length})</span>
           </TabsTrigger>
         </TabsList>
       </Tabs>
