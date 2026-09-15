@@ -10,6 +10,7 @@ import React from "react";
 import { useNotificationUser } from "../../hooks/useNotificationUser";
 import { NotificationSkeleton } from "../../components/shared/NotificationSkeleton";
 import { NotificationFeed } from "../../components/user/NotificationFeed";
+import { Button } from "@/components/ui/button";
 import { RefreshCw, Bell } from "lucide-react";
 import { toast } from "sonner";
 
@@ -38,16 +39,18 @@ export function NotificationsView() {
           </p>
         </div>
 
-        <button
+        <Button
+          variant="outline"
+          size="sm"
           onClick={() => {
             refresh();
             toast.info("Notifikasi diperbarui");
           }}
-          className="inline-flex items-center gap-2 px-3.5 py-2 text-sm font-medium rounded-lg border border-border/50 bg-background/50 hover:bg-accent hover:text-accent-foreground transition-colors self-start sm:self-auto"
+          className="gap-2 self-start sm:self-auto"
         >
           <RefreshCw className="w-4 h-4" />
           <span>Segarkan</span>
-        </button>
+        </Button>
       </div>
 
       {/* Feed */}

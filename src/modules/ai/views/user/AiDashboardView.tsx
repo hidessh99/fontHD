@@ -13,6 +13,7 @@ import { AiApiKeyManager } from "../../components/user/AiApiKeyManager";
 import { AiModelCatalog } from "../../components/user/AiModelCatalog";
 import { AiChatPlayground } from "../../components/user/AiChatPlayground";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Key, Cpu, Sparkles, RefreshCw } from "lucide-react";
 
 export function AiDashboardView() {
@@ -66,43 +67,25 @@ export function AiDashboardView() {
       </div>
 
       {/* Tabs navigation */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-1">
-        <button
-          onClick={() => setActiveTab("keys")}
-          className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-2 ${
-            activeTab === "keys"
-              ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
-              : "bg-muted/40 text-muted-foreground hover:text-foreground hover:bg-muted"
-          }`}
-        >
-          <Key className="h-3.5 w-3.5" />
-          API Keys & Dompet AI
-        </button>
-
-        <button
-          onClick={() => setActiveTab("catalog")}
-          className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-2 ${
-            activeTab === "catalog"
-              ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
-              : "bg-muted/40 text-muted-foreground hover:text-foreground hover:bg-muted"
-          }`}
-        >
-          <Cpu className="h-3.5 w-3.5" />
-          Katalog Model ({models.length})
-        </button>
-
-        <button
-          onClick={() => setActiveTab("playground")}
-          className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-2 ${
-            activeTab === "playground"
-              ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
-              : "bg-muted/40 text-muted-foreground hover:text-foreground hover:bg-muted"
-          }`}
-        >
-          <Sparkles className="h-3.5 w-3.5" />
-          Playground Inferensi
-        </button>
-      </div>
+      <Tabs
+        value={activeTab}
+        onValueChange={(v) => setActiveTab(v as "keys" | "catalog" | "playground")}
+      >
+        <TabsList variant="line" className="w-full justify-start border-b border-border/40">
+          <TabsTrigger value="keys" className="gap-2">
+            <Key className="h-3.5 w-3.5" />
+            <span>API Keys & Dompet AI</span>
+          </TabsTrigger>
+          <TabsTrigger value="catalog" className="gap-2">
+            <Cpu className="h-3.5 w-3.5" />
+            <span>Katalog Model ({models.length})</span>
+          </TabsTrigger>
+          <TabsTrigger value="playground" className="gap-2">
+            <Sparkles className="h-3.5 w-3.5" />
+            <span>Playground Inferensi</span>
+          </TabsTrigger>
+        </TabsList>
+      </Tabs>
 
       {/* Tab Panels */}
       {activeTab === "keys" && (

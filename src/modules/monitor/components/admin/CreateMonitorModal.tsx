@@ -18,6 +18,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { NativeSelect } from "@/components/ui/native-select";
 import { Activity, Plus, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -153,16 +154,16 @@ export function CreateMonitorModal({ onCreate }: CreateMonitorModalProps) {
               <Label className="text-xs text-muted-foreground font-medium">
                 Interval Ping (Detik)
               </Label>
-              <select
+              <NativeSelect
                 value={interval}
                 onChange={(e) => setInterval(Number(e.target.value))}
-                className="mt-1.5 w-full rounded-xl border border-border bg-card px-3 py-2 text-xs text-foreground outline-none focus:border-primary"
+                className="mt-1.5 text-xs"
               >
                 <option value={10}>10 Detik</option>
                 <option value={30}>30 Detik</option>
                 <option value={60}>1 Menit</option>
                 <option value={300}>5 Menit</option>
-              </select>
+              </NativeSelect>
             </div>
 
             <div>

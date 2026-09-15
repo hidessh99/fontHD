@@ -17,6 +17,9 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { NativeSelect } from "@/components/ui/native-select";
 import { Megaphone, Send, Loader2, Users, UserCheck } from "lucide-react";
 import { toast } from "sonner";
 
@@ -162,12 +165,12 @@ export function BroadcastSenderModal({
               <label className="text-xs font-semibold text-muted-foreground">
                 User IDs (Dipisahkan koma)
               </label>
-              <input
+              <Input
                 type="text"
                 placeholder="101, 102, 205"
                 value={userIdsText}
                 onChange={(e) => setUserIdsText(e.target.value)}
-                className="w-full px-3.5 py-2 text-xs rounded-lg border border-border/50 bg-background/50 focus:outline-none focus:ring-2 focus:ring-primary font-mono"
+                className="font-mono"
               />
             </div>
           )}
@@ -177,12 +180,12 @@ export function BroadcastSenderModal({
             <label className="text-xs font-semibold text-muted-foreground">
               Saluran Pengiriman (Channel)
             </label>
-            <select
+            <NativeSelect
               value={channel}
               onChange={(e) =>
                 setChannel(e.target.value as NotificationChannel)
               }
-              className="w-full px-3.5 py-2 text-xs rounded-lg border border-border/50 bg-background/50 focus:outline-none focus:ring-2 focus:ring-primary font-semibold"
+              className="font-semibold"
             >
               <option value="IN_APP">
                 In-App Notification (Dashboard Bell)
@@ -191,7 +194,7 @@ export function BroadcastSenderModal({
               <option value="TELEGRAM">Telegram Bot Channel</option>
               <option value="WHATSAPP">WhatsApp Business API</option>
               <option value="PUSH">Web Push Notification</option>
-            </select>
+            </NativeSelect>
           </div>
 
           {/* Subject */}
@@ -199,12 +202,11 @@ export function BroadcastSenderModal({
             <label className="text-xs font-semibold text-muted-foreground">
               Judul / Subjek Pesan
             </label>
-            <input
+            <Input
               type="text"
               placeholder="Contoh: Pemeliharaan Server SG-01 Dijadwalkan Pukul 02:00 WIB"
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
-              className="w-full px-3.5 py-2 text-xs rounded-lg border border-border/50 bg-background/50 focus:outline-none focus:ring-2 focus:ring-primary"
             />
           </div>
 
@@ -213,13 +215,13 @@ export function BroadcastSenderModal({
             <label className="text-xs font-semibold text-muted-foreground">
               Isi Pengumuman / Pesan
             </label>
-            <textarea
+            <Textarea
               required
               rows={4}
               placeholder="Tuliskan isi pengumuman atau instruksi yang ingin disampaikan ke pengguna..."
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              className="w-full px-3.5 py-2 text-xs rounded-lg border border-border/50 bg-background/50 focus:outline-none focus:ring-2 focus:ring-primary resize-none"
+              className="resize-none"
             />
           </div>
 

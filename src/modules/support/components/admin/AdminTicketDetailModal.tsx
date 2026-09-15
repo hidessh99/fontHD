@@ -13,6 +13,8 @@ import { TicketStatusBadge } from "../shared/TicketStatusBadge";
 import { TicketPriorityBadge } from "../shared/TicketPriorityBadge";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { NativeSelect } from "@/components/ui/native-select";
 import { Send, Loader2, Trash2, Lock, User, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
 
@@ -82,16 +84,18 @@ export function AdminTicketDetailModal({
             </div>
 
             {/* Quick Status Override Selector */}
-            <select
+            <NativeSelect
               value={ticket.status}
               onChange={(e) => onUpdateStatus(e.target.value as TicketStatus)}
-              className="text-xs px-2.5 py-1 rounded-lg border border-border/50 bg-background font-semibold focus:outline-none focus:ring-1 focus:ring-primary"
+              size="sm"
+              wrapperClassName="w-auto"
+              className="text-xs font-semibold h-7"
             >
               <option value="OPEN">OPEN</option>
               <option value="IN_PROGRESS">IN PROGRESS</option>
               <option value="RESOLVED">RESOLVED</option>
               <option value="CLOSED">CLOSED</option>
-            </select>
+            </NativeSelect>
           </div>
 
           <DialogTitle className="text-base font-bold text-foreground">
@@ -197,7 +201,7 @@ export function AdminTicketDetailModal({
           onSubmit={handleSend}
           className="p-4 border-t border-border/40 bg-card space-y-3"
         >
-          <textarea
+          <Textarea
             rows={2}
             required
             placeholder={
@@ -207,7 +211,7 @@ export function AdminTicketDetailModal({
             }
             value={replyMessage}
             onChange={(e) => setReplyMessage(e.target.value)}
-            className="w-full px-3 py-2 text-xs rounded-lg border border-border/50 bg-background/50 focus:outline-none focus:ring-1 focus:ring-primary resize-none"
+            className="text-xs resize-none"
           />
 
           <div className="flex items-center justify-between">

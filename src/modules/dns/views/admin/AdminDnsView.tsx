@@ -13,6 +13,7 @@ import { AdminDomainManager } from "../../components/admin/AdminDomainManager";
 import { AdminGlobalRecordTable } from "../../components/admin/AdminGlobalRecordTable";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Cloud, Globe, Layers, RefreshCw } from "lucide-react";
 
 export function AdminDnsView() {
@@ -89,38 +90,24 @@ export function AdminDnsView() {
 
       {/* Tabs and Refresh Bar */}
       <div className="flex items-center justify-between border-b border-border pb-4">
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => setActiveTab("records")}
-            className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all ${
-              activeTab === "records"
-                ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
-                : "bg-muted/40 text-muted-foreground hover:text-foreground hover:bg-muted"
-            }`}
-          >
-            Audit Global Record ({records.length})
-          </button>
-          <button
-            onClick={() => setActiveTab("domains")}
-            className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all ${
-              activeTab === "domains"
-                ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
-                : "bg-muted/40 text-muted-foreground hover:text-foreground hover:bg-muted"
-            }`}
-          >
-            Zona Domain ({domains.length})
-          </button>
-          <button
-            onClick={() => setActiveTab("accounts")}
-            className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all ${
-              activeTab === "accounts"
-                ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
-                : "bg-muted/40 text-muted-foreground hover:text-foreground hover:bg-muted"
-            }`}
-          >
-            Akun Cloudflare ({accounts.length})
-          </button>
-        </div>
+        <Tabs
+          value={activeTab}
+          onValueChange={(val) =>
+            setActiveTab(val as "records" | "domains" | "accounts")
+          }
+        >
+          <TabsList variant="line" className="gap-2">
+            <TabsTrigger value="records" className="py-2 text-xs font-semibold">
+              Audit Global Record ({records.length})
+            </TabsTrigger>
+            <TabsTrigger value="domains" className="py-2 text-xs font-semibold">
+              Zona Domain ({domains.length})
+            </TabsTrigger>
+            <TabsTrigger value="accounts" className="py-2 text-xs font-semibold">
+              Akun Cloudflare ({accounts.length})
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
 
         <Button
           variant="outline"

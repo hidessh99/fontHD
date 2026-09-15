@@ -13,6 +13,7 @@ import { AdminTicketTable } from "../../components/admin/AdminTicketTable";
 import { AdminTicketDetailModal } from "../../components/admin/AdminTicketDetailModal";
 import { Ticket } from "../../types/support.types";
 import { RefreshCw, ShieldAlert, Trash2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
 export function AdminSupportView() {
@@ -77,24 +78,28 @@ export function AdminSupportView() {
         </div>
 
         <div className="flex items-center gap-3">
-          <button
+          <Button
+            variant="outline"
+            size="sm"
             onClick={() => {
               refresh();
               toast.info("Data tiket diperbarui");
             }}
-            className="inline-flex items-center gap-2 px-3.5 py-2 text-sm font-medium rounded-lg border border-border/50 bg-background/50 hover:bg-accent hover:text-accent-foreground transition-colors"
+            className="gap-2"
           >
             <RefreshCw className="w-4 h-4" />
             <span>Segarkan</span>
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="secondary"
+            size="sm"
             onClick={handleCleanup}
             disabled={cleaning}
-            className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors border border-border/50"
+            className="gap-2 border border-border/50"
           >
             <Trash2 className="w-4 h-4 text-muted-foreground" />
             <span>{cleaning ? "Membersihkan..." : "Cleanup Tiket Usang"}</span>
-          </button>
+          </Button>
         </div>
       </div>
 

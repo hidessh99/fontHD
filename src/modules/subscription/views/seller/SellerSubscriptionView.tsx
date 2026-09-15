@@ -11,6 +11,15 @@ import { useSubscriptionSeller } from "../../hooks/useSubscriptionSeller";
 import { SubscriptionSkeleton } from "../../components/shared/SubscriptionSkeleton";
 import { SellerStatsWidget } from "../../components/seller/SellerStatsWidget";
 import { SellerCustomerSubscriptionTable } from "../../components/seller/SellerCustomerSubscriptionTable";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { NativeSelect } from "@/components/ui/native-select";
 import { RefreshCw, UserPlus, Building2 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -70,23 +79,26 @@ export function SellerSubscriptionView() {
         </div>
 
         <div className="flex items-center gap-3">
-          <button
+          <Button
+            variant="outline"
+            size="sm"
             onClick={() => {
               refresh();
               toast.info("Data reseller dimuat ulang");
             }}
-            className="inline-flex items-center gap-2 px-3.5 py-2 text-sm font-medium rounded-lg border border-border/50 bg-background/50 hover:bg-accent hover:text-accent-foreground transition-colors"
+            className="gap-2"
           >
             <RefreshCw className="w-4 h-4" />
             <span>Segarkan</span>
-          </button>
-          <button
+          </Button>
+          <Button
+            size="sm"
             onClick={() => setIsProvisionModalOpen(true)}
-            className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors shadow-sm"
+            className="gap-2"
           >
             <UserPlus className="w-4 h-4" />
             <span>Provisi Langganan Baru</span>
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -108,73 +120,74 @@ export function SellerSubscriptionView() {
       </section>
 
       {/* Provision Modal */}
-      {isProvisionModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm">
-          <div className="w-full max-w-md bg-card border border-border/60 rounded-2xl p-6 shadow-xl space-y-5 animate-in fade-in zoom-in-95 duration-200">
-            <h3 className="text-lg font-bold text-foreground">
+      <Dialog
+        open={isProvisionModalOpen}
+        onOpenChange={setIsProvisionModalOpen}
+      >
+        <DialogContent className="sm:max-w-md bg-card border-border/60">
+          <DialogHeader>
+            <DialogTitle className="text-lg font-bold">
               Provisi Langganan Pelanggan
-            </h3>
+            </DialogTitle>
             <p className="text-xs text-muted-foreground">
               Tentukan ID pelanggan dan paket layanan yang akan diaktifkan
               secara instan di bawah tenant Anda.
             </p>
+          </DialogHeader>
 
-            <form onSubmit={handleCreateCustomerSub} className="space-y-4">
-              <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-muted-foreground">
-                  Customer User ID
-                </label>
-                <input
-                  type="number"
-                  required
-                  placeholder="Contoh: 205"
-                  value={customerUserId}
-                  onChange={(e) => setCustomerUserId(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-lg border border-border/50 bg-background/50 focus:outline-none focus:ring-2 focus:ring-primary font-mono"
-                />
-              </div>
+          <form onSubmit={handleCreateCustomerSub} className="space-y-4 pt-2">
+            <div className="space-y-1.5">
+              <label className="text-xs font-semibold text-muted-foreground">
+                Customer User ID
+              </label>
+              <Input
+                type="number"
+                required
+                placeholder="Contoh: 205"
+                value={customerUserId}
+                onChange={(e) => setCustomerUserId(e.target.value)}
+                className="font-mono text-sm"
+              />
+            </div>
 
-              <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-muted-foreground">
-                  Pilihan Paket
-                </label>
-                <select
-                  value={planId}
-                  onChange={(e) => setPlanId(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-lg border border-border/50 bg-background/50 focus:outline-none focus:ring-2 focus:ring-primary"
-                >
-                  <option value="plan-basic">
-                    Basic Tunneling (Rp 25.000 / bln)
-                  </option>
-                  <option value="plan-pro">
-                    Premium Pro Max (Rp 45.000 / bln)
-                  </option>
-                  <option value="plan-annual">
-                    Enterprise Annual Pass (Rp 420.000 / thn)
-                  </option>
-                </select>
-              </div>
+            <div className="space-y-1.5">
+              <label className="text-xs font-semibold text-muted-foreground">
+                Pilihan Paket
+              </label>
+              <NativeSelect
+                value={planId}
+                onChange={(e) => setPlanId(e.target.value)}
+              >
+                <option value="plan-basic">
+                  Basic Tunneling (Rp 25.000 / bln)
+                </option>
+                <option value="plan-pro">
+                  Premium Pro Max (Rp 45.000 / bln)
+                </option>
+                <option value="plan-annual">
+                  Enterprise Annual Pass (Rp 420.000 / thn)
+                </option>
+              </NativeSelect>
+            </div>
 
-              <div className="flex items-center justify-end gap-3 pt-4 border-t border-border/40">
-                <button
-                  type="button"
-                  onClick={() => setIsProvisionModalOpen(false)}
-                  className="px-4 py-2 text-sm font-medium rounded-lg border border-border/50 hover:bg-accent transition-colors"
-                >
-                  Batal
-                </button>
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  className="px-4 py-2 text-sm font-semibold rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50"
-                >
-                  {submitting ? "Memproses..." : "Aktifkan Paket"}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+            <div className="flex items-center justify-end gap-3 pt-4 border-t border-border/40">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setIsProvisionModalOpen(false)}
+              >
+                Batal
+              </Button>
+              <Button
+                type="submit"
+                disabled={submitting}
+              >
+                {submitting ? "Memproses..." : "Aktifkan Paket"}
+              </Button>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

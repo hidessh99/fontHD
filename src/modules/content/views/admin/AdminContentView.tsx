@@ -15,6 +15,8 @@ import { AdminSettingsTable } from "../../components/admin/AdminSettingsTable";
 import { Post } from "../../types/content.types";
 import { CreatePostDto } from "../../types/admin.types";
 import { RefreshCw, FileText, Sliders, Plus, Newspaper } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 
 export function AdminContentView() {
@@ -68,55 +70,48 @@ export function AdminContentView() {
         </div>
 
         <div className="flex items-center gap-3">
-          <button
+          <Button
+            variant="outline"
+            size="sm"
             onClick={() => {
               refresh();
               toast.info("Data diperbarui");
             }}
-            className="inline-flex items-center gap-2 px-3.5 py-2 text-sm font-medium rounded-lg border border-border/50 bg-background/50 hover:bg-accent hover:text-accent-foreground transition-colors"
+            className="gap-2"
           >
             <RefreshCw className="w-4 h-4" />
             <span>Segarkan</span>
-          </button>
+          </Button>
 
           {activeTab === "posts" && (
-            <button
+            <Button
+              size="sm"
               onClick={handleOpenCreatePost}
-              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors shadow-sm"
+              className="gap-2"
             >
               <Plus className="w-4 h-4" />
               <span>Tulis Artikel Baru</span>
-            </button>
+            </Button>
           )}
         </div>
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center gap-2 border-b border-border/40">
-        <button
-          onClick={() => setActiveTab("posts")}
-          className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium border-b-2 transition-colors ${
-            activeTab === "posts"
-              ? "border-primary text-primary"
-              : "border-transparent text-muted-foreground hover:text-foreground"
-          }`}
-        >
-          <FileText className="w-4 h-4" />
-          <span>Artikel & Tutorial ({posts.length})</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab("settings")}
-          className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium border-b-2 transition-colors ${
-            activeTab === "settings"
-              ? "border-primary text-primary"
-              : "border-transparent text-muted-foreground hover:text-foreground"
-          }`}
-        >
-          <Sliders className="w-4 h-4" />
-          <span>Parameter Sistem ({settings.length})</span>
-        </button>
-      </div>
+      <Tabs
+        value={activeTab}
+        onValueChange={(val) => setActiveTab(val as "posts" | "settings")}
+      >
+        <TabsList variant="line" className="w-full justify-start border-b border-border/40">
+          <TabsTrigger value="posts" className="gap-2">
+            <FileText className="w-4 h-4" />
+            <span>Artikel & Tutorial ({posts.length})</span>
+          </TabsTrigger>
+          <TabsTrigger value="settings" className="gap-2">
+            <Sliders className="w-4 h-4" />
+            <span>Parameter Sistem ({settings.length})</span>
+          </TabsTrigger>
+        </TabsList>
+      </Tabs>
 
       {/* Tab Panels */}
       {activeTab === "posts" ? (

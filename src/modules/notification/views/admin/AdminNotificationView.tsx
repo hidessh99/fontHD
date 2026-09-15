@@ -19,6 +19,7 @@ import {
   AlertTriangle,
   CheckCircle2,
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
 export function AdminNotificationView() {
@@ -61,23 +62,26 @@ export function AdminNotificationView() {
         </div>
 
         <div className="flex items-center gap-3">
-          <button
+          <Button
+            variant="outline"
+            size="sm"
             onClick={() => {
               refresh();
               toast.info("Antrean diperbarui");
             }}
-            className="inline-flex items-center gap-2 px-3.5 py-2 text-sm font-medium rounded-lg border border-border/50 bg-background/50 hover:bg-accent hover:text-accent-foreground transition-colors"
+            className="gap-2"
           >
             <RefreshCw className="w-4 h-4" />
             <span>Segarkan</span>
-          </button>
-          <button
+          </Button>
+          <Button
+            size="sm"
             onClick={() => setIsBroadcastModalOpen(true)}
-            className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors shadow-sm"
+            className="gap-2"
           >
             <Send className="w-4 h-4" />
             <span>Kirim Siaran Baru</span>
-          </button>
+          </Button>
         </div>
       </div>
 

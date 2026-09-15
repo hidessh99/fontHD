@@ -11,6 +11,7 @@ import { AiModel, ChatMessage } from "../../types/ai.types";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { NativeSelect } from "@/components/ui/native-select";
 import { Send, Bot, User, Sparkles, Loader2, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
 
@@ -113,17 +114,19 @@ export function AiChatPlayground({
         </div>
 
         <div className="flex items-center gap-2">
-          <select
+          <NativeSelect
             value={selectedModel}
             onChange={(e) => setSelectedModel(e.target.value)}
-            className="rounded-xl border border-border bg-card px-3 py-1.5 text-xs font-mono text-foreground outline-none focus:border-primary"
+            size="sm"
+            wrapperClassName="w-auto"
+            className="font-mono text-xs h-8"
           >
             {models.map((m) => (
               <option key={m.id} value={m.model_id}>
                 {m.name} ({m.model_id})
               </option>
             ))}
-          </select>
+          </NativeSelect>
 
           <Button
             variant="ghost"

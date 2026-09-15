@@ -13,6 +13,7 @@ import { AdminK8sSpecTable } from "../../components/admin/AdminK8sSpecTable";
 import { AdminK8sTemplateTable } from "../../components/admin/AdminK8sTemplateTable";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Server, Layers, Rocket, RefreshCw } from "lucide-react";
 
 export function AdminK8sView() {
@@ -121,43 +122,28 @@ export function AdminK8sView() {
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center gap-2 border-b border-border pb-3">
-        <button
-          onClick={() => setActiveTab("servers")}
-          className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-2 ${
-            activeTab === "servers"
-              ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
-              : "bg-muted/40 text-muted-foreground hover:text-foreground hover:bg-muted"
-          }`}
-        >
-          <Server className="h-3.5 w-3.5" />
-          Worker Nodes ({servers.length})
-        </button>
-
-        <button
-          onClick={() => setActiveTab("specs")}
-          className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-2 ${
-            activeTab === "specs"
-              ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
-              : "bg-muted/40 text-muted-foreground hover:text-foreground hover:bg-muted"
-          }`}
-        >
-          <Layers className="h-3.5 w-3.5" />
-          Paket Resource Specs ({specs.length})
-        </button>
-
-        <button
-          onClick={() => setActiveTab("templates")}
-          className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-2 ${
-            activeTab === "templates"
-              ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
-              : "bg-muted/40 text-muted-foreground hover:text-foreground hover:bg-muted"
-          }`}
-        >
-          <Rocket className="h-3.5 w-3.5" />
-          Template Blueprint ({templates.length})
-        </button>
-      </div>
+      <Tabs
+        value={activeTab}
+        onValueChange={(val) =>
+          setActiveTab(val as "servers" | "specs" | "templates")
+        }
+        className="w-full"
+      >
+        <TabsList variant="line" className="border-b border-border w-full justify-start gap-2 h-auto pb-0">
+          <TabsTrigger value="servers" className="gap-2 py-2.5">
+            <Server className="h-3.5 w-3.5" />
+            <span>Worker Nodes ({servers.length})</span>
+          </TabsTrigger>
+          <TabsTrigger value="specs" className="gap-2 py-2.5">
+            <Layers className="h-3.5 w-3.5" />
+            <span>Paket Resource Specs ({specs.length})</span>
+          </TabsTrigger>
+          <TabsTrigger value="templates" className="gap-2 py-2.5">
+            <Rocket className="h-3.5 w-3.5" />
+            <span>Template Blueprint ({templates.length})</span>
+          </TabsTrigger>
+        </TabsList>
+      </Tabs>
 
       {/* Panels */}
       {activeTab === "servers" && (

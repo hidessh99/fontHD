@@ -19,6 +19,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { NativeSelect } from "@/components/ui/native-select";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/shared/EmptyState";
 import {
@@ -141,17 +142,17 @@ export function AdminDomainManager({
                 <Label className="text-xs text-muted-foreground">
                   Pilih Akun Cloudflare
                 </Label>
-                <select
+                <NativeSelect
                   value={accountId}
                   onChange={(e) => setAccountId(e.target.value)}
-                  className="mt-1.5 w-full rounded-xl border border-border bg-muted/40 px-3.5 py-2.5 text-xs font-mono text-foreground outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
+                  className="mt-1.5 font-mono text-xs"
                 >
                   {accounts.map((acc) => (
                     <option key={acc.id} value={acc.id}>
                       {acc.name} ({acc.email})
                     </option>
                   ))}
-                </select>
+                </NativeSelect>
               </div>
 
               <div>

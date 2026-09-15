@@ -15,6 +15,7 @@ import { SubscribeModal } from "../../components/user/SubscribeModal";
 import type { Plan } from "../../types/subscription.types";
 import type { CreateSubscriptionDto } from "../../types/user.types";
 import { RefreshCw, ShieldCheck, Zap, Sparkles } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
 export function SubscriptionPlansView() {
@@ -64,16 +65,18 @@ export function SubscriptionPlansView() {
           </p>
         </div>
 
-        <button
+        <Button
+          variant="outline"
+          size="sm"
           onClick={() => {
             refresh();
             toast.info("Memperbarui data langganan...");
           }}
-          className="inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium rounded-lg border border-border/50 bg-background/50 hover:bg-accent hover:text-accent-foreground transition-colors self-start sm:self-auto"
+          className="gap-2 self-start sm:self-auto"
         >
           <RefreshCw className="w-4 h-4" />
           <span>Segarkan Data</span>
-        </button>
+        </Button>
       </div>
 
       {/* Active Subscription Banner */}

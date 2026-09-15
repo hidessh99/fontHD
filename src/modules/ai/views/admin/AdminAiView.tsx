@@ -13,6 +13,7 @@ import { AdminAiProviderTable } from "../../components/admin/AdminAiProviderTabl
 import { AdminAiWalletManager } from "../../components/admin/AdminAiWalletManager";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Cpu,
   Server,
@@ -140,43 +141,25 @@ export function AdminAiView() {
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center gap-2 border-b border-border pb-3">
-        <button
-          onClick={() => setActiveTab("models")}
-          className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-2 ${
-            activeTab === "models"
-              ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
-              : "bg-muted/40 text-muted-foreground hover:text-foreground hover:bg-muted"
-          }`}
-        >
-          <Cpu className="h-3.5 w-3.5" />
-          Model LLM ({models.length})
-        </button>
-
-        <button
-          onClick={() => setActiveTab("providers")}
-          className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-2 ${
-            activeTab === "providers"
-              ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
-              : "bg-muted/40 text-muted-foreground hover:text-foreground hover:bg-muted"
-          }`}
-        >
-          <Server className="h-3.5 w-3.5" />
-          Provider Upstream ({providers.length})
-        </button>
-
-        <button
-          onClick={() => setActiveTab("wallets")}
-          className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-2 ${
-            activeTab === "wallets"
-              ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
-              : "bg-muted/40 text-muted-foreground hover:text-foreground hover:bg-muted"
-          }`}
-        >
-          <Wallet className="h-3.5 w-3.5" />
-          Dompet Pengguna ({wallets.length})
-        </button>
-      </div>
+      <Tabs
+        value={activeTab}
+        onValueChange={(v) => setActiveTab(v as "models" | "providers" | "wallets")}
+      >
+        <TabsList variant="line" className="w-full justify-start border-b border-border/40">
+          <TabsTrigger value="models" className="gap-2">
+            <Cpu className="h-3.5 w-3.5" />
+            <span>Model LLM ({models.length})</span>
+          </TabsTrigger>
+          <TabsTrigger value="providers" className="gap-2">
+            <Server className="h-3.5 w-3.5" />
+            <span>Provider Upstream ({providers.length})</span>
+          </TabsTrigger>
+          <TabsTrigger value="wallets" className="gap-2">
+            <Wallet className="h-3.5 w-3.5" />
+            <span>Dompet Pengguna ({wallets.length})</span>
+          </TabsTrigger>
+        </TabsList>
+      </Tabs>
 
       {/* Tab Panels */}
       {activeTab === "models" && (

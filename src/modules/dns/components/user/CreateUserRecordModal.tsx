@@ -17,6 +17,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { NativeSelect } from "@/components/ui/native-select";
 import { DnsDomain, DnsRecordType } from "../../types/dns.types";
 import { CreateUserDnsRecordDto } from "../../types/user.types";
 import { Plus, Globe, Cloud, Loader2 } from "lucide-react";
@@ -112,17 +113,17 @@ export function CreateUserRecordModal({
             <Label className="text-xs text-muted-foreground font-medium">
               Pilih Zona Domain
             </Label>
-            <select
+            <NativeSelect
               value={domainId}
               onChange={(e) => setDomainId(e.target.value)}
-              className="mt-1.5 w-full rounded-xl border border-border bg-muted/40 px-3.5 py-2.5 text-xs font-mono text-foreground outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
+              className="mt-1.5 font-mono text-xs"
             >
               {domains.map((d) => (
                 <option key={d.id} value={d.id}>
                   {d.domain_name}
                 </option>
               ))}
-            </select>
+            </NativeSelect>
           </div>
 
           {/* Record Type Selection */}
@@ -233,16 +234,16 @@ export function CreateUserRecordModal({
               <span className="text-xs text-muted-foreground font-medium">
                 TTL (Time to Live)
               </span>
-              <select
+              <NativeSelect
                 value={ttl}
                 onChange={(e) => setTtl(Number(e.target.value))}
-                className="mt-2 w-full rounded-lg border border-border bg-card px-2.5 py-2 text-xs text-foreground outline-none focus:border-primary"
+                className="mt-2 text-xs"
               >
                 <option value={1}>Auto</option>
                 <option value={60}>1 Menit</option>
                 <option value={300}>5 Menit</option>
                 <option value={3600}>1 Jam</option>
-              </select>
+              </NativeSelect>
             </div>
           </div>
 

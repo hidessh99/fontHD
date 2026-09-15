@@ -18,6 +18,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { NativeSelect } from "@/components/ui/native-select";
 import { toast } from "sonner";
 import { ServerNode, VpnProtocol, VpnAccountTier } from "../../types/vpn.types";
 import { vpnAdminApi } from "../../api/admin.api";
@@ -200,7 +201,7 @@ export function ServerNodeFormModal({
             </div>
             <div className="space-y-1.5">
               <Label className="text-xs font-medium">Tier Berlangganan</Label>
-              <select
+              <NativeSelect
                 value={formData.tier}
                 onChange={(e) =>
                   setFormData({
@@ -208,13 +209,13 @@ export function ServerNodeFormModal({
                     tier: e.target.value as VpnAccountTier,
                   })
                 }
-                className="w-full rounded-xl min-h-10 text-xs bg-surface border border-border px-3 font-mono"
+                className="font-mono text-xs"
               >
                 <option value="month">Month</option>
                 <option value="always">Always</option>
                 <option value="payas">PayAsYouGo</option>
                 <option value="free">Free</option>
-              </select>
+              </NativeSelect>
             </div>
           </div>
 
