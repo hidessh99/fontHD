@@ -17,6 +17,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 import { Check, Loader2, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 
@@ -109,19 +111,18 @@ export function SubscribeModal({
           </div>
 
           <div className="flex items-center justify-between p-3 rounded-xl border border-border bg-muted/20 text-xs">
-            <div>
-              <span className="font-semibold text-foreground block">
+            <Label htmlFor="auto-renew" className="cursor-pointer flex-1 pr-3">
+              <span className="font-semibold text-foreground block text-xs">
                 Perpanjangan Otomatis
               </span>
-              <span className="text-muted-foreground text-[11px]">
+              <span className="text-muted-foreground text-[11px] font-normal">
                 Perpanjang otomatis jika saldo dompet mencukupi
               </span>
-            </div>
-            <input
-              type="checkbox"
+            </Label>
+            <Checkbox
+              id="auto-renew"
               checked={autoRenew}
-              onChange={(e) => setAutoRenew(e.target.checked)}
-              className="h-4 w-4 rounded border-border text-primary focus:ring-primary"
+              onCheckedChange={(checked) => setAutoRenew(!!checked)}
             />
           </div>
 

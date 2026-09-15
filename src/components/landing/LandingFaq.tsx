@@ -1,12 +1,17 @@
 "use client";
 
-import React, { useState } from "react";
-import { ChevronDown, HelpCircle } from "lucide-react";
+import React from "react";
+import { HelpCircle } from "lucide-react";
 import { useI18n } from "@/lib/i18n/context";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 export function LandingFaq() {
   const { t } = useI18n();
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   const faqs = [
     {
@@ -31,10 +36,6 @@ export function LandingFaq() {
     },
   ];
 
-  const toggleFaq = (idx: number) => {
-    setOpenIndex(openIndex === idx ? null : idx);
-  };
-
   return (
     <section
       id="faq"
@@ -53,47 +54,22 @@ export function LandingFaq() {
           </p>
         </div>
 
-        <div className="space-y-3.5">
-          {faqs.map((faq, idx) => {
-            const isOpen = openIndex === idx;
-            return (
-              <div
-                key={idx}
-                className={`rounded-2xl border transition-all duration-200 overflow-hidden ${
-                  isOpen
-                    ? "border-primary/50 bg-card shadow-lg shadow-primary/5"
-                    : "border-border/70 bg-card/60 hover:border-border"
-                }`}
-              >
-                <button
-                  type="button"
-                  onClick={() => toggleFaq(idx)}
-                  className="w-full flex items-center justify-between gap-4 p-5 sm:p-6 text-left cursor-pointer select-none"
-                  aria-expanded={isOpen}
-                >
-                  <span className="text-base sm:text-lg font-black text-foreground">
-                    {faq.q}
-                  </span>
-                  <div
-                    className={`h-8 w-8 rounded-xl flex items-center justify-center shrink-0 transition-transform duration-200 ${
-                      isOpen
-                        ? "bg-primary text-white rotate-180"
-                        : "bg-muted text-muted-foreground"
-                    }`}
-                  >
-                    <ChevronDown className="h-4 w-4" />
-                  </div>
-                </button>
-
-                {isOpen && (
-                  <div className="px-5 pb-6 sm:px-6 sm:pb-6 text-sm text-muted-foreground leading-relaxed font-normal border-t border-border/40 pt-4 animate-in fade-in duration-200">
-                    {faq.a}
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
+        <Accordion defaultValue={["faq-0"]} className="space-y-3.5">
+          {faqs.map((faq, idx) => (
+            <AccordionItem
+              key={idx}
+              value={`faq-${idx}`}
+              className="rounded-2xl border border-border/70 bg-card/60 px-5 sm:px-6 py-1 data-[state=open]:border-primary/50 data-[state=open]:bg-card data-[state=open]:shadow-lg data-[state=open]:shadow-primary/5 transition-all not-last:border-b-border/70"
+            >
+              <AccordionTrigger className="text-base sm:text-lg font-black text-foreground hover:no-underline py-4">
+                {faq.q}
+              </AccordionTrigger>
+              <AccordionContent className="text-sm text-muted-foreground leading-relaxed font-normal pt-2 pb-4 border-t border-border/40">
+                {faq.a}
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
       </div>
     </section>
   );

@@ -11,6 +11,8 @@ import { useContentPublic } from "../../hooks/useContentPublic";
 import { ContentSkeleton } from "../../components/shared/ContentSkeleton";
 import { ArrowLeft, Clock, Eye, User, Share2 } from "lucide-react";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 
 interface ArticleDetailViewProps {
@@ -55,12 +57,13 @@ export function ArticleDetailView({ slug }: ArticleDetailViewProps) {
         {selectedPost.tags && (
           <div className="flex flex-wrap gap-2">
             {selectedPost.tags.map((tag) => (
-              <span
+              <Badge
                 key={tag}
-                className="text-xs uppercase font-bold tracking-wider px-2.5 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20"
+                variant="outline"
+                className="text-xs uppercase font-bold tracking-wider px-2.5 py-0.5 bg-primary/10 text-primary border-primary/20"
               >
                 #{tag}
-              </span>
+              </Badge>
             ))}
           </div>
         )}
@@ -97,13 +100,15 @@ export function ArticleDetailView({ slug }: ArticleDetailViewProps) {
             )}
           </div>
 
-          <button
+          <Button
+            variant="outline"
+            size="sm"
             onClick={handleShare}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border/50 bg-background/50 hover:bg-accent transition-colors"
+            className="gap-1.5"
           >
             <Share2 className="w-3.5 h-3.5" />
             <span>Bagikan</span>
-          </button>
+          </Button>
         </div>
       </div>
 

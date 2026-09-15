@@ -5,50 +5,67 @@
 // ==============================================================================
 
 import React from "react";
+import { Badge } from "@/components/ui/badge";
 import { NotificationChannel } from "../../types/notification.types";
 import { Mail, Send, MessageSquare, Bell, Smartphone } from "lucide-react";
 
 interface ChannelBadgeProps {
   channel: NotificationChannel;
+  className?: string;
 }
 
-export function ChannelBadge({ channel }: ChannelBadgeProps) {
+export function ChannelBadge({ channel, className }: ChannelBadgeProps) {
   switch (channel) {
     case "EMAIL":
       return (
-        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20">
+        <Badge
+          variant="outline"
+          className={`border-blue-500/30 bg-blue-500/10 text-blue-400 gap-1 text-[11px] font-semibold ${className || ""}`}
+        >
           <Mail className="w-3 h-3" /> EMAIL
-        </span>
+        </Badge>
       );
     case "TELEGRAM":
       return (
-        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-semibold bg-sky-500/10 text-sky-400 border border-sky-500/20">
+        <Badge
+          variant="outline"
+          className={`border-sky-500/30 bg-sky-500/10 text-sky-400 gap-1 text-[11px] font-semibold ${className || ""}`}
+        >
           <Send className="w-3 h-3" /> TELEGRAM
-        </span>
+        </Badge>
       );
     case "WHATSAPP":
       return (
-        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+        <Badge
+          variant="outline"
+          className={`border-emerald-500/30 bg-emerald-500/10 text-emerald-400 gap-1 text-[11px] font-semibold ${className || ""}`}
+        >
           <MessageSquare className="w-3 h-3" /> WHATSAPP
-        </span>
+        </Badge>
       );
     case "PUSH":
       return (
-        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-semibold bg-purple-500/10 text-purple-400 border border-purple-500/20">
+        <Badge
+          variant="outline"
+          className={`border-purple-500/30 bg-purple-500/10 text-purple-400 gap-1 text-[11px] font-semibold ${className || ""}`}
+        >
           <Smartphone className="w-3 h-3" /> PUSH
-        </span>
+        </Badge>
       );
     case "IN_APP":
       return (
-        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-semibold bg-zinc-500/10 text-zinc-300 border border-zinc-500/20">
+        <Badge
+          variant="outline"
+          className={`border-zinc-500/30 bg-zinc-500/10 text-zinc-300 gap-1 text-[11px] font-semibold ${className || ""}`}
+        >
           <Bell className="w-3 h-3" /> IN-APP
-        </span>
+        </Badge>
       );
     default:
       return (
-        <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] bg-secondary text-secondary-foreground">
+        <Badge variant="secondary" className={`text-[11px] ${className || ""}`}>
           {channel}
-        </span>
+        </Badge>
       );
   }
 }

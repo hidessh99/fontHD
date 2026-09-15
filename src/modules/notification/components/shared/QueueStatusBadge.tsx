@@ -5,54 +5,71 @@
 // ==============================================================================
 
 import React from "react";
+import { Badge } from "@/components/ui/badge";
 import { QueueStatus } from "../../types/notification.types";
 
 interface QueueStatusBadgeProps {
   status: QueueStatus;
+  className?: string;
 }
 
-export function QueueStatusBadge({ status }: QueueStatusBadgeProps) {
+export function QueueStatusBadge({ status, className }: QueueStatusBadgeProps) {
   switch (status) {
     case "SENT":
       return (
-        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+        <Badge
+          variant="outline"
+          className={`border-emerald-500/30 bg-emerald-500/10 text-emerald-500 gap-1.5 font-semibold text-xs ${className || ""}`}
+        >
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
           TERKIRIM
-        </span>
+        </Badge>
       );
     case "PROCESSING":
       return (
-        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-500 border border-blue-500/20">
+        <Badge
+          variant="outline"
+          className={`border-blue-500/30 bg-blue-500/10 text-blue-500 gap-1.5 font-semibold text-xs ${className || ""}`}
+        >
           <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-ping" />
           MEMPROSES
-        </span>
+        </Badge>
       );
     case "PENDING":
       return (
-        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-500/10 text-amber-500 border border-amber-500/20">
+        <Badge
+          variant="outline"
+          className={`border-amber-500/30 bg-amber-500/10 text-amber-500 gap-1.5 font-semibold text-xs ${className || ""}`}
+        >
           <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
           MENUNGGU
-        </span>
+        </Badge>
       );
     case "FAILED":
       return (
-        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-500/10 text-red-500 border border-red-500/20">
+        <Badge
+          variant="outline"
+          className={`border-red-500/30 bg-red-500/10 text-red-500 gap-1.5 font-semibold text-xs ${className || ""}`}
+        >
           <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
           GAGAL
-        </span>
+        </Badge>
       );
     case "CANCELLED":
       return (
-        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-zinc-500/10 text-zinc-400 border border-zinc-500/20">
+        <Badge
+          variant="outline"
+          className={`border-zinc-500/30 bg-zinc-500/10 text-zinc-400 gap-1.5 font-semibold text-xs ${className || ""}`}
+        >
           <span className="w-1.5 h-1.5 rounded-full bg-zinc-400" />
           DIBATALKAN
-        </span>
+        </Badge>
       );
     default:
       return (
-        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-secondary text-secondary-foreground">
+        <Badge variant="secondary" className={`text-xs font-medium ${className || ""}`}>
           {status}
-        </span>
+        </Badge>
       );
   }
 }

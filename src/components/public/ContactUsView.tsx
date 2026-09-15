@@ -5,6 +5,8 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { NativeSelect } from "@/components/ui/native-select";
+import { Label } from "@/components/ui/label";
 import { useI18n } from "@/lib/i18n/context";
 import { CopyButton } from "@/components/shared/CopyButton";
 import { toast } from "sonner";
@@ -332,12 +334,12 @@ export function ContactUsView() {
               {/* Name & Email */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label
+                  <Label
                     htmlFor="contact-name"
                     className="text-xs font-semibold text-foreground"
                   >
                     {t("contact.formName")} <span className="text-rose-400">*</span>
-                  </label>
+                  </Label>
                   <Input
                     id="contact-name"
                     value={formState.name}
@@ -360,12 +362,12 @@ export function ContactUsView() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label
+                  <Label
                     htmlFor="contact-email"
                     className="text-xs font-semibold text-foreground"
                   >
                     {t("contact.formEmail")} <span className="text-rose-400">*</span>
-                  </label>
+                  </Label>
                   <Input
                     id="contact-email"
                     type="email"
@@ -392,42 +394,42 @@ export function ContactUsView() {
               {/* Category & Protocol */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label
+                  <Label
                     htmlFor="contact-category"
                     className="text-xs font-semibold text-foreground"
                   >
                     {t("contact.formCategory")}
-                  </label>
-                  <select
+                  </Label>
+                  <NativeSelect
                     id="contact-category"
                     value={formState.category}
                     onChange={(e) =>
                       setFormState((prev) => ({ ...prev, category: e.target.value }))
                     }
-                    className="w-full h-9 rounded-xl bg-surface-subtle border border-border/80 px-3 text-xs text-foreground focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer"
+                    className="h-9 rounded-xl bg-surface-subtle border-border/80 text-xs cursor-pointer"
                   >
                     <option value="technical">{t("contact.formCategoryTechnical")}</option>
                     <option value="general">{t("contact.formCategoryGeneral")}</option>
                     <option value="reseller">{t("contact.formCategoryReseller")}</option>
                     <option value="enterprise">{t("contact.formCategoryEnterprise")}</option>
                     <option value="abuse">{t("contact.formCategoryAbuse")}</option>
-                  </select>
+                  </NativeSelect>
                 </div>
 
                 <div className="space-y-1.5">
-                  <label
+                  <Label
                     htmlFor="contact-protocol"
                     className="text-xs font-semibold text-foreground"
                   >
                     {t("contact.formProtocol")}
-                  </label>
-                  <select
+                  </Label>
+                  <NativeSelect
                     id="contact-protocol"
                     value={formState.protocol}
                     onChange={(e) =>
                       setFormState((prev) => ({ ...prev, protocol: e.target.value }))
                     }
-                    className="w-full h-9 rounded-xl bg-surface-subtle border border-border/80 px-3 text-xs text-foreground focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer"
+                    className="h-9 rounded-xl bg-surface-subtle border-border/80 text-xs cursor-pointer"
                   >
                     <option value="">{isId ? "Semua Protokol / Tidak Spesifik" : "All Protocols / General"}</option>
                     <option value="vless">VLess XTLS Reality</option>
@@ -436,18 +438,18 @@ export function ContactUsView() {
                     <option value="wireguard">WireGuard Fast Kernel</option>
                     <option value="shadowsocks">Shadowsocks 2022</option>
                     <option value="ssh">SSH Dropbear / WS</option>
-                  </select>
+                  </NativeSelect>
                 </div>
               </div>
 
               {/* Message */}
               <div className="space-y-1.5">
-                <label
+                <Label
                   htmlFor="contact-message"
                   className="text-xs font-semibold text-foreground"
                 >
                   {t("contact.formMessage")} <span className="text-rose-400">*</span>
-                </label>
+                </Label>
                 <Textarea
                   id="contact-message"
                   rows={4}

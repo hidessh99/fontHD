@@ -15,6 +15,8 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { NativeSelect } from "@/components/ui/native-select";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 import { Send, Loader2, Trash2, Lock, User, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
 
@@ -215,18 +217,20 @@ export function AdminTicketDetailModal({
           />
 
           <div className="flex items-center justify-between">
-            <label className="flex items-center gap-2 text-xs text-muted-foreground cursor-pointer select-none">
-              <input
-                type="checkbox"
+            <div className="flex items-center gap-2">
+              <Checkbox
+                id="is-internal-note"
                 checked={isInternal}
-                onChange={(e) => setIsInternal(e.target.checked)}
-                className="rounded border-border text-primary focus:ring-primary"
+                onCheckedChange={(checked) => setIsInternal(!!checked)}
               />
-              <span className="flex items-center gap-1 font-medium">
+              <Label
+                htmlFor="is-internal-note"
+                className="flex items-center gap-1 text-xs text-muted-foreground cursor-pointer font-medium select-none"
+              >
                 <Lock className="w-3 h-3 text-amber-500" />
                 Catatan Internal (Internal Only)
-              </span>
-            </label>
+              </Label>
+            </div>
 
             <Button
               type="submit"

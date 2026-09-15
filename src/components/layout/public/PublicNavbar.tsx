@@ -14,13 +14,18 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { ThemeToggle, LanguageSwitcher } from "../shared";
 import { useAuthStore } from "@/modules/iam/store/auth.store";
 import { useI18n } from "@/lib/i18n/context";
 
 export function PublicNavbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [protocolDropdownOpen, setProtocolDropdownOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   const { isAuthenticated, token } = useAuthStore();
@@ -83,43 +88,40 @@ export function PublicNavbar() {
         {/* Desktop Navigation Links */}
         <nav className="hidden lg:flex items-center gap-6 text-sm font-medium">
           {/* Protocol Dropdown */}
-          <div
-            className="relative"
-            onMouseEnter={() => setProtocolDropdownOpen(true)}
-            onMouseLeave={() => setProtocolDropdownOpen(false)}
-          >
-            <button
-              type="button"
-              className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors py-2 focus:outline-none cursor-pointer"
-            >
-              <span>{t("landing.nav.protocols")}</span>
-              <ChevronDown
-                className={`size-3.5 transition-transform duration-200 ${
-                  protocolDropdownOpen ? "rotate-180 text-primary" : ""
-                }`}
-              />
-            </button>
-
-            {protocolDropdownOpen && (
-              <div className="absolute top-full left-0 w-64 rounded-2xl border border-border bg-popover p-2 shadow-2xl z-50 animate-in fade-in slide-in-from-top-1 duration-200">
-                {protocols.map((p) => (
-                  <Link
-                    key={p.name}
-                    href={p.href}
-                    onClick={() => setProtocolDropdownOpen(false)}
-                    className="flex flex-col p-2.5 rounded-xl hover:bg-accent transition-colors"
-                  >
-                    <span className="text-xs font-bold text-foreground">
-                      {p.name}
-                    </span>
-                    <span className="text-[11px] text-muted-foreground">
-                      {p.desc}
-                    </span>
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger
+              render={
+                <button
+                  type="button"
+                  className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors py-2 focus:outline-none cursor-pointer group"
+                >
+                  <span>{t("landing.nav.protocols")}</span>
+                  <ChevronDown className="size-3.5 transition-transform duration-200 group-data-[state=open]:rotate-180 group-data-[state=open]:text-primary" />
+                </button>
+              }
+            />
+            <DropdownMenuContent align="start" className="w-64 p-2 rounded-2xl">
+              {protocols.map((p) => (
+                <DropdownMenuItem
+                  key={p.name}
+                  render={
+                    <Link
+                      href={p.href}
+                      className="flex flex-col p-2.5 w-full text-left"
+                    />
+                  }
+                  className="p-0 rounded-xl focus:bg-accent cursor-pointer"
+                >
+                  <span className="text-xs font-bold text-foreground">
+                    {p.name}
+                  </span>
+                  <span className="text-[11px] text-muted-foreground">
+                    {p.desc}
+                  </span>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
 
           <Link
             href="/#features"

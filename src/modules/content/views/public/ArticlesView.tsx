@@ -11,6 +11,8 @@ import { useContentPublic } from "../../hooks/useContentPublic";
 import { ContentSkeleton } from "../../components/shared/ContentSkeleton";
 import { PostCard } from "../../components/shared/PostCard";
 import { BookOpen, Search, RefreshCw } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 
 export function ArticlesView() {
@@ -51,28 +53,30 @@ export function ArticlesView() {
           </p>
         </div>
 
-        <button
+        <Button
+          variant="outline"
+          size="sm"
           onClick={() => {
             refresh();
             toast.info("Memperbarui artikel...");
           }}
-          className="inline-flex items-center gap-2 px-3.5 py-2 text-sm font-medium rounded-lg border border-border/50 bg-background/50 hover:bg-accent hover:text-accent-foreground transition-colors self-start sm:self-auto"
+          className="gap-2 self-start sm:self-auto"
         >
           <RefreshCw className="w-4 h-4" />
           <span>Segarkan</span>
-        </button>
+        </Button>
       </div>
 
       {/* Search & Tag Filter Bar */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="relative w-full sm:w-80">
-          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-          <input
+          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground z-10" />
+          <Input
             type="text"
             placeholder="Cari artikel atau tutorial..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-9 pr-3.5 py-2 text-xs rounded-lg border border-border/50 bg-background/50 focus:outline-none focus:ring-2 focus:ring-primary"
+            className="w-full pl-9 pr-3.5 text-xs rounded-lg border-border/50 bg-background/50"
           />
         </div>
 

@@ -1,9 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { useI18n } from "@/lib/i18n/context";
 import {
   ArrowRight,
@@ -23,12 +29,10 @@ import {
   Cpu,
   Terminal,
   Sparkles,
-  ChevronDown,
 } from "lucide-react";
 
 export function HomeLandingView() {
   const { t, locale } = useI18n();
-  const [openFaq, setOpenFaq] = useState<number | null>(0);
 
   const isId = locale === "id";
 
@@ -482,38 +486,25 @@ export function HomeLandingView() {
             </p>
           </div>
 
-          <div className="space-y-3">
-            {faqs.map((faq, idx) => {
-              const isOpen = openFaq === idx;
-              return (
-                <div
-                  key={idx}
-                  className="rounded-2xl border border-border/70 bg-card p-5 hover:border-border transition-all group"
-                >
-                  <button
-                    type="button"
-                    onClick={() => setOpenFaq(isOpen ? null : idx)}
-                    className="w-full text-left flex items-center justify-between gap-3 cursor-pointer"
-                  >
-                    <h3 className="text-sm sm:text-base font-bold text-foreground flex items-center gap-2">
-                      <HelpCircle className="size-4 text-primary shrink-0" />
-                      <span>{faq.q}</span>
-                    </h3>
-                    <ChevronDown
-                      className={`size-4 text-muted-foreground transition-transform duration-200 shrink-0 ${
-                        isOpen ? "rotate-180 text-primary" : ""
-                      }`}
-                    />
-                  </button>
-                  {isOpen && (
-                    <p className="mt-3 text-xs sm:text-sm text-muted-foreground leading-relaxed pt-3 border-t border-border/50 pl-6">
-                      {faq.a}
-                    </p>
-                  )}
-                </div>
-              );
-            })}
-          </div>
+          <Accordion defaultValue={["home-faq-0"]} className="space-y-3">
+            {faqs.map((faq, idx) => (
+              <AccordionItem
+                key={idx}
+                value={`home-faq-${idx}`}
+                className="rounded-2xl border border-border/70 bg-card px-5 py-1 hover:border-border transition-all not-last:border-b-border/70 data-[state=open]:border-primary/40"
+              >
+                <AccordionTrigger className="text-sm sm:text-base font-bold text-foreground hover:no-underline py-4">
+                  <span className="flex items-center gap-2 text-left">
+                    <HelpCircle className="size-4 text-primary shrink-0" />
+                    <span>{faq.q}</span>
+                  </span>
+                </AccordionTrigger>
+                <AccordionContent className="text-xs sm:text-sm text-muted-foreground leading-relaxed pt-2 pb-4 border-t border-border/50 pl-6">
+                  {faq.a}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
         </div>
       </section>
 

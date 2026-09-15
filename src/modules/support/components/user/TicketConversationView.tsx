@@ -11,6 +11,7 @@ import { Ticket, TicketReply } from "../../types/support.types";
 import { TicketStatusBadge } from "../shared/TicketStatusBadge";
 import { TicketPriorityBadge } from "../shared/TicketPriorityBadge";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Send,
   Loader2,
@@ -233,12 +234,12 @@ export function TicketConversationView({
           onSubmit={handleSend}
           className="p-4 border-t border-border/40 bg-card/50 flex gap-3"
         >
-          <input
+          <Input
             type="text"
             placeholder="Ketik balasan atau update kendala Anda di sini..."
             value={replyText}
             onChange={(e) => setReplyText(e.target.value)}
-            className="flex-1 px-4 py-2.5 text-sm rounded-xl border border-border/50 bg-background/50 focus:outline-none focus:ring-2 focus:ring-primary"
+            className="flex-1 px-4 py-2.5 text-sm rounded-xl border-border/50 bg-background/50 h-auto"
           />
           <Button
             type="submit"
