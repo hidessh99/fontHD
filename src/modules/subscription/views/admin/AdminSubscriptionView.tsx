@@ -25,6 +25,7 @@ import { NativeSelect } from "@/components/ui/native-select";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { RefreshCw, Plus, ShieldCheck, Layers, CreditCard } from "lucide-react";
 import { toast } from "@/components/ui/sonner";
+import { useI18n } from "@/lib/i18n";
 
 export function AdminSubscriptionView() {
   const {

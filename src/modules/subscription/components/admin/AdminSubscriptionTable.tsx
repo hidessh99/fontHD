@@ -24,6 +24,7 @@ import {
 import { DataTable, ColumnDef, DataTableFilterConfig } from "@/components/shared/data-table";
 import { ShieldCheck, User, Edit3, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n";
 
 interface AdminSubscriptionTableProps {
   subscriptions: Subscription[];

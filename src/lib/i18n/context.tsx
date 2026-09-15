@@ -119,7 +119,11 @@ export const useI18nStore = create<I18nStoreState>()(
 interface I18nContextValue {
   locale: Locale;
   setLocale: (locale: Locale) => void;
-  t: (key: string, params?: Record<string, string | number>) => string;
+  t: (
+    key: string,
+    paramsOrFallback?: Record<string, string | number> | string,
+    fallback?: string,
+  ) => string;
 }
 
 const I18nContext = createContext<I18nContextValue | null>(null);
@@ -145,9 +149,23 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
   const { locale, setLocale } = useI18nStore();
 
   const t = useCallback(
-    (key: string, params?: Record<string, string | number>): string => {
+    (
+      key: string,
+      paramsOrFallback?: Record<string, string | number> | string,
+      fallback?: string,
+    ): string => {
+      let params: Record<string, string | number> | undefined;
+      let fallbackText: string | undefined;
+
+      if (typeof paramsOrFallback === "string") {
+        fallbackText = paramsOrFallback;
+      } else if (paramsOrFallback && typeof paramsOrFallback === "object") {
+        params = paramsOrFallback;
+        fallbackText = fallback;
+      }
+
       const parts = key.split(".");
-      if (parts.length < 2) return key;
+      if (parts.length < 2) return fallbackText ?? key;
 
       const activeDict = dictionaries[locale] || dictionaries[DEFAULT_LOCALE];
       const defaultDict = dictionaries[DEFAULT_LOCALE];
@@ -160,9 +178,9 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
         rawText = resolveKey(defaultDict, parts);
       }
 
-      // 3. Fallback to key itself
+      // 3. Fallback to fallbackText or key itself
       if (rawText === undefined) {
-        return key;
+        return fallbackText ?? key;
       }
 
       // 4. Interpolate parameters if provided
@@ -195,12 +213,26 @@ export function useI18n() {
     return {
       locale: DEFAULT_LOCALE,
       setLocale: () => {},
-      t: (key: string, params?: Record<string, string | number>) => {
+      t: (
+        key: string,
+        paramsOrFallback?: Record<string, string | number> | string,
+        fallback?: string,
+      ) => {
+        let params: Record<string, string | number> | undefined;
+        let fallbackText: string | undefined;
+
+        if (typeof paramsOrFallback === "string") {
+          fallbackText = paramsOrFallback;
+        } else if (paramsOrFallback && typeof paramsOrFallback === "object") {
+          params = paramsOrFallback;
+          fallbackText = fallback;
+        }
+
         const parts = key.split(".");
-        if (parts.length < 2) return key;
+        if (parts.length < 2) return fallbackText ?? key;
         const defaultDict = dictionaries[DEFAULT_LOCALE];
         const rawText = resolveKey(defaultDict, parts);
-        if (rawText === undefined) return key;
+        if (rawText === undefined) return fallbackText ?? key;
         if (params) {
           let interpolated = rawText;
           for (const [k, v] of Object.entries(params)) {

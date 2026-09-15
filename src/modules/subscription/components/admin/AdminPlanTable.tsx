@@ -23,6 +23,7 @@ import {
 import { DataTable, ColumnDef, DataTableFilterConfig } from "@/components/shared/data-table";
 import { ShieldCheck, Plus, Trash2, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n";
 
 interface AdminPlanTableProps {
   plans: Plan[];

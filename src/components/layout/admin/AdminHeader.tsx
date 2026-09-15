@@ -44,6 +44,7 @@ export function AdminHeader({
   userName = "Superadmin",
   userRole = "SUPERADMIN",
 }: AdminHeaderProps) {
+  const { t } = useI18n();
   const pathname = usePathname();
   const router = useRouter();
   const { logout } = useAuthStore();

@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { ServerPingBadge } from "@/components/shared/ServerPingBadge";
 import { ProtocolBadge } from "@/components/shared/ProtocolBadge";
 import { ServerNode } from "../../types/vpn.types";
+import { useI18n } from "@/lib/i18n";
 
 interface SellerServerCardProps {
   server: ServerNode;

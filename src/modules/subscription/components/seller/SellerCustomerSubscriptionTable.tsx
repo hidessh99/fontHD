@@ -11,6 +11,7 @@ import { Subscription } from "../../types/subscription.types";
 import { SubscriptionStatusBadge } from "../shared/SubscriptionStatusBadge";
 import { DataTable, ColumnDef, DataTableFilterConfig } from "@/components/shared/data-table";
 import { ShieldCheck, User, Calendar, Smartphone } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 
 interface SellerCustomerSubscriptionTableProps {
   subscriptions: Subscription[];
